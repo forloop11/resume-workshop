@@ -1,0 +1,221 @@
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+% Font options
+\usepackage[sfdefault]{roboto}  % Sans-serif font
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section formatting
+\titleformat{\section}{\Large\bfseries\scshape\raggedright}{}{0em}{}[\titlerule]
+
+% Ensure PDF is machine readable
+\pdfgentounicode=1
+
+% Custom commands
+\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeSubheading}[4]{
+\vspace{-1pt}\item
+  \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & #2 \\
+    \textit{#3} & \textit{#4} \\
+  \end{tabular*}\vspace{-7pt}
+}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\newcommand{\resumeSubHeadingList}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+
+\begin{document}
+
+\begin{center}
+  \textbf{\Huge Todd Takala} \\
+  \small Engineering Manager - Data Scientist -- Reliability Engineering -- Fleet Analytics \\
+  \small 602-775-0645 -- 
+  todd.c.takala@gmail.com -- 
+  linkedin.com/in/toddtakala --
+  github.com/forloop11/portfolio \\
+  \small 16071 W Sand Hills Rd, Surprise, AZ 85387
+\end{center}
+
+\section*{Summary}
+Dynamic Data Scientist with a keen specialization in Reliability Engineering, expertly harnessing the transformative powers of analytics and cutting-edge machine learning to not only boost asset availability but also significantly reduce costs. With a proven track record of leadership, I have spearheaded groundbreaking AI initiatives that have unleashed more than \$1.2 billion in value. I am passionately dedicated to harnessing the power of data science to shape strategic decision-making and craft revolutionary data products, thriving both as an inspiring leader and an impactful individual contributor.
+
+\section{Education}
+\resumeSubHeadingList
+  \resumeSubheading
+      {Arizona State University}{June 2003 -- May 2006}
+      {B.S. in Engineering, Mechanical Engineering}{Tempe, AZ}
+
+\resumeSubHeadingListEnd
+
+\resumeSubHeadingList
+  \resumeSubheading
+      {U.S. Department of Labor \& IUOE Local 150 Apprenticeship and Skill Improvement Program}{April 1998 -- April 2001}
+      {Vocational Certificate, Operating Engineer}{Washington, DC}
+\resumeSubHeadingListEnd
+
+\section{Skills}
+    \resumeSubHeadingList
+
+        \resumeItem{\textbf{Soft Skills}: Executive Influence, Technical Mentorship, Commercial Acumen, ROI Strategy, Stakeholder Engagement, Technical Translation, Problem Decomposition, Ambiguity Resolution, Project Resilience, Iterative Improvement, Intellectual Curiosity}
+
+        \resumeItem{\textbf{Programming Languages}: Python, R, SQL, MATLAB, Bash, Powershell}
+        
+        \resumeItem{\textbf{Data \& Cloud Platforms}: Snowflake (DBA), AWS (SageMaker, Step Functions, S3, Redshift, ECR), PostgreSQL, MLOps, ETL, IoT, Linux, Jupyter Notebooks, RMarkdown, R Shiny, Power BI, Tableau}
+        
+        \resumeItem{\textbf{ML Frameworks \& Libraries}: TensorFlow, PyTorch, Keras, Scikit-learn, Autogluon, LightGBM, XGBoost, NumPy, Pandas, HuggingFace}
+        
+        \resumeItem{\textbf{GPU \& Big Data Tools}: RAPIDS, cuDF, CUDA, Docker, Git}
+        
+        \resumeItem{\textbf{ML \& Statistical Methods}: Regression, Classification, Clustering, Random Forest, Tree-based Methods, Neural Networks, Natural Language Processing (NLP), Time Series Forecasting (ARIMA, SVM), A/B Testing, Optimization, Weibull Analysis, Statistical Inference}
+
+\resumeSubHeadingListEnd
+
+\section{Experience}
+\resumeSubHeadingList
+  \resumeSubheading
+      {Lead Data Scientist, Service Capability}{September 2022 -- Present}
+      {Caterpillar Inc.}{Surprise, AZ}
+      \resumeSubHeadingList
+          
+          \resumeItem{\textbullet\ A machine learning system was developed to estimate repair times for Caterpillar equipment, cutting warranty costs by \$80M in 2024. This CEO Award-winning project used Python, R, SQL, Snowflake, Autogluon, neural networks, random forests, TensorFlow, PyTorch, HuggingFace, NLP, A/B testing, and statistical inference.}
+          
+          \resumeItem{\textbullet\ Built ETL/MLOps pipelines and ML/AI workflows with Snowflake, AWS S3, and AWS Step Functions for automated model retraining and deployment. Leveraged AWS SageMaker for model development, ECR for containerization, and Secrets Manager for secure credential management.}
+          
+          \resumeItem{\textbullet\ Expertly explained complex conclusions to non-technical partners. Improved project specifications clarity for a remote team of six by devising a structured stakeholder input approach, resulting in clearer user stories, reduced misunderstandings, and enhanced team cohesion and performance.}
+ 
+          \resumeItem{\textbullet\ Steward of DevOps, GitHub, Snowflake, Docker, and AWS architecture; set code standards, best practices, and led R\&D. Managed cloud usage, scaling, tuning, and cost optimization while ensuring performance.}
+
+    \resumeSubHeadingListEnd
+
+    \resumeSubheading
+      {Reliability Analytics Manager, Amazon Robotics}{February 2022 -- September 2022}
+      {Amazon.com}{Tempe, AZ}
+      \resumeSubHeadingList
+          
+          \resumeItem{\textbullet\ Achieved two-time champion status in Amazon Machine Learning University contests by creating precise regression and recommendation systems through expertise in ML algorithms, feature engineering, and model optimization.}
+          
+          \resumeItem{\textbullet\ Developed a design-for-reliability benchmark by analyzing IoT data from 400,000 robots. Managed 2 petabytes of data across various platforms, and authored a white paper on design life metric deficiencies. Conducted a Weibull analysis, resulting in leadership adopting the new benchmark. Used RMarkdown and R Shiny to explain complex concepts to non-technical stakeholders.}
+    
+    \resumeSubHeadingListEnd
+
+    \newpage
+    
+    \resumeSubheading
+      {Data Engineering Manager} {January 2021 -- February 2022}
+      {Empire-Cat}{Mesa, AZ}
+      \resumeSubHeadingList
+          
+          \resumeItem{\textbullet\ Used ARIMA and SVM for time series forecasting to identify data trends. Utilized an MLOps pipeline to analyze condition monitoring, IoT, and telematics data of machine components, forecasting demand in the re-manufacturing supply chain. Implemented with Python, R, SQL, and Power BI.}
+
+          \resumeItem{\textbullet\ Owner of the component exchange program, and was focused on balancing supply and demand during supply chain challenges. Worked with clients to forecast component lifecycle, so Empire could have the parts needed to recondition without causing downtime.}
+
+    \resumeSubHeadingListEnd
+
+    \resumeSubheading
+      {Reliability Engineering Manager} {January 2012 -- January 2021}
+      {Empire-Cat}{Mesa, AZ}
+      \resumeSubHeadingList
+
+          \resumeItem{\textbullet\ Led high performance team of up to 8 engineers and technical communicators focused on acute and chronic technical equipment performance issues.}
+          
+          \resumeItem{\textbullet\ Created a regression model to identify key factors affecting equipment lifecycle and safety, saving \$62M in 90 days. Combined data from work orders, failure analyses, parts, fluid chemistry, and IoT telemetry to build a machine learning dataset for continuous optimization.}
+
+          \resumeItem{\textbullet\ Resolved critical design issues in mining equipment, resulting in a cost reduction of \$1.2B for clients over 6 years. Maintained 90\% availability for 250 legacy haul trucks, setting a benchmark in the mining industry by addressing component failures using RMarkdown, R, SQL.}
+          
+          \resumeItem{\textbullet\ Engineering manager skilled in translating complex technical concepts into actionable projects. Improved communication and engagement across all levels, enhancing project outcomes and client satisfaction.}
+
+    \resumeSubHeadingListEnd
+
+
+    \resumeSubheading
+      {Technical Consultant, Reliability Engineering}{January 2008 -- January 2012}
+      {Road Machinery, LLC}{Phoenix, AZ}
+      \resumeSubHeadingList
+          
+          \resumeItem{\textbullet\ Conducted expert RCFA for complex failures in high-value engines and powertrain components. Created detailed summaries to convert technical issues into actionable strategies, leading to better maintenance practices and product improvements for engineering teams and clients.}
+          
+          \resumeItem{\textbullet\ Created an advanced TCO projection for 18 vehicles using MATLAB and SQL, demonstrating long-term financial benefits, increased speed, reduced maintenance costs, and improved operational efficiencies, which justified a \$72M contract.}
+          
+          \resumeItem{\textbullet\ Generated \$2.5M in consulting revenue over 3.5 years by optimizing client mining fleets. Expert recommendations on asset management and costs improved operational efficiency and financial position, securing long-term contracts.}
+    
+    \resumeSubHeadingListEnd
+
+    \resumeSubheading
+      {Research Development Design Engineer}{June 2006 -- December 2007}
+      {Komatsu America Corp.}{Chattanooga, TN}
+      \resumeSubHeadingList
+          
+          \resumeItem{\textbullet\ Improved mechanical systems' longevity by integrating FRACAS findings into redesigns. Used FEA to simulate stresses and identify failures, then applied CAD for design changes, enhancing durability.}
+          
+          \resumeItem{\textbullet\ Led product reliability and quality improvement by overseeing design prototype creation, performance data assessment, and applying corrective actions with FEA and CAD tools for a robust final product.}
+    
+    \resumeSubHeadingListEnd
+
+\resumeSubHeadingListEnd
+
+
+
+
+
+
+\section{Certifications}
+    \resumeSubHeadingList
+        
+        \resumeItem{\textbf{SQL Associate Certificate}: Datacamp.com \hfill January 2024}
+        
+        \resumeItem{\textbf{Data Scientist Professional certificate}: Datacamp.com \hfill December 2023}
+        
+        \resumeItem{\textbf{AI Fundamentals certificate}: Datacamp.com \hfill September 2023}
+        
+        \resumeItem{\textbf{Lean 6 Sigma Green Belt}: Empire-Cat \hfill February 2013}
+        
+        \resumeItem{\textbf{Certified Technical Communicator}: Komatsu North America \hfill October 2011}
+        
+        \resumeItem{\textbf{EIT, Mechanical Engineering}: Arizona State Board of Technical Registration -- Registration No. 10670 \hfill January 2009}
+          
+    \resumeSubHeadingListEnd
+
+\section{Projects}
+\resumeSubHeadingList
+  \resumeSubheading
+    {Datacamp.com}{September 2019 -- January 2024}
+    {Data Science, Data Engineering, Statistics Learning}{Online}
+    \resumeItem{\textbullet\ Built and interpreted diverse ML models (supervised, unsupervised, Bayesian) with efficient, scalable Python and R. Theoretical foundation in linear algebra informs a practical, first-principles approach to development. This work is guided by a commitment to ethical AI, ensuring fairness and mitigating bias in modern systems like LLMs.}
+
+\resumeSubHeadingListEnd
+
+
+
+    
+\end{document}
+
+
+

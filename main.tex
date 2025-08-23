@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ATS-Friendly LaTeX Resume Template
+%
+% Author: Gemini
+%
+% This template is designed for maximum compatibility with
+% Applicant Tracking Systems (ATS). It uses a single-column
+% format, standard fonts, and clear section breaks.
+% Avoid using tables, images, or complex formatting.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Document Class: 'article' is a standard and safe choice.
+% 11pt font size is readable. a4paper is standard, but can be changed to letterpaper for US.
+\documentclass[11pt, letterpaper]{article}
+
+% PACKAGES
+% -----------------------------------------------------------------------------
+
+% For adjusting page margins.
+\usepackage[margin=0.75in]{geometry}
+
+% For creating clickable links (email, website).
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    urlcolor=blue,
+    linkcolor=blue,
+}
+
+% For customizing list environments (e.g., bullet points).
+\usepackage{enumitem}
+
+% To remove page numbers.
+\pagestyle{empty}
+
+% To remove default paragraph indentation.
+\setlength{\parindent}{0pt}
+
+% CUSTOM COMMANDS & FORMATTING
+% -----------------------------------------------------------------------------
+
+% Define a command for section headings.
+% This creates a bold title with a horizontal line below it.
+% The space after the heading is set to 10pt.
+\newcommand{\sectionheader}[1]{%
+  \vspace{10pt}%
+  \par\noindent\textbf{\Large #1}\par\hrule\vspace{5pt}%
+}
+
+% Define a command for your name to make it stand out.
+\newcommand{\myname}[1]{%
+  \par\noindent{\Huge\bfseries #1}\par\vspace{5pt}%
+}
+
+% Define a command for the job titles you are interested in.
+\newcommand{\jobtitles}[1]{%
+  \par\noindent{\large\itshape #1}\par\vspace{3pt}%
+}
+
+% Define a command for contact information.
+\newcommand{\contactinfo}[1]{%
+  \par\noindent{#1}\par%
+}
+
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\sloppy
+
+% RESUME CONTENT
+% -----------------------------------------------------------------------------
+\begin{document}
+
+% ----- NAME & CONTACT -----
+\begin{center}
+    \myname{Todd Takala}
+    \jobtitles{Data Scientist | Machine Learning Engineer}
+    \contactinfo{Surprise, AZ, 85138 | 602-775-0645}
+    \contactinfo{\href{mailto:todd.c.takala@gmail.com}{todd.c.takala@gmail.com} | \href{https://www.linkedin.com/in/toddtakala}{linkedin.com/in/toddtakala} | \href{https://www.github.com/forloop11}{github.com/forloop11}}
+\end{center}
+
+
+% ----- SUMMARY -----
+\sectionheader{Summary}
+Accomplished Lead Data Scientist with extensive experience in machine learning and reliability engineering. Proven history of leading high-impact data science projects from ideation to deployment, generating over \$1.2 billion in business value. Specializes in steering data-driven strategies and managing complete project lifecycles, aligning with iterative principles to address complex business challenges and facilitate cost reduction. Excels in both technical leadership and mentoring, translating complex technical findings to non-technical stakeholders to ensure successful project outcomes.
+
+% ----- EDUCATION -----
+\sectionheader{Education}
+
+\par\noindent\textbf{Arizona State University} \hfill Tempe, AZ
+\par\noindent\textit{Bachelor of Science in Mechanical Engineering} \hfill \textit{Graduation: May 2006}
+% Optional: Add GPA, Honors, or relevant coursework if you are a recent graduate.
+% \par\noindent GPA: 3.8/4.0 | Dean's List
+
+% ----- PROFESSIONAL EXPERIENCE -----
+\sectionheader{Professional Experience}
+
+% Job 1 (Most Recent)
+\par\noindent\textbf{Lead Data Scientist} \hfill Caterpillar Inc.
+\par\noindent\textit{Surprise, AZ} \hfill \textit{September 2022 -- Present}
+\begin{itemize}[leftmargin=*]
+  \item Spearheaded the development of a machine learning system to predict equipment repair times, achieving a CEO Award and cutting warranty costs by \$80M in 2024.
+  \item Managed the entire project lifecycle, initiating with context establishment and ideation, during which stakeholder requirements were identified, project scope and KPIs were defined, potential business impact was estimated, and approval for development was secured.
+  \item Engineered and deployed robust, end-to-end ETL/MLOps pipelines using Snowflake, AWS (Sagemaker, S3, Step Functions, ECR, Docker, Processing Jobs) ensuring automated model retraining and operational excellence.
+  \item Designed and implemented comprehensive Monitoring plans for deployed models, creating performance dashboards and gathering customer feedback to drive iterative improvements and validate business impact post-deployment.
+  \item Championed DevOps and MLOps best practices as a steward for GitHub CI/CD, Docker, and AWS architecture, setting code standards and leading R\&D efforts for continuous improvement.
+\end{itemize}
+
+\vspace{10pt} % Add space between job entries
+
+% Job 2
+\par\noindent\textbf{Reliability Analytics Manager} \hfill Amazon.com
+\par\noindent\textit{Tempe, AZ} \hfill \textit{February 2022 -- September 2022}
+\begin{itemize}[leftmargin=*]
+  \item Pioneered a design-for-reliability benchmark by analyzing IoT data from 400,000 robots, managing over 2 petabytes of data to correct deficiencies in design life metrics.
+  \item Demonstrated the importance of reproducible research by authoring a white paper and utilizing RMarkdown and R Shiny to clarify complex Weibull analysis findings, leading to the adoption of the new benchmark by leadership.
+  \item Achieved two-time champion status in Amazon Machine Learning University by designing and optimizing winning regression and recommendation systems.
+\end{itemize}
+
+% Job 3
+\par\noindent\textbf{Data Engineering Manager} \hfill Empire-Cat
+\par\noindent\textit{Mesa, AZ} \hfill \textit{January 2021 -- February 2022}
+\begin{itemize}[leftmargin=*]
+  \item Designed and implemented an MLOps pipeline to analyze IoT and telematics data, using ARIMA and SVM time series forecasting to predict demand in the remanufacturing supply chain.
+  \item Led the data collection and exploration phase by integrating diverse datasets, including condition monitoring and machine component data, to create a robust foundation for predictive modeling.
+  \item Owned the component exchange program, working directly with clients to forecast component lifecycle and mitigate supply chain disruptions.
+\end{itemize}
+
+% Job 4
+\par\noindent\textbf{Reliability Engineering Manager} \hfill Empire-Cat
+\par\noindent\textit{Mesa, AZ} \hfill \textit{January 2012 -- January 2021}
+\begin{itemize}[leftmargin=*]
+  \item Directed a high-performance team of up to 8 engineers, fostering an iterative approach to problem-solving for acute and chronic equipment performance issues.
+  \item Created a regression model that identified key factors in equipment lifecycle, leading to a \$62M savings in 90 days. This involved building a comprehensive machine learning dataset from work orders, failure analyses, parts, and IoT telemetry for continuous optimization.
+  \item Resolved critical design flaws in mining equipment by performing reproducible analysis in R and SQL, resulting in a cost reduction of \$1.2B for clients over six years and setting an industry benchmark for legacy fleet availability.
+\end{itemize}
+
+% ----- SKILLS -----
+\sectionheader{Skills}
+
+% Use categories that are relevant to your field.
+% This format is very easy for ATS to parse.
+\par\noindent\textbf{Programming Languages:} Python, R, SQL, MATLAB, Bash, Powershell
+\par\noindent\textbf{Data \& Cloud Platforms:} Snowflake (DBA), AWS (SageMaker, Step Functions, S3, Redshift, ECR), PostgreSQL, MLOps, ETL, IoT, Linux, Jupyter Notebooks, RMarkdown, R Shiny, Power BI, Tableau, Docker, Git, Guthub
+\par\noindent\textbf{ML Frameworks \& Libraries:} TensorFlow, PyTorch, Keras, Scikit-learn, Autogluon, LightGBM, XGBoost, NumPy, Pandas, HuggingFace, Dask, RAPIDS, cuDF, CUDA,  Regression, Classification, Clustering, Random Forest, Tree-based Methods, Neural Networks, Natural Language Processing (NLP), Time Series Forecasting (ARIMA, SVM), A/B Testing, Optimization, Weibull Analysis, Statistical Inference
+\par\noindent\textbf{Cloud Platforms:} Amazon Web Services (AWS), Google Cloud Platform (GCP)
+\par\noindent\textbf{Leadership \& Soft Skills:} Executive Influence, Technical Mentorship, ROI Strategy, Stakeholder Engagement, Project Resilience, Iterative Improvement, End-to-End Project Management
+
+% ----- CERTIFICATIONS -----
+\sectionheader{Certifications}
+
+% Use categories that are relevant to your field.
+% This format is very easy for ATS to parse.
+\par\noindent\textbf{Data Camp:} Data Scientist Professional Certificate, Data Scientist Professional Certificate, AI Fundamentals Certificate
+\par\noindent\textbf{BerkeleyX, in collaboration with edX:} The Science of Happiness at Work Professional Certificate
+\par\noindent\textbf{Empire-Cat:} Lean 6 Sigma Green Belt
+\par\noindent\textbf{Komatsu North America:} Certified Technical Communicator
+\par\noindent\textbf{Arizona State Board of Technical Registration:} EIT, Mechanical Engineering -- Registration No. 10670
+\end{document}

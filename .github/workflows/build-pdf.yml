@@ -1,0 +1,48 @@
+name: LaTeX to PDF and TXT
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Build LaTeX document
+      - name: Build LaTeX document
+        uses: docker://ghcr.io/xu-cheng/texlive-full:latest
+        with:
+          # IMPORTANT: Replace with your .tex file
+          args: pdflatex -interaction=nonstopmode main.tex
+
+      # Step 3: Upload the generated PDF as a workflow artifact
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-pdf
+          # IMPORTANT: Replace with your .pdf file
+          path: todd_takala_resume.pdf
+
+      # Step 4: Convert TeX to TXT using Pandoc
+      - name: Convert TeX to TXT with Pandoc
+        uses: docker://pandoc/core:latest
+        with:
+          # IMPORTANT: Replace with your file names
+          args: --wrap=none -f latex -t plain main.tex -o todd_takala_resume.txt
+
+      # Step 5: Upload the generated TXT as a workflow artifact
+      - name: Upload TXT artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-txt
+          # IMPORTANT: Replace with your .txt file
+          path: todd_takala_resume.txt

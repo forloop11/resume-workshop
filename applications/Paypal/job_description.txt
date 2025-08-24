@@ -1,0 +1,64 @@
+Sr Data Scientist
+
+Requisition ID
+R0128331
+Time Type
+Full time
+The Company
+
+PayPal has been revolutionizing commerce globally for more than 25 years. Creating innovative experiences that make moving money, selling, and shopping simple, personalized, and secure, PayPal empowers consumers and businesses in approximately 200 markets to join and thrive in the global economy. 
+
+We operate a global, two-sided network at scale that connects hundreds of millions of merchants and consumers. We help merchants and consumers connect, transact, and complete payments, whether they are online or in person. PayPal is more than a connection to third-party payment networks. We provide proprietary payment solutions accepted by merchants that enable the completion of payments on our platform on behalf of our customers.
+
+We offer our customers the flexibility to use their accounts to purchase and receive payments for goods and services, as well as the ability to transfer and withdraw funds. We enable consumers to exchange funds more safely with merchants using a variety of funding sources, which may include a bank account, a PayPal or Venmo account balance, PayPal and Venmo branded credit products, a credit card, a debit card, certain cryptocurrencies, or other stored value products such as gift cards, and eligible credit card rewards.  Our PayPal, Venmo, and Xoom products also make it safer and simpler for friends and family to transfer funds to each other. We offer merchants an end-to-end payments solution that provides authorization and settlement capabilities, as well as instant access to funds and payouts. We also help merchants connect with their customers, process exchanges and returns, and manage risk. We enable consumers to engage in cross-border shopping and merchants to extend their global reach while reducing the complexity and friction involved in enabling cross-border trade. 
+
+Our beliefs are the foundation for how we conduct business every day.  We live each day guided by our core values of Inclusion, Innovation, Collaboration, and Wellness. Together, our values ensure that we work together as one global team with our customers at the center of everything we do – and they push us to ensure we take care of ourselves, each other, and our communities.
+
+Job Summary:
+
+As a Screening Strategy & Enablement Adjacency Lead within the Sanctions Data Science Team, you will take ownership of designing and driving strategic initiatives focused on improving the efficiency and scalability of PayPal’s sanctions screening and compliance systems. This position requires deep expertise in sanctions screening methodologies, advanced analytics, and regulatory compliance, as well as a demonstrated ability to lead transformational projects that reduce false positives, address adjacent compliance risks, and enhance customer experience.
+
+
+
+You will play a pivotal role in shaping the direction of PayPal’s sanctions screening strategies by leveraging data science and analytics to strengthen our detection platforms, streamline workflows, and deliver actionable insights. This lead position involves cross-functional collaboration across engineering, advisory, and regulatory teams, ensuring alignment with business objectives and global compliance expectations.
+Job Description:
+
+Essential Responsibilities:
+
+Lead the development and implementation of advanced data science models.
+Collaborate with stakeholders to understand requirements.
+Drive best practices in data science.
+Ensure data quality and integrity in all processes.
+Mentor and guide junior data scientists.
+Stay updated with the latest trends in data science.
+Minimum Qualifications:
+
+Minimum of 5 years of relevant work experience and a Bachelor's degree or equivalent experience.
+Preferred Qualification:
+
+Own and lead the Screening Strategy & Enablement Adjacency program, driving aligned objectives to detect and mitigate sanctions-related risks effectively while reducing friction for legitimate customers.
+Partner with FLOD advisory team, product, engineering, and business units to design strategic frameworks for sanctions compliance initiatives.
+Interpret new regulatory requirements and collaborate with regional MLROs to finalize business requirements, and translate them into actionable data-driven solutions, then work with engineer team to implement these changes effectively.
+Work with sanctions advisory and policy teams to refine PEP and sanctions list definitions, ensuring accurate coverage and risk alignment.
+Lead the end-to-end development and implementation of sanctions screening solutions, ensuring scalability and alignment with business and regulatory goals. 
+Lead initiatives to improve algorithmic filtering strategies, prioritizing the reduction of false positives while maintaining high levels of sensitivity and accuracy in sanctions screening processes.
+Provide business guidance and technical support to junior data scientists on the team.
+Collaborate with engineering teams to ensure seamless deployment and real-time implementation in production environments.
+Lead projects to modernize sanctions platforms, incorporating big data solutions to improve performance and scalability.
+Perform advanced data exploration and analysis to identify inefficiencies in sanctions screening and workflow and recommend actionable improvements.
+Analyze large, complex datasets and business requirements to draw meaningful conclusions, make informed recommendations, and present findings to support business decisions.
+
+
+Qualifications
+Bachelor’s degree with a minimum of six years of experience in sanctions transaction Screening, profile screening, and AML, including at least three years in data analytics or data science.
+Thorough understanding of economic sanctions programs administered by regulators such as OFAC, EU, UN, CSSF, etc., and associated adjacency risk.
+Proficiency in SQL, BigQuery, Python, R, Tableau, and Power BI, with strong analytical and problem-solving skills.
+Experience with and advanced understanding of SQL queries, data structure and data profiling
+Working knowledge of Hadoop, Hive, Jupyter Notebooks; data warehouse skills is highly desirable
+Excellent written and verbal communication skills, with the ability to effectively translate data insights into actionable business recommendations.
+Demonstrated ability to develop data-driven solutions for complex business challenges, fostering trust and collaboration across cross-functional teams.
+Strong intellectual curiosity, strategic thinking, and a passion for solving problems, with comfort navigating ambiguity.
+Advanced research, analytical, and project leadership skills, with a strong business acumen and multitasking ability.
+Capable of managing multiple projects in a fast-paced, dynamic environment with independence and initiative.
+Skilled in presenting complex quantitative analyses to business stakeholders in a clear, accessible manner.
+High energy and a results-oriented mindset, with a passion for understanding and serving PayPal’s unique community.

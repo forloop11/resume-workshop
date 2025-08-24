@@ -1,0 +1,33 @@
+Business Intelligence Manager
+
+Who We Are
+
+GPS Insight offers leading technology for organizations that have drivers and technicians in the field, fleets of vehicles, trailers, and other mobile assets. We provide innovative fleet solutions that include vehicle and asset tracking, in-cab smart cameras, field service software, and compliance management.
+
+We know that when you invest in high-performance technology, you achieve results and maximize your return. We feel the same way about our people at GPS Insight. They are what allow us to build world-class solutions that make us leaders in the fleet and field service management space. They are what enable our customers' success. They are our greatest asset. As a result, we take pride in a workplace committed to those who make us go.
+
+Our commitment to growth enables us to push the telematics and field service operations industries forward. It's rooted in our products, embedded in our culture, and reflected in our team-first values. We're looking for the right people to jump onboard with us. Are you ready to take the ride?
+
+What We Need
+
+We are looking for a Business Intelligence Manager who will play a key role at GPS Insight within the Finance team. This person will own development and direction of our Fabric/PowerBI reporting environment and will be core to driving actional insights for the leadership team. This will be an individual contributor role at first but will transition to a hybrid manager/IC role as the company grows. This role is ideal for someone who excels at building efficient processes and enjoys cross-department collaboration. This role will be based out of our Scottsdale, AZ office with a hybrid schedule.
+
+What You'll Do
+
+Manage and maintain the BI systems including development of required KPIs, dashboards, and reports as needed to achieve the executive strategies.
+Manage the integration of all required APIs into Fabric system as a single source of data for all reporting.
+Partner with stakeholders across the company (Sales, Marketing, Operations, G&A) to understand reporting needs and deliver actionable reports and dashboards.
+Serve as a PBI advocate across the company by helping teams effectively leverage dashboards for KPIs, operational insights, and ad hoc reporting needs.
+Effectively prioritize requests from stakeholders and deliver accurate and timely delivery.
+Ensure dashboards and data products meet a high standard of accuracy, consistency, and attention to detail, particularly for executive and cross-functional audiences.
+Experience:
+
+4+ years of experience in Business Intelligence, Data Analytics, or similar roles.
+Advanced PowerBI or Fabric experience is preferred.
+Strong SQL and data pipeline familiarity.
+Skills and Competencies:
+
+Meticulous attention to detail and a strong commitment to data accuracy, consistency, and reliability.
+Highly motivated, hands on, and enjoys problem solving.
+Ability to communicate effectively with teammates and present in front of small groups.
+Passion for scaling BI solutions efficiently.

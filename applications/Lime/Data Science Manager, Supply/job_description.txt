@@ -1,0 +1,49 @@
+Data Science Manager, Supply
+
+Lime is the world's largest shared electric vehicle company. We’re on a mission to build a future where transportation is shared, affordable and carbon-free. Our electric bikes and scooters have powered 700+ million rides in 250+ cities on 5 continents, replacing an estimated 150+ million car trips. Named a Time 100 Most Influential Company and Fast Company Brand That Matters, Lime continues to set the pace for shared micromobility globally.
+
+Lime is seeking a Data Science Manager to lead the Data Science and Analytics - Supply team in enhancing vehicle positioning, demand forecasting, and fleet health. This role will drive data science initiatives that optimize vehicle supply, rider experience, and operational efficiency through machine learning, optimization, and experimentation.
+
+As a key leader, you will work cross-functionally with Product, Engineering, and Operations, ensuring Lime's fleet is positioned where and when riders need it most. Your team will play a central role in Lime’s fleet intelligence and operational strategies, focusing on demand forecasting, labor optimization, vehicle positioning, and hardware innovation.
+
+The ideal candidate is a strong technical leader with experience in machine learning, causal inference, and optimization, who thrives in a fast-paced, cross-functional environment.
+
+What You’ll Do
+
+Lead and mentor a team of data scientists, providing technical guidance and career development support.
+
+Own the data science roadmap for supply, focusing on demand forecasting, positioning system optimization, fleet health, and hardware innovations.
+
+Partner with Product, Engineering, and Operations teams to design and test data-driven deployment and labor pricing strategies.
+
+Develop and deploy machine learning and optimization models to enhance vehicle positioning, routing, and operational efficiency.
+
+Define and track key performance metrics, including vehicle positioning success, labor efficiency, and hardware competitiveness.
+
+Oversee A/B testing and causal inference analyses to refine and validate supply-side optimizations.
+
+Advocate for a data-driven culture, ensuring insights are effectively communicated to stakeholders, including senior leadership.
+
+About You
+
+5+ years of industry experience in data science, with at least 1+ year of leadership experience (managing or mentoring data scientists).
+
+MS or PhD in Statistics, Applied Mathematics, Computer Science, Operations Research, or a related field.
+
+Experience leading complex, cross-functional projects, and collaborating with engineering, operations, and product teams.
+
+Ability to translate complex data science concepts into actionable business insights for both technical and non-technical stakeholders.
+
+Deep expertise in forecasting, optimization, and machine learning 
+
+Strong proficiency in SQL and Python, with experience in data analysis, machine learning, and automation.
+
+Strong experimentation skills – experience in A/B testing, causal inference, and experimental design to inform product and operational decisions.
+
+Preferred Experience:
+
+3+ years of leadership experience 
+
+Experience with spatial-temporal demand forecasting, routing problems, or supply chain optimization.
+
+Experience in building data pipelines, automating workflows, and working with ML infrastructure (e.g., SageMaker, Airflow, DBT).

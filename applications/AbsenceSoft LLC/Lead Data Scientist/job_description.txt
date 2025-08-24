@@ -1,0 +1,109 @@
+Lead Data Scientist
+
+We’re looking for a Lead Data Scientist who can translate business challenges into intelligent models that scale. You will lead the design, development, and deployment of AI/ML models across a diverse range of applications—including predictive analytics, classification, semantic search, multi-modal processing (text, image, audio), and advanced LLM engineering. This role is critical in bridging domain understanding with deep technical modeling expertise, working closely with data engineers, AI software engineers, and product leaders.
+
+ 
+
+We’re looking for a data science leader who is hands-on, strategic, and passionate about applying advanced machine learning—including LLMs and transformer architectures—to solve high-value, real-world problems at scale.
+
+ 
+
+Who We Are
+
+ 
+
+AbsenceSoft is elevating the leave and accommodations experience and is looking to hire amazing people like you! We create user-friendly, secure, and compliant technology that empowers employers to bring humanity, certainty and efficiency to the leave and accommodations experience. Made by HR Professionals for HR Professionals, we're proud of where we've been and excited about where we're headed. We value creative, innovative people who are passionate about their work and who believe there is always a better way. 
+
+ 
+
+Leading With Our Core Values
+
+ 
+
+Make a Difference.
+
+We are inspired to make an impact through our hard work, talent and passion. We push ourselves each day to better serve our teams, our clients, and our community.
+
+ 
+
+Team First.
+
+We are driven by team spirit not by self-interest. We value collaboration and approach our work with humility and a desire to win together.
+
+ 
+
+Own it.
+
+If we say it, we mean it. We follow through on our commitments, step up to deliver, and grow from our successes and failures.
+
+ 
+
+Everyone Matters.
+
+No matter your background or experience, everyone's voice holds value here.
+
+ 
+
+What You’ll Do
+
+ 
+
+Lead the end-to-end lifecycle of ML models: scoping, data preparation, training, validation, deployment, and monitoring.
+Design traditional supervised and unsupervised learning models as well as deep learning models for NLP, vision, and audio tasks.
+Build, fine-tune, and evaluate large language models (LLMs), including MOE (Mixture of Experts), SLMs (Small Language Models), and other foundational architectures.
+Engineer LLMs using transformer-based architectures, with expertise in tokenization, embedding layers, encoders, multi-head attention, and positional encoding.
+Apply advanced techniques such as reinforcement learning with human feedback (RLHF), deep Q-learning, and parameter-efficient fine-tuning (PEFT).
+Collaborate with software engineers and AI product managers to operationalize models in scalable, production-grade environments.
+Conduct exploratory data analysis and experimentation to uncover insights that drive product and business decisions.
+Own the model evaluation framework and define metrics for performance, fairness, explainability, and robustness.
+Apply Responsible AI principles to ensure models are ethically developed and comply with global regulations (e.g., GDPR, HIPAA, AI Act).
+Partner with stakeholders to build AI features that serve compliance, leave, accommodations, and workforce intelligence domains.
+Lead the scientific and strategic direction for the modeling roadmap and mentor junior data scientists as the team scales.
+Participate in a highly compliant environment while assisting to maintain company controls and security within your job role.
+Assist in maintaining applicable organizational security and compliance controls within your department, role, and subordinate’s roles.
+Other duties as assigned.
+
+What’ll Set You Up for Success
+
+Required Skills:
+
+ 
+
+7+ years experience in data science, with a proven track record delivering enterprise-grade ML models.
+Extensive experience with transformer architectures and building LLMs from the ground up.
+Proficiency in tokenizers, embedding techniques, self-attention mechanisms, encoder-decoder models, and multi-head attention.
+Hands-on experience with reinforcement learning, deep Q-learning, RLHF, and PEFT approaches.
+Expert in Python and ML/DS libraries (pandas, NumPy, scikit-learn, XGBoost, LightGBM, TensorFlow, PyTorch).
+Experience developing models for NLP, computer vision, and/or audio using deep learning frameworks.
+Strong understanding of statistical modeling, experimental design, and model interpretability techniques.
+Experience collaborating with MLOps engineers to productionize models, monitor drift, and manage model lifecycle.
+Hands-on experience with large-scale data environments, feature engineering, and pipeline tooling (e.g., dbt, Airflow, Snowflake).
+Excellent communication skills with ability to convey technical findings to non-technical stakeholders.
+Working knowledge of global AI and data regulations and how they affect model development and deployment.
+Nice to Have
+
+ 
+
+Cloud AI Services: AWS (SageMaker, Bedrock), Azure (Foundry, OpenAI), GCP (Vertex AI, AutoML)
+MLOps Platforms: MLflow, Kubeflow, SageMaker Pipelines, Metaflow
+Experiment Tracking: Weights & Biases, Comet
+Data Workflow Tools: dbt, Airflow, Snowflake, Prefect
+Semantic Search/Vector DBs: FAISS, Pinecone, Weaviate, txtai
+ 
+
+What To Know Before You Apply
+
+ 
+
+We’re located in beautiful Golden, Colorado.
+This is a full-time, salaried position + bonus.
+AbsenceSoft provides a wide variety of perks and benefits. Including full medical, dental, vision, and life insurance. We offer a 401k and 401k match after your first year with AbsenceSoft.
+We support your professional growth including industry training and CLMS Certification, opportunities for additional industry and technology certifications, and continuing education.
+The salary range for this position is $208k - $246k.
+ 
+
+At AbsenceSoft, we value an equitable and inclusive work environment and strive to build and foster diverse teams. Even if your work experience doesn’t align exactly with the position requirements, we'd still love to hear from you. You may just be the right candidate for this or other roles.
+
+ 
+
+We are committed to building a team that represents a variety of diverse backgrounds, perspectives, and skills. We are proud to be an equal opportunity workplace that celebrates and supports diversity and inclusion. We make all employment and related decisions without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, veteran status, disability status, age, or any other status protected by law.

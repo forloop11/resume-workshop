@@ -1,0 +1,101 @@
+Todd Takala
+Lead Data Scientist | Lead Machine Learning Engineer
+Surprise, AZ, 85138 | +1-602-775-0645
+todd.c.takala@gmail.com | linkedin.com/in/toddtakala | github.com/forloop11 | takala.derkooh.com
+
+Summary
+
+------------------------------------------------------------------------
+
+Lead Data Scientist delivering over $1.2 billion in business value. I lead end-to-end data science projects, leveraging machine learning to solve complex challenges, reduce costs, and provide key insights to stakeholders.
+
+Education
+
+------------------------------------------------------------------------
+
+Arizona State University Tempe, AZ
+
+Bachelor of Science in Mechanical Engineering Graduated: 2006
+Numerical Methods, Computational Thermodynamics, Statistics, Logic, Linear Algebra, Electrical Networks, Finite Element Analysis, Calculus, Analytics Solids, Mechanisms, Materials, Manufacturing,
+
+Professional Experience
+
+------------------------------------------------------------------------
+
+Lead Data Scientist Caterpillar Inc. – https://www.cat.com
+
+Surprise, AZ September 2022 – Present
+
+- Spearheaded the development of a machine learning (ML/AI) system to predict equipment repair times, achieving a CEO Award and cutting warranty costs by $80M in 2024.
+
+- Engineered and deployed robust, end-to-end ETL/MLOps pipelines using Snowflake and AWS services, including Sagemaker, S3, and Step Functions, to ensure automated model retraining and operational excellence.
+
+- Championed MLOps best practices as a steward for GitHub CI/CD, Docker, and AWS architecture, setting new code standards and leading R&D efforts for continuous improvement.
+
+- Managed the complete project lifecycle for high-impact data science initiatives, from initial stakeholder requirement identification and KPI definition to securing development approval.
+
+- Architect of comprehensive monitoring plans for deployed models, creating performance dashboards and using customer feedback to drive iterative improvements and validate business impact.
+
+Reliability Analytics Manager Amazon – https://www.amazon.com
+
+Tempe, AZ February 2022 – September 2022
+
+- Pioneered a new design-for-reliability benchmark by analyzing over 2 petabytes of IoT data from a 400,000-robot fleet to correct critical deficiencies in design life metrics.
+
+- Authored an influential white paper and utilized RMarkdown and R Shiny to clarify complex Weibull analysis findings, demonstrating the importance of reproducible research to leadership.
+
+- Pioneered the successful adoption of the new reliability benchmark by senior leadership, establishing a new standard for design evaluation.
+
+- Achieved two-time champion status in Amazon Machine Learning University by designing and optimizing winning regression and recommendation systems.
+
+Data Engineering Manager Empire-Cat – https://www.empire-cat.com
+
+Mesa, AZ January 2021 – February 2022
+
+- An end-to-end MLOps pipeline created to deploy AI solutions for the analysis of IoT and telematics data, utilizing ARIMA and SVM for time series forecasting to anticipate demand within the remanufacturing supply chain.
+
+- Led the data collection and exploration phase by integrating diverse datasets, including condition monitoring and machine component data, to create a robust foundation for predictive modeling.
+
+- Owned the component exchange program, working directly with clients to forecast component durability and mitigate supply chain disruptions.
+
+- Provided technical leadership by developing the predictive forecasting models that were foundational to the component exchange program’s success in managing the supply chain.
+
+Reliability Engineering Manager Empire-Cat – https://www.empire-cat.com
+
+Mesa, AZ January 2012 – January 2021
+
+- Resolved critical design flaws in mining equipment by performing reproducible analysis in R and SQL, resulting in a cost reduction of $1.2B for clients over six years.
+
+- Created a regression model that identified key factors in equipment performance statistics, leading to a $62M savings in just 90 days.
+
+- Directed a high-performance team of up to 8 engineers, fostering an iterative, data-driven approach to solve acute and chronic equipment performance issues for clients.
+
+- Built a comprehensive machine learning dataset from NLP analysis from service work order text, failure analyses, parts, and IoT telemetry for continuous optimization of equipment service life and fleet availability.
+
+Core Skills
+
+------------------------------------------------------------------------
+
+Python, SQL, MLOps, AWS, SageMaker, Step Functions, S3, Redshift, ECR, Snowflake, DBA, Docker, Github, ETL, Tableau, Power BI, TensorFlow, PyTorch, Scikit-learn, Natural Language Processing (NLP), Neural Networks, Executive Influence, Technical Mentorship, ROI Strategy, Stakeholder Engagement, End-to-End Project Management, Business Acumen, Strategic Thinking, Team Leadership, Cross-Functional Collaboration, Data Storytelling, Technical Communication, Critical Thinking, Adaptability, Project Resilience, Iterative Improvement, Data Products, Machine Learning Algorithms, Exploratory Data Analysis, Develop Predictive models, Statistical Modeling, Develop Solutions, Anomaly Detection, Data Processing, Experiments, pandas, keras, numpy, Git, Willing to Learn, Accuracy
+
+Certifications
+
+------------------------------------------------------------------------
+
+Data Camp: Data Scientist Professional Certificate, Certified SQL Associate, AI Fundamentals Certificate
+
+Canonical: Ubuntu Linux Professional Certificate
+
+GitHub: Career Essentials in GitHub Professional Certificate
+
+Udemy: Streamlit for Snowflake Masterclass
+
+BerkeleyX: The Science of Happiness at Work Professional Certificate
+
+Empire-Cat: Lean 6 Sigma Green Belt
+
+Komatsu North America: Certified Technical Communicator
+
+Society of Automotive Enginneers: Cost and Finance for Engineers
+
+Arizona State Board of Technical Registration: EIT, Mechanical Engineering – Registration No. 10670

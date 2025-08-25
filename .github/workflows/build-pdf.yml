@@ -36,7 +36,7 @@ jobs:
       - name: Convert TeX to TXT with Pandoc
         uses: docker://pandoc/core:latest
         with:
-          args: --wrap=none -f latex -t plain main.tex -o todd_takala_resume.txt
+          args: --wrap=none -f latex -t plain todd_takala_resume.tex -o todd_takala_resume.txt
 
       # --- NEW ---
       # Step 4: Commit and push the generated files if they have changed

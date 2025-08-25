@@ -1,0 +1,36 @@
+Tiger Analytics
+Lead Data Scientist- Supply Chain
+
+RemoteData Science
+Texas, United States
+
+Description
+
+Tiger Analytics is looking for an experienced Senior Data Scientist to join our team. As a leading advanced analytics consulting firm, we help Fortune 500 companies generate valuable insights from their data. With our deep expertise in Data Science, Machine Learning, and AI, we deliver innovative solutions to complex business problems. As a Lead Data Scientist at Tiger Analytics, you will have the opportunity to work on cutting-edge projects, collaborate with cross-functional teams, and drive business value through advanced analytics.
+
+Key Responsibilities:
+
+	Accelerate and improve the entire network design process, from raw data to a model ready for running in tools like Coupa or Llamasoft.
+    This involves: Getting data and identifying/correcting outliers in capacity, throughputs, and transportation costs.
+    Creating models for auto-completion of missing data and new routes.
+    Automating the creation of common scenarios, such as optimizing warehouse locations (deleting or adding warehouses) in a dynamic and globally applicable way.
+    Connecting multiple isolated models- The core of this involves mathematical optimization models (mixed-integer linear programming).
+    Combine data science with supply chain knowledge to adapt to available data.
+    Develop heuristics to accelerate NP-hard network design models that currently take days to run.
+    The goal is to automate the running of hundreds of models in the background to provide possible improvements without manual intervention.
+    Supply Chain Analysis:
+    Normalize historical data (3-5 years) to reflect the supply chain accurately, removing anomalies like strikes.
+    Identify when and why the real supply chain deviates from the plan (root cause analysis).
+    Analyze bottlenecks in the supply chain.
+    Find "general insights" that analysts might not know to look for, such as unexpected correlations between events across different parts of the supply chain (e.g., promotions in Luxembourg causing stockouts in Spain). This requires creative thinking beyond simple correlation due to the complexity and temporal aspects of the global supply chain.
+    Identify trends where things are operating outside of normal parameters for any KPI or action in the supply chain
+
+Requirements
+
+    Bachelor’s or Master’s degree in Computer Science, Mathematics, or a related technical field.
+    7+ years of experience in Data Science and Machine Learning.
+    7+ years of hands-on experience in Python and PySpark.
+    Strong stakeholder management skills, including engagement with business units and vendors.
+    Data Science: Strong expertise in developing supervised and unsupervised ML models, with knowledge of time series and demand forecasting being a plus.
+    Industry- Supply chain is must have 
+    Programming: Hands-on experience with Python, PySpark, and SQL for data querying and statistical modeling.

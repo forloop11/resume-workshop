@@ -7,7 +7,7 @@ Summary of Qualifications
 
 ------------------------------------------------------------------------
 
-Lead Data Scientist with a proven track record of delivering over $1.2 billion in business value by leveraging machine learning and end-to-end data science solutions to solve complex challenges. Expertise in managing the complete project lifecycle, from stakeholder engagement and KPI definition to development and deployment.
+Lead Data Scientist with a proven track record of delivering over $1.3 billion in business value by leveraging machine learning and end-to-end data science solutions to solve complex challenges. Expertise in managing the complete project lifecycle, from stakeholder engagement and KPI definition to development and deployment.
 
 - Machine Learning & AI Leadership: Spearheaded the creation of an ML/AI system to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award. Designed and optimized winning regression and recommendation systems, achieving two-time champion status in the Amazon Machine Learning University competition.
 
@@ -40,8 +40,7 @@ Education
 
 ------------------------------------------------------------------------
 
-Arizona State University | Tempe, AZ
-Bachelor of Science in Mechanical Engineering, 2006
+Bachelor of Science in Mechanical Engineering | Arizona State University | Tempe, AZ 2006
 STEM coursework included: Numerical Methods, Computational Thermodynamics, Statistics, Logic, Linear Algebra, Finite Element Analysis
 
 Certifications

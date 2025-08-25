@@ -27,7 +27,7 @@ jobs:
       - name: Build LaTeX document
         uses: docker://ghcr.io/xu-cheng/texlive-full:latest
         with:
-          args: pdflatex -interaction=nonstopmode main.tex
+          args: pdflatex -interaction=nonstopmode todd_takala_resume.tex
 
       # We are removing the "Upload Artifact" steps because we are
       # committing the files directly to the repository instead.

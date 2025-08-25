@@ -11,6 +11,12 @@ on:
 
 jobs:
   build_latex:
+    # --- NEW ---
+    # This block grants the workflow permission to write to the repository.
+    permissions:
+      contents: write
+    # --- END NEW ---
+
     runs-on: ubuntu-latest
     steps:
       # Step 1: Checkout the repository code
@@ -21,28 +27,25 @@ jobs:
       - name: Build LaTeX document
         uses: docker://ghcr.io/xu-cheng/texlive-full:latest
         with:
-          # IMPORTANT: Replace with your .tex file
           args: pdflatex -interaction=nonstopmode main.tex
 
-      # Step 3: Upload the generated PDF as a workflow artifact
-      - name: Upload PDF artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: compiled-pdf
-          # IMPORTANT: Replace with your .pdf file
-          path: todd_takala_resume.pdf
+      # We are removing the "Upload Artifact" steps because we are
+      # committing the files directly to the repository instead.
 
-      # Step 4: Convert TeX to TXT using Pandoc
+      # Step 3: Convert TeX to TXT using Pandoc
       - name: Convert TeX to TXT with Pandoc
         uses: docker://pandoc/core:latest
         with:
-          # IMPORTANT: Replace with your file names
           args: --wrap=none -f latex -t plain main.tex -o todd_takala_resume.txt
 
-      # Step 5: Upload the generated TXT as a workflow artifact
-      - name: Upload TXT artifact
-        uses: actions/upload-artifact@v4
+      # --- NEW ---
+      # Step 4: Commit and push the generated files if they have changed
+      - name: Commit files
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          name: compiled-txt
-          # IMPORTANT: Replace with your .txt file
-          path: todd_takala_resume.txt
+          commit_message: "Automated build: Add generated PDF and TXT files"
+          # Add both the PDF and TXT files to the commit
+          file_pattern: "*.pdf *.txt"
+          commit_user_name: "GitHub Actions Bot"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+      # --- END NEW ---

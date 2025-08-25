@@ -1,1 +1,0 @@
-pandoc --wrap=none -f latex -t plain main.tex -o todd_takala_resume.txt

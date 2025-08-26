@@ -43,17 +43,11 @@ Amazon | Tempe, AZ
 Data Engineering Manager Jan 2012 – Feb 2022
 Empire-Cat | Mesa, AZ
 
-- Directed a high-performance team of up to 8 engineers, fostering a data-driven approach to solve equipment performance issues as Reliability Engineering Manager before being promoted. Resolved critical design flaws in mining equipment through reproducible analysis in R and SQL, saving clients $1.2 billion over six years.
-
 - Created a artificial intelligence model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days.
 
 - Led a team to establish an MLOps pipeline with ARIMA and SVM for AI-driven forecasting in supply chain management, integrated data, managed a component exchange program, collaborated with clients on durability forecasting, and addressed design flaws in mining equipment, reducing client costs by $1.2B. This involved creating a comprehensive machine learning dataset from NLP on work orders and IoT telemetry.
 
-Skills
-
-------------------------------------------------------------------------
-
-AI/ML, Agile, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS (ECR, Event Bridge, Redshift, Sagemaker, Step Functions), Business Requirements, Coaching, Continuous Integration, Creative, Database Administrator, Data Gathering, DBA, Deep Learning, DevOps, Developer Tools, Distributed Computing, Docker, Embedding, ETL, Git, GitHub Actions, GitHub Copilot, Growth Mindset, LLMs, Large Language Models, Mentoring, Problem Solving, Python (Autogluon, keras, numpy, pandas, PyTorch, Scikit-learn, TensorFlow), R (dplyr, prophet, tidyverse), Research, Snowflake, SQL, Streamlit, Statistical Tools, Strategic Thinking, Adaptability, Transformers, Willing to Learn
+- Directed a high-performance team of up to 8 engineers, fostering a data-driven approach to solve equipment performance issues as Reliability Engineering Manager before being promoted. Resolved critical design flaws in mining equipment through reproducible analysis in R and SQL, saving clients $1.2 billion over six years.
 
 Certifications
 
@@ -102,3 +96,9 @@ Society of Automotive Engineers
 Udemy
 
     Streamlit for Snowflake Masterclass
+
+Skills
+
+------------------------------------------------------------------------
+
+AI/ML, Agile, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS (ECR, Event Bridge, Redshift, Sagemaker, Step Functions), Business Requirements, Coaching, Continuous Integration, Creative, Database Administrator, Data Gathering, DBA, Deep Learning, DevOps, Developer Tools, Distributed Computing, Docker, Embedding, ETL, Git, GitHub Actions, GitHub Copilot, Growth Mindset, LLMs, Large Language Models, Mentoring, Problem Solving, Python (Autogluon, keras, numpy, pandas, PyTorch, Scikit-learn, TensorFlow), R (dplyr, prophet, tidyverse), Research, Snowflake, SQL, Streamlit, Statistical Tools, Strategic Thinking, Adaptability, Transformers, Willing to Learn

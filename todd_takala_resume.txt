@@ -41,7 +41,9 @@ Education
 ------------------------------------------------------------------------
 
 Bachelor of Science in Mechanical Engineering | Arizona State University | Tempe, AZ 2006
-STEM coursework included: Computational Thermodynamics, Design of Experiments (DoE) Engineering Economics & Finance, Finite Element Analysis, Linear Algebra, Logic, Manufacturing, Numerical Methods, Statistics
+STEM coursework included:
+
+- Computational Thermodynamics, Design of Experiments (DoE) Engineering Economics & Finance, Finite Element Analysis, Linear Algebra, Logic, Manufacturing, Numerical Methods, Statistics
 
 Certifications
 

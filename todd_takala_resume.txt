@@ -40,7 +40,7 @@ Amazon | Tempe, AZ
 
 - Designed and optimized winning regression and recommendation systems, achieving two-time champion status in the Amazon Machine Learning University competition.
 
-Data Engineering Manager / Reliability Engineering Manager Jan 2012 – Feb 2022
+Data Engineering Manager | Reliability Engineering Manager Jan 2012 – Feb 2022
 Empire-Cat | Mesa, AZ
 
 - Directed a high-performance team of up to 8 engineers, fostering a data-driven approach to solve equipment performance issues.

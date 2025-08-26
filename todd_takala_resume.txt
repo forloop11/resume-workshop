@@ -59,7 +59,7 @@ CSCMP: Supply Chain Foundations Demand Planning Professional Certificate
 
 Data Camp: Data Scientist Professional Certificate, Certified SQL Associate, AI Fundamentals Certificate
 
-Empire-Cat: Lean 6 Sigma Green Belt
+Empire-Cat: Business Tools for Service Managers , Coaching for Peak Performance , Communicating for Leadership Success , Delegating with Purpose , Lean 6 Sigma Green Belt , Resolving Workplace Conflict , Setting Performance Expectations
 
 GitHub: Career Essentials in GitHub Professional Certificate
 

@@ -13,7 +13,7 @@ Experience
 
 ------------------------------------------------------------------------
 
-Lead Data Scientist | Caterpillar Inc. | Surprise, AZ September 2022 – Present
+Lead Data Scientist | Caterpillar Inc. | Surprise, AZ Sept 2022 – Present
 
 - Led the end-to-end development of high-impact data science initiatives, including an award-winning ML system to predict equipment repair times. Engineered and deployed robust MLOps pipelines using AWS and Snowflake and established best practices for CI/CD and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact.
 
@@ -21,7 +21,7 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ September 2022 – Present
 
 - Spearheaded the creation of an ML/AI system to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award.
 
-Reliability Analytics Manager | Amazon | Tempe, AZ February 2022 – September 2022
+Reliability Analytics Manager | Amazon | Tempe, AZ Feb 2022 – Sept 2022
 
 - Pioneered a new design-for-reliability benchmark by analyzing petabyte-scale IoT data from a large robotics fleet. Authored an influential white paper on complex Weibull analysis and secured adoption of the new benchmark by senior leadership.
 
@@ -29,7 +29,7 @@ Reliability Analytics Manager | Amazon | Tempe, AZ February 2022 – September 2
 
 - Designed and optimized winning regression and recommendation systems, achieving two-time champion status in the Amazon Machine Learning University competition.
 
-Data Engineering / Reliability Manager | Empire-Cat | Mesa, AZ January 2021 – February 2022
+Data Engineering Manager / Reliability Manager | Empire-Cat | Mesa, AZ Jan 2012 – Feb 2022
 
 - Directed a high-performance team of up to 8 engineers, fostering a data-driven approach to solve equipment performance issues.
 

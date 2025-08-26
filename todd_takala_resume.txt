@@ -1,7 +1,7 @@
 Todd Takala
 Lead Data Scientist | Lead Machine Learning Engineer | AI/ML Engineer | Remote
 Surprise, AZ, 85138 | 1-602-775-0645
-todd.c.takala@gmail.com | linkedin.com/in/toddtakala | github.com/forloop11 | takala.derkooh.com
+todd.c.takala@gmail.com | linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 
 Summary of Qualifications
 
@@ -49,6 +49,8 @@ Certifications
 
 Data Camp: Data Scientist Professional Certificate, Certified SQL Associate, AI Fundamentals Certificate
 
+CSCMP: Supply Chain Foundations Demand Planning Professional Certificate
+
 Canonical: Ubuntu Linux Professional Certificate
 
 GitHub: Career Essentials in GitHub Professional Certificate
@@ -61,6 +63,6 @@ Empire-Cat: Lean 6 Sigma Green Belt
 
 Komatsu North America: Certified Technical Communicator
 
-Society of Automotive Enginneers: Cost and Finance for Engineers
+Society of Automotive Engineers: Cost and Finance for Engineers
 
 Arizona State Board of Technical Registration: EIT, Mechanical Engineering – Registration No. 10670

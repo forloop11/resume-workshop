@@ -49,11 +49,11 @@ Certifications
 
 Data Camp: Data Scientist Professional Certificate, Certified SQL Associate, AI Fundamentals Certificate
 
-CSCMP: Supply Chain Foundations Demand Planning Professional Certificate
+CSCMP: Supply Chain Demand Planning Professional Certificate
 
 Canonical: Ubuntu Linux Professional Certificate
 
-GitHub: Career Essentials in GitHub Professional Certificate
+GitHub: GitHub Professional Certificate
 
 Udemy: Streamlit for Snowflake Masterclass
 

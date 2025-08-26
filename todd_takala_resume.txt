@@ -16,10 +16,6 @@ Education
 Bachelor of Science in Mechanical Engineering 2006
 Arizona State University | Tempe, AZ
 
-STEM Coursework:
-
-    Computational Thermodynamics, Design of Experiments (DoE), Differential Equations, Economics, Finance, Finite Element Analysis, Linear Algebra, Logic, Manufacturing, Material Science, Multivariate Calculus, Numerical Methods, Statistics
-
 Skills
 
 ------------------------------------------------------------------------
@@ -41,7 +37,7 @@ Caterpillar Inc. | Surprise, AZ
 
 - Architect and developer of end-to-end development of high-impact data science initiatives, including an award-winning AI system to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award.
 
-- Partnered with leadership and stakeholders to map the business problems the AI solves, as well as the legal constraints to consider. Worked to maintained alignment within the greater enterprise.
+- Business acumen to partner with senior leadership and stakeholders to map the business problems the AI solves, as well as the legal constraints to consider. Worked to maintained alignment within the greater enterprise using written and verbal communication.
 
 - Wrangled structured, semi-structured and unstructured data to compile a training dataset from multiple sources. Thousands of parameters were considered derived from dealer and product information. An LLM was used to find similarities in job descriptions. Feature selection was used to keep important parameters.
 
@@ -52,7 +48,7 @@ Caterpillar Inc. | Surprise, AZ
 Reliability Analytics Manager Feb 2022 – Sept 2022
 Amazon | Tempe, AZ
 
-- Pioneered design engineering KPI for autonomous robots by analyzing petabyte-scale IoT data. Authored an influential white paper, as reproducible research using R, on the framework for performing Weibull analysis and secured adoption of the new method by senior leadership.
+- Pioneered design engineering KPI for autonomous robots by analyzing petabyte-scale IoT big data. Authored an influential white paper, as reproducible research using R, on the framework for performing Weibull analysis and secured adoption of the new method by senior leadership.
 
 - Designed and optimized winning regression and recommendation systems, achieving two-time champion status in Amazon Machine Learning University competitions.
 

@@ -61,55 +61,44 @@ Certifications
 
 Arizona State Board of Technical Registration
 
-    
-    EIT, Mechanical Engineering – Registration No. 10670
+    EIT, Mechanical Engineering, Registration No. 10670
 
 BerkeleyX
 
-    
     The Science of Happiness at Work Professional Certificate
 
 Canonical
 
-    
     Ubuntu Linux Professional Certificate
 
 CSCMP
 
-    
     Supply Chain Foundations Demand Planning Professional Certificate
 
 Data Camp
 
-    
     AI Fundamentals Certificate, Certified SQL Associate, Data Scientist Professional Certificate
 
 Empire-Cat
 
-    
     Business Tools for Service Managers, Coaching for Peak Performance, Communicating for Leadership Success, Delegating with Purpose, Lean 6 Sigma Green Belt, Resolving Workplace Conflict, Setting Performance Expectations
 
 GitHub
 
-    
     Career Essentials in GitHub Professional Certificate
 
 IUOE Local 150
 
-    
     Diesel Mechanic, Heavy Equipment Operator (Bulldozers, Class B CDL, Cranes, Forklifts, MSHA, Preventive Maintenance, Scrapers, Skid-steers, Telehandlers, Wheel Loaders) Shielded Metal Arc Welding (SMAW)
 
 Komatsu North America
 
-    
     Certified Technical Communicator
 
 Society of Automotive Engineers
 
-    
     Cost and Finance for Engineers
 
 Udemy
 
-    
     Streamlit for Snowflake Masterclass

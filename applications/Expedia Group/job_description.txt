@@ -1,0 +1,33 @@
+Distinguished Machine Learning Scientist
+
+Expedia Group brands power global travel for everyone, everywhere. We design cutting-edge tech to make travel smoother and more memorable, and we create groundbreaking solutions for our partners. Our diverse, vibrant, and welcoming community is essential in driving our success.
+
+Why Join Us?
+
+To shape the future of travel, people must come first. Guided by our Values and Leadership Agreements, we foster an open culture where everyone belongs, differences are celebrated and know that when one of us wins, we all win.
+
+We provide a full benefits package, including exciting travel perks, generous time-off, parental leave, a flexible work model (with some pretty cool offices), and career development resources, all to fuel our employees' passion for travel and ensure a rewarding career journey. We’re building a more open world. Join us.
+
+Expedia Product & Technology builds innovative products, services, and tools to deliver high-quality experiences for travelers, partners, and our employees. A singular technology platform powered by data and machine learning provides secure, differentiated, and personalized experiences for the traveler and our partners that drive loyalty and customer satisfaction.
+
+The Data & Artificial Intelligence organization is the fuel for EG transformation, traveler experience innovation, analytics and actionable insights, machine learning, competitive intelligence, partner, and supplier success.
+
+The Data & Artificial Intelligence organization is looking for a Distinguished Machine Learning Scientist who enjoys doing hands-on exploratory ML/AI projects. This Distinguished Scientist will help define large $1B problems or futuristic opportunities where ML/AI could transform travel industry. In addition, you will help shape the long-term vision, strategy and capabilities across the organization and will be a recognized expert in ML/AI technology capabilities along with being a strong mentor.
+
+What you’ll do:
+
+    Lead AI strategy throughout Expedia Group that will focus on complex, cross organizational companywide impact.
+    Perform applied research to consistently achieve desired solution performance and improve organizational capabilities.
+    Be hands-on and builds end-to-end design of models based on detailed understanding of business requirements, including general approach, choice of algorithm and data sources.
+    Demonstrates an authoritative understanding of the business successes challenges and strategic objectives; draws from experience to evaluate solutions from the business’ perspective and provide advice regarding opportunities and risks.
+    Regularly participates in and may help to organize external events and creates and presents functional and technical information in captivating fashion.
+    Ensure that functional technical communications are crafted with non-technical audience’s mind, ensuring processes, practices are in place to support or coach others on the best ways to use visual aids to describe concepts.
+
+Who you are:
+
+    Bachelor's, Master’s, PhD degree in a technical field; or Equivalent related professional experience, with 16 years’ experience with a bachelor; 14 years’ experience with masters; 12 years’ experience for PhD candidates.
+    Is a recognized leader in problem solving the most complex questions and challenges (patents and external blogging are preferred)
+    Experience delivering large and complex ML/AI project from concept to feasibility to production phase. Is willing to prep data, code up models, deploy models by himself/herself.
+    You will demonstrate your expertise in more than one major ML programming language (Python, SparkR, Scala....) and familiarity with data pipelines and model deployment.
+    Experience defining ML best practices at a department / organizational level.
+    Experience demonstrating a critical understanding of business processes by making recommendations for improvement, sponsoring and staging workshops/knowledge sessions to improve organization functional knowledge and acuity, and leveraging insights and subject matter experts to overcome challenges.

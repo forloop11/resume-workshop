@@ -34,7 +34,7 @@ Skills
 
 ------------------------------------------------------------------------
 
-AI/ML, Agile, Anomaly Detection, Architectural Design, AWS (ECR, Event Bridge, Redshift, Sagemaker, Step Functions), Business Requirements, Continuous Integration, Creative, Database Administrator, Data Gathering, DBA, DevOps, Developer Tools, Distributed Computing, ETL, Git, GitHub Actions, GitHub Copilot, Growth Mindset, LLMs, Large Language Models, Programming Languages, Python (Autogluon, keras, numpy, pandas, PyTorch, Scikit-learn, TensorFlow) R (dplyr, tidyverse) Research, Snowflake, Streamlit, Statistical Tools, Strategic Thinking, Adaptability, Transformers, Willing to Learn
+AI/ML, Agile, Anomaly Detection, Architectural Design, AWS (ECR, Event Bridge, Redshift, Sagemaker, Step Functions), Business Requirements, Continuous Integration, Creative, Database Administrator, Data Gathering, DBA, DevOps, Developer Tools, Distributed Computing, ETL, Git, GitHub Actions, GitHub Copilot, Growth Mindset, LLMs, Large Language Models, Programming Languages, Python (Autogluon, keras, numpy, pandas, PyTorch, Scikit-learn, TensorFlow) R (dplyr, prophet, tidyverse) Research, Snowflake, Streamlit, Statistical Tools, Strategic Thinking, Adaptability, Transformers, Willing to Learn
 
 Education
 
@@ -59,7 +59,7 @@ CSCMP: Supply Chain Foundations Demand Planning Professional Certificate
 
 Data Camp: Data Scientist Professional Certificate, Certified SQL Associate, AI Fundamentals Certificate
 
-Empire-Cat: Business Tools for Service Managers , Coaching for Peak Performance , Communicating for Leadership Success , Delegating with Purpose , Lean 6 Sigma Green Belt , Resolving Workplace Conflict , Setting Performance Expectations
+Empire-Cat: Business Tools for Service Managers, Coaching for Peak Performance, Communicating for Leadership Success, Delegating with Purpose, Lean 6 Sigma Green Belt, Resolving Workplace Conflict, Setting Performance Expectations,
 
 GitHub: Career Essentials in GitHub Professional Certificate
 

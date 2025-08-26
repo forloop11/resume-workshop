@@ -41,7 +41,7 @@ Skills
 
 ------------------------------------------------------------------------
 
-AI/ML, Agile, Anomaly Detection, Architectural Design, AWS (ECR, Event Bridge, Redshift, Sagemaker, Step Functions), Business Requirements, Continuous Integration, Creative, Database Administrator, Data Gathering, DBA, DevOps, Developer Tools, Distributed Computing, ETL, Git, GitHub Actions, GitHub Copilot, Growth Mindset, LLMs, Large Language Models, Programming Languages, Python (Autogluon, keras, numpy, pandas, PyTorch, Scikit-learn, TensorFlow), R (dplyr, prophet, tidyverse), Research, Snowflake, Streamlit, Statistical Tools, Strategic Thinking, Adaptability, Transformers, Willing to Learn
+AI/ML, Agile, Anomaly Detection, Architectural Design, AWS (ECR, Event Bridge, Redshift, Sagemaker, Step Functions), Business Requirements, Continuous Integration, Creative, Database Administrator, Data Gathering, DBA, DevOps, Developer Tools, Distributed Computing, Docker, Embedding, ETL, Git, GitHub Actions, GitHub Copilot, Growth Mindset, LLMs, Large Language Models, Python (Autogluon, keras, numpy, pandas, PyTorch, Scikit-learn, TensorFlow), R (dplyr, prophet, tidyverse), Research, Snowflake, SQL, Streamlit, Statistical Tools, Strategic Thinking, Adaptability, Transformers, Willing to Learn
 
 Education
 
@@ -50,30 +50,63 @@ Education
 Bachelor of Science in Mechanical Engineering | Arizona State University | Tempe, AZ 2006
 STEM coursework included:
 
-- Computational Thermodynamics, Design of Experiments (DoE) Engineering Economics & Finance, Finite Element Analysis, Linear Algebra, Logic, Manufacturing, Numerical Methods, Statistics
+- Computational Thermodynamics, Design of Experiments (DoE), Differential Equations, Economics, Finance, Finite Element Analysis, Linear Algebra, Logic, Manufacturing, Material Science, Multivariate Calculus, Numerical Methods, Statistics
 
 Certifications
 
 ------------------------------------------------------------------------
 
-Arizona State Board of Technical Registration: EIT, Mechanical Engineering – Registration No. 10670
+Arizona State Board of Technical Registration
 
-BerkeleyX: The Science of Happiness at Work Professional Certificate
+    
+    EIT, Mechanical Engineering – Registration No. 10670
 
-Canonical: Ubuntu Linux Professional Certificate
+BerkeleyX
 
-CSCMP: Supply Chain Foundations Demand Planning Professional Certificate
+    
+    The Science of Happiness at Work Professional Certificate
 
-Data Camp: Data Scientist Professional Certificate, Certified SQL Associate, AI Fundamentals Certificate
+Canonical
 
-Empire-Cat: Business Tools for Service Managers, Coaching for Peak Performance, Communicating for Leadership Success, Delegating with Purpose, Lean 6 Sigma Green Belt, Resolving Workplace Conflict, Setting Performance Expectations,
+    
+    Ubuntu Linux Professional Certificate
 
-GitHub: Career Essentials in GitHub Professional Certificate
+CSCMP
 
-IUOE Local 150: Shielded Metal Arc Welding (SMAW), Diesel Mechanic, Heavy Equipment Operator (Bulldozers, Class B CDL, Cranes, Forklifts, MSHA, Preventive Maintenance, Scrapers, Skid-steers, Telehandlers, Wheel Loaders,
+    
+    Supply Chain Foundations Demand Planning Professional Certificate
 
-Komatsu North America: Certified Technical Communicator
+Data Camp
 
-Society of Automotive Engineers: Cost and Finance for Engineers
+    
+    AI Fundamentals Certificate, Certified SQL Associate, Data Scientist Professional Certificate
 
-Udemy: Streamlit for Snowflake Masterclass
+Empire-Cat
+
+    
+    Business Tools for Service Managers, Coaching for Peak Performance, Communicating for Leadership Success, Delegating with Purpose, Lean 6 Sigma Green Belt, Resolving Workplace Conflict, Setting Performance Expectations
+
+GitHub
+
+    
+    Career Essentials in GitHub Professional Certificate
+
+IUOE Local 150
+
+    
+    Diesel Mechanic, Heavy Equipment Operator (Bulldozers, Class B CDL, Cranes, Forklifts, MSHA, Preventive Maintenance, Scrapers, Skid-steers, Telehandlers, Wheel Loaders) Shielded Metal Arc Welding (SMAW)
+
+Komatsu North America
+
+    
+    Certified Technical Communicator
+
+Society of Automotive Engineers
+
+    
+    Cost and Finance for Engineers
+
+Udemy
+
+    
+    Streamlit for Snowflake Masterclass

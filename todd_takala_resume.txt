@@ -3,17 +3,27 @@ Lead Data Scientist | Lead Machine Learning Engineer | AI/ML Engineer | Remote
 Surprise, AZ, 85138 | 1-602-775-0645
 todd.c.takala@gmail.com | linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 
-Summary of Qualifications
+Professional Summary
 
 ------------------------------------------------------------------------
 
 Lead Data Scientist with a proven track record of delivering over $1.3 billion in business value through machine learning and end-to-end data science solutions to solve complex challenges. Manage complete project lifecycle, including stakeholder engagement, KPI definition, development, and deployment.
 
+Education
+
+------------------------------------------------------------------------
+
+Bachelor of Science in Mechanical Engineering | Arizona State University | Tempe, AZ 2006
+STEM coursework included:
+
+- Computational Thermodynamics, Design of Experiments (DoE), Differential Equations, Economics, Finance, Finite Element Analysis, Linear Algebra, Logic, Manufacturing, Material Science, Multivariate Calculus, Numerical Methods, Statistics
+
 Experience
 
 ------------------------------------------------------------------------
 
-Lead Data Scientist | Caterpillar Inc. | Surprise, AZ Sept 2022 – Present
+Lead Data Scientist Sept 2022 – Present
+Caterpillar Inc. | Surprise, AZ
 
 - Led the end-to-end development of high-impact data science initiatives, including an award-winning ML system to predict equipment repair times. Engineered and deployed robust MLOps pipelines using AWS and Snowflake and established best practices for CI/CD and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact.
 
@@ -21,7 +31,8 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ Sept 2022 – Present
 
 - Spearheaded the creation of an ML/AI system to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award.
 
-Reliability Analytics Manager | Amazon | Tempe, AZ Feb 2022 – Sept 2022
+Reliability Analytics Manager Feb 2022 – Sept 2022
+Amazon | Tempe, AZ
 
 - Pioneered a new design-for-reliability benchmark by analyzing petabyte-scale IoT data from a large robotics fleet. Authored an influential white paper on complex Weibull analysis and secured adoption of the new benchmark by senior leadership.
 
@@ -29,7 +40,8 @@ Reliability Analytics Manager | Amazon | Tempe, AZ Feb 2022 – Sept 2022
 
 - Designed and optimized winning regression and recommendation systems, achieving two-time champion status in the Amazon Machine Learning University competition.
 
-Data Engineering Manager / Reliability Manager | Empire-Cat | Mesa, AZ Jan 2012 – Feb 2022
+Data Engineering Manager / Reliability Engineering Manager Jan 2012 – Feb 2022
+Empire-Cat | Mesa, AZ
 
 - Directed a high-performance team of up to 8 engineers, fostering a data-driven approach to solve equipment performance issues.
 
@@ -42,15 +54,6 @@ Skills
 ------------------------------------------------------------------------
 
 AI/ML, Agile, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS (ECR, Event Bridge, Redshift, Sagemaker, Step Functions), Business Requirements, Coaching, Continuous Integration, Creative, Database Administrator, Data Gathering, DBA, Deep Learning, DevOps, Developer Tools, Distributed Computing, Docker, Embedding, ETL, Git, GitHub Actions, GitHub Copilot, Growth Mindset, LLMs, Large Language Models, Mentoring, Problem Solving, Python (Autogluon, keras, numpy, pandas, PyTorch, Scikit-learn, TensorFlow), R (dplyr, prophet, tidyverse), Research, Snowflake, SQL, Streamlit, Statistical Tools, Strategic Thinking, Adaptability, Transformers, Willing to Learn
-
-Education
-
-------------------------------------------------------------------------
-
-Bachelor of Science in Mechanical Engineering | Arizona State University | Tempe, AZ 2006
-STEM coursework included:
-
-- Computational Thermodynamics, Design of Experiments (DoE), Differential Equations, Economics, Finance, Finite Element Analysis, Linear Algebra, Logic, Manufacturing, Material Science, Multivariate Calculus, Numerical Methods, Statistics
 
 Certifications
 

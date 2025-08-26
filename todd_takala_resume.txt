@@ -41,28 +41,30 @@ Education
 ------------------------------------------------------------------------
 
 Bachelor of Science in Mechanical Engineering | Arizona State University | Tempe, AZ 2006
-STEM coursework included: Numerical Methods, Computational Thermodynamics, Statistics, Logic, Linear Algebra, Finite Element Analysis, Manufacturing, Engineering Finance, Economics
+STEM coursework included: Computational Thermodynamics, Design of Experiments (DoE) Engineering Economics & Finance, Finite Element Analysis, Linear Algebra, Logic, Manufacturing, Numerical Methods, Statistics
 
 Certifications
 
 ------------------------------------------------------------------------
 
-Data Camp: Data Scientist Professional Certificate, Certified SQL Associate, AI Fundamentals Certificate
-
-CSCMP: Supply Chain Demand Planning Professional Certificate
-
-Canonical: Ubuntu Linux Professional Certificate
-
-GitHub: GitHub Professional Certificate
-
-Udemy: Streamlit for Snowflake Masterclass
+Arizona State Board of Technical Registration: EIT, Mechanical Engineering – Registration No. 10670
 
 BerkeleyX: The Science of Happiness at Work Professional Certificate
 
+Canonical: Ubuntu Linux Professional Certificate
+
+CSCMP: Supply Chain Foundations Demand Planning Professional Certificate
+
+Data Camp: Data Scientist Professional Certificate, Certified SQL Associate, AI Fundamentals Certificate
+
 Empire-Cat: Lean 6 Sigma Green Belt
+
+GitHub: Career Essentials in GitHub Professional Certificate
+
+IUOE Local 150: Welding, Diesel Mechanic, Heavy Equipment Operator (Bulldozers, Class B CDL, Cranes, Forklifts, Preventive Maintenance, Scrapers, Skid-steers, Telehandlers, Wheel Loaders,
 
 Komatsu North America: Certified Technical Communicator
 
 Society of Automotive Engineers: Cost and Finance for Engineers
 
-Arizona State Board of Technical Registration: EIT, Mechanical Engineering – Registration No. 10670
+Udemy: Streamlit for Snowflake Masterclass

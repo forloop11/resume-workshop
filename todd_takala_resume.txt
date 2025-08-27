@@ -7,7 +7,7 @@ Professional Summary
 
 ------------------------------------------------------------------------
 
-Motivated Lead Data Scientist with a proven track record of delivering over $1.3 billion in business value through machine learning and end-to-end data science solutions for complex challenges. Expert in managing the software development lifecycle, emphasizing stakeholder engagement, KPI definition, development, team building, and scalable deployment. Ability to articulate complex data insights to diverse stakeholders, ensuring clear understanding and informed decision-making.
+Motivated Lead Data Scientist with a proven track record of delivering over $1.3 billion in business value through machine learning and end-to-end data science solutions for complex challenges. Expert in managing the software development lifecycle, emphasizing stakeholder engagement, KPI definition, team building, and scalable deployment. Ability to articulate complex data insights to diverse stakeholders, ensuring clear understanding and informed decision-making.
 
 Skills
 
@@ -29,15 +29,15 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | Sept 2022 to Present
 
 - Architect and developer of end-to-end high-impact data science initiatives, including an award-winning AI system to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award.
 
-- Possessing business acumen to collaborate with senior leadership and stakeholders across the organization facilitated an understanding of the project’s broad impact, which enabled the creation of precise user requirements. This ensured that the project remained aligned with the business road map through both written and persuasive verbal communication.
+- Possessing business acumen to collaborate with senior leadership and stakeholders across the organization which facilitated an understanding of the project’s broad impact, and the creation of precise user requirements. This ensured that the project remained aligned with the business road map through both written and persuasive verbal communication.
 
-- Wrangled structured, semi-structured and unstructured data to compile a training dataset from multiple sources. Thousands of parameters were considered derived from dealer and product information. An LLM was used to find similarities in job descriptions. Feature engineering was used to keep important parameters.
+- Wrangled structured, semi-structured and unstructured data to assemble a training dataset from multiple sources. Thousands of parameters were considered derived from dealer and product information. An LLM was used to find similarities in job descriptions and feature engineering was used to keep important parameters.
 
-- The dataset designated for training was subjected to exploratory data analysis, following which outliers were eliminated employing sophisticated analytics and anomaly detection techniques. Python, along with Autogluon, was utilized to train the AI model, capitalizing on machine learning frameworks such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM.
+- The dataset designated for training was subjected to exploratory data analysis, where outliers were eliminated employing sophisticated analytics and anomaly detection techniques. Python, along with Autogluon, was utilized to train the AI model, capitalizing on machine learning frameworks such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM.
 
 - Engineered and deployed robust MLOps pipelines using AWS and Snowflake, as a database administrator, and established best practices for cloud and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact.
 
-Reliability Analytics Manager | Amazon | Tempe, AZ | Feb 2022 to Sept 2022
+Reliability Analytics Manager | Amazon.com | Tempe, AZ | Feb 2022 to Sept 2022
 
 - Pioneered design engineering KPI for autonomous robots by analyzing petabyte-scale IoT big data. Authored an influential white paper, as reproducible research using R, on the framework for performing statistical modeling and secured adoption by senior leadership.
 
@@ -51,7 +51,13 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | Jan 2012 to Feb 2022
 
 - Directed a high-performance team of up to 8 engineers and functioned as client facing subject-matter-expert for mining equipment. Leadership success by fostering a data-driven approach to solve equipment performance issues as Reliability Engineering Manager before being promoted.
 
-- By applying the DMAIC Six Sigma methodology with complex problem-solving using R and SQL opportunities were identified to improve operation, remanufacturing, and maintenance of a large off-highway truck fleet. This approach yielded a savings of $1.2 billion for our client over a span of six years. Which dramatically improved customer experience.
+- By applying the DMAIC Six Sigma methodology with complex problem-solving using R and SQL, opportunities were identified to improve operation, remanufacturing, and maintenance of a large off-highway truck fleet. This approach yielded a savings of $1.2 billion for our client over a span of six years. Which dramatically improved customer experience.
+
+Education
+
+------------------------------------------------------------------------
+
+Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | May 2006
 
 Certifications
 
@@ -100,9 +106,3 @@ Society of Automotive Engineers:
 Udemy:
 
     Streamlit for Snowflake Masterclass
-
-Education
-
-------------------------------------------------------------------------
-
-Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | May 2006

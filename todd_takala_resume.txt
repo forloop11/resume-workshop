@@ -37,7 +37,7 @@ Caterpillar Inc. | Surprise, AZ
 
 - Architect and developer of end-to-end high-impact data science initiatives, including an award-winning AI system to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award.
 
-- Business acumen to partner with senior leadership and stakeholders across the enterprise to write clear user stories maintain project alignment with the business roadmap using written and influential verbal communication.
+- Possessing business acumen to collaborate with senior leadership and stakeholders across the organization facilitated an understanding of the project’s broad impact, which enabled the creation of precise user requirements. This ensured that the project remained aligned with the business roadmap through both written and persuasive verbal communication.
 
 - Wrangled structured, semi-structured and unstructured data to compile a training dataset from multiple sources. Thousands of parameters were considered derived from dealer and product information. An LLM was used to find similarities in job descriptions. Feature selection was used to keep important parameters.
 

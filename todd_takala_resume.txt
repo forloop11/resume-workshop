@@ -25,7 +25,7 @@ Experience
 
 ------------------------------------------------------------------------
 
-Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | Sept 2022 to Present
+Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 - Architect and developer of end-to-end high-impact data science initiatives, including an award-winning AI system to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award.
 
@@ -37,13 +37,13 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | Sept 2022 to Present
 
 - Engineered and deployed robust MLOps pipelines using AWS and Snowflake, as a database administrator, and established best practices for cloud and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact.
 
-Reliability Analytics Manager | Amazon.com | Tempe, AZ | Feb 2022 to Sept 2022
+Reliability Analytics Manager | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
 - Pioneered design engineering KPI for autonomous robots by analyzing petabyte-scale IoT big data. Authored an influential white paper, as reproducible research using R, on the framework for performing statistical modeling and secured adoption by senior leadership.
 
 - Designed and optimized winning regression and recommendation systems, achieving two-time champion status in Amazon Machine Learning University competitions.
 
-Data Engineering Manager | Empire-Cat | Mesa, AZ | Jan 2012 to Feb 2022
+Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Created ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days.
 
@@ -57,7 +57,7 @@ Education
 
 ------------------------------------------------------------------------
 
-Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | May 2006
+Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | 06/2006
 
 Certifications
 

@@ -9,25 +9,13 @@ Professional Summary
 
 Motivated Lead Data Scientist with a proven track record of delivering over $1.3 billion in business value through machine learning and end-to-end data science solutions for complex challenges. Expert in managing the software development lifecycle, emphasizing stakeholder engagement, KPI definition, team building, and scalable deployment. Ability to articulate complex data insights to diverse stakeholders, ensuring clear understanding and informed decision-making.
 
-Skills
-
-------------------------------------------------------------------------
-
-Hard Skills:
-
-    A/B Testing Agile, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, Database Administrator, Data Gathering, DBA, Deep Learning, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Financial Forecasting, Git, GitHub Actions, GitHub Copilot, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, Problem Solving, PyTorch, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, Snowflake, SQL, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
-
-Soft Skills
-
-    Adaptability, Business Requirements, Coaching, Creative, Growth Mindset, Leadership, Mentoring, Multicultural Collaboration, Strategic Thinking, Thought Leadership, Willing to Learn
-
 Experience
 
 ------------------------------------------------------------------------
 
 Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
-- Architect and developer of end-to-end high-impact data science initiatives, including an award-winning AI system to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award.
+- Architect and developer of end-to-end high-impact data science initiatives, including an award-winning AI platform to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award.
 
 - Possessing business acumen to collaborate with senior leadership and stakeholders across the organization which facilitated an understanding of the project’s broad impact, and the creation of precise user requirements. This ensured that the project remained aligned with the business road map through both written and persuasive verbal communication.
 
@@ -51,7 +39,7 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Directed a high-performance team of up to 8 engineers and functioned as client facing subject-matter-expert for mining equipment. Leadership success by fostering a data-driven approach to solve equipment performance issues as Reliability Engineering Manager before being promoted.
 
-- By applying the DMAIC Six Sigma methodology with complex problem-solving using R and SQL, opportunities were identified to improve operation, remanufacturing, and maintenance of a large off-highway truck fleet. This approach yielded a savings of $1.2 billion for our client over a span of six years. Which dramatically improved customer experience.
+- By applying the DMAIC Six Sigma methodology with complex problem-solving using R and SQL, opportunities were identified to improve operation, manufacturing, and maintenance of a large off-highway truck fleet. This approach yielded a savings of $1.2 billion for our client over a span of six years. Which dramatically improved customer experience.
 
 Education
 
@@ -63,46 +51,36 @@ Certifications
 
 ------------------------------------------------------------------------
 
-Arizona State Board of Technical Registration:
+- Arizona State Board of Technical Registration: EIT, Mechanical Engineering, Registration No. 10670
 
-    EIT, Mechanical Engineering, Registration No. 10670
+- BerkeleyX: The Science of Happiness at Work Professional Certificate
 
-BerkeleyX:
+- Canonical: Ubuntu Linux Professional Certificate
 
-    The Science of Happiness at Work Professional Certificate
+- CSCMP: Supply Chain Foundations Demand Planning Professional Certificate
 
-Canonical:
+- Data Camp: AI Fundamentals Certificate, Certified SQL Associate, Data Scientist Professional Certificate
 
-    Ubuntu Linux Professional Certificate
+- Empire-Cat: Business Tools for Service Managers, Coaching for Peak Performance, Communicating for Leadership Success, Delegating with Purpose, Lean 6 Sigma Green Belt, Resolving Workplace Conflict, Setting Performance Expectations
 
-CSCMP:
+- GitHub: Career Essentials in GitHub Professional Certificate
 
-    Supply Chain Foundations Demand Planning Professional Certificate
+- IUOE Local 150: Diesel Mechanic, Bulldozers, Class B CDL, Cranes, Forklifts, Heavy Equipment Operator, MSHA, OSHA, Scrapers, Skid-steers, Telehandlers, Wheel Loaders Shielded Metal Arc Welding (SMAW)
 
-Data Camp:
+- Komatsu North America: Certified Technical Communicator
 
-    AI Fundamentals Certificate, Certified SQL Associate, Data Scientist Professional Certificate
+- Society of Automotive Engineers: Cost and Finance for Engineers
 
-Empire-Cat:
+- Udemy: Streamlit for Snowflake Masterclass
 
-    Business Tools for Service Managers, Coaching for Peak Performance, Communicating for Leadership Success, Delegating with Purpose, Lean 6 Sigma Green Belt, Resolving Workplace Conflict, Setting Performance Expectations
+Hard Skills
 
-GitHub:
+------------------------------------------------------------------------
 
-    Career Essentials in GitHub Professional Certificate
+A/B Testing Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, Database Administrator, Data Gathering, DBA, Deep Learning, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Financial Forecasting, Git, GitHub Actions, GitHub Copilot, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, Problem Solving, PyTorch, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, Snowflake, SQL, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
 
-IUOE Local 150:
+Soft Skills
 
-    Diesel Mechanic, Bulldozers, Class B CDL, Cranes, Forklifts, Heavy Equipment Operator, MSHA, OSHA, Scrapers, Skid-steers, Telehandlers, Wheel Loaders Shielded Metal Arc Welding (SMAW)
+------------------------------------------------------------------------
 
-Komatsu North America:
-
-    Certified Technical Communicator
-
-Society of Automotive Engineers:
-
-    Cost and Finance for Engineers
-
-Udemy:
-
-    Streamlit for Snowflake Masterclass
+Adaptability, Business Requirements, Coaching, Creative, Growth Mindset, Leadership, Mentoring, Multicultural Collaboration, Strategic Thinking, Thought Leadership, Willing to Learn

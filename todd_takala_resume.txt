@@ -51,7 +51,7 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | Jan 2012 to Feb 2022
 
 - Directed a high-performance team of up to 8 engineers and functioned as client facing subject-matter-expert for mining equipment. Leadership success by fostering a data-driven approach to solve equipment performance issues as Reliability Engineering Manager before being promoted.
 
-- By applying the DMAIC Six Sigma methodology with complex problem solving using R and SQL opportunities were identified to improve operation, remanufacturing, and maintenance of a large off-highway truck fleet. This approach yielded a savings of $1.2 billion for our client over a span of six years. Which dramatically improved customer experience.
+- By applying the DMAIC Six Sigma methodology with complex problem-solving using R and SQL opportunities were identified to improve operation, remanufacturing, and maintenance of a large off-highway truck fleet. This approach yielded a savings of $1.2 billion for our client over a span of six years. Which dramatically improved customer experience.
 
 Certifications
 

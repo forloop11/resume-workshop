@@ -67,7 +67,7 @@ Reliability Analytics Manager | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
 - Designed and implemented solutions utilizing large databases with Redshift and PostgreSQL, supporting data-driven decision-making and enhancing business intelligence capabilities
 
-Data Engineering Manager, Reliability Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
+Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Created ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days
 
@@ -75,7 +75,7 @@ Data Engineering Manager, Reliability Engineering Manager | Empire-Cat | Mesa, A
 
 - Directed a team of up to 8 engineers and served as a client-facing expert for mining equipment, fostering a data-driven approach to solve equipment performance issues, which improved team efficiency and client satisfaction
 
-- Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of a large off-highway truck fleet, yielding $1.2 billion in savings over six years
+- Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of a large off-highway truck fleet, yielding $1.2 billion in savings over six years as Reliability Engineering Manager prior to promotion
 
 - Used expertise to enhance stakeholder relationships and promote data-based decisions and partnered on design of experiments to improve reliability and durability. Regularly presented updates on fleet management improvements
 

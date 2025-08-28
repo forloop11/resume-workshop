@@ -13,13 +13,19 @@ Education
 
 ------------------------------------------------------------------------
 
-Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | 06/2006
+Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | 06/2003 to 05/2006
+
+Programming Languages
+
+------------------------------------------------------------------------
+
+Python, R, SQL, Snowflake SQL, Transact SQL, BASH, Powershell, Matlab
 
 Hard Skills
 
 ------------------------------------------------------------------------
 
-A/B Testing Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Financial Forecasting, Git, GitHub Actions, GitHub Copilot, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, Problem Solving, PyTorch, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, SnapLogic, Snowflake, SQL, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
+A/B Testing Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, Design of Experiments, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Advanced Excel, Financial Forecasting, Git, GitHub Actions, GitHub Copilot, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, PostgreSQL, Problem Solving, PyTorch, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
 
 Soft Skills
 
@@ -37,19 +43,29 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 - Collaborated with senior leadership and stakeholders to facilitate understanding of the project’s broad impact and create precise user requirements, ensuring alignment with the business road map through written and verbal communication.
 
-- Wrangled structured, semi-structured, and unstructured data to assemble a training dataset from multiple sources, considering thousands of parameters derived from dealer and product information. Used an LLM to find similarities in job descriptions and feature engineering to retain important parameters, enhancing model accuracy.
+- Performed data mining on structured, semi-structured, and unstructured data to assemble a training dataset from multiple sources, considering thousands of parameters derived from dealer and product information.
 
-- Conducted exploratory data analysis on the training dataset, eliminating outliers using sophisticated analytics and anomaly detection techniques. Utilized Python and Autogluon to train the AI model, leveraging machine learning frameworks such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, improving model performance.
+- Used an LLM to find similarities in job descriptions and feature engineering to retain important parameters, which significantly enhanced model accuracy and contributed to more reliable equipment repair predictions.
 
-- Engineered and deployed robust MLOps pipelines using AWS and Snowflake, as a database administrator, and established best practices for cloud and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact.
+- Conducted exploratory data analysis on the training dataset, eliminating outliers using sophisticated analytics such as isolation forest and anomaly detection techniques.
+
+- Utilized Python and Autogluon to train the AI model, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and led to more accurate predictions of equipment repair times.
+
+- Engineered and deployed robust MLOps pipelines and cloud computing using AWS and Snowflake, as a database administrator, and established best practices for cloud and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact.
+
+- Implemented robust information management strategies to ensure data integrity and accessibility for the Snowflake data lake, improving data reliability and supporting informed decision-making
 
 Reliability Analytics Manager | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
-- Pioneered design engineering KPI for autonomous robots by analyzing petabyte-scale IoT big data. Authored an influential white paper, as reproducible research using R, on the framework for performing statistical modeling and secured adoption by senior leadership.
+- Applied advanced analytics to create a new KPI for autonomous robots through big data analysis and wrote an influential white paper on statistical programming, resulting in its adoption by senior management.
 
-- Led team of business intelligence engineers and data analysts to deploy pipeline which communicated the status of robots at all global fulfillment centers using Shiny R.
+- Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, which improved real-time communication of robot status at all global fulfillment centers, enhancing operational efficiency and data analytics capabilities.
 
-- Designed and optimized regression and recommendation systems, achieving two-time champion status in Amazon Machine Learning University competitions, which improved predictive accuracy and recommendation quality in practical applications
+- Utilized advanced data science techniques to extract actionable insights, driving strategic decision-making and improving operational outcomes
+
+- Designed and optimized regression and recommendation systems, achieving two-time champion status in Amazon Machine Learning University competitions, which improved predictive accuracy and recommendation quality in practical applications.
+
+- Designed and implemented solutions utilizing large databases with Redshift and PostgreSQL, supporting data-driven decision-making and enhancing business intelligence capabilities
 
 Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
@@ -59,7 +75,9 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Directed a team of up to 8 engineers and served as a client-facing expert for mining equipment, fostering a data-driven approach to solve equipment performance issues, which improved team efficiency and client satisfaction.
 
-- Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of a large off-highway truck fleet, yielding $1.2 billion in savings over six years and significantly enhancing customer experience.
+- Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of a large off-highway truck fleet, yielding $1.2 billion in savings over six years.
+
+- Used expertise to enhance stakeholder relationships and promote data-based decisions and partnered on design of experiments to improve reliability and durability. Regularly presented updates on fleet management improvements.
 
 Certifications
 

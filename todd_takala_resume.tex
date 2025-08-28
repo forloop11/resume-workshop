@@ -11,14 +11,14 @@
 
 % Document Class: 'article' is a standard and safe choice.
 % 11pt font size is readable. a4paper is standard, but can be changed to letterpaper for US.
-\documentclass[11pt, letterpaper, sans]{article}
+\documentclass[10pt, letterpaper, sans]{article}
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 % PACKAGES
 % -----------------------------------------------------------------------------
 
 % For adjusting page margins.
-\usepackage[margin=0.75in]{geometry}
+\usepackage[margin=0.625in]{geometry}
 
 % For creating clickable links (email, website).
 \usepackage{hyperref}
@@ -68,145 +68,175 @@
 
 Motivated Lead Data Scientist with a proven track record of delivering over \$1.3 billion in business value through machine learning and end-to-end data science solutions for complex challenges. Expert in managing the software development lifecycle, emphasizing stakeholder engagement, KPI definition, team building, and scalable deployment. Ability to articulate complex data insights to diverse stakeholders, ensuring clear understanding and informed decision-making.
 
-\sectionheader{Skills}
-\begin{description}
-  \item[Hard Skills:] 
-        A/B Testing
-        Agile,
-        AI/ML,
-        Anomaly Detection,
-        Architectural Design,
-        Artificial Intelligence,
-        AWS,
-        CI/CD,
-        Computer Science,
-        Continuous Integration,
-        Database Administrator,
-        Data Gathering,
-        DBA,
-        Deep Learning,
-        DevOps,
-        Developer Tools,
-        Distributed Computing,
-        Docker,
-        ECR,
-        Embedding,
-        ETL,
-        Financial Forecasting,
-        Git,
-        GitHub Actions,
-        GitHub Copilot,
-        Linear Algebra,
-        Large Language Models,
-        LLMs,
-        Mathematics,
-        Multivariate Calculus,
-        Pandas,
-        Power BI,
-        Problem Solving,
-        PyTorch,
-        Redshift,
-        Research,
-        Scikit-learn,
-        S3,
-        Sagemaker,
-        Scripting Language,
-        Scrum,
-        SDLC,
-        Snowflake,
-        SQL,
-        Step Functions
-        Streamlit,
-        Tableau,
-        TensorFlow,
-        Transformers,
-        Version Control
-        
-    \item[Soft Skills] Adaptability,
-        Business Requirements,
-        Coaching,
-        Creative,
-        Growth Mindset,
-        Leadership,
-        Mentoring,
-        Multicultural Collaboration,
-        Strategic Thinking,
-        Thought Leadership,
-        Willing to Learn
-        
-\end{description}
+% ----- EDUCATION -----
+\sectionheader{Education}
+\textbf{Bachelor of Science in Mechanical Engineering} -- Arizona State University | Tempe, AZ | 06/2003 to 05/2006
+
+\sectionheader{Programming Languages}
+    Python,
+    R,
+    SQL,
+    Snowflake SQL,
+    Transact SQL,
+    BASH,
+    Powershell,
+    Matlab
 
 
+\sectionheader{Hard Skills}
+    A/B Testing
+    Agile Methodology,
+    AI/ML,
+    Anomaly Detection,
+    Architectural Design,
+    Artificial Intelligence,
+    AWS,
+    CI/CD,
+    Computer Science,
+    Continuous Integration,
+    DAG,
+    Database Administrator,
+    Data Gathering,
+    DBA,
+    Deep Learning,
+    Design of Experiments,
+    DevOps,
+    Developer Tools,
+    Distributed Computing,
+    Docker,
+    ECR,
+    Embedding,
+    ETL,
+    Advanced Excel,
+    Financial Forecasting,
+    Git,
+    GitHub Actions,
+    GitHub Copilot,
+    Linear Algebra,
+    Large Language Models,
+    LLMs,
+    Mathematics,
+    Multivariate Calculus,
+    Pandas,
+    Power BI,
+    PostgreSQL,
+    Problem Solving,
+    PyTorch,
+    Redshift,
+    Research,
+    Scikit-learn,
+    S3,
+    Sagemaker,
+    Scripting Language,
+    Scrum,
+    SDLC,
+    SnapLogic,
+    Snowflake,
+    SQL Queries,
+    Statistical Analysis,
+    Step Functions
+    Streamlit,
+    Tableau,
+    TensorFlow,
+    Transformers,
+    Version Control
 
-        
-
+\sectionheader{Soft Skills}
+    Adaptability,
+    Business Requirements,
+    Coaching,
+    Communication Skills,
+    Creative,
+    Growth Mindset,
+    Leadership,
+    Mentoring,
+    Multicultural Collaboration,
+    Strategic Thinking,
+    Thought Leadership,
+    Willing to Learn
 
 \sectionheader{Experience}
-\textbf{Lead Data Scientist} | Caterpillar Inc. | Surprise, AZ | Sept 2022 to Present
+\textbf{Lead Data Scientist} | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 \begin{itemize}
-    \item Architect and developer of end-to-end high-impact data science initiatives, including an award-winning AI system to predict equipment repair times, resulting in an \$80 million reduction in warranty costs and a CEO Award.
+    \item Architected and developed end-to-end data science initiatives, including an award-winning AI platform to predict equipment repair times, resulting in an \$80 million reduction in warranty costs and a CEO Award
 
-    \item Possessing business acumen to collaborate with senior leadership and stakeholders across the organization which facilitated an understanding of the project's broad impact, and the creation of precise user requirements. This ensured that the project remained aligned with the business road map through both written and persuasive verbal communication.
+    \item Collaborated with senior leadership and stakeholders to facilitate understanding of the project's broad impact and create precise user requirements, ensuring alignment with the business road map through written and verbal communication
 
-    \item Wrangled structured, semi-structured and unstructured data to assemble a training dataset from multiple sources. Thousands of parameters were considered derived from dealer and product information. An LLM was used to find similarities in job descriptions and feature engineering was used to keep important parameters.
+    \item Performed data mining on structured, semi-structured, and unstructured data to assemble a training dataset from multiple sources, considering thousands of parameters derived from dealer and product information
 
-    \item The dataset designated for training was subjected to exploratory data analysis, where outliers were eliminated employing sophisticated analytics and anomaly detection techniques. Python, along with Autogluon, was utilized to train the AI model, capitalizing on machine learning frameworks such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM.
+    \item Used an LLM to find similarities in job descriptions and feature engineering to retain important parameters, which significantly enhanced model accuracy and contributed to more reliable equipment repair predictions
+
+    \item Conducted exploratory data analysis on the training dataset, eliminating outliers using sophisticated analytics such as isolation forest and anomaly detection techniques
+
+    \item Utilized Python and Autogluon to train the AI model, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and led to more accurate predictions of equipment repair times
     
-    \item Engineered and deployed robust MLOps pipelines using AWS and Snowflake, as a database administrator, and established best practices for cloud and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact.
+    \item Engineered and deployed robust MLOps pipelines and cloud computing using AWS and Snowflake, as a database administrator, and established best practices for cloud and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact
+    
+    \item Implemented robust information management strategies to ensure data integrity and accessibility for the Snowflake data lake, improving data reliability and supporting informed decision-making
 
 \end{itemize}
 
 \newpage
 
-\textbf{Reliability Analytics Manager} | Amazon.com | Tempe, AZ | Feb 2022 to Sept 2022
+\textbf{Reliability Analytics Manager} | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
 \begin{itemize}
-    \item Pioneered design engineering KPI for autonomous robots by analyzing petabyte-scale IoT big data. Authored an influential white paper, as reproducible research using R, on the framework for performing statistical modeling and secured adoption by senior leadership.
-    \item Designed and optimized winning regression and recommendation systems, achieving two-time champion status in Amazon Machine Learning University competitions.
+
+    \item Applied advanced analytics to create a new KPI for autonomous robots through big data analysis and wrote an influential white paper on statistical programming, resulting in its adoption by senior management
+
+    \item Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, which improved real-time communication of robot status at all global fulfillment centers, enhancing operational efficiency and data analytics capabilities
+    
+    \item Utilized advanced data science techniques to extract actionable insights, driving strategic decision-making and improving operational outcomes
+    
+    \item Designed and optimized regression and recommendation systems, achieving two-time champion status in Amazon Machine Learning University competitions, which improved predictive accuracy and recommendation quality in practical applications
+    
+    \item Designed and implemented solutions utilizing large databases with Redshift and PostgreSQL, supporting data-driven decision-making and enhancing business intelligence capabilities
+
 \end{itemize}
 
 
 
-\textbf{Data Engineering Manager} | Empire-Cat | Mesa, AZ | Jan 2012 to Feb 2022
+\textbf{Data Engineering Manager, Reliability Engineering Manager} | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 \begin{itemize}
-    \item  Created ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to \$62 million in savings within 90 days.
+    \item  Created ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to \$62 million in savings within 90 days
     
-    \item Developed and deployed an MLOps pipeline with ARIMA and SVM for AI-driven forecasting in supply chain management, integrated data, managed a component exchange program, collaborated with clients on durability forecasting.
+    \item Developed and deployed an MLOps pipeline with ARIMA and SVM for AI-driven forecasting in supply chain management, integrated data, managed a component exchange program, collaborated with clients on durability forecasting
     
-    \item Directed a high-performance team of up to 8 engineers and functioned as client facing subject-matter-expert for mining equipment. Leadership success by fostering a data-driven approach to solve equipment performance issues as Reliability Engineering Manager before being promoted.
+    \item Directed a team of up to 8 engineers and served as a client-facing expert for mining equipment, fostering a data-driven approach to solve equipment performance issues, which improved team efficiency and client satisfaction
     
-    \item By applying the DMAIC Six Sigma methodology with complex problem-solving using R and SQL, opportunities were identified to improve operation, remanufacturing, and maintenance of a large off-highway truck fleet. This approach yielded a savings of \$1.2 billion for our client over a span of six years. Which dramatically improved customer experience.
+    \item Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of a large off-highway truck fleet, yielding \$1.2 billion in savings over six years
+
+    \item Used expertise to enhance stakeholder relationships and promote data-based decisions and partnered on design of experiments to improve reliability and durability. Regularly presented updates on fleet management improvements
 \end{itemize}
 
-% ----- EDUCATION -----
-\sectionheader{Education}
-\textbf{Bachelor of Science in Mechanical Engineering} -- Arizona State University | Tempe, AZ | May 2006
+
 
 % ----- CERTIFICATIONS -----
 \sectionheader{Certifications}
 
-% Use categories that are relevant to your field.
-% This format is very easy for ATS to parse.
+% Use categories that are relevant to your field
+% This format is very easy for ATS to parse
 
-\begin{description}
-  \item[Arizona State Board of Technical Registration:] EIT, Mechanical Engineering, Registration No. 10670
-  \item[BerkeleyX:] The Science of Happiness at Work Professional Certificate
-  \item[Canonical:] Ubuntu Linux Professional Certificate
-  \item[CSCMP:] Supply Chain Foundations Demand Planning Professional Certificate
-  \item[Data Camp:] AI Fundamentals Certificate, Certified SQL Associate, Data Scientist Professional Certificate
-  \item[Empire-Cat:] Business Tools for Service Managers, Coaching for Peak Performance, Communicating for Leadership Success,
+\begin{itemize}
+  \item \textbf{Arizona State Board of Technical Registration:} EIT, Mechanical Engineering, Registration No. 10670
+  \item \textbf{BerkeleyX:} The Science of Happiness at Work Professional Certificate
+  \item \textbf{Canonical:} Ubuntu Linux Professional Certificate
+  \item \textbf{CSCMP:} Supply Chain Foundations Demand Planning Professional Certificate
+  \item \textbf{Data Camp:} AI Fundamentals Certificate, Certified SQL Associate, Data Scientist Professional Certificate
+  \item \textbf{Empire-Cat:} Business Tools for Service Managers, Coaching for Peak Performance, Communicating for Leadership Success,
     Delegating with Purpose,
     Lean 6 Sigma Green Belt,
     Resolving Workplace Conflict,
     Setting Performance Expectations
-  \item[GitHub:] Career Essentials in GitHub Professional Certificate
-  \item[IUOE Local 150:] Diesel Mechanic, Bulldozers, Class B CDL, Cranes,  Forklifts, Heavy Equipment Operator, MSHA, OSHA, Scrapers, Skid-steers, Telehandlers, Wheel Loaders
+  \item \textbf{GitHub:} Career Essentials in GitHub Professional Certificate
+  \item \textbf{IUOE Local 150:} Diesel Mechanic, Bulldozers, Class B CDL, Cranes,  Forklifts, Heavy Equipment Operator, MSHA, OSHA, Scrapers, Skid-steers, Telehandlers, Wheel Loaders
     Shielded Metal Arc Welding (SMAW)
-  \item[Komatsu North America:] Certified Technical Communicator
-  \item[Society of Automotive Engineers:] Cost and Finance for Engineers
-  \item[Udemy:] Streamlit for Snowflake Masterclass 
-\end{description}
+  \item \textbf{Komatsu North America:} Certified Technical Communicator
+  \item \textbf{LinkedIn Learning:} Data Engineering with dbt
+  \item \textbf{Society of Automotive Engineers:} Cost and Finance for Engineers
+  \item \textbf{Udemy:} Streamlit for Snowflake Masterclass 
+\end{itemize}
 
 
 

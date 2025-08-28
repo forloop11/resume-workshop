@@ -9,19 +9,37 @@ Professional Summary
 
 Motivated Lead Data Scientist with a proven track record of delivering over $1.3 billion in business value through machine learning and end-to-end data science solutions for complex challenges. Expert in managing the software development lifecycle, emphasizing stakeholder engagement, KPI definition, team building, and scalable deployment. Ability to articulate complex data insights to diverse stakeholders, ensuring clear understanding and informed decision-making.
 
+Education
+
+------------------------------------------------------------------------
+
+Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | 06/2006
+
+Hard Skills
+
+------------------------------------------------------------------------
+
+A/B Testing Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Financial Forecasting, Git, GitHub Actions, GitHub Copilot, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, Problem Solving, PyTorch, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, SnapLogic, Snowflake, SQL, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
+
+Soft Skills
+
+------------------------------------------------------------------------
+
+Adaptability, Business Requirements, Coaching, Communication Skills, Creative, Growth Mindset, Leadership, Mentoring, Multicultural Collaboration, Strategic Thinking, Thought Leadership, Willing to Learn
+
 Experience
 
 ------------------------------------------------------------------------
 
 Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
-- Architect and developer of end-to-end high-impact data science initiatives, including an award-winning AI platform to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award.
+- Architected and developed end-to-end data science initiatives, including an award-winning AI platform to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award.
 
-- Possessing business acumen to collaborate with senior leadership and stakeholders across the organization which facilitated an understanding of the project’s broad impact, and the creation of precise user requirements. This ensured that the project remained aligned with the business road map through both written and persuasive verbal communication.
+- Collaborated with senior leadership and stakeholders to facilitate understanding of the project’s broad impact and create precise user requirements, ensuring alignment with the business road map through written and verbal communication.
 
-- Wrangled structured, semi-structured and unstructured data to assemble a training dataset from multiple sources. Thousands of parameters were considered derived from dealer and product information. An LLM was used to find similarities in job descriptions and feature engineering was used to keep important parameters.
+- Wrangled structured, semi-structured, and unstructured data to assemble a training dataset from multiple sources, considering thousands of parameters derived from dealer and product information. Used an LLM to find similarities in job descriptions and feature engineering to retain important parameters, enhancing model accuracy.
 
-- The dataset designated for training was subjected to exploratory data analysis, where outliers were eliminated employing sophisticated analytics and anomaly detection techniques. Python, along with Autogluon, was utilized to train the AI model, capitalizing on machine learning frameworks such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM.
+- Conducted exploratory data analysis on the training dataset, eliminating outliers using sophisticated analytics and anomaly detection techniques. Utilized Python and Autogluon to train the AI model, leveraging machine learning frameworks such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, improving model performance.
 
 - Engineered and deployed robust MLOps pipelines using AWS and Snowflake, as a database administrator, and established best practices for cloud and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact.
 
@@ -29,7 +47,9 @@ Reliability Analytics Manager | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
 - Pioneered design engineering KPI for autonomous robots by analyzing petabyte-scale IoT big data. Authored an influential white paper, as reproducible research using R, on the framework for performing statistical modeling and secured adoption by senior leadership.
 
-- Designed and optimized winning regression and recommendation systems, achieving two-time champion status in Amazon Machine Learning University competitions.
+- Led team of business intelligence engineers and data analysts to deploy pipeline which communicated the status of robots at all global fulfillment centers using Shiny R.
+
+- Designed and optimized regression and recommendation systems, achieving two-time champion status in Amazon Machine Learning University competitions, which improved predictive accuracy and recommendation quality in practical applications
 
 Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
@@ -37,15 +57,9 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Developed and deployed an MLOps pipeline with ARIMA and SVM for AI-driven forecasting in supply chain management, integrated data, managed a component exchange program, collaborated with clients on durability forecasting.
 
-- Directed a high-performance team of up to 8 engineers and functioned as client facing subject-matter-expert for mining equipment. Leadership success by fostering a data-driven approach to solve equipment performance issues as Reliability Engineering Manager before being promoted.
+- Directed a team of up to 8 engineers and served as a client-facing expert for mining equipment, fostering a data-driven approach to solve equipment performance issues, which improved team efficiency and client satisfaction.
 
-- By applying the DMAIC Six Sigma methodology with complex problem-solving using R and SQL, opportunities were identified to improve operation, manufacturing, and maintenance of a large off-highway truck fleet. This approach yielded a savings of $1.2 billion for our client over a span of six years. Which dramatically improved customer experience.
-
-Education
-
-------------------------------------------------------------------------
-
-Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | 06/2006
+- Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of a large off-highway truck fleet, yielding $1.2 billion in savings over six years and significantly enhancing customer experience.
 
 Certifications
 
@@ -69,18 +83,8 @@ Certifications
 
 - Komatsu North America: Certified Technical Communicator
 
+- LinkedIn Learning: Data Engineering with dbt
+
 - Society of Automotive Engineers: Cost and Finance for Engineers
 
 - Udemy: Streamlit for Snowflake Masterclass
-
-Hard Skills
-
-------------------------------------------------------------------------
-
-A/B Testing Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, Database Administrator, Data Gathering, DBA, Deep Learning, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Financial Forecasting, Git, GitHub Actions, GitHub Copilot, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, Problem Solving, PyTorch, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, Snowflake, SQL, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
-
-Soft Skills
-
-------------------------------------------------------------------------
-
-Adaptability, Business Requirements, Coaching, Creative, Growth Mindset, Leadership, Mentoring, Multicultural Collaboration, Strategic Thinking, Thought Leadership, Willing to Learn

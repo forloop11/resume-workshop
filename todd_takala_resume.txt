@@ -67,7 +67,7 @@ Reliability Analytics Manager | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
 - Designed and implemented solutions utilizing large databases with Redshift and PostgreSQL, supporting data-driven decision-making and enhancing business intelligence capabilities
 
-Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
+Data Engineering Manager, Reliability Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Created ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days
 

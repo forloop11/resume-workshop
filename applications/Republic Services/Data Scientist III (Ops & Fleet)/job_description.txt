@@ -1,0 +1,73 @@
+https://jobs.republicservices.com/us/en/job/R-154878/Data-Scientist-III-Ops-Fleet
+
+Data Scientist III (Ops & Fleet)
+
+POSITION SUMMARY:  The Data Scientist III drives internal data analytics projects. Projects will vary from short explorations of our data to longer-term implementations of advanced predictive and machine learning models. The Data Scientist III constantly explores our existing data while seeking out new data to consume.  They apply analytical and data science methods to real world datasets to solve ongoing business problems. The Data Scientist III effectively communicates both technical and analytical concepts across all levels of the organization, and they influence the roadmap and decision-making through presentation of data-based recommendations.
+
+PRINCIPAL RESPONSIBILITIES: 
+
+    Performs time-series analyses, hypothesis testing, and causal analyses to statistically assess relative impact and extract trends across all relevant functional areas.
+
+    Researches and resolves data inquiries and requests.
+
+    Provides insights and serves as a subject matter expert for department data.
+
+    Documents requirements for data science and reporting projects.
+
+    Supports the development of standard data analyses, reports, and dashboards.
+
+    Collaborates with other teams to gather data and build relationships.
+
+    Transforms data into actionable insights and recommendations.
+
+    Designs experiments and interprets the results to draw detailed and actionable conclusions.
+
+    Builds statistical models to enhance understanding of trends and predicts future performance.
+
+    Finds new opportunities and novel applications for our core internal data.
+
+    Translates and champions our Machine Learning and advanced analytics capabilities for non-technical audiences.
+
+    Participates in end-to-end data science project lifecycle – data mining and exploration, model development and evaluation, solution deployment in production, measurement, and tracking.
+
+    Designs, validates, and evaluates solutions using R, Python, SQL and other programming tools.
+
+    Educates and mentors team members on best practices for data analytics including data science techniques, statistical programming languages and packages, and data preparation.
+
+    Performs other job-related duties as assigned or apparent.
+
+KNOWLEDGE / SKILLS / ABILITIES:
+
+    Proficiency with programming in Python or R in data science and/or statistical analytics settings.
+
+    Proficiency with relational databases and the ability to write SQL queries.
+
+    Proficiency with Excel and PowerBI.
+
+    Proficiency with cloud computer environments (e.g. AWS).
+
+QUALIFICATIONS: 
+
+    Master’s degree preferred.
+
+    5 years of demonstrated experience working with large databases to perform complex analysis.
+
+    5 years of demonstrated experience with statistics and multivariate analytical techniques including multivariate regression, logistic regression, cluster analysis, design of experiments, machine learning, and decision trees.
+
+    Demonstrated expertise building and deploying machine learning/AI models in a cloud computing environment (e.g., AWS) and/or enterprise IT environment.
+
+    Demonstrated expertise with common commercial analytics topics (e.g., pricing optimization, customer segmentation, customer churn/lifetime value, etc.) or operational analytics topics (e.g., logistics analytics, route optimization, maintenance optimization, etc.).
+
+MINIMUM QUALIFICATIONS: 
+
+    Bachelor’s Degree in an analytical field (Mathematics, Computer Science, Information Management, Statistics, Engineering).
+
+    5 years of experience with advanced programming in Python or R and SQL, conducting complex statistical analysis and building machine learning algorithms with large databases in cloud computing environments.
+
+ROLE HIGHLIGHTS:
+
+    Prior lead/mentor experience is required, experience as a Data Scientist preferred.
+    Knowledge of logistics, supply chain, and fleet management a plus. Applied experience with experimental design, time series modeling, and optimization preferred.
+    Collaborates with business leaders to define a roadmap of data science deliverables.
+    Leads the team in defining and developing production-ready solutions.
+    Role is based in Phoenix, AZ.

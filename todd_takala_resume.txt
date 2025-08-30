@@ -7,7 +7,7 @@ Professional Summary
 
 ------------------------------------------------------------------------
 
-Motivated Lead Data Scientist with a proven track record of delivering over $1.3 billion in business value through machine learning and end-to-end data science solutions for complex challenges. Expert in managing the software development lifecycle, emphasizing stakeholder engagement, KPI definition, team building, and scalable deployment. Ability to articulate complex data insights to diverse stakeholders, ensuring clear understanding and informed decision-making.
+Motivated Lead Data Scientist with a proven track record of delivering over $1.3 billion in business value through machine learning and end-to-end data product solutions for complex challenges. Expert in managing the software development lifecycle, emphasizing stakeholder engagement, KPI definition, team building, and scalable deployment. Ability to articulate complex data insights to diverse stakeholders, ensuring clear understanding and informed decision-making.
 
 Education
 
@@ -19,13 +19,13 @@ Programming Languages
 
 ------------------------------------------------------------------------
 
-Python, R, SQL, Snowflake SQL, Transact SQL, BASH, Powershell, Matlab
+Python, R, SQL, Snowflake SQL, Transact SQL, BASH, Powershell, MATLAB
 
 Hard Skills
 
 ------------------------------------------------------------------------
 
-A/B Testing Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, Design of Experiments, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Advanced Excel, Financial Forecasting, Generative AI, Git, GitHub Actions, GitHub Copilot, LangChain, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, PostgreSQL, Problem Solving, PyTorch, RAG, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
+A/B Testing, Agentic AI, Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, Design of Experiments, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Advanced Excel, Financial Forecasting, Generative AI, Git, GitHub Actions, GitHub Copilot, LangChain Expression Language, LCEL, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, PostgreSQL, Problem Solving, PyTorch, RAG, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
 
 Soft Skills
 
@@ -39,15 +39,15 @@ Experience
 
 Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
-- Architected and developed end-to-end data science initiatives, including an award-winning AI platform to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award
+- Architect and developer of end-to-end data science initiatives, including an award-winning AI platform to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award
 
 - Collaborated with senior leadership and stakeholders to facilitate understanding of the project’s broad impact and create precise user requirements, ensuring alignment with the business road map through written and verbal communication
 
 - Performed data mining on structured, semi-structured, and unstructured data to assemble a training dataset from multiple sources, considering thousands of parameters derived from dealer and product information
 
-- Used an LLM to find similarities in job descriptions and feature engineering to retain important parameters, which significantly enhanced model accuracy and contributed to more reliable equipment repair predictions
+- Used an LLM to find similarities in service jobs and feature engineering to retain important parameters, which increased model accuracy by 40%
 
-- Conducted exploratory data analysis on the training dataset, eliminating outliers using sophisticated analytics such as isolation forest and anomaly detection techniques
+- Conducted exploratory data analysis on the training datasets, eliminating outliers using sophisticated analytics such as isolation forest and anomaly detection techniques
 
 - Utilized Python and Autogluon to train the AI model, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and led to more accurate predictions of equipment repair times
 

@@ -25,7 +25,7 @@ Hard Skills
 
 ------------------------------------------------------------------------
 
-A/B Testing Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, Design of Experiments, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Advanced Excel, Financial Forecasting, Generative AI, Git, GitHub Actions, GitHub Copilot, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, PostgreSQL, Problem Solving, PyTorch, RAG, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
+A/B Testing Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, Design of Experiments, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Advanced Excel, Financial Forecasting, Generative AI, Git, GitHub Actions, GitHub Copilot, LangChain, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, PostgreSQL, Problem Solving, PyTorch, RAG, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
 
 Soft Skills
 

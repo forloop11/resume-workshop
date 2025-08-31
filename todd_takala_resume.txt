@@ -95,6 +95,8 @@ Certifications
 
 - GitHub: Career Essentials in GitHub Professional Certificate
 
+- IBM: RAG and Agentic AI Professional Certificate, Deep Learning & Neural Networks with Keras
+
 - IUOE Local 150: Diesel Mechanic, Bulldozers, Class B CDL, Cranes, Forklifts, Heavy Equipment Operator, MSHA, OSHA, Scrapers, Skid-steers, Telehandlers, Wheel Loaders Shielded Metal Arc Welding (SMAW)
 
 - Komatsu North America: Certified Technical Communicator

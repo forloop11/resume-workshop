@@ -1,0 +1,47 @@
+https://careers.withwaymo.com/jobs/senior-product-data-scientist-supply-operations-san-francisco-california-united-states-mountain-view?gh_jid=6932359&gh_src=e2a2625d1us
+
+Senior Product Data Scientist, Supply Operations
+
+Mountain View, California, United States. San Francisco, California, United States 
+Full-Time 
+Product 3523
+
+
+
+Waymo is an autonomous driving technology company with the mission to be the world's most trusted driver. Since its start as the Google Self-Driving Car Project in 2009, Waymo has focused on building the Waymo Driver—The World's Most Experienced Driver™—to improve access to mobility while saving thousands of lives now lost to traffic crashes. The Waymo Driver powers Waymo One, a fully autonomous ride-hailing service, and can also be applied to a range of vehicle platforms and product use cases. The Waymo Driver has provided over one million rider-only trips, enabled by its experience autonomously driving tens of millions of miles on public roads and tens of billions in simulation across 13+ U.S. states.
+
+Waymo's Product Data Science team works cross-functionally with Engineering, Product and Operations to help the company make the most informed decisions using data. Our team collaborates on high-impact projects across the company — from driving quality and operational efficiency to market analysis and rider satisfaction scores — we help to safely and efficiently scale the Waymo Driver. We are data-driven, curious, open-minded, and adapt quickly to new information.
+
+In this hybrid role, you will report to a Product Data Science Lead, Supply Operations.
+
+ 
+
+You will:
+
+    Be responsible for building models, measurement and decision making frameworks to make the best data-driven decisions across Waymo's supply operations.
+    Leverage deep domain knowledge in operations research, optimization and simulation.
+    Collaborate with Operations, Product and Engineering teams to build and drive long term roadmaps.
+    Think big picture, understand the broader business and product context and integrate it with model outputs to make clear recommendations.
+
+ 
+
+You have:
+
+    Domain knowledge in Operations Research, Optimization and Simulation.
+    Strong programming skills in SQL and Python.
+    5+ years of industry experience applying these techniques to solve real world problems.
+
+ 
+
+We prefer:
+
+    Experience in logistics automation, warehouse automation, supply chain systems.
+
+ 
+
+The expected base salary range for this full-time position across US locations is listed below. Actual starting pay will be based on job-related factors, including exact work location, experience, relevant training and education, and skill level. Your recruiter can share more about the specific salary range for the role location or, if the role can be performed remote, the specific salary range for your preferred location, during the hiring process. 
+
+Waymo employees are also eligible to participate in Waymo’s discretionary annual bonus program, equity incentive plan, and generous Company benefits program, subject to eligibility requirements. 
+Salary Range
+$196,000—$248,000 USD
+

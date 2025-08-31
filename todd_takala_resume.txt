@@ -1,5 +1,5 @@
 Todd Takala
-Senior Product Data Scientist, Supply Operations
+Staff Data Scientist - Route Success
 Surprise, AZ, 85138 | 1-602-775-0645
 todd.c.takala@gmail.com | linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 
@@ -7,7 +7,7 @@ Professional Summary
 
 ------------------------------------------------------------------------
 
-Proven data professional adept at generating over $1.3 billion in business value through machine learning and comprehensive data solutions. Skilled in software development lifecycle management, prioritizing stakeholder engagement, KPI setting, team building, and scalable deployment. Capable of conveying complex data insights to various stakeholders for informed decision-making.
+Proven data professional adept at generating over $1.3 billion in business value through machine learning and statistical modeling. Skilled in software development lifecycle management, prioritizing stakeholder engagement, KPI setting, team building, and scalable deployment. Capable of conveying complex data insights to various stakeholders for informed decision-making.
 
 Education
 
@@ -49,7 +49,7 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 - Utilized Python and Autogluon to train the AI model, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and led to more accurate predictions of equipment repair times
 
-- Engineered and deployed robust MLOps pipelines and cloud computing using AWS and Snowflake, as a database administrator, and established best practices for cloud and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact
+- Engineered and deployed robust MLOps pipelines to production systems in AWS and Snowflake, as a database administrator, and established best practices for cloud and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact
 
 - Implemented robust information management strategies to ensure data integrity and accessibility for the Snowflake data lake, improving data reliability and supporting informed decision-making
 

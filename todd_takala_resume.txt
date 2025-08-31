@@ -25,13 +25,13 @@ Hard Skills
 
 ------------------------------------------------------------------------
 
-A/B Testing, Agentic AI, Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, Design of Experiments, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Advanced Excel, Financial Forecasting, Generative AI, Git, GitHub Actions, GitHub Copilot, LangChain Expression Language, LCEL, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, PostgreSQL, Problem Solving, PyTorch, RAG, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, Simulation SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
+A/B Testing, Agentic AI, Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Coding, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, Design of Experiments, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Advanced Excel, Financial Forecasting, Generative AI, Git, GitHub Actions, GitHub Copilot, LangChain Expression Language, LCEL, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Natural Language Processing, NLP, Pandas, Power BI, PostgreSQL, Problem Solving, PyTorch, RAG, Redshift, Research, Sagemaker, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, Simulation SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
 
 Soft Skills
 
 ------------------------------------------------------------------------
 
-Adaptability, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision making, Growth Mindset, Leadership Experience, Life Long Learning, Mentoring, Methodical, Multicultural Collaboration, Open minded, Strategic Thinking, Thought Leadership, Willing to Learn
+Adaptability, Attention to Detail, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision making, Growth Mindset, Leadership Experience, Life Long Learning, Mentoring, Methodical, Multicultural Collaboration, Open minded, Professional Services, Presentations, Public Speaking, Strategic Thinking, Thought Leadership, Willing to Learn
 
 Experience
 
@@ -47,9 +47,9 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 - Used LLMs to find similarities in service jobs and performed feature engineering to retain important parameters, which increased model accuracy by 40%
 
-- Utilized Python and Autogluon to train the AI model, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and led to more accurate predictions of equipment repair times
+- Utilized Python and Sagemaker to train the AI model, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and led to more accurate predictions of equipment repair times
 
-- Engineered and deployed robust MLOps pipelines to production systems in AWS and Snowflake, as a database administrator, and established best practices for cloud and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact
+- Engineered and deployed robust MLOps pipelines to production systems in Amazon Web Services and Snowflake, as a database administrator, and established best practices for cloud computing and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact
 
 - Implemented robust information management strategies to ensure data integrity and accessibility for the Snowflake data lake, improving data reliability and supporting informed decision-making
 
@@ -71,7 +71,7 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Developed an MLOps pipeline with ARIMA and SVM for AI-driven forecasting in supply chain management, integrated data, managed a component exchange program, collaborated with clients on durability forecasting
 
-- Led a team of 8 engineers and acted as a client-facing expert on mining equipment. Implemented a data-driven failure analysis program, boosting an aging fleet’s physical availability to over 90%.
+- Led a team of 8 engineers and acted as a customer-facing expert on mining equipment. Implemented a data-driven failure analysis program, boosting an aging fleet’s physical availability to over 90%.
 
 - Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of equipment fleet, yielding $1.2 billion in savings over six years as Reliability Engineering Manager prior to promotion
 

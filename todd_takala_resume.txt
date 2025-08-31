@@ -1,5 +1,5 @@
 Todd Takala
-Staff Evaluation Systems Engineer, Autonomous Vehicles
+Lead Data Scientist | Lead Machine Learning Engineer | Experienced Manager
 16071 W Sand Hills Rd, Surprise, AZ, 85138 | 1-602-775-0645
 todd.c.takala@gmail.com | linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 
@@ -75,7 +75,7 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of equipment fleet, yielding $1.2 billion in savings over six years as Reliability Engineering Manager prior to promotion
 
-- Leadership experience with business acumen to build trust and enhance customer experience and relationships to promote data-based decisions. Partnered on design of experiments to improve reliability, safety and durability.
+- Leadership experience with business acumen to build trust and enhance customer experience and relationships to promote data-based decisions. Partnered on design of experiments to improve reliability, safety and durability
 
 Certifications
 

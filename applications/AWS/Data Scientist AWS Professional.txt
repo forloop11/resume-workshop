@@ -1,0 +1,62 @@
+Data Scientist, AWS Professional Services
+
+Job ID: 3042084 | Amazon Web Services, Inc.
+DESCRIPTION
+
+Are you looking to work at the forefront of Machine Learning (ML) and Artificial Intelligence (AI)? Would you be excited to apply AI algorithms to solve real world problems with significant impact? The Amazon Web Services Professional Services (ProServe) team is seeking a skilled Data Scientist to help customers implement AI/ML solutions and realize transformational business opportunities.
+
+This is a team of scientists, engineers, and architects working step-by-step with customers to build bespoke solutions that harness the power of AI. The team helps customers imagine and scope the use cases that will create the greatest value for their businesses, select and train and fine-tune the right models, define paths to navigate technical or business challenges, develop scalable solutions and applications, and launch them in production. The team provides guidance and implements best practices for applying AI responsibly and cost efficiently.
+
+You will work directly with customers and innovate in a fast-paced organization that contributes to game-changing projects and technologies. You will design and run experiments, research new algorithms, and find new ways of optimizing risk, profitability, and customer experience.
+
+We’re looking for Data Scientists capable of using AI/ML and other techniques to design, evangelize, and implement state-of-the-art solutions for never-before-solved problems.
+
+Key job responsibilities
+As an experienced Data Scientist, you will be responsible for:
+- Implementing end-to-end AI/ML and GenAI projects, from understanding business needs to data preparation, model development, solution deployment, and post-production monitoring
+- Collaborating with AI/ML scientists, engineers, and architects to research, design, develop, and evaluate AI algorithms and build ML systems and operations (MLOps) using AWS services to address real-world challenges
+- Interacting with customers directly to understand the business challenges, deliver briefing and deep dive sessions to customers and guide them on adoption patterns and paths to production
+- Creating and delivering best practice recommendations, tutorials, blog posts, publications, sample code, and presentations tailored to technical, business, and executive stakeholders
+- Providing customer and market feedback to product and engineering teams to help define product direction
+
+This is a customer-facing role with potential travel to customer sites as needed.
+
+About the team
+ABOUT AWS:
+ 
+Diverse Experiences
+Amazon values diverse experiences. Even if you do not meet all of the preferred qualifications and skills listed in the job description, we encourage candidates to apply. If your career is just starting, hasn’t followed a traditional path, or includes alternative experiences, don’t let it stop you from applying.
+ 
+Why AWS
+Amazon Web Services (AWS) is the world’s most comprehensive and broadly adopted cloud platform. We pioneered cloud computing and never stopped innovating — that’s why customers from the most successful startups to Global 500 companies trust our robust suite of products and services to power their businesses.
+
+Work/Life Balance
+We value work-life harmony. Achieving success at work should never come at the expense of sacrifices at home, which is why we strive for flexibility as part of our working culture. When we feel supported in the workplace and at home, there’s nothing we can’t achieve in the cloud. 
+
+Inclusive Team Culture
+Here at AWS, it’s in our nature to learn and be curious. Our employee-led affinity groups foster a culture of inclusion that empower us to be proud of our differences. Ongoing events and learning experiences, including our Conversations on Race and Ethnicity (CORE) and AmazeCon (gender diversity) conferences, inspire us to never stop embracing our uniqueness.
+
+Mentorship and Career Growth
+We’re continuously raising our performance bar as we strive to become Earth’s Best Employer. That’s why you’ll find endless knowledge-sharing, mentorship and other career-advancing resources here to help you develop into a better-rounded professional. 
+BASIC QUALIFICATIONS
+
+- Bachelor's degree or above in computer science, mathematics, statistics, machine learning or equivalent quantitative field
+- 3+ years of building machine learning models for business application experience including predictive modelling, natural language processing, and deep learning
+- 3+ years of hands-on experience with training, fine-tuning, evaluating, and deploying transformer models in production
+- 2+ years of experience with cloud services related to machine learning (e.g., Amazon SageMaker) and coding with Python or R, using modern machine learning libraries and tools such as scikit-learn, TensorFlow, PyTorch.
+- Experience with technical customer-facing engagements
+PREFERRED QUALIFICATIONS
+
+- PhD in computer science, machine learning, robotics, operations research, statistics, mathematics or equivalent quantitative field
+- AWS experience preferred, with proficiency in a range of AWS services (e.g., SageMaker, Bedrock, EC2, ECS, EKS, OpenSearch, VPC) and professional certifications (e.g., Solutions Architect Professional)
+- 2+ years of experience with design, deployment, and evaluation of AI agents and orchestration approaches; experience with open source frameworks like LangChain, LangGraph, LlamaIndex, and/ or similar tools
+- 5+ years of deep learning, computer vision, human robotic interaction, algorithms implementation experience using PyTorch or TensorFlow
+- Experience in launching AI applications in production on AWS
+- Experience building ML pipelines with MLOps best practices, including: data preprocessing, distributed & GPU training, model deployment, monitoring, and retraining; experience with container and CI/CD pipelines
+- Strong communication skills, with attention to detail and ability to convey rigorous technical concepts and considerations to non-experts
+
+Amazon is an equal opportunity employer and does not discriminate on the basis of protected veteran status, disability, or other legally protected status.
+
+Our inclusive culture empowers Amazonians to deliver the best results for our customers. If you have a disability and need a workplace accommodation or adjustment during the application and hiring process, including support for the interview or onboarding process, please visit https://amazon.jobs/content/en/how-we-hire/accommodations for more information. If the country/region you’re applying in isn’t listed, please contact your Recruiting Partner.
+
+Our compensation reflects the cost of labor across several US geographic markets. The base pay for this position ranges from $125,500/year in our lowest geographic market up to $212,800/year in our highest geographic market. Pay is based on a number of factors including market location and may vary depending on job-related knowledge, skills, and experience. Amazon is a total compensation company. Dependent on the position offered, equity, sign-on payments, and other forms of compensation may be provided as part of a total compensation package, in addition to a full range of medical, financial, and/or other benefits. For more information, please visit https://www.aboutamazon.com/workplace/employee-benefits. This position will remain posted until filled. Applicants should apply via our internal or external career site.

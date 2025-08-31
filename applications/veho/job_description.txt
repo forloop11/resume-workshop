@@ -1,0 +1,38 @@
+https://jobs.gem.com/veho-technologies/am9icG9zdDoESFYdC4sbTRZ0DwVtjg97?utm_source=GemJobBoardLink&utm_medium=7c4515d2-ec5d-4598-b0c0-a8413b5a3b62
+
+Staff Data Scientist - Route Success
+
+About Veho
+Veho is on a mission to revolutionize the post-purchase experience. We’re building a new, end-to-end logistics infrastructure—from middle mile to last mile—powered by tech that puts customers first. By removing the pain points in delivery and returns, Veho creates deeper loyalty and trust between brands and their customers. Our rapidly growing client list includes leading consumer brands like Hello Fresh, Zara, Macy’s, Sephora, and more.
+
+We’re proud of our championship culture, best-in-class benefits and the chance for every team member to share in our success through equity. Whether you work at one of our facilities or remotely, at Veho you’ll join a mission-driven team that’s transforming logistics—and having a lot of fun along the way.
+About The Role
+
+As a Staff Data Scientist, you’ll be directly embedded in a team of talented software engineers to help define, build, and operate sophisticated models to answer hard questions centered around improving our logistics network and user experiences.  You’ll partner with product managers to understand high-value business problems, build systems that inform daily operations, and work with cutting-edge technology.  You’ll work closely with software engineers to operationalize the models you build in the production systems that drive Veho.
+
+What you'll do: 
+
+    Helping Shape Roadmaps by integrating business context and Data Science.
+    Building reliable, efficient, and scalable models for our AI/ML capabilities
+    Creating robust data pipelines to feed analyses and models
+    Analyze and evaluate the impact and effectiveness of models in production systems
+    Driving science roadmap for pricing of gig economy work for Veho alongside cross-functional partners.
+
+
+What You Bring:
+
+    Bachelor’s Degree plus 8 years of experience in data science or data engineering, or Master’s Degree plus 5 years in data science, Or Phd plus 3 years of experience in Data Science
+    Experience using statistical modeling and machine learning techniques to solve business problems
+    Experience developing both greenfield systems and building on top of existing systems.
+    Experience leading end-to-end machine learning and data science projects.
+    Strong SQL and Python skills. 
+    Experience with MLOps and model deployment pipelines
+    Experience with Causal Inference / Advanced Experimentation Methodologies is nice to have, but not required.
+    Experience with recommendation systems is nice to have, but not required.
+    Experience with pricing methodologies is nice to have, but not required.
+    Experience with logistics is nice to have, but not required.
+    Experience with combinatorial optimization methods is nice to have but not required.
+
+
+Compensation:
+$190,000-$215,000 annually

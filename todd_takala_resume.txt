@@ -31,7 +31,7 @@ Soft Skills
 
 ------------------------------------------------------------------------
 
-Adaptability, Business Requirements, Coaching, Communication Skills, Creative, Decision making, Growth Mindset, Leadership, Mentoring, Multicultural Collaboration, Open minded, Strategic Thinking, Thought Leadership, Willing to Learn
+Adaptability, Business Requirements, Coaching, Communication Skills, Creative, Decision making, Growth Mindset, Leadership Experience, Mentoring, Methodical, Multicultural Collaboration, Open minded, Strategic Thinking, Thought Leadership, Willing to Learn
 
 Experience
 
@@ -75,7 +75,7 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of equipment fleet, yielding $1.2 billion in savings over six years as Reliability Engineering Manager prior to promotion
 
-- Business acumen to build trust and enhance customer experience and relationships to promote data-based decisions. Partnered on design of experiments to improve reliability, safety and durability.
+- Leadership experience with business acumen to build trust and enhance customer experience and relationships to promote data-based decisions. Partnered on design of experiments to improve reliability, safety and durability.
 
 Certifications
 

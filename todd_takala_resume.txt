@@ -81,6 +81,8 @@ Certifications
 
 ------------------------------------------------------------------------
 
+- Amazon Machine Learning University: Tabular Data with Autogluon
+
 - Arizona State Board of Technical Registration: EIT, Mechanical Engineering, Registration No. 10670
 
 - BerkeleyX: The Science of Happiness at Work Professional Certificate

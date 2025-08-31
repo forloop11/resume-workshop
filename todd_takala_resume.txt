@@ -57,7 +57,7 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 Reliability Analytics Manager | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
-- Applied advanced analytics to create a new KPI for autonomous robots through big data analysis and wrote an influential white paper on statistical programming, resulting in its adoption by senior management
+- Applied advanced analytics and statistics to create a new KPI for autonomous robots through big data analysis and wrote an influential white paper on statistical programming, resulting in its adoption by senior management
 
 - Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, which improved real-time communication of robot status at all global fulfillment centers, enhancing operational efficiency and data analytics capabilities
 

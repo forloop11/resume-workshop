@@ -57,7 +57,7 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 Reliability Analytics Manager | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
-- Applied advanced analytics and statistics to create a new KPI for autonomous robots through big data analysis and wrote an influential white paper on statistical programming, resulting in its adoption by senior management
+- Applied advanced analytics and statistics to create a new KPI for autonomous robots used in warehouse automation through big data analysis and wrote an influential white paper on statistical programming, resulting in its adoption by senior management
 
 - Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, which improved real-time communication of robot status at all global fulfillment centers, enhancing operational efficiency and data analytics capabilities
 
@@ -77,7 +77,7 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of a large off-highway truck fleet, yielding $1.2 billion in savings over six years as Reliability Engineering Manager prior to promotion
 
-- Business acumen to build trust and enhance stakeholder relationships to promote data-based decisions. Partnered on design of experiments to improve reliability, safety and durability.
+- Business acumen to build trust and enhance customer experience and relationships to promote data-based decisions. Partnered on design of experiments to improve reliability, safety and durability.
 
 Certifications
 

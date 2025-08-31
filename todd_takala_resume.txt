@@ -1,6 +1,6 @@
 Todd Takala
-Staff Data Scientist - Route Success
-Surprise, AZ, 85138 | 1-602-775-0645
+Staff Evaluation Systems Engineer, Autonomous Vehicles
+16071 W Sand Hills Rd, Surprise, AZ, 85138 | 1-602-775-0645
 todd.c.takala@gmail.com | linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 
 Professional Summary
@@ -25,13 +25,13 @@ Hard Skills
 
 ------------------------------------------------------------------------
 
-A/B Testing, Agentic AI, Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, Design of Experiments, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Advanced Excel, Financial Forecasting, Generative AI, Git, GitHub Actions, GitHub Copilot, LangChain Expression Language, LCEL, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, PostgreSQL, Problem Solving, PyTorch, RAG, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
+A/B Testing, Agentic AI, Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, Design of Experiments, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Advanced Excel, Financial Forecasting, Generative AI, Git, GitHub Actions, GitHub Copilot, LangChain Expression Language, LCEL, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Pandas, Power BI, PostgreSQL, Problem Solving, PyTorch, RAG, Redshift, Research, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, Simulation SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
 
 Soft Skills
 
 ------------------------------------------------------------------------
 
-Adaptability, Business Requirements, Coaching, Communication Skills, Creative, Decision making, Growth Mindset, Leadership Experience, Mentoring, Methodical, Multicultural Collaboration, Open minded, Strategic Thinking, Thought Leadership, Willing to Learn
+Adaptability, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision making, Growth Mindset, Leadership Experience, Life Long Learning, Mentoring, Methodical, Multicultural Collaboration, Open minded, Strategic Thinking, Thought Leadership, Willing to Learn
 
 Experience
 
@@ -69,9 +69,9 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Created predictive ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days
 
-- Developed and deployed an MLOps pipeline with ARIMA and SVM for AI-driven forecasting in supply chain management, integrated data, managed a component exchange program, collaborated with clients on durability forecasting
+- Developed an MLOps pipeline with ARIMA and SVM for AI-driven forecasting in supply chain management, integrated data, managed a component exchange program, collaborated with clients on durability forecasting
 
-- Directed a team of up to 8 engineers and served as a client-facing expert for mining equipment, fostering a data-driven approach to solve equipment performance issues, which improved fleet efficiency and client satisfaction
+- Led a team of 8 engineers and acted as a client-facing expert on mining equipment. Implemented a data-driven failure analysis program, boosting an aging fleet’s physical availability to over 90%.
 
 - Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of equipment fleet, yielding $1.2 billion in savings over six years as Reliability Engineering Manager prior to promotion
 

@@ -25,9 +25,9 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 - Utilized Python and Sagemaker to train the AI model, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and led to more accurate predictions of equipment repair times
 
-- Engineered and deployed robust MLOps pipelines to production systems in Amazon Web Services and Snowflake, as a database administrator, and established best practices for cloud computing and system architecture. Managed project lifecycles and created comprehensive monitoring plans to validate business impact
+- Engineered production-ready MLOps pipelines on AWS and Snowflake, establishing best practices for cloud architecture. Managed project lifecycles, automated enterprise networks, and implemented monitoring strategies to assess model performance and business outcomes.
 
-- Implemented robust information management strategies to ensure data integrity and accessibility for the Snowflake data lake, improving data reliability and supporting informed decision-making
+- Implemented robust information management strategies, such as STAR schema, to ensure data integrity and accessibility for the Snowflake data lake, improving data reliability and supporting informed decision-making
 
 Reliability Analytics Manager | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
@@ -95,10 +95,10 @@ Hard Skills
 
 ------------------------------------------------------------------------
 
-A/B Testing, Agile Methodology, AI/ML, Artificial Intelligence, AWS, BASH, CI/CD, Computer Science, RDBMS, Database Administrator, Deep Learning, Design of Experiments, DevOps, Docker, Embedding, ETL, Advanced Excel, Git, Linear Algebra, LLM, Mathematics, NLP, Pandas, Power BI, Python, PyTorch, R, RAG, Sagemaker, Scikit-learn, Sagemaker, Scripting Language, SDLC, Simulation, Snowflake, Statistical Analysis, Streamlit, SQL, Tableau, TensorFlow, Transact SQL, Transformers,
+A/B Testing, Agile Methodology, AI/ML, Artificial Intelligence, AWS, BASH, CI/CD, Computer Science, RDBMS, Database Administrator, Deep Learning, Design of Experiments, DevOps, Docker, Embedding, ETL, Fine Tuning, Advanced Excel, Git, Linear Algebra, LLM, Mathematics, NLP, Pandas, Power BI, Python, PyTorch, R, RAG, Sagemaker, Scikit-learn, Sagemaker, Scripting Language, SDLC, Simulation, Snowflake, Statistical Analysis, Streamlit, SQL, Tableau, TensorFlow, Transact SQL, Transformers,
 
 Soft Skills
 
 ------------------------------------------------------------------------
 
-Adaptability, Attention to Detail, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision making, Growth Mindset, Leadership Experience, Life Long Learning, Listening, Mentoring, Methodical, Multicultural Collaboration, Open minded, Problem Solving, Professional Services, Presentations, Public Speaking, Strategic Thinking, Thought Leadership, Willing to Learn
+Adaptability, Attention to Detail, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision making, Growth Mindset, Interviewing, Leadership Experience, Life Long Learning, Listening, Mentoring, Methodical, Multicultural Collaboration, Open minded, Problem Solving, Professional Services, Presentations, Public Speaking, Strategic Thinking, Team Building, Thought Leadership, Willing to Learn

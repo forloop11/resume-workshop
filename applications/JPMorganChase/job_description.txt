@@ -1,0 +1,64 @@
+JPMorganChase
+Machine Learning Engineer - Vice President
+Plano, TX, United States
+Job Information
+
+    Job Identification 210622831
+    Job Category Predictive Science
+    Business Unit Corporate Sector
+    Posting Date 05/01/2025, 10:33 AM
+    Locations 8181 Communications Pkwy Bldg F, Plano, TX, 75024, US
+    Job Schedule Full time
+
+Job Description
+
+The Compute Network Storage(CNS) group, within Global Technology Infrastructure (GTI) is responsible for defining, developing and operating cloud products consumed by our Application Development Partners across the firm. Our Product Portfolio includes Private and Public Cloud Platforms and a wide range of services such as databases, messaging and telemetry.
+
+As a Machine Learning Engineer within the Network team, you will play a pivotal role in designing, developing, and maintaining software solutions that integrate AI/ML capabilities to address complex business challenges, with a special focus on automation. This position provides an exciting platform to utilize your software engineering skills, ML Engineering, and DevOps expertise to significantly impact global business. You will collaborate with cross-functional teams to build robust, scalable, and efficient software systems. Working with an inspiring and curious team of technologists, you will be dedicated to deploying and developing large-scale infrastructure solutions that support JPMorgan Chase's diverse and critical businesses.
+
+Job Responsibilities: 
+
+    Design, develop, and maintain software applications with integrated AI/ML capabilities with a key focus on network automation and AIOps.
+    Collaborate with cross-functional teams to gather and analyze requirements, translating them into technical solutions.
+    Develop and implement software architecture and design patterns to ensure scalability and performance.
+    Write clean, maintainable, and efficient code in one or more general-purpose programming languages: Python, Java, C, C++, Go.
+    Implement and manage data pipelines to preprocess and transform data for AI/ML models.
+    Integrate AI/ML models into software applications and ensure seamless deployment into production environments.
+    Optimize software applications for performance, reliability, and scalability.
+    Conduct code reviews and provide technical guidance to junior developers.
+    Stay up-to-date with the latest advancements in software engineering and AI/ML technologies.
+    Ensure adherence to software development best practices, including agile and lean methodologies.
+
+Required qualifications, capabilities and skills:
+
+    Bachelor’s degree in Computer Science or equivalent practical experience.
+    Strong experience working with multiple technology teams in a matrixed organization
+    5+ years of building orchestration and automation focused on enterprise networks
+    5 + years of experience as a software developer with a focus on integrating AI/ML solutions.
+    Strong programming skills in Python, with experience in developing and maintaining production-level code.
+    Experience with application architecture and design patterns.
+    Proficiency in working with large datasets and data preprocessing.
+    Solid understanding of AI/ML algorithms and techniques, including deep learning and natural language processing.
+    Familiarity with AI/ML libraries and frameworks, such as TensorFlow, PyTorch, scikit-learn, and Keras.
+    Experience with cloud platforms, such as AWS or Azure, for deploying and scaling software applications.
+    Strong problem-solving and analytical skills and Excellent communication and collaboration skills.
+
+ 
+
+Preferred qualifications, capabilities and skills:
+
+    Familiarity with DevOps practices for software deployment and monitoring.
+    Experience with SQL and NoSQL databases, Linux/Unix environments, and tools like Terraform and Apache Kafka.
+    Experience with distributed computing frameworks, such as Apache Spark.
+
+About Us
+JPMorganChase, one of the oldest financial institutions, offers innovative financial solutions to millions of consumers, small businesses and many of the world’s most prominent corporate, institutional and government clients under the J.P. Morgan and Chase brands. Our history spans over 200 years and today we are a leader in investment banking, consumer and small business banking, commercial banking, financial transaction processing and asset management.
+
+We offer a competitive total rewards package including base salary determined based on the role, experience, skill set and location. Those in eligible roles may receive commission-based pay and/or discretionary incentive compensation, paid in the form of cash and/or forfeitable equity, awarded in recognition of individual achievements and contributions. We also offer a range of benefits and programs to meet employee needs, based on eligibility. These benefits include comprehensive health care coverage, on-site health and wellness centers, a retirement savings plan, backup childcare, tuition reimbursement, mental health support, financial coaching and more. Additional details about total compensation and benefits will be provided during the hiring process. 
+
+We recognize that our people are our strength and the diverse talents they bring to our global workforce are directly linked to our success. We are an equal opportunity employer and place a high value on diversity and inclusion at our company. We do not discriminate on the basis of any protected attribute, including race, religion, color, national origin, gender, sexual orientation, gender identity, gender expression, age, marital or veteran status, pregnancy or disability, or any other basis protected under applicable law. We also make reasonable accommodations for applicants’ and employees’ religious practices and beliefs, as well as mental health or physical disability needs. Visit our FAQs for more information about requesting an accommodation.
+
+JPMorgan Chase & Co. is an Equal Opportunity Employer, including Disability/Veterans
+About the Team
+Our Corporate Technology team relies on smart, driven people like you to develop applications and provide tech support for all our corporate functions across our network. Your efforts will touch lives all over the financial spectrum and across all our divisions: Global Finance, Corporate Treasury, Risk Management, Human Resources, Compliance, Legal, and within the Corporate Administrative Office. You’ll be part of a team specifically built to meet and exceed our evolving technology needs, as well as our technology controls agenda.
+

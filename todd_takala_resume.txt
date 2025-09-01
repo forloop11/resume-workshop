@@ -57,7 +57,7 @@ Certifications
 
 ------------------------------------------------------------------------
 
-- Amazon Machine Learning University: Tabular Data with Autogluon (Twice Champion)
+- Amazon Machine Learning University: Tabular Data with Autogluon
 
 - Arizona State Board of Technical Registration: EIT, Mechanical Engineering, Registration No. 10670
 
@@ -89,7 +89,7 @@ Education
 
 ------------------------------------------------------------------------
 
-Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | 06/2003 to 05/2006
+Bachelor of Science in Mechanical Engineering | Arizona State University | Tempe, AZ | 06/2003 to 05/2006
 
 Hard Skills
 

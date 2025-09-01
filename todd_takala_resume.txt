@@ -1,9 +1,9 @@
 Todd Takala
-Lead Data Scientist | Lead Machine Learning Engineer | Experienced Manager
+Machine Learning Engineer - Vice President
 16071 W Sand Hills Rd, Surprise, AZ, 85138 | 1-602-775-0645
 todd.c.takala@gmail.com | linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 
-Professional Summary
+Summary
 
 ------------------------------------------------------------------------
 
@@ -21,9 +21,9 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 - Performed data mining on structured, semi-structured, and unstructured data to assemble a training dataset from multiple sources, considering thousands of parameters derived from dealer and product information
 
-- Used LLMs to find similarities in service jobs and performed feature engineering to retain important parameters, which increased model accuracy by 40%
+- Used LLMs and natural language processing to find similarities in service jobs and performed feature engineering to retain important parameters, which increased model accuracy by 40%
 
-- Utilized Python and Sagemaker to train the AI model, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and led to more accurate predictions of equipment repair times
+- Utilized Python and Sagemaker to train AI models, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and led to more accurate predictions of equipment repair times
 
 - Engineered production-ready MLOps pipelines on AWS and Snowflake, establishing best practices for cloud architecture. Managed project lifecycles, automated enterprise networks, and implemented monitoring strategies to assess model performance and business outcomes.
 
@@ -47,7 +47,7 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Developed an MLOps pipeline with ARIMA and SVM for AI-driven forecasting in supply chain management, integrated data, managed a component exchange program, collaborated with clients on durability forecasting
 
-- Led a team of 8 engineers and acted as a customer-facing expert on mining equipment. Implemented a data-driven failure analysis program, boosting an aging fleet’s physical availability to over 90%.
+- Collaborated with a team of 8 engineers and acted as a customer-facing expert on mining equipment. Implemented a data-driven failure analysis program, boosting an aging fleet’s physical availability to over 90%.
 
 - Applied the DMAIC Six Sigma methodology with complex problem-solving using R and SQL to identify opportunities for improving operation, manufacturing, and maintenance of equipment fleet, yielding $1.2 billion in savings over six years as Reliability Engineering Manager prior to promotion
 
@@ -95,7 +95,7 @@ Hard Skills
 
 ------------------------------------------------------------------------
 
-A/B Testing, Agile Methodology, AI/ML, Artificial Intelligence, AWS, BASH, CI/CD, Computer Science, RDBMS, Database Administrator, Deep Learning, Design of Experiments, DevOps, Docker, Embedding, ETL, Fine Tuning, Advanced Excel, Git, Linear Algebra, LLM, Mathematics, NLP, Pandas, Power BI, Python, PyTorch, R, RAG, Sagemaker, Scikit-learn, Sagemaker, Scripting Language, SDLC, Simulation, Snowflake, Statistical Analysis, Streamlit, SQL, Tableau, TensorFlow, Transact SQL, Transformers,
+A/B Testing, Agile Methodology, AI/ML, Artificial Intelligence, AWS, BASH, CI/CD, Computer Science, RDBMS, Database Administrator, Deep Learning, Design of Experiments, DevOps, Docker, Embedding, ETL, Fine Tuning, Advanced Excel, Git, Linear Algebra, LLM, Mathematics, NLP, Pandas, Power BI, Public Cloud, Python, PyTorch, R, RAG, Sagemaker, Scikit-learn, Sagemaker, Scripting Language, SDLC, Simulation, Snowflake, Statistical Analysis, Streamlit, SQL, Tableau, TensorFlow, Transact SQL, Transformers
 
 Soft Skills
 

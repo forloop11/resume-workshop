@@ -15,7 +15,7 @@ Experience
 
 Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
-- Architected and developed end-to-end data products using solid programming skills, including an award-winning AI platform to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award
+- Architected and developed end-to-end data products using programming skills in Python and R, including an award-winning AI platform to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award
 
 - Collaborated with senior leadership and stakeholders to facilitate understanding of the project’s broad impact and create precise user requirements, ensuring alignment with the business road map through written and verbal communication
 
@@ -25,7 +25,7 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 - Conducted exploratory data analysis on the training datasets, eliminating outliers using sophisticated analytics such as isolation forest and anomaly detection techniques
 
-- Utilized Python and Sagemaker to train AI models, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and led to more accurate predictions of equipment repair times
+- Utilized Python and SageMaker to train AI models, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and enhanced the accuracy of equipment repair time predictions, leading to better maintenance scheduling
 
 - Engineered production-ready MLOps pipelines on AWS and Snowflake, establishing best practices for cloud architecture. Managed project lifecycles, automated enterprise networks, and implemented monitoring strategies to assess model performance and business outcomes.
 
@@ -33,7 +33,7 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 Reliability Analytics Manager | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
-- Applied advanced analytics, mathematics and statistics to create a new KPI for autonomous robots used in warehouse automation through big data analysis and wrote an influential white paper on statistical programming, resulting in its adoption by senior management
+- Applied advanced analytics, mathematics, and statistics to create a new KPI for autonomous robots used in warehouse automation through big data analysis, and wrote a white paper on statistical programming, resulting in its adoption by senior management
 
 - Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, which improved real-time communication of robot status at all global fulfillment centers, enhancing operational efficiency and data analytics capabilities
 
@@ -45,7 +45,7 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Created predictive ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days
 
-- Developed an time-series MLOps pipeline for AI-driven forecasting in supply chain management, integrated data, managed a component exchange program, collaborated with clients on durability forecasting
+- Developed a time-series MLOps pipeline for AI-driven forecasting in supply chain management, integrated data using SQL and Pandas, managed a component exchange program, and collaborated with clients on durability forecasting, enhancing supply chain efficiency
 
 - Supervised 8 engineers and acted as a customer-facing expert on mining equipment. Implemented a data-driven failure analysis program, boosting an aging fleet’s physical availability to over 90%.
 

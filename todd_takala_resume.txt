@@ -33,13 +33,11 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 Reliability Analytics Manager | Amazon.com | Tempe, AZ | 02/2022 to 09/2022
 
-- Applied advanced analytics and statistics to create a new KPI for autonomous robots used in warehouse automation through big data analysis and wrote an influential white paper on statistical programming, resulting in its adoption by senior management
+- Applied advanced analytics, mathematics and statistics to create a new KPI for autonomous robots used in warehouse automation through big data analysis and wrote an influential white paper on statistical programming, resulting in its adoption by senior management
 
 - Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, which improved real-time communication of robot status at all global fulfillment centers, enhancing operational efficiency and data analytics capabilities
 
-- Utilized advanced data science techniques to extract actionable insights, driving strategic decision-making and improving operational outcomes
-
-- Designed and optimized regression and recommendation systems, achieving two-time champion status in Amazon Machine Learning University competitions, which improved predictive accuracy and recommendation quality in practical applications
+- Utilized advanced data science techniques to extract actionable insights from research to driving strategic decision-making and improving operational outcomes
 
 - Designed and implemented solutions utilizing large databases with Redshift and PostgreSQL, supporting data-driven decision-making and enhancing business intelligence capabilities
 
@@ -59,7 +57,7 @@ Certifications
 
 ------------------------------------------------------------------------
 
-- Amazon Machine Learning University: Tabular Data with Autogluon
+- Amazon Machine Learning University: Tabular Data with Autogluon (Twice Champion)
 
 - Arizona State Board of Technical Registration: EIT, Mechanical Engineering, Registration No. 10670
 

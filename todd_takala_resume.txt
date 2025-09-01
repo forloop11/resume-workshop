@@ -7,31 +7,7 @@ Professional Summary
 
 ------------------------------------------------------------------------
 
-Proven data professional expertise in generating over $1.3 billion in business value through machine learning and statistical modeling. Skilled in software development lifecycle management, stakeholder engagement, KPI setting, team building, and scalable deployment. Convey complex data insights to stakeholders for informed decision-making.
-
-Education
-
-------------------------------------------------------------------------
-
-Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | 06/2003 to 05/2006
-
-Programming Languages
-
-------------------------------------------------------------------------
-
-Python, R, SQL, Snowflake SQL, Transact SQL, BASH, Powershell, MATLAB
-
-Hard Skills
-
-------------------------------------------------------------------------
-
-A/B Testing, Agentic AI, Agile Methodology, AI/ML, Anomaly Detection, Architectural Design, Artificial Intelligence, AWS, CI/CD, Coding, Computer Science, Continuous Integration, DAG, Database Administrator, Data Gathering, DBA, Deep Learning, Design of Experiments, DevOps, Developer Tools, Distributed Computing, Docker, ECR, Embedding, ETL, Advanced Excel, Financial Forecasting, Generative AI, Git, GitHub Actions, GitHub Copilot, LangChain Expression Language, LCEL, Linear Algebra, Large Language Models, LLMs, Mathematics, Multivariate Calculus, Natural Language Processing, NLP, Pandas, Power BI, PostgreSQL, Problem Solving, PyTorch, RAG, Redshift, Research, Sagemaker, Scikit-learn, S3, Sagemaker, Scripting Language, Scrum, SDLC, Simulation SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Step Functions Streamlit, Tableau, TensorFlow, Transformers, Version Control
-
-Soft Skills
-
-------------------------------------------------------------------------
-
-Adaptability, Attention to Detail, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision making, Growth Mindset, Leadership Experience, Life Long Learning, Listening, Mentoring, Methodical, Multicultural Collaboration, Open minded, Professional Services, Presentations, Public Speaking, Strategic Thinking, Thought Leadership, Willing to Learn
+In the role of Lead Data Scientist and seasoned manager, machine learning and statistical modeling have led to the creation of over $1.3 billion in business value. Specializations encompass the design of comprehensive data solutions, the implementation of reliable MLOps pipelines on AWS and Snowflake, and leadership in strengthening customer engagement.
 
 Experience
 
@@ -97,14 +73,32 @@ Certifications
 
 - GitHub: Career Essentials in GitHub Professional Certificate
 
-- IBM: RAG and Agentic AI Professional Certificate, Deep Learning & Neural Networks with Keras
-
-- IUOE Local 150: Diesel Mechanic, Bulldozers, Class B CDL, Cranes, Forklifts, Heavy Equipment Operator, MSHA, OSHA, Scrapers, Skid-steers, Telehandlers, Wheel Loaders Shielded Metal Arc Welding (SMAW)
+- IBM: RAG and Agentic AI Professional Certificate, Deep Learning & Neural Networks with Keras Shielded Metal Arc Welding (SMAW)
 
 - Komatsu North America: Certified Technical Communicator
 
 - LinkedIn Learning: Data Engineering with dbt
 
+- Noria: Oil Analysis I, II, III
+
 - Society of Automotive Engineers: Cost and Finance for Engineers
 
 - Udemy: Streamlit for Snowflake Masterclass
+
+Education
+
+------------------------------------------------------------------------
+
+Bachelor of Science in Mechanical Engineering – Arizona State University | Tempe, AZ | 06/2003 to 05/2006
+
+Hard Skills
+
+------------------------------------------------------------------------
+
+A/B Testing, Agile Methodology, AI/ML, Artificial Intelligence, AWS, BASH, CI/CD, Computer Science, RDBMS, Database Administrator, Deep Learning, Design of Experiments, DevOps, Docker, Embedding, ETL, Advanced Excel, Git, Linear Algebra, LLM, Mathematics, NLP, Pandas, Power BI, Python, PyTorch, R, RAG, Sagemaker, Scikit-learn, Sagemaker, Scripting Language, SDLC, Simulation, Snowflake, Statistical Analysis, Streamlit, SQL, Tableau, TensorFlow, Transact SQL, Transformers,
+
+Soft Skills
+
+------------------------------------------------------------------------
+
+Adaptability, Attention to Detail, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision making, Growth Mindset, Leadership Experience, Life Long Learning, Listening, Mentoring, Methodical, Multicultural Collaboration, Open minded, Problem Solving, Professional Services, Presentations, Public Speaking, Strategic Thinking, Thought Leadership, Willing to Learn

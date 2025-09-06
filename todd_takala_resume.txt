@@ -1,5 +1,5 @@
 Todd Takala
-Lead Data Scientist | Lead Machine Learning Engineer | Experienced Manager
+Lead Data Scientist, Machine Learning Engineer, AI/ML and Analytics
 16071 W Sand Hills Rd, Surprise, AZ, 85138 | 1-602-775-0645
 todd.c.takala@gmail.com | linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 
@@ -9,7 +9,7 @@ Summary
 
 Data Scientist & Machine Learning Engineer with strong leadership in machine learning and statistical modeling who generated over $1.3 billion in business value. Specializations include design of data solutions, implementation of MLOps pipelines on AWS and Snowflake, enhancing customer engagement.
 
-Experience
+Professional Experience
 
 ------------------------------------------------------------------------
 
@@ -25,7 +25,7 @@ Lead Data Scientist | Caterpillar Inc. | Surprise, AZ | 09/2022 to Present
 
 - Conducted exploratory data analysis on the training datasets, eliminating outliers using sophisticated analytics such as isolation forest and anomaly detection techniques
 
-- Utilized Python and SageMaker to train AI models, leveraging machine learning algorithms such as neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and enhanced the accuracy of equipment repair time predictions, leading to better maintenance scheduling
+- Trained AI models using Python and SageMaker, applying machine learning algorithms like neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and enhanced the accuracy of equipment repair time predictions, leading to better maintenance scheduling
 
 - Engineered production-ready MLOps pipelines on AWS and Snowflake, establishing best practices for cloud architecture. Managed project lifecycles, automated enterprise networks, and implemented monitoring strategies to assess model performance and business outcomes.
 
@@ -53,43 +53,30 @@ Data Engineering Manager | Empire-Cat | Mesa, AZ | 01/2012 to 02/2022
 
 - Leadership experience with business acumen to build trust and enhance customer experience and relationships to promote data-based decisions. Partnered on design of experiments to improve reliability, safety and durability
 
-Certifications
+Certification & Technical Registration
 
 ------------------------------------------------------------------------
 
-- Amazon Machine Learning University: Tabular Data with Autogluon
-
 - Arizona State Board of Technical Registration: EIT, Mechanical Engineering, Registration No. 10670
 
-- BerkeleyX - edX: The Science of Happiness at Work Professional Certificate
+- BerkeleyX: The Science of Happiness at Work Professional Certificate
 
 - Canonical: Ubuntu Linux Professional Certificate
 
-- CSCMP: Supply Chain Foundations Demand Planning Professional Certificate
-
 - Data Camp: AI Fundamentals Certificate, Certified SQL Associate, Data Scientist Professional Certificate
-
-- Empire-Cat: Business Tools for Service Managers, Coaching for Peak Performance, Communicating for Leadership Success, Delegating with Purpose, Lean 6 Sigma Green Belt, Resolving Workplace Conflict, Setting Performance Expectations
 
 - GitHub: Career Essentials in GitHub Professional Certificate
 
-- IBM: RAG and Agentic AI Professional Certificate, Deep Learning & Neural Networks with Keras
+- IBM: RAG and Agentic AI Professional Certificate
 
 - Komatsu North America: Certified Technical Communicator
-
-- LinkedIn Learning: Data Engineering with dbt
-
-- Noria: Oil Analysis I, II, III
-
-- Society of Automotive Engineers: Cost and Finance for Engineers
-
-- Udemy: Streamlit for Snowflake Masterclass
 
 Education
 
 ------------------------------------------------------------------------
 
 Bachelor of Science in Mechanical Engineering | Arizona State University | Tempe, AZ | 06/2003 to 05/2006
+STEM Principles, Multivariate Calculus, Differential Equations, Linear Algebra, Numerical Methods and Structures, Statistics, Mechanics, Material Science, Manufacturing, Finite Element Analysis, Computational Fluid Mechanics, Internal Combustion Engines, Mechanisms, Heat Transfer, Thermodynamics, Manufacturing, Economics, Cost, Finance, Control Systems, Design.
 
 Hard Skills
 

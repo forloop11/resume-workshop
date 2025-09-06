@@ -76,7 +76,7 @@ Education
 ------------------------------------------------------------------------
 
 Bachelor of Science in Mechanical Engineering | Arizona State University | Tempe, AZ | 06/2003 to 05/2006
-STEM Principles, Multivariate Calculus, Differential Equations, Linear Algebra, Numerical Methods and Structures, Statistics, Mechanics, Material Science, Manufacturing, Finite Element Analysis, Computational Fluid Mechanics, Internal Combustion Engines, Mechanisms, Heat Transfer, Thermodynamics, Manufacturing, Economics, Cost, Finance, Control Systems, Design.
+STEM Principles, Multivariate Calculus, Differential Equations, Linear Algebra, Numerical Methods, Algorithms, Data Structures, Statistics, Mechanics, Material Science, Manufacturing, Finite Element Analysis, Computational Fluid Dynamics, Internal Combustion Engines, Mechanisms, Heat Transfer, Thermodynamics, Manufacturing, Economics, Cost, Finance, Control Systems, Design
 
 Hard Skills
 

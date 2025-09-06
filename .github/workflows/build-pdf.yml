@@ -39,7 +39,7 @@ jobs:
           args: --wrap=none -f latex -t plain todd_takala_resume.tex -o todd_takala_resume.txt
 
       # Step 4: Convert TeX to md using Pandoc
-      - name: Convert TeX to TXT with Pandoc
+      - name: Convert TeX to MD with Pandoc
         uses: docker://pandoc/core:latest
         with:
           args: --wrap=none -f latex -t plain todd_takala_resume.tex -o README.md

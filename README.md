@@ -51,7 +51,7 @@ Lead Data Scientist - Caterpillar Inc. - Surprise, AZ 09/2022 to Present
 
 - Trained AI models using Python and SageMaker, applying machine learning algorithms like neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and enhanced the accuracy of equipment repair time predictions, leading to better maintenance scheduling
 
-- Engineered production-ready MLOps pipelines on AWS and Snowflake, establishing best practices for cloud architecture. Managed project lifecycles, automated enterprise networks, and implemented monitoring strategies to assess model performance and business outcomes.
+- Engineered production-ready MLOps pipelines on AWS and Snowflake, establishing best practices for cloud architecture. Managed project lifecycles, automated enterprise networks, and implemented monitoring strategies to assess model performance and business outcomes
 
 Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 
@@ -67,9 +67,9 @@ Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
 
 - Developed a time-series MLOps pipeline for AI-driven forecasting in supply chain management, integrated data using SQL, R and Python, managed a component exchange program, and collaborated with clients on durability forecasting, enhancing supply chain efficiency
 
-- Revitalized Empire’s mining machine component exchange program, optimizing the supply and availability of diesel engines, transmissions, and torque converters, resulting in the identification of stock shortages and major risks to the supply chain.
+- Revitalized Empire’s mining machine component exchange program, optimizing the supply and availability of diesel engines, transmissions, and torque converters, resulting in the identification of stock shortages and major risks to the supply chain
 
-- Created predictive ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days.
+- Created predictive ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days
 
 Reliability Engineering Manager - Empire-Cat - Mesa, AZ 01/2016 to 01/2021
 
@@ -85,17 +85,17 @@ Technical Communications Manager - Empire-Cat - Mesa, AZ 12/2012 to 01/2016
 
 - Applied the DMAIC Six Sigma methodology and computer science with complex problem-solving to identify opportunities for improving operation, manufacturing, and maintenance of equipment fleet, yielding $1.2 billion in savings over 6 years
 
-- Led a team of 5 Technical Communicators in a client-facing role to effectively convey customer feedback to Caterpillar’s engineering organizations, driving improvements in product development and customer satisfaction.
+- Led a team of 5 Technical Communicators in a client-facing role to effectively convey customer feedback to Caterpillar’s engineering organizations, driving improvements in product development and customer satisfaction
 
 - Built trust and enhanced customer experience and relationships, promoting data-based decisions that improved business outcomes
 
-- Partnered on design of experiments to improve reliability, safety and durability.
+- Partnered on design of experiments to improve reliability, safety and durability
 
-- Developed Python and MS-SQL application to track performance and outcomes of prototype designs tested in the field.
+- Developed Python and MS-SQL application to track performance and outcomes of prototype designs tested in the field
 
 Reliability Engineer - Empire-Cat - Mesa, AZ 01/2012 to 12/2012
 
-- Created statistical oil analysis application to analyze heavy equipment fleets according to ASTM D 7720, which became ground truth for Empire condition monitoring program.
+- Created statistical oil analysis application to analyze heavy equipment fleets according to ASTM D 7720, which became ground truth for Empire condition monitoring program
 
 - Provided expertise in mechanical engineering and heavy equipment, serving as a key resource for improving complex machinery systems
 

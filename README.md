@@ -137,7 +137,7 @@ Engineering Intern - Xtek Mining Services - Tempe, AZ 01/2005 to 09/2005
 
 College Student 09/2002 to 05/2006
 
-Operating Engineer - Ryan Central Inc. - McHenry County, IL 06/2002 to 09/2002
+Operating Engineer (Contract) - Ryan Central Inc. - McHenry County, IL 06/2002 to 09/2002
 
 - Operated heavy equipment at mass-dirt excavation sites, contributing to the successful development of roads, building pads, and lakes on construction projects
 

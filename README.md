@@ -71,7 +71,7 @@ Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
 
 - Created predictive ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days
 
-Reliability Engineering Manager - Empire-Cat - Mesa, AZ 01/2016 to 01/2021
+Reliability Engineering Manager - Empire-Cat - Mesa, AZ 07/2016 to 01/2021
 
 - Supervised 8 engineers and technical communicators and acted as a customer-facing expert on mining equipment. Mentored up to 6 interns per year
 
@@ -80,6 +80,14 @@ Reliability Engineering Manager - Empire-Cat - Mesa, AZ 01/2016 to 01/2021
 - Implemented a data-driven failure analysis program, boosting an aging fleet’s physical availability to over 90%
 
 - Optimized resource utilization and reduced costs by leading successful reuse and salvage decisions of machinery parts
+
+Lead Reliability Engineer - Empire-Cat - Mesa, AZ 01/2012 to 07/2012
+
+- Led initiatives to maintain and expand corporate relationships with mining clients.
+
+- Managed testing and experiment program and provided customer insights to Caterpillar engineering teams.
+
+- Focused on deploying large off-highway truck design improvements to enhance operational efficiency.
 
 Technical Communications Manager - Empire-Cat - Mesa, AZ 12/2012 to 01/2016
 
@@ -125,44 +133,6 @@ Design Engineer - Komatsu North America - Chattanooga, TN 06/2006 to 12/2007
 
 - Leveraged Pro Engineer and finite element analysis to optimize engineering designs
 
-Engineering Intern - Xtek Mining Services - Tempe, AZ 01/2005 to 09/2005
-
-- Demonstrated competence in data visualization, analysis, and advanced Excel, VBA and Access leading to improved data processing efficiency
-
-- Conducted inspections and reverse engineering of large gears and shafts for mining shovels and draglines, ensuring operational reliability and safety
-
-- Reverse-engineered gear geometry data and developed a gear optimization application to minimize manufacturing defects, enhancing production quality
-
-- Drafted and detailed engineering drawings, enhancing the clarity and accuracy of design documentation
-
-College Student 09/2002 to 05/2006
-
-Operating Engineer (Contract) - Ryan Central Inc. - McHenry County, IL 06/2002 to 09/2002
-
-- Operated heavy equipment at mass-dirt excavation sites, contributing to the successful development of roads, building pads, and lakes on construction projects
-
-- Loaded scrapers in push-pull configuration, enhancing the efficiency and speed of excavation processes
-
-Heavy Equipment Mechanic - Roland Machinery Co. - Marengo, IL 04/2000 to 06/2002
-
-- Developed strong troubleshooting skills, diagnosing and resolving mechanical issues promptly, which minimized equipment downtime and improved operational efficiency
-
-- Conducted maintenance and repair of heavy equipment, diesel engines, and hydraulic systems to ensure optimal performance
-
-- Skillfully repaired Komatsu machinery and Cummins diesel engines, guaranteeing peak operational efficiency and extending the lifespan of the equipment
-
-- Executed welding repairs on booms, structures, and buckets, enhancing structural integrity and safety of the equipment
-
-- Skillfully re-manufactured key components including engines, transmissions, final drives, and hydraulic cylinders, which improved equipment performance and reduced the need for new parts
-
-- Proven capability in handling Class B CDL service vehicles, truck-mounted cranes, and overhead cranes, with a steadfast commitment to safety and efficiency in all operations
-
-Heavy Equipment Apprentice Mechanic - Harry W. Kuhn - West Chicago, IL 12/1997 to 04/2000
-
-- Serviced various heavy machinery such as Caterpillar, Komatsu, Bomag, Ingersoll-Rand, and Gradall, along with proficiency in repairing diesel engines
-
-- Developed expertise in the safe loading and unloading of heavy machinery on transport trailers, ensuring secure transit and reliable operations
-
 Hard Skills
 
 ------------------------------------------------------------------------
@@ -174,33 +144,3 @@ Soft Skills
 ------------------------------------------------------------------------
 
 Adaptability, Attention to Detail, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision making, Growth Mindset, Interviewing, Leadership Experience, Life Long Learning, Listening, Mentoring, Methodical, Multicultural Collaboration, Open minded, Problem Solving, Professional Services, Presentations, Public Speaking, Strategic Thinking, Team Building, Thought Leadership, Willing to Learn
-
-Courses
-
-------------------------------------------------------------------------
-
-- Amazon Machine Learning University: Tabular Data with Autogluon
-
-- ASME: Y14.5M Geometric Dimensioning and Tolerancing
-
-- Caterpillar: Applied Failure Analysis • SQL Server Toolset & Services • Business Tools for Service Managers • Improving Component Durability
-
-- Data Camp: Bayesian Modeling in RJAGS
-
-- DDI: Communicating for Leadership Success • Coaching for Peak Performance • Delegating with Purpose • Setting Performance Expectations • Resolving Workplace Conflict
-
-- DeepLearning.AI: Building Systems with the ChatGPT API • ChatGPT Prompt Engineering for Developers • Finetuning Large Language Models
-
-- Franklin Covey: Leadership: Great leaders - Great Teams - Great Results
-
-- Harper College: Pneumatics and Hydraulics
-
-- IBM: Advanced RAG with Vector Databases and Retrievers • Agentic AI with LangChain and LangGraph • Agentic AI with LangGraph, CrewAI, AutoGen and BeeAI • Build RAG Applications • Deep Learning with Keras and Tensorflow • Deep Learning & Neural Networks with Keras • Vector Databases for RAG
-
-- LinkenIn Learning: Advanced Snowflake: Deep Dive Cloud Data Warehousing and Analytics • Building Applications Using Amazon Bedrock • Data Engineering with dbt • Designing Machine Learning Systems in the Cloud • Learning Kubernetes
-
-- Noria: Oil Analysis I, II, III
-
-- O’Reilly Media: Designing Machine Learning Systems in the Cloud
-
-- SAE: Principles of Cost and Finance for Engineers

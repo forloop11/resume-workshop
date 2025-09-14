@@ -29,7 +29,7 @@ Certification & Technical Registration
 
 - GitHub: Career Essentials in GitHub Professional Certificate
 
-- IBM: Advanced Deep Learning Specialist • RAG and Agentic AI Professional Certificate • Deep Learning with PyTorch, Keras and Tensorflow
+- IBM: Advanced Deep Learning Specialist • RAG and Agentic AI Professional Certificate • Deep Learning with PyTorch, Keras and Tensorflow Professional Certificate
 
 - Komatsu North America: Certified Technical Communicator
 

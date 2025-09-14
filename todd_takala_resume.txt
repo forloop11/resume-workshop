@@ -29,7 +29,7 @@ Certification & Technical Registration
 
 - GitHub: Career Essentials in GitHub Professional Certificate
 
-- IBM: Advanced Deep Learning Specialist • RAG and Agentic AI Professional Certificate
+- IBM: Advanced Deep Learning Specialist • RAG and Agentic AI Professional Certificate • Deep Learning with PyTorch, Keras and Tensorflow
 
 - Komatsu North America: Certified Technical Communicator
 
@@ -191,7 +191,7 @@ Courses
 
 - Harper College: Pneumatics and Hydraulics
 
-- IBM: Advanced RAG with Vector Databases and Retrievers • Agentic AI with LangChain and LangGraph • Agentic AI with LangGraph, CrewAI, AutoGen and BeeAI • Build RAG Applications • Deep Learning with Keras and Tensorflow • Deep Learning & Neural Networks with Keras • Vector Databases for RAG
+- IBM: Advanced RAG with Vector Databases and Retrievers • Agentic AI with LangChain and LangGraph • Agentic AI with LangGraph, CrewAI, AutoGen and BeeAI • Build RAG Applications • Deep Learning with Keras and Tensorflow • Deep Learning & Neural Networks with Keras • Vector Databases for RAG • Deep Learning with PyTorch
 
 - LinkenIn Learning: Advanced Snowflake: Deep Dive Cloud Data Warehousing and Analytics • Building Applications Using Amazon Bedrock • Data Engineering with dbt • Designing Machine Learning Systems in the Cloud • Learning Kubernetes
 

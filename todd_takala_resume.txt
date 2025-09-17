@@ -109,67 +109,17 @@ Reliability Engineer - Empire-Cat - Mesa, AZ 01/2012 to 12/2012
 
 - Investigated the primary causes of machinery downtime at mining locations, identifying key issues and recommending solutions to improve operational efficiency
 
-Technical Communicator, Technical Consultant - Road Machinery, LLC - Phoenix, AZ 01/2008 to 01/2012
+Hard Skills
 
-- Provided customer-facing engineering support by applying reliability engineering principles, resulting in improved equipment performance and customer satisfaction
+------------------------------------------------------------------------
 
-- Invoiced $2.5M in consultancy fees over 3-½ years by providing specialized consultancy of mining fleet, and life cycle management
+A/B Testing, Agentic AI, Agile Methodology, AI/ML, Anomaly Detection, Amazon Bedrock, Artificial Intelligence, AWS, BASH, CI/CD, Computer Science, RDBMS, Database Administrator, Data Science, DBT, Deep Learning, Design of Experiments, DevOps, Docker, Embedding, ETL, Fine Tuning, Advanced Excel, Financial Forecasting, Generative AI, Git, Linear Algebra, Large Language Models, LLM, Mathematics, Natural Language Processing, NLP, Pandas, Power BI, Public Cloud, Python, PyTorch, R, RAG, Research, Sagemaker, Scikit-learn, Sagemaker, Scripting Language, SDLC, Simulation, SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Streamlit, SQL, Tableau, TensorFlow, Transact SQL, Transformers, Version Control
 
-- Mentored a team of engineers at a gold mine in central Mexico, enhancing their technical skills
+Soft Skills
 
-- Developed total cost of ownership forecast for 18 haul trucks using MATLAB and statistical models, which resulted in a sale of $72M electric haul trucks
+------------------------------------------------------------------------
 
-- Conducted investigations and authored root cause failure analysis reports for high-horsepower diesel engines, transmissions and other off-highway earth moving equipment
-
-- Designed tools and below-the-hook lifting devices to enhance workplace safety, compliance and ease of use
-
-Design Engineer - Komatsu North America - Chattanooga, TN 06/2006 to 12/2007
-
-- Designed and refined mechanical systems and components, improving product durability through FRACAS
-
-- Contributed to prototyping and testing, analyzing performance data, and implemented product improvements and corrective actions
-
-- Prepared comprehensive technical documentation and communicated project updates, improving team alignment and ensuring timely completion of deliverables.
-
-- Leveraged Pro Engineer and finite element analysis to optimize engineering designs
-
-Engineering Intern - Xtek Mining Services - Tempe, AZ 01/2005 to 09/2005
-
-- Demonstrated competence in data visualization, analysis, and advanced Excel, VBA and Access leading to improved data processing efficiency
-
-- Conducted inspections and reverse engineering of large gears and shafts for mining shovels and draglines, ensuring operational reliability and safety
-
-- Reverse-engineered gear geometry data and developed a gear optimization application to minimize manufacturing defects, enhancing production quality
-
-- Drafted and detailed engineering drawings, enhancing the clarity and accuracy of design documentation
-
-College Student 09/2002 to 05/2006
-
-Operating Engineer (Contract) - Ryan Central Inc. - McHenry County, IL 06/2002 to 09/2002
-
-- Operated heavy equipment at mass-dirt excavation sites, contributing to the successful development of roads, building pads, and lakes on construction projects
-
-- Loaded scrapers in push-pull configuration, enhancing the efficiency and speed of excavation processes
-
-Heavy Equipment Mechanic (Contract) - Roland Machinery Co. - Marengo, IL 04/2000 to 06/2002
-
-- Developed strong troubleshooting skills, diagnosing and resolving mechanical issues promptly, which minimized equipment downtime and improved operational efficiency
-
-- Conducted maintenance and repair of heavy equipment, diesel engines, and hydraulic systems to ensure optimal performance
-
-- Skillfully repaired Komatsu machinery and Cummins diesel engines, guaranteeing peak operational efficiency and extending the lifespan of the equipment
-
-- Executed welding repairs on booms, structures, and buckets, enhancing structural integrity and safety of the equipment
-
-- Skillfully re-manufactured key components including engines, transmissions, final drives, and hydraulic cylinders, which improved equipment performance and reduced the need for new parts
-
-- Proven capability in handling Class B CDL service vehicles, truck-mounted cranes, and overhead cranes, with a steadfast commitment to safety and efficiency in all operations
-
-Heavy Equipment Apprentice Mechanic (Contract) - Harry W. Kuhn - West Chicago, IL 12/1997 to 04/2000
-
-- Serviced various heavy machinery such as Caterpillar, Komatsu, Bomag, Ingersoll-Rand, and Gradall, along with proficiency in repairing diesel engines
-
-- Developed expertise in the safe loading and unloading of heavy machinery on transport trailers, ensuring secure transit and reliable operations
+Adaptability, Attention to Detail, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision making, Growth Mindset, Interviewing, Leadership Experience, Life Long Learning, Listening, Mentoring, Methodical, Multicultural Collaboration, Open minded, Problem Solving, Professional Services, Presentations, Public Speaking, Strategic Thinking, Team Building, Thought Leadership, Willing to Learn
 
 Courses
 
@@ -200,15 +150,3 @@ Courses
 - O’Reilly Media: Designing Machine Learning Systems in the Cloud
 
 - SAE: Principles of Cost and Finance for Engineers
-
-Hard Skills
-
-------------------------------------------------------------------------
-
-A/B Testing, Agentic AI, Agile Methodology, AI/ML, Anomaly Detection, Amazon Bedrock, Artificial Intelligence, AWS, BASH, CI/CD, Computer Science, RDBMS, Database Administrator, Data Science, DBT, Deep Learning, Design of Experiments, DevOps, Docker, Embedding, ETL, Fine Tuning, Advanced Excel, Financial Forecasting, Generative AI, Git, Linear Algebra, Large Language Models, LLM, Mathematics, Natural Language Processing, NLP, Pandas, Power BI, Public Cloud, Python, PyTorch, R, RAG, Research, Sagemaker, Scikit-learn, Sagemaker, Scripting Language, SDLC, Simulation, SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Streamlit, SQL, Tableau, TensorFlow, Transact SQL, Transformers, Version Control
-
-Soft Skills
-
-------------------------------------------------------------------------
-
-Adaptability, Attention to Detail, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision making, Growth Mindset, Interviewing, Leadership Experience, Life Long Learning, Listening, Mentoring, Methodical, Multicultural Collaboration, Open minded, Problem Solving, Professional Services, Presentations, Public Speaking, Strategic Thinking, Team Building, Thought Leadership, Willing to Learn

@@ -37,9 +37,9 @@ Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 
 Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
 
-- Developed a time-series MLOps pipeline for AI-driven forecasting in supply chain management, integrated data using SQL, R and Python, managed a component exchange program, and collaborated with clients on durability forecasting, enhancing supply chain efficiency
+- Developed time-series AI model and MLOps pipeline for demand forecasting resulting in the identification of key supply chain risks.
 
-- Revitalized Empire’s mining machine component exchange program, optimizing the supply and availability of diesel engines, transmissions, and torque converters, resulting in the identification of stock shortages and major risks to the supply chain
+- Pivotal leader who guided a team in designing, building, and maintaining the robust and scalable data infrastructure that formed the backbone of Empire’s data-driven organization
 
 - Created predictive ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days
 

@@ -9,32 +9,6 @@ Summary
 
 Data Scientist & Machine Learning Engineer with strong leadership in machine learning and statistical modeling who generated over $1.3 billion in business value. Specializations include design of data solutions, implementation of MLOps pipelines on AWS and Snowflake, enhancing customer engagement.
 
-Education
-
-------------------------------------------------------------------------
-
-Bachelor of Science in Mechanical Engineering - Arizona State University - Tempe, AZ 06/2003 to 05/2006
-
-Certification & Technical Registration
-
-------------------------------------------------------------------------
-
-- Arizona State Board of Technical Registration: EIT, Mechanical Engineering, Registration No. 10670
-
-- BerkeleyX: The Science of Happiness at Work Professional Certificate
-
-- Canonical: Ubuntu Linux Professional Certificate
-
-- Data Camp: AI Fundamentals Certificate • Certified SQL Associate, Data Scientist Professional Certificate
-
-- GitHub: Career Essentials in GitHub Professional Certificate
-
-- IBM: Advanced Deep Learning Specialist • RAG and Agentic AI Professional Certificate • Deep Learning with PyTorch, Keras and Tensorflow Professional Certificate
-
-- Komatsu North America: Certified Technical Communicator
-
-- US Department of Labor: Operating Engineer Vocational Certificate
-
 Professional Experience
 
 ------------------------------------------------------------------------
@@ -58,8 +32,6 @@ Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 - Applied advanced analytics, mathematics, and statistics to create a new KPI for autonomous robots used in warehouse automation through big data analysis, and wrote a white paper on statistical programming, resulting in its adoption by senior management
 
 - Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, which improved real-time communication of robot status at all global fulfillment centers, enhancing operational efficiency and data analytics capabilities
-
-- Utilized advanced data science techniques to extract actionable insights from research to driving strategic decision-making and improving operational outcomes
 
 - Designed and implemented solutions utilizing large databases with Redshift and PostgreSQL, supporting data-driven decision-making and enhancing business intelligence capabilities
 
@@ -108,6 +80,30 @@ Reliability Engineer - Empire-Cat - Mesa, AZ 01/2012 to 12/2012
 - Provided expertise in mechanical engineering and heavy equipment, serving as a key resource for improving complex machinery systems
 
 - Investigated the primary causes of machinery downtime at mining locations, identifying key issues and recommending solutions to improve operational efficiency
+
+Certification & Technical Registration
+
+------------------------------------------------------------------------
+
+- Arizona State Board of Technical Registration: EIT, Mechanical Engineering, Registration No. 10670
+
+- Canonical: Ubuntu Linux Professional Certificate
+
+- Data Camp: AI Fundamentals Certificate • Certified SQL Associate, Data Scientist Professional Certificate
+
+- GitHub: Career Essentials in GitHub Professional Certificate
+
+- IBM: Advanced Deep Learning Specialist • RAG and Agentic AI Professional Certificate • Deep Learning with PyTorch, Keras and Tensorflow Professional Certificate
+
+- Komatsu North America: Certified Technical Communicator
+
+- US Department of Labor: Operating Engineer Vocational Certificate
+
+Education
+
+------------------------------------------------------------------------
+
+Bachelor of Science in Mechanical Engineering - Arizona State University - Tempe, AZ 06/2003 to 05/2006
 
 Hard Skills
 

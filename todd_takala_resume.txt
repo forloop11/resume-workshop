@@ -15,17 +15,13 @@ Professional Experience
 
 Lead Data Scientist - Caterpillar Inc. - Surprise, AZ 09/2022 to Present
 
-- Architected and developed end-to-end data products using programming skills in Python and R, including an award-winning AI platform to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award
+- Architected and developed end-to-end data products using Python, Snowflake and R, including an award-winning AI platform to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award
 
 - Collaborated with senior leadership and stakeholders to facilitate understanding of the project’s broad impact and create precise user requirements, ensuring alignment with the business road map through written and verbal communication
 
 - Used LLMs and natural language processing to find similarities in service jobs and performed feature engineering to retain important parameters, which increased model accuracy by 40%
 
-- Conducted exploratory data analysis on the training datasets, eliminating outliers using sophisticated analytics such as isolation forest and anomaly detection techniques
-
-- Trained AI models using Python and SageMaker, applying machine learning algorithms like neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and enhanced the accuracy of equipment repair time predictions, leading to better maintenance scheduling
-
-- Engineered production-ready MLOps pipelines on AWS and Snowflake, establishing best practices for cloud architecture. Managed project lifecycles, automated enterprise networks, and implemented monitoring strategies to assess model performance and business outcomes
+- Deployed AI models using and Amazon SageMaker by applying deep learning neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and enhanced the accuracy of equipment repair times
 
 Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 
@@ -43,7 +39,7 @@ Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
 
 - Created predictive ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days
 
-Reliability Engineering Manager - Empire-Cat - Mesa, AZ 07/2016 to 01/2021
+Reliability Engineering Manager - Empire-Cat - Mesa, AZ 01/2016 to 01/2021
 
 - Supervised 8 engineers and technical communicators and acted as a customer-facing expert on mining equipment. Mentored up to 6 interns per year
 
@@ -53,15 +49,7 @@ Reliability Engineering Manager - Empire-Cat - Mesa, AZ 07/2016 to 01/2021
 
 - Optimized resource utilization and reduced costs by leading successful reuse and salvage decisions of machinery parts
 
-Lead Reliability Engineer - Empire-Cat - Mesa, AZ 01/2016 to 07/2016
-
-- Led initiatives to maintain and expand corporate relationships with mining clients.
-
-- Managed testing and experiment program and provided customer insights to Caterpillar engineering teams.
-
-- Focused on deploying large off-highway truck design improvements to enhance operational efficiency.
-
-Technical Communications Manager - Empire-Cat - Mesa, AZ 12/2012 to 01/2016
+Technical Communications Manager - Empire-Cat - Mesa, AZ 01/2012 to 01/2016
 
 - Applied the DMAIC Six Sigma methodology and computer science with complex problem-solving to identify opportunities for improving operation, manufacturing, and maintenance of equipment fleet, yielding $1.2 billion in savings over 6 years
 
@@ -72,14 +60,6 @@ Technical Communications Manager - Empire-Cat - Mesa, AZ 12/2012 to 01/2016
 - Partnered on design of experiments to improve reliability, safety and durability
 
 - Developed Python and MS-SQL application to track performance and outcomes of prototype designs tested in the field
-
-Reliability Engineer - Empire-Cat - Mesa, AZ 01/2012 to 12/2012
-
-- Created statistical oil analysis application to analyze heavy equipment fleets according to ASTM D 7720, which became ground truth for Empire condition monitoring program
-
-- Provided expertise in mechanical engineering and heavy equipment, serving as a key resource for improving complex machinery systems
-
-- Investigated the primary causes of machinery downtime at mining locations, identifying key issues and recommending solutions to improve operational efficiency
 
 Certification & Technical Registration
 

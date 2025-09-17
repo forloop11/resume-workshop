@@ -47,8 +47,6 @@ Reliability Engineering Manager - Empire-Cat - Mesa, AZ 01/2016 to 01/2021
 
 - Implemented a data-driven failure analysis program, boosting an aging fleet’s physical availability to over 90%
 
-- Optimized resource utilization and reduced costs by leading successful reuse and salvage decisions of machinery parts
-
 Technical Communications Manager - Empire-Cat - Mesa, AZ 01/2012 to 01/2016
 
 - Applied the DMAIC Six Sigma methodology and computer science with complex problem-solving to identify opportunities for improving operation, manufacturing, and maintenance of equipment fleet, yielding $1.2 billion in savings over 6 years

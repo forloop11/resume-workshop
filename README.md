@@ -15,13 +15,11 @@ Professional Experience
 
 Lead Data Scientist - Caterpillar Inc. - Surprise, AZ 09/2022 to Present
 
-- Architected and developed end-to-end data products using Python, Snowflake and R, including an award-winning AI platform to predict equipment repair times, resulting in an $80 million reduction in warranty costs and a CEO Award
+- Architected and delivered end-to-end data products in Python, Snowflake, and R (including an AI platform that predicts equipment repair times) driving an $80M reduction in warranty costs and earning a CEO Award
+
+- Productionized models on Amazon SageMaker using deep learning (PyTorch, TensorFlow), gradient boosting (XGBoost, LightGBM), and LLM/sentence-transformer embeddings; improved repair-time prediction accuracy by 40% and overall model performance
 
 - Collaborated with senior leadership and stakeholders to facilitate understanding of the project’s broad impact and create precise user requirements, ensuring alignment with the business road map through written and verbal communication
-
-- Used LLMs and natural language processing to find similarities in service jobs and performed feature engineering to retain important parameters, which increased model accuracy by 40%
-
-- Deployed AI models using and Amazon SageMaker by applying deep learning neural networks, PyTorch, XGBoost, TensorFlow, and LightGBM, which improved model performance and enhanced the accuracy of equipment repair times
 
 Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 

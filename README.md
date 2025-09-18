@@ -27,6 +27,8 @@ Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 
 - Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, which improved real-time communication of robot status at all global fulfillment centers, enhancing operational efficiency and data analytics capabilities
 
+- Utilized Amazon SageMaker for deep learning applications with frameworks such as PyTorch and TensorFlow, as well as implemented gradient boosting techniques using XGBoost and LightGBM. Additionally, employed AWS Redshift and PostgreSQL for data management solutions.
+
 - Designed and implemented solutions utilizing large databases with Redshift and PostgreSQL, supporting data-driven decision-making and enhancing business intelligence capabilities
 
 Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
@@ -44,8 +46,6 @@ Reliability Engineering Manager - Empire-Cat - Mesa, AZ 01/2016 to 01/2021
 - Deployed reproducible research with R and SQL to track product issues and incorporate reliability analysis, which became the template for Caterpillar to incorporate in their enterprise solution
 
 - Led the root cause failure analysis program for Empire using a data, facts, and evidence approach, which supported the FMEA and 6 Sigma process at Caterpillar
-
-- Implemented a data-driven failure analysis program, boosting an aging fleet’s physical availability to over 90%
 
 Technical Communications Manager - Empire-Cat - Mesa, AZ 01/2012 to 01/2016
 

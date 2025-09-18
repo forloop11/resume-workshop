@@ -31,7 +31,7 @@ Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 
 Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
 
-- Developed time-series AI model and MLOps pipeline for demand forecasting, identifying key supply chain risks
+- Developed time-series AI model and MLOps pipeline using SQL, R and Python for demand forecasting, identifying key supply chain risks
 
 - Led a team in designing, building, and maintaining scalable data infrastructure, enhancing Empire’s data-driven capabilities
 
@@ -40,6 +40,8 @@ Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
 Reliability Engineering Manager - Empire-Cat - Mesa, AZ 01/2016 to 01/2021
 
 - Supervised 8 engineers and technical communicators and acted as a customer-facing expert on mining equipment. Mentored up to 6 interns per year
+
+- Deployed reproducible research with R and SQL to track product issues and incorporate reliability analysis, which became the template for Caterpillar to incorporate in their enterprise solution
 
 - Led the root cause failure analysis program for Empire using a data, facts, and evidence approach, which supported the FMEA and 6 Sigma process at Caterpillar
 
@@ -51,7 +53,7 @@ Technical Communications Manager - Empire-Cat - Mesa, AZ 01/2012 to 01/2016
 
 - Led a team of 5 Technical Communicators in a client-facing role to effectively convey customer feedback to Caterpillar’s engineering organizations, driving improvements in product development and customer satisfaction
 
-- Built trust and enhanced customer experience and relationships, promoting data-based decisions that improved business outcomes
+- Developed condition monitoring application with R and SQL which allowed fluids sample analysis on thousands of products, which saved Empire $100,000 in software licensing
 
 - Partnered on design of experiments to improve reliability, safety and durability
 

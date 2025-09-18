@@ -27,13 +27,13 @@ Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 
 - Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, which improved real-time communication of robot status at all global fulfillment centers, enhancing operational efficiency and data analytics capabilities
 
-- Utilized Amazon SageMaker for deep learning applications with frameworks such as PyTorch and TensorFlow, as well as implemented gradient boosting techniques using XGBoost and LightGBM. Additionally, employed AWS Redshift and PostgreSQL for data management solutions.
+- Leveraged Amazon SageMaker for deep learning using PyTorch and TensorFlow, employing XGBoost and LightGBM for gradient boosting to enhance model accuracy. Also used AWS Redshift and PostgreSQL to improve data management, accessibility, and processing speed
 
 - Designed and implemented solutions utilizing large databases with Redshift and PostgreSQL, supporting data-driven decision-making and enhancing business intelligence capabilities
 
 Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
 
-- Developed time-series AI model and MLOps pipeline using SQL, R and Python for demand forecasting, identifying key supply chain risks
+- Developed a time-series AI model and MLOps pipeline using SQL, R, and Python for demand forecasting, which identified key supply chain risks
 
 - Led a team in designing, building, and maintaining scalable data infrastructure, enhancing Empire’s data-driven capabilities
 

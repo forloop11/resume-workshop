@@ -7,7 +7,7 @@ Summary
 
 ------------------------------------------------------------------------
 
-Data Scientist & Machine Learning Engineer with strong leadership in machine learning and statistical modeling who generated over $1.3 billion in business value. Specializations include design of data solutions, implementation of MLOps pipelines on AWS and Snowflake, enhancing customer engagement.
+Dynamic Data Scientist & Machine Learning Engineer with a proven track record in launching groundbreaking AI and ML data products, amassing over $1.3 billion in transformative business value. Expertise spans comprehensive end-to-end analytics, adept stakeholder engagement, inspiring mentorship, and cutting-edge MLOps.
 
 Professional Experience
 
@@ -33,9 +33,9 @@ Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 
 Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
 
-- Developed time-series AI model and MLOps pipeline for demand forecasting resulting in the identification of key supply chain risks.
+- Developed time-series AI model and MLOps pipeline for demand forecasting, identifying key supply chain risks
 
-- Pivotal leader who guided a team in designing, building, and maintaining the robust and scalable data infrastructure that formed the backbone of Empire’s data-driven organization
+- Led a team in designing, building, and maintaining scalable data infrastructure, enhancing Empire’s data-driven capabilities
 
 - Created predictive ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days
 
@@ -43,7 +43,7 @@ Reliability Engineering Manager - Empire-Cat - Mesa, AZ 01/2016 to 01/2021
 
 - Supervised 8 engineers and technical communicators and acted as a customer-facing expert on mining equipment. Mentored up to 6 interns per year
 
-- Headed up the root cause failure analysis program for Empire by taking a data, facts, and evidence approach, which fed the FMEA and 6 Sigma process at Caterpillar
+- Led the root cause failure analysis program for Empire using a data, facts, and evidence approach, which supported the FMEA and 6 Sigma process at Caterpillar
 
 - Implemented a data-driven failure analysis program, boosting an aging fleet’s physical availability to over 90%
 

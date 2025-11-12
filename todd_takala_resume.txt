@@ -75,6 +75,8 @@ Certification & Technical Registration
 
 - Komatsu North America: Certified Technical Communicator
 
+- NCEES: Passed FE Exam
+
 - US Department of Labor: Operating Engineer Vocational Certificate
 
 Education

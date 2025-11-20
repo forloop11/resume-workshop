@@ -7,7 +7,7 @@ Summary
 
 ------------------------------------------------------------------------
 
-Dynamic Data Scientist & Machine Learning Engineer with a proven track record in launching groundbreaking AI and ML data products, amassing over $1.3 billion in transformative business value. Expertise spans comprehensive end-to-end analytics, adept stakeholder engagement, inspiring mentorship, and cutting-edge MLOps.
+Dynamic Data Scientist & Machine Learning Engineer with a proven track record in launching groundbreaking AI and ML data products, generating over $1.3 billion in transformative business value. Expertise spans comprehensive end-to-end analytics, active stakeholder engagement, inspiring mentorship, and advanced MLOps.
 
 Professional Experience
 
@@ -15,49 +15,49 @@ Professional Experience
 
 Lead Data Scientist - Caterpillar Inc. - Surprise, AZ 09/2022 to Present
 
-- Architected and delivered end-to-end data products in Python, Snowflake, and R (including an AI platform that predicts equipment repair times) driving an $80M reduction in warranty costs and earning a CEO Award
+- Architected and delivered end-to-end data products in Python, Snowflake, and R, including an AI platform that predicts equipment repair times. This initiative drove an $80M reduction in warranty costs and earned a CEO Award
 
-- Productionized models on Amazon SageMaker using deep learning (PyTorch, TensorFlow), gradient boosting (XGBoost, LightGBM), and LLM/sentence-transformer embeddings; improved repair-time prediction accuracy by 40% and overall model performance
+- Productionized models on Amazon SageMaker using deep learning (PyTorch, TensorFlow, Hugging Face), gradient boosting (XGBoost, LightGBM), and LLM/sentence-transformer embeddings; improved repair-time prediction accuracy by 40% and enhanced overall model performance
 
-- Collaborated with senior leadership and stakeholders to facilitate understanding of the project’s broad impact and create precise user requirements, ensuring alignment with the business road map through written and verbal communication
+- Collaborated with senior leadership and stakeholders to facilitate an understanding of the project’s broad impact and created precise user requirements. Ensured alignment with the business roadmap through effective written and verbal communication while championing the scaled agile framework
 
 Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 
-- Applied advanced analytics, mathematics, and statistics to create a new KPI for autonomous robots used in warehouse automation through big data analysis, and wrote a white paper on statistical programming, resulting in its adoption by senior management
+- Applied advanced analytics, mathematics, and statistics to develop a new KPI for autonomous robots utilized in warehouse automation through big data analysis. Authored a white paper on Weibull analysis for Design for Reliability, which led to its adoption by senior management
 
-- Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, which improved real-time communication of robot status at all global fulfillment centers, enhancing operational efficiency and data analytics capabilities
+- Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, improving real-time communication of robot status across all global fulfillment centers and enhancing operational efficiency and data analytics capabilities
 
-- Leveraged Amazon SageMaker for deep learning using PyTorch and TensorFlow, employing XGBoost and LightGBM for gradient boosting to enhance model accuracy. Also used AWS Redshift and PostgreSQL to improve data management, accessibility, and processing speed
+- Utilized Amazon SageMaker for deep learning with PyTorch and TensorFlow. Employed XGBoost and LightGBM for gradient boosting to enhance model accuracy, significantly increasing predictive performance. Utilized AWS Redshift and PostgreSQL to enhance data management, accessibility, and processing speed
 
-- Designed and implemented solutions utilizing large databases with Redshift and PostgreSQL, supporting data-driven decision-making and enhancing business intelligence capabilities
+- Designed and implemented solutions utilizing large databases with Redshift and PostgreSQL. Supported data-driven decision-making and enhanced business intelligence capabilities
 
 Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
 
-- Developed a time-series AI model and MLOps pipeline using SQL, R, and Python for demand forecasting, which identified key supply chain risks
+- Develop a time-series AI model and MLOps pipeline using SQL, R, and Python for demand forecasting that identifies key supply chain risks
 
-- Led a team in designing, building, and maintaining scalable data infrastructure, enhancing Empire’s data-driven capabilities
+- Led a team to design, build, and maintain scalable data infrastructure, enhancing Empire’s data-driven capabilities
 
-- Created predictive ML model for engine reliability, durability, repair, preventive maintenance and intervention leading to $62 million in savings within 90 days
+- Developed a predictive ML model for engine reliability, durability, repair, preventive maintenance, and intervention, resulting in $62 million in savings within 90 days
 
 Reliability Engineering Manager - Empire-Cat - Mesa, AZ 01/2016 to 01/2021
 
-- Supervised 8 engineers and technical communicators and acted as a customer-facing expert on mining equipment. Mentored up to 6 interns per year
+- Supervised 8 engineers and technical communicators while serving as a customer-facing expert on mining equipment. Mentored up to 6 interns annually.
 
-- Deployed reproducible research with R and SQL to track product issues and incorporate reliability analysis, which became the template for Caterpillar to incorporate in their enterprise solution
+- Deployed reproducible research using R and SQL to track product issues and perform reliability analysis, establishing a template for Caterpillar’s enterprise solution
 
-- Led the root cause failure analysis program for Empire using a data, facts, and evidence approach, which supported the FMEA and 6 Sigma process at Caterpillar
+- Led the root cause failure analysis program for Empire using a data-driven, fact-based, and evidence-oriented approach, supporting the FMEA and 6 Sigma processes at Caterpillar
 
 Technical Communications Manager - Empire-Cat - Mesa, AZ 01/2012 to 01/2016
 
-- Applied the DMAIC Six Sigma methodology and computer science with complex problem-solving to identify opportunities for improving operation, manufacturing, and maintenance of equipment fleet, yielding $1.2 billion in savings over 6 years
+- Applied the DMAIC Six Sigma methodology and computer science along with complex problem-solving skills to identify opportunities to improve operations, manufacturing, and maintenance of equipment fleets, yielding $1.2 billion in savings over 6 years
 
-- Led a team of 5 Technical Communicators in a client-facing role to effectively convey customer feedback to Caterpillar’s engineering organizations, driving improvements in product development and customer satisfaction
+- Led a team of 5 Technical Communicators in a client-facing role to effectively convey customer feedback to Caterpillar’s engineering organizations, which drove improvements in product development and customer satisfaction
 
-- Developed condition monitoring application with R and SQL which allowed fluids sample analysis on thousands of products, which saved Empire $100,000 in software licensing
+- Developed a condition monitoring application using R and SQL that enables fluid sample analysis on thousands of products, saving Empire $100,000 in software licensing
 
-- Partnered on design of experiments to improve reliability, safety and durability
+- Collaborated with teams to design experiments that enhance reliability, safety, and durability
 
-- Developed Python and MS-SQL application to track performance and outcomes of prototype designs tested in the field
+- Developed a Python and MS-SQL application to track performance and outcomes of prototype designs tested in the field
 
 Certification & Technical Registration
 

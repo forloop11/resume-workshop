@@ -7,7 +7,7 @@ Summary
 
 ------------------------------------------------------------------------
 
-Dynamic Data Scientist & Machine Learning Engineer with a proven track record in launching groundbreaking AI and ML data products, generating over $1.3 billion in transformative business value. Expertise spans comprehensive end-to-end analytics, active stakeholder engagement, inspiring mentorship, and advanced MLOps.
+Dynamic Data Scientist & Machine Learning Engineer with a proven track record of launching groundbreaking AI and ML data products, generating over $1.3 billion in transformative business value. Expertise spans comprehensive end-to-end analytics, active stakeholder engagement, inspiring mentorship, and advanced MLOps.
 
 Professional Experience
 
@@ -23,9 +23,9 @@ Lead Data Scientist - Caterpillar Inc. - Surprise, AZ 09/2022 to Present
 
 Reliability Analytics Manager - Amazon.com - Tempe, AZ 02/2022 to 09/2022
 
-- Applied advanced analytics, mathematics, and statistics to develop a new KPI for autonomous robots utilized in warehouse automation through big data analysis. Authored a white paper on Weibull analysis for Design for Reliability, which led to its adoption by senior management
+- Applied advanced analytics, mathematics, and statistics to develop a new KPI for autonomous robots utilized in warehouse automation through big data analysis. Authored a white paper on Weibull analysis for Design for Reliability, leading to its adoption by senior management
 
-- Led a team of business intelligence engineers and data analysts to deploy a pipeline using Shiny R, improving real-time communication of robot status across all global fulfillment centers and enhancing operational efficiency and data analytics capabilities
+- Managed a team to implement a Shiny R pipeline, boosting real-time robot status updates, operational efficiency, and data analytics at global fulfillment centers.
 
 - Utilized Amazon SageMaker for deep learning with PyTorch and TensorFlow. Employed XGBoost and LightGBM for gradient boosting to enhance model accuracy, significantly increasing predictive performance. Utilized AWS Redshift and PostgreSQL to enhance data management, accessibility, and processing speed
 
@@ -35,29 +35,29 @@ Data Engineering Manager - Empire-Cat - Mesa, AZ 01/2021 to 02/2022
 
 - Develop a time-series AI model and MLOps pipeline using SQL, R, and Python for demand forecasting that identifies key supply chain risks
 
-- Led a team to design, build, and maintain scalable data infrastructure, enhancing Empire’s data-driven capabilities
+- Led a team to design, build, and maintain scalable data infrastructures that enhance data-driven capabilities at Empire.
 
 - Developed a predictive ML model for engine reliability, durability, repair, preventive maintenance, and intervention, resulting in $62 million in savings within 90 days
 
 Reliability Engineering Manager - Empire-Cat - Mesa, AZ 01/2016 to 01/2021
 
-- Supervised 8 engineers and technical communicators while serving as a customer-facing expert on mining equipment. Mentored up to 6 interns annually.
+- Led a team of 8 engineers and technical communicators as a customer-facing expert on mining equipment. Mentored up to 6 interns annually.
 
 - Deployed reproducible research using R and SQL to track product issues and perform reliability analysis, establishing a template for Caterpillar’s enterprise solution
 
-- Led the root cause failure analysis program for Empire using a data-driven, fact-based, and evidence-oriented approach, supporting the FMEA and 6 Sigma processes at Caterpillar
+- Led the root cause failure analysis program for Empire by employing a data-driven, fact-based, and evidence-oriented approach that supported the FMEA and 6 Sigma processes at Caterpillar
 
 Technical Communications Manager - Empire-Cat - Mesa, AZ 01/2012 to 01/2016
 
-- Applied the DMAIC Six Sigma methodology and computer science along with complex problem-solving skills to identify opportunities to improve operations, manufacturing, and maintenance of equipment fleets, yielding $1.2 billion in savings over 6 years
+- Applied DMAIC Six Sigma methodology and computer science, along with complex problem-solving skills, to identify opportunities for improving operations, manufacturing, and maintenance of equipment fleets, yielding $1.2 billion in savings over 6 years
 
-- Led a team of 5 Technical Communicators in a client-facing role to effectively convey customer feedback to Caterpillar’s engineering organizations, which drove improvements in product development and customer satisfaction
+- Led a team of 5 Technical Communicators in a client-facing role to effectively convey customer feedback to Caterpillar’s engineering organizations, driving improvements in product development and enhancing customer satisfaction
 
-- Developed a condition monitoring application using R and SQL that enables fluid sample analysis on thousands of products, saving Empire $100,000 in software licensing
+- Develop a condition monitoring application using R and SQL that enables the analysis of fluid samples across thousands of products, saving Empire $100,000 in software licensing
 
-- Collaborated with teams to design experiments that enhance reliability, safety, and durability
+- Collaborated with cross-functional teams to design experiments that enhance reliability, safety, and durability, leveraging data analysis skills to drive project success.
 
-- Developed a Python and MS-SQL application to track performance and outcomes of prototype designs tested in the field
+- Developed a Python and MS-SQL application to track performance and outcomes of prototype designs tested in the field, enhancing analytics capabilities and optimizing decision-making processes.
 
 Certification & Technical Registration
 

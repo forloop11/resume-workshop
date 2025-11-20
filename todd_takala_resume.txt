@@ -1,6 +1,6 @@
 Todd Takala
 Lead Data Scientist, Machine Learning Engineer, AI/ML and Analytics
-16071 W Sand Hills Rd, Surprise, AZ, 85138 - 1-602-775-0645
+501 W Washington St Apt 450, East Peoria, IL, 61611 - 1-602-775-0645
 todd.c.takala@gmail.com - linkedin.com/in/toddtakala - github.com/forloop11 - portfolio.derkooh.com
 
 Summary

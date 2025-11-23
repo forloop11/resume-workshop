@@ -110,6 +110,8 @@ Certification & Technical Registration
 
 - NCEES: Passed FE Exam
 
+- Scaled Agile Inc.: Certified SAFe 6 Agilist
+
 - UC, Berkeley: The Science of Happiness at Work Professional Certificate
 
 - US Department of Labor: Operating Engineer Vocational Certificate

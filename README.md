@@ -1,5 +1,5 @@
 Todd Takala
-Lead Data Scientist, Machine Learning Engineer, AI/ML of IoT and Physical Systems
+Distinguished Machine Learning Engineer
 linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 East Peoria, IL | 1-602-775-0645 | todd.c.takala@gmail.com
 
@@ -7,7 +7,7 @@ Summary
 
 ------------------------------------------------------------------------
 
-Lead Data Scientist with 12+ years applying machine learning, statistical modeling, and scalable data engineering to complex physical and operational systems. Expert in Python, SQL, R, AWS, Snowflake, and MLOps, transforming structured and unstructured data into predictive business-driving solutions. Delivered measurable impact, including a repair time forecasting platform that improved accuracy by 40% and increased warranty labor coverage by 375%.
+Distinguished Machine Learning Engineer with 12+ years applying machine learning, statistical modeling, and scalable data engineering to complex physical and operational systems. Expert in Python, SQL, R, AWS, Snowflake, and MLOps, transforming structured and unstructured data into predictive business-driving solutions. Delivered measurable impact, including a repair time forecasting platform that improved accuracy by 40% and increased warranty labor coverage by 375%.
 
 Professional Experience
 

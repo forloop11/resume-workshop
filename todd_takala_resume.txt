@@ -1,5 +1,5 @@
 Todd Takala
-Director of Data Quality
+Lead Data Scientist, Machine Learning Engineer, AI/ML of IoT and Physical Systems
 linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 East Peoria, IL | 1-602-775-0645 | todd.c.takala@gmail.com
 
@@ -96,13 +96,15 @@ Certification & Technical Registration
 
 ------------------------------------------------------------------------
 
+- Amazon Web Services: AWS Certified Machine Learning – Specialty
+
 - Arizona State Board of Technical Registration: EIT, Mechanical Engineering, Registration No. 10670
 
 - Canonical: Ubuntu Linux Professional Certificate
 
 - Data Camp: AI Fundamentals Certificate • Certified SQL Associate, Data Scientist Professional Certificate
 
-- Docker: Docker Foundations Professional Certificate
+- Docker, Inc.: Docker Foundations Professional Certificate
 
 - GitHub: Career Essentials in GitHub Professional Certificate
 

@@ -7,7 +7,7 @@ Summary
 
 ------------------------------------------------------------------------
 
-Director of Data Quality with 12+ years applying machine learning, statistical modeling, and scalable data engineering to complex physical and operational systems. Expert in Python, SQL, R, AWS, Snowflake, and MLOps, transforming structured and unstructured data into predictive business-driving solutions. Delivered measurable impact, including a repair time forecasting platform that improved accuracy by 40% and increased warranty labor coverage by 375%.
+Director of Data Quality with 12+ years of experience applying machine learning, statistical modeling, and scalable data engineering to complex physical and operational systems. Expert in Python, SQL, R, AWS, Snowflake, and MLOps, transforming structured and unstructured data into predictive business-driving solutions. Delivered measurable impact, including a repair time forecasting platform that improved accuracy by 40% and increased warranty labor coverage by 375%.
 
 Professional Experience
 
@@ -40,7 +40,7 @@ Data Engineering Manager | Mesa, AZ 05/2021 | 02/2022
 
 - Developed AI models for time series forecasting using Python, scikit-learn, TensorFlow, keras, R, tidyverse, ggplot2, and SQL to enhance demand forecasting and minimize stock-out risks in the mining business through MLOps integration.
 
-- Oversaw a strategic revamp of the component exchange program, creating a scalable, data driven infrastructure to improve efficiency and data analysis. Implemented data warehousing and ETL/ELT pipelines to enhance supply chain visibility and reliability, supporting decision making with accurate insights.
+- Oversaw a strategic overhaul of the component exchange program, creating a scalable, data driven infrastructure to improve efficiency and data analysis. Implemented data warehousing and ETL/ELT pipelines to enhance supply chain visibility and reliability, supporting decision making with accurate insights.
 
 - Efforts focused on creating best practices and governance frameworks in data engineering, emphasizing data quality and metadata management, to ensure reliable data foundations for analytics and reporting.
 
@@ -60,7 +60,7 @@ Reliability Engineering Manager | Mesa, AZ 01/2017 | 04/2021
 Empire-Cat
 Lead Reliability Engineer | Mesa, AZ 06/2016 | 12/2016
 
-- Developed a reproducible research framework using R, SQL, and Weibull analysis to enhance product reliability. This approach, adopted by Caterpillar, streamlined processes and set a new industry standard.
+- Developed a reproducible research framework using R, SQL, and Weibull analysis to improve product reliability. This approach, adopted by Caterpillar, streamlined processes and set a new industry standard.
 
 - Develop and supervise a comprehensive failure analysis program that uses data driven insights to enhance operational performance. Increased the physical availability of an aging product line from 80% to 90% through specific interventions, which greatly improved fleet operational efficiency and focused on remediating chronic issues with the main components.
 
@@ -69,11 +69,11 @@ Lead Reliability Engineer | Mesa, AZ 06/2016 | 12/2016
 Empire-Cat
 Technical Communications Manager | Mesa, AZ 12/2012 | 06/2016
 
-- The text highlights the expertise in linking customer feedback with engineering innovation through leading a team of technical communicators. Leadership skills are used to synthesize client insights, identify key areas for product development, and drive performance improvements to enhance customer satisfaction.
+- The text highlights the expertise in linking customer feedback with engineering innovation through the leadership of a team of technical communicators. Leadership skills are used to synthesize client insights, identify key areas for product development, and drive performance improvements to enhance customer satisfaction.
 
 - Integrating DMAIC Six Sigma & Lean Manufacturing with advanced computer science identifies and implements improvement opportunities, achieving $1.2 billion in savings and efficiency over six years.
 
-- A condition monitoring application was developed using R and SQL to automate fluid sample analysis for Empire-Cat, eliminating the need for costly software licenses and saving an estimated $100,000 annually. It provides crucial data for proactive maintenance and reliability assessments.
+- A condition monitoring application was developed using R and SQL to automate fluid sample analysis for Empire-Cat, eliminating the need for costly software licenses and saving an estimated $100,000 annually. Provides crucial data for proactive maintenance and reliability assessments.
 
 - Developed a Python and MS-SQL based tracking system that transformed fragmented data into actionable insights, speeding up evaluation and improving data driven decisions in product development.
 
@@ -90,7 +90,7 @@ Career Note
 
 ------------------------------------------------------------------------
 
-Additional tenure as a Technical Consultant & Technical Communicator at Road Machinery LLC, Research and Development Design Engineer at Komatsu America, Mechanical Design Engineer at X-tek Mining Services, Heavy Equipment Operator at Ryan Central Inc., Heavy Equipment Mechanic at Roland Machinery, and Apprentice Heavy Equipment Mechanic at Harry W. Kuhn, Inc. Details are available on LinkedIn profile.
+Additional tenure as a Technical Consultant & Technical Communicator at Road Machinery LLC, Research and Development Design Engineer at Komatsu America, Mechanical Design Engineer at X-tek Mining Services, Heavy Equipment Operator at Ryan Central Inc., Heavy Equipment Mechanic at Roland Machinery, and Apprentice Heavy Equipment Mechanic at Harry W. Kuhn, Inc. Details are available at LinkedIn profile.
 
 Certification & Technical Registration
 

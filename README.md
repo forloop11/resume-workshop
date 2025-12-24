@@ -1,5 +1,6 @@
 Todd Takala
-Lead Data Scientist, Machine Learning Engineer, AI/ML
+Staff Data Scientist
+
 linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 East Peoria, IL | 1-602-775-0645 | todd.c.takala@gmail.com
 
@@ -7,7 +8,7 @@ Summary
 
 ------------------------------------------------------------------------
 
-Director of Data Quality with 12+ years of experience applying machine learning, statistical modeling, and scalable data engineering to complex physical and operational systems. Expert in Python, SQL, R, AWS, Snowflake, and MLOps, transforming structured and unstructured data into predictive business-driving solutions. Delivered measurable impact, including a repair time forecasting platform that improved accuracy by 40% and increased warranty labor coverage by 375%.
+Staff Data Scientist  with 12+ years of experience applying machine learning, statistical modeling, and Scalable Agile Framework. AWS Certified Machine Learning Specialist with experience in Python, SQL, R, Snowflake and MLOps. Delivered measurable impact, including a repair time forecasting platform that improved accuracy by 40% and increased warranty labor coverage by 375% which saved $4M in 2025.
 
 Professional Experience
 
@@ -96,7 +97,7 @@ Certification & Technical Registration
 
 ------------------------------------------------------------------------
 
-- Amazon Web Services: AWS Certified Machine Learning – Specialty
+- Amazon Web Services: AWS Certified Machine Learning – Specialty (MLS-C01)
 
 - Arizona State Board of Technical Registration: EIT, Mechanical Engineering, Registration No. 10670
 
@@ -114,7 +115,7 @@ Certification & Technical Registration
 
 - NCEES: Passed the FE Exam
 
-- Scaled Agile Inc.: Certified SAFe Agilist
+- Scaled Agile Inc.: Certified SAFe 6 Agilist (SA)
 
 - UC, Berkeley: The Science of Happiness at Work Professional Certificate
 
@@ -126,7 +127,7 @@ Education
 
 Arizona State University
 Bachelor of Science in Mechanical Engineering Tempe, AZ
-Excel at distilling complex physical systems into mathematical models and converting real world engineering challenges into data driven solutions. An engineering background combines deep technical expertise with rigorous problem solving capabilities and attention to detail. This alignment supports advanced computational and analytical positions, particularly in Lead Data Scientist and Machine Learning Engineer roles.
+Excel at distilling complex physical systems into mathematical models and converting real world engineering challenges into data driven solutions. A STEM background combines deep technical expertise with rigorous problem solving capabilities and attention to detail. This alignment supports advanced computational and analytical positions, particularly in Data Scientist, Artificial Intelligence and Machine Learning Engineer roles.
 
 Hard Skills
 

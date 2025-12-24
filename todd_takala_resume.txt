@@ -1,5 +1,5 @@
 Todd Takala
-Lead Data Scientist, Machine Learning Engineer, AI/ML of IoT and Physical Systems
+Lead Data Scientist, Machine Learning Engineer, AI/ML
 linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 East Peoria, IL | 1-602-775-0645 | todd.c.takala@gmail.com
 

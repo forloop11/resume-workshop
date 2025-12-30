@@ -1,5 +1,5 @@
 Todd Takala
-Staff Data Scientist
+Senior Machine Learning Engineer
 
 linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
 East Peoria, IL | 1-602-775-0645 | todd.c.takala@gmail.com
@@ -8,7 +8,7 @@ Summary
 
 ------------------------------------------------------------------------
 
-Staff Data Scientist  with 12+ years of experience applying machine learning, statistical modeling, and Scalable Agile Framework. AWS Certified Machine Learning Specialist with experience in Python, SQL, R, Snowflake and MLOps. Delivered measurable impact, including a repair time forecasting platform that improved accuracy by 40% and increased warranty labor coverage by 375% which saved $4M in 2025.
+Senior Machine Learning Engineer  with 12+ years of experience applying machine learning, statistical modeling, and Scalable Agile Framework. AWS Certified Machine Learning Specialist with experience in Python, SQL, R, Snowflake and MLOps. Delivered measurable impact, including a repair time forecasting platform that improved accuracy by 40% and increased warranty labor coverage by 375% which saved $4M in 2025.
 
 Professional Experience
 

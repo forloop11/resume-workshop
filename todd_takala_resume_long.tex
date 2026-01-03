@@ -1,0 +1,348 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ATS-Friendly LaTeX Resume Template
+%
+% Author: Todd Takala
+%
+% This template is designed for maximum compatibility with
+% Applicant Tracking Systems (ATS). It uses a single-column
+% format, standard fonts, and clear section breaks.
+% Avoid using tables, images, or complex formatting.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Document Class: 'article' is a standard and safe choice.
+% 11pt font size is readable. a4paper is standard, but can be changed to letterpaper for US.
+\documentclass[10pt, letterpaper, sans]{article}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+% PACKAGES
+% -----------------------------------------------------------------------------
+
+% For adjusting page margins.
+\usepackage[margin=0.625in]{geometry}
+
+% For creating clickable links (email, website).
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=false,
+  urlcolor=blue,
+  linkcolor=blue,
+}
+
+% For customizing list environments (e.g., bullet points).
+\usepackage{enumitem}
+\usepackage{comment}
+
+% To remove page numbers.
+\pagestyle{empty}
+
+% To remove default paragraph indentation.
+\setlength{\parindent}{0pt}
+
+% CUSTOM COMMANDS & FORMATTING
+% -----------------------------------------------------------------------
+
+% Define a command for section headings.
+% This creates a bold title with a horizontal line below it.
+% The space after the heading is set to 10pt.
+\newcommand{\sectionheader}[1]{%
+ \vspace{11pt}%
+ \par\noindent\textbf{\Large #1}\par\hrule\vspace{5pt}%
+}
+
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\sloppy
+
+
+\newcommand{\jobtitle}{Data Scientist, Machine Learning Engineer}
+% \newcommand{\jobtitle}{Managing Machine Learning Engineer (Mobility)}
+% \newcommand{\jobtitle}{Senior Machine Learning Engineer}
+\newcommand{\jobtitle}{Data Scientist III (Ops \& Fleet)}
+
+
+
+% RESUME CONTENT
+% -----------------------------------------------------------------------------
+\begin{document}
+
+% ----- NAME & CONTACT -----
+\begin{center}
+  \textbf{\LARGE Todd Takala} \\
+  \vspace{4pt}
+  \jobtitle
+
+  \href{https://www.linkedin.com/in/toddtakala}{linkedin.com/in/toddtakala} | \href{https://www.github.com/forloop11}{github.com/forloop11} | \href{https://portfolio.derkooh.com/}{portfolio.derkooh.com} \\
+  East Peoria, IL | 1-602-775-0645 | \href{mailto:todd.c.takala@gmail.com}{todd.c.takala@gmail.com}
+\end{center}
+
+
+\sectionheader{Summary}
+
+\jobtitle \, with 12+ years of experience applying machine learning, statistical modeling, and Scalable Agile Framework. AWS Certified Machine Learning Specialist with experience in Python, SQL, R, Snowflake and MLOps. Delivered measurable impact, including a repair time forecasting platform that improved accuracy by 40\% and increased warranty labor coverage by 375\% which saved \$4M in 2025.
+
+\sectionheader{Professional Experience}
+\textbf{Caterpillar Inc.} \\
+\textit{Lead Data Scientist} | Peoria, IL \hfill 09/2022 | Present
+
+\begin{itemize}
+
+  \item Applies deep service and engineering expertise, plus data science, machine learning, and AI to improve quote accuracy, optimize lifecycle cost models, and improve labor forecasting for heavy equipment repairs, drawing on experience as a client-facing engineering manager, design engineer, and mechanic.
+
+  \item Designs and implements resilient data solutions using Python, Snowflake, SQL, R, Power BI, Tableau, SnapLogic, Docker, and AWS, including an AI platform that predicts heavy machine repair times. This platform increased warranty labor coverage by 375\%, received a CEO Award for strategic impact, and uses machine learning, rigorous testing, and GitHub CI/CD to increase customer satisfaction and promote fair, dependable warranty claim results.
+
+  \item Led the development and deployment of advanced ML models (using Docker, PyTorch, TensorFlow, etc.) that improved the accuracy of the prediction of repair times by 40\%, saving \$4M by eliminating the need for physical time studies.
+
+  \item Collaborate closely with senior leaders and stakeholders to simplify technical ideas into business benefits and promote scalable agile practices. This method has led to the successful adoption of projects and alignment with strategic goals to maximize the impact on the enterprise.
+
+\end{itemize}
+
+% \newpage
+
+\textbf{Amazon.com} \\
+\textit{Reliability Analytics Manager} | Tempe, AZ \hfill 02/2022 | 09/2022
+
+\begin{itemize}
+
+  \item Applied advanced analytics, statistics, and mathematical modeling to improve the efficiency and reliability of autonomous warehouse robots, significantly improving operational oversight and decision making.
+
+  \item Created groundbreaking KPIs that offer detailed insights into robot efficiency and authored a white paper on the use of Weibull analysis for reliability design.
+
+  \item Led a team of BI engineers and data analysts to develop a Shiny R pipeline on AWS for real time global monitoring of robot status at Amazon fulfillment centers. This project improved operational visibility, accelerated incident responses, and increased data analytics for proactive maintenance and reliability.
+
+  \item Robust data management solutions designed using AWS Redshift and PostgreSQL to support predictive models and large scale data analysis efforts, driving improved reliability predictions.
+
+\end{itemize}
+
+% \newpage
+
+\textbf{Empire-Cat} \\
+\textit{Data Engineering Manager} | Mesa, AZ \hfill 05/2021 | 02/2022
+\begin{itemize}
+  
+  \item Developed AI models for time series forecasting using Python, scikit-learn, TensorFlow, keras, R, tidyverse, ggplot2, and SQL to enhance demand forecasting and minimize stock-out risks in the mining business through MLOps integration.
+
+  \item Oversaw a strategic overhaul of the component exchange program, creating a scalable, data driven infrastructure to improve efficiency and data analysis. Implemented data warehousing and ETL/ELT pipelines to enhance supply chain visibility and reliability, supporting decision making with accurate insights.
+
+  \item Efforts focused on creating best practices and governance frameworks in data engineering, emphasizing data quality and metadata management, to ensure reliable data foundations for analytics and reporting.
+
+\end{itemize}
+
+\textbf{Empire-Cat} \\
+\textit{Reliability Engineering Manager} | Mesa, AZ \hfill 01/2017 | 04/2021
+
+\begin{itemize}
+  
+  \item Achieved operational excellence through innovative predictive analytics and robust engineering solutions, aimed at enhancing the reliability, durability, and maintenance strategies of mining equipment.
+
+  \item Developed regression machine learning models using R to forecast engine reliability and maintenance needs, which optimized maintenance processes and resulted in savings exceeding \$62 million within the first 90 days.
+
+  \item Led a team to foster collaboration and deliver expert technical support for Empire-Cat’s mining clients, ensuring effective issue resolution and high customer satisfaction.
+
+  \item Led the root cause failure analysis program (RCFA/FRACAS) using a data driven method to identify and solve systemic issues, strengthening Empire FMEA and 6 Sigma processes. This improved product reliability, reduced field failures, and improved quality and safety, earning Caterpillar's recognition for the adherence to industry best standards.
+
+  \item Enhanced engineering decisions and maintenance strategies through advanced data techniques with R, tidyverse, Python, pandas, scikit-learn, and SQL to ensure reliable and high performing mining equipment.
+
+\end{itemize}
+
+\textbf{Empire-Cat} \\
+\textit{Lead Reliability Engineer} | Mesa, AZ \hfill 06/2016 | 12/2016
+
+\begin{itemize}
+  \item Developed a reproducible research framework using R, SQL, and Weibull analysis to improve product reliability. This approach, adopted by Caterpillar, streamlined processes and set a new industry standard.
+
+  \item Develop and supervise a comprehensive failure analysis program that uses data driven insights to enhance operational performance. Increased the physical availability of an aging product line from 80\% to 90\% through specific interventions, which greatly improved fleet operational efficiency and focused on remediating chronic issues with the main components.
+
+  \item Enhanced the technical excellence of products and established Empire-Cat as an industry leader by promoting continuous improvement and setting standards for reliability engineering.
+  
+\end{itemize}
+
+\textbf{Empire-Cat} \\
+\textit{Technical Communications Manager} | Mesa, AZ \hfill 12/2012 | 06/2016
+
+\begin{itemize}
+  \item The text highlights the expertise in linking customer feedback with engineering innovation through the leadership of a team of technical communicators. Leadership skills are used to synthesize client insights, identify key areas for product development, and drive performance improvements to enhance customer satisfaction.
+
+  \item Integrating DMAIC Six Sigma \& Lean Manufacturing with advanced computer science identifies and implements improvement opportunities, achieving \$1.2 billion in savings and efficiency over six years.
+
+  \item A condition monitoring application was developed using R and SQL to automate fluid sample analysis for Empire-Cat, eliminating the need for costly software licenses and saving an estimated \$100,000 annually. Provides crucial data for proactive maintenance and reliability assessments.
+
+  \item Developed a Python and MS-SQL based tracking system that transformed fragmented data into actionable insights, speeding up evaluation and improving data driven decisions in product development.
+
+  \item Instrumental in advancing Empire-Cat’s technical and operational excellence by integrating strategic leadership, creative problem solving, and a customer focused approach.
+  
+\end{itemize}
+
+% \newpage
+\textbf{Empire-Cat} \\
+\textit{Reliability Engineer} | Mesa, AZ \hfill 01/2012 | 12/2016
+
+\begin{itemize}
+  \item Led the Product Problem Management program, which improved operational efficiency and optimized maintenance spending on equipment reliability in the mining fleet. This initiative systematically identifies, analyzes and resolves recurring failures in mining haul trucks, significantly improving equipment reliability, reducing unplanned downtime, and improving overall operational efficiency.
+
+  \item Worked with cross-functional engineering teams to design and execute experiments using engineering and statistical methods. These efforts addressed critical failure modes and performance limitations, improving mining equipment's safety, durability, and performance.
+  
+\end{itemize}
+
+\sectionheader{Career Note}
+
+Additional tenure as a Technical Consultant \& Technical Communicator at Road Machinery LLC, Research and Development Design Engineer at Komatsu America, Mechanical Design Engineer at X-tek Mining Services, Heavy Equipment Operator at Ryan Central Inc., Heavy Equipment Mechanic at Roland Machinery, and Apprentice Heavy Equipment Mechanic at Harry W. Kuhn, Inc. Details are available at \href{https://www.linkedin.com/in/toddtakala}{LinkedIn profile}.
+
+% ----- CERTIFICATIONS -----
+\sectionheader{Certification \& Technical Registration}
+
+\begin{itemize}
+ \item \textbf{Amazon Web Services:} AWS Certified Machine Learning – Specialty (MLS-C01)
+ \item \textbf{Arizona State Board of Technical Registration:} EIT, Mechanical Engineering, Registration No. 10670
+ \item \textbf{Canonical:} Ubuntu Linux Professional Certificate
+ \item \textbf{Data Camp:} AI Fundamentals Certificate • Certified SQL Associate, Data Scientist Professional Certificate
+
+\item \textbf{Docker, Inc.:} Docker Foundations Professional Certificate
+ 
+ \item \textbf{GitHub:} Career Essentials in GitHub Professional Certificate
+ \item \textbf{IBM:} Advanced Deep Learning Specialist • RAG and Agentic AI Professional Certificate • Deep Learning with PyTorch, Keras and Tensorflow Professional Certificate
+ \item \textbf{Komatsu North America:} Certified Technical Communicator
+ \item \textbf{NCEES:} Passed the FE Exam
+ \item \textbf{Scaled Agile Inc.:} Certified SAFe 6 Agilist (SA)
+ \item \textbf{UC, Berkeley:} The Science of Happiness at Work Professional Certificate
+ \item \textbf{US Department of Labor:} Operating Engineer Vocational Certificate
+\end{itemize}
+
+% ----- EDUCATION -----
+\sectionheader{Education}
+\textbf{Arizona State University} \\
+\textit{Bachelor of Science in Mechanical Engineering} \hfill Tempe, AZ \\
+Excel at distilling complex physical systems into mathematical models and converting real world engineering challenges into data driven solutions. A STEM background combines deep technical expertise with rigorous problem solving capabilities and attention to detail. This alignment supports advanced computational and analytical positions, particularly in Data Scientist, Artificial Intelligence, and Machine Learning Engineer roles.
+
+\sectionheader{Hard Skills}
+  A/B Testing,
+  Agentic AI,
+  Agile Methodology,
+  AI/ML,
+  Anomaly Detection,
+  % Architectural Design,
+  % Amazon Bedrock,
+  Artificial Intelligence,
+  AWS,
+  BASH,
+  CI/CD,
+  % Coding,
+  Computer Science,
+  % Continuous Integration,
+  % DAG,
+  RDBMS,
+  Database Administrator,
+  % Data Gathering,
+  Data Science,
+  % DBA,
+  DBT,
+  Deep Learning,
+  Design of Experiments,
+  DevOps,
+  % Developer Tools,
+  % Distributed Computing,
+  Docker,
+  % ECR,
+  Embedding,
+  ETL,
+  Fine Tuning,
+  Advanced Excel,
+  Financial Forecasting,
+  Generative AI,
+  Git,
+  % GitHub Actions,
+  % GitHub Copilot,
+  % LangChain Expression Language,
+  % LCEL,
+  Linear Algebra,
+  Large Language Models,
+  LLM,
+  Mathematics,
+  % Multivariate Calculus,
+  Natural Language Processing,
+  NLP,
+  Pandas,
+  Power BI,
+  % PostgreSQL,
+  Public Cloud,
+  Python,
+  PyTorch,
+  R,
+  RAG,
+  % Redshift,
+  Research,
+  Sagemaker,
+  Scikit-learn,
+  % S3,
+  Sagemaker,
+  Scripting Language,
+  % Scrum,
+  SDLC,
+  Simulation,
+  SnapLogic,
+  Snowflake,
+  SQL Queries,
+  Statistical Analysis,
+  % Step Functions,
+  Streamlit,
+  SQL,
+  Tableau,
+  TensorFlow,
+  Transact SQL,
+  Transformers,
+  Version Control
+
+\sectionheader{Soft Skills}
+  Adaptability,
+  % Attention to Detail,
+  Business Requirements,
+  Coaching,
+  Communication Skills,
+  Continuous Improvement,
+  Creative Problem Solving,
+  Data Driven,
+  Decision Making,
+  Growth Mindset,
+  Interviewing,
+  Leadership Experience,
+  Life Long Learning,
+  Listening,
+  Mentoring,
+  Methodical,
+  Multicultural Collaboration,
+  Open Minded,
+  Problem Solving,
+  Professional Services,
+  Presentations,
+  Public Speaking,
+  Strategic Thinking,
+  Team Building,
+  Thought Leadership,
+  Willing to Learn
+
+% \newpage
+\begin{comment}
+
+\sectionheader{Courses}
+
+\begin{itemize}
+  \item \textbf{Amazon Machine Learning University:} Tabular Data with Autogluon
+  \item \textbf{ASME:} Y14.5M Geometric Dimensioning and Tolerancing
+  \item \textbf{Caterpillar:} Applied Failure Analysis • SQL Server Toolset \& Services • Business Tools for Service Managers • Improving Component Durability
+  \item \textbf{Data Camp:} Bayesian Modeling in RJAGS
+  \item \textbf{DDI:} Communicating for Leadership Success • Coaching for Peak Performance • Delegating with Purpose • Setting Performance Expectations • Resolving Workplace Conflict
+  \item \textbf{DeepLearning.AI:} Building Systems with the ChatGPT API • ChatGPT Prompt Engineering for Developers • Finetuning Large Language Models
+  \item \textbf{Franklin Covey:} Leadership: Great leaders - Great Teams - Great Results
+  \item \textbf{Harper College:} Pneumatics and Hydraulics
+  \item \textbf{IBM:} Advanced RAG with Vector Databases and Retrievers • Agentic AI with LangChain and LangGraph • Agentic AI with LangGraph, CrewAI, AutoGen and BeeAI • Build RAG Applications • Deep Learning with Keras and Tensorflow • Deep Learning \& Neural Networks with Keras • Vector Databases for RAG • Deep Learning with PyTorch
+  \item \textbf{LinkenIn Learning:} Advanced Snowflake: Deep Dive Cloud Data Warehousing and Analytics • Building Applications Using Amazon Bedrock • Data Engineering with dbt • Designing Machine Learning Systems in the Cloud • Learning Kubernetes
+  \item \textbf{Noria:} Oil Analysis I, II, III
+  \item \textbf{O'Reilly Media:} Designing Machine Learning Systems in the Cloud
+  \item \textbf{SAE:} Principles of Cost and Finance for Engineers
+\end{itemize}
+\end{comment}
+
+
+
+
+
+\end{document}

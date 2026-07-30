@@ -1,142 +1,121 @@
 Todd Takala
-Senior Machine Learning Engineer
+Data Scientist Rooted in Physics and Engineering
 
-linkedin.com/in/toddtakala | github.com/forloop11 | portfolio.derkooh.com
-East Peoria, IL | 1-602-775-0645 | todd.c.takala@gmail.com
+Surprise, AZ · 602-775-0645 · todd.c.takala@gmail.com
+linkedin.com/in/toddtakala · github.com/forloop11 · portfolio.derkooh.com
 
 Summary
 
-------------------------------------------------------------------------
+Reliability engineer and data scientist with 25 years in heavy equipment, mining, and robotics, delivering $66M in impact. Determines the root cause of high horsepower engines, planetary drivetrains, and high pressure hydraulic systems, then turns field failure data into design changes and production machine learning that reduces warranty costs. Grounds every model in real failure behavior using Weibull, FMEA, RCFA, FRACAS, 8D, and design of experiments. Started on the shop floor as a heavy equipment mechanic and operator, then studied mechanical engineering at Arizona State, so both executives and technicians trust the findings.
 
-Senior Machine Learning Engineer  with 12+ years of experience applying machine learning, statistical modeling, and Scalable Agile Framework. AWS Certified Machine Learning Specialist with experience in Python, SQL, R, Snowflake and MLOps. Delivered measurable impact, including a repair time forecasting platform that improved accuracy by 40% and increased warranty labor coverage by 375% which saved $4M in 2025.
+Core Competencies
+
+Root Cause Failure Analysis · 8D and 5 Whys · Fishbone Ishikawa · FMEA, DFMEA, PFMEA · FRACAS · Weibull Analysis · Wear Mode Analysis · Oil Tribology and Spectroscopy · Design of Experiments · Predictive Maintenance · Prognostics and Remaining Useful Life · Condition Monitoring · Machine Learning Engineering · MLOps and CI/CD · Time Series Forecasting · Anomaly Detection · Digital Twins · Data Engineering
+
+Recognition & Speaking
+
+Caterpillar CEO Award (ML labor time model) · 2× ML Competition Champion at Amazon, regression and recommender systems · Invited speaker on Product Problem Management, Truck Rebuild Program, and Data Science for Fleet Reliability
 
 Professional Experience
 
-------------------------------------------------------------------------
+Caterpillar Inc.09/2022 – 06/2026
 
-Caterpillar Inc.
-Lead Data Scientist | Peoria, IL 09/2022 | Present
+Lead Data Scientist
 
-- Applies deep service and engineering expertise, plus data science, machine learning, and AI to improve quote accuracy, optimize lifecycle cost models, and improve labor forecasting for heavy equipment repairs, drawing on experience as a client-facing engineering manager, design engineer, and mechanic.
+Led production machine learning for warranty, service labor, and life cycle cost across the global equipment fleet, turning enterprise scale equipment data into models that executives and dealers acted on.
 
-- Designs and implements resilient data solutions using Python, Snowflake, SQL, R, Power BI, Tableau, SnapLogic, Docker, and AWS, including an AI platform that predicts heavy machine repair times. This platform increased warranty labor coverage by 375%, received a CEO Award for strategic impact, and uses machine learning, rigorous testing, and GitHub CI/CD to increase customer satisfaction and promote fair, dependable warranty claim results.
+- Designed and deployed an AI platform predicting heavy equipment repair times, which improved accuracy by 40%, tripled warranty labor coverage, and eliminated $4M annually in physical time studies. The work earned a Caterpillar CEO Award for strategic impact.
 
-- Led the development and deployment of advanced ML models (using Docker, PyTorch, TensorFlow, etc.) that improved the accuracy of the prediction of repair times by 40%, saving $4M by eliminating the need for physical time studies.
+- Built machine learning across tabular, time series, and LLM applications powering warranty adjudication, insurance reserves, and the quoting of service labor, parts, and technician capacity at enterprise scale.
 
-- Collaborate closely with senior leaders and stakeholders to simplify technical ideas into business benefits and promote scalable agile practices. This method has led to the successful adoption of projects and alignment with strategic goals to maximize the impact on the enterprise.
+- Owned the full MLOps lifecycle on AWS SageMaker AI with Infrastructure as Code, GitHub CI/CD, Docker, drift detection, and automated retraining that kept production models accurate without manual intervention.
 
-Amazon.com
-Reliability Analytics Manager | Tempe, AZ 02/2022 | 09/2022
+- Architected the data foundation behind those models in Snowflake as DBA, building managed schemas, views, functions, scheduled tasks, and stored procedures, alongside pipelines in SQL, R, and SnapLogic.
 
-- Applied advanced analytics, statistics, and mathematical modeling to improve the efficiency and reliability of autonomous warehouse robots, significantly improving operational oversight and decision making.
+- Authored and deployed Power BI analytics adopted by 10,000 users, improving quote accuracy and labor forecasting across the dealer network.
 
-- Created groundbreaking KPIs that offer detailed insights into robot efficiency and authored a white paper on the use of Weibull analysis for reliability design.
+Amazon.com — Amazon Robotics02/2022 – 09/2022
 
-- Led a team of BI engineers and data analysts to develop a Shiny R pipeline on AWS for real time global monitoring of robot status at Amazon fulfillment centers. This project improved operational visibility, accelerated incident responses, and increased data analytics for proactive maintenance and reliability.
+Reliability Analytics Manager
 
-- Robust data management solutions designed using AWS Redshift and PostgreSQL to support predictive models and large scale data analysis efforts, driving improved reliability predictions.
+Brought reliability engineering and machine learning to a global autonomous robot fleet, turning fleet telemetry into maintenance strategies and design metric improvements.
 
-Empire-Cat
-Data Engineering Manager | Mesa, AZ 05/2021 | 02/2022
+- Applied Weibull statistical modeling and reliability engineering to a global fleet of 400,000 autonomous warehouse robots, informing maintenance strategy and operational decisions across the fulfillment network.
 
-- Developed AI models for time series forecasting using Python, scikit-learn, TensorFlow, keras, R, tidyverse, ggplot2, and SQL to enhance demand forecasting and minimize stock-out risks in the mining business through MLOps integration.
+- Led a team of 5 BI engineers and analysts to build a real time global robot monitoring pipeline (Shiny, R, AWS), adopted across fulfillment sites for incident response and proactive maintenance.
 
-- Oversaw a strategic overhaul of the component exchange program, creating a scalable, data driven infrastructure to improve efficiency and data analysis. Implemented data warehousing and ETL/ELT pipelines to enhance supply chain visibility and reliability, supporting decision making with accurate insights.
+- Won 2 internal machine learning competitions at Amazon, in regression and recommender systems.
 
-- Efforts focused on creating best practices and governance frameworks in data engineering, emphasizing data quality and metadata management, to ensure reliable data foundations for analytics and reporting.
+Empire-Cat01/2012 – 02/2022
 
-Empire-Cat
-Reliability Engineering Manager | Mesa, AZ 01/2017 | 04/2021
+Reliability Engineering Manager and Data Engineering Manager06/2016 – 02/2022
 
-- Achieved operational excellence through innovative predictive analytics and robust engineering solutions, aimed at enhancing the reliability, durability, and maintenance strategies of mining equipment.
+Built the data and MLOps foundation that powered demand forecasting and supply chain reliability across a mining haul truck fleet.
 
-- Developed regression machine learning models using R to forecast engine reliability and maintenance needs, which optimized maintenance processes and resulted in savings exceeding $62 million within the first 90 days.
+- Deployed Weibull demand forecasting models for a fleet of 250 mining haul trucks with MLOps integration, improving forecast accuracy by 89 percent and reducing component stockouts by 25 percent.
 
-- Led a team to foster collaboration and deliver expert technical support for Empire-Cat’s mining clients, ensuring effective issue resolution and high customer satisfaction.
+- Used time series models to target components at risk of stockout, connecting reliability insights directly to forecasting and inventory decisions.
 
-- Led the root cause failure analysis program (RCFA/FRACAS) using a data driven method to identify and solve systemic issues, strengthening Empire FMEA and 6 Sigma processes. This improved product reliability, reduced field failures, and improved quality and safety, earning Caterpillar’s recognition for the adherence to industry best standards.
+- Architected the component exchange program with data warehousing and ETL and ELT pipelines, bringing observability and supply chain visibility to the 250 truck fleet.
 
-- Enhanced engineering decisions and maintenance strategies through advanced data techniques with R, tidyverse, Python, pandas, scikit-learn, and SQL to ensure reliable and high performing mining equipment.
+- Established data engineering governance, data quality, and metadata standards adopted as the foundation for dealership analytics.
 
-Empire-Cat
-Lead Reliability Engineer | Mesa, AZ 06/2016 | 12/2016
+Lead Reliability Engineer06/2016 – 12/2016
 
-- Developed a reproducible research framework using R, SQL, and Weibull analysis to improve product reliability. This approach, adopted by Caterpillar, streamlined processes and set a new industry standard.
+Built the reproducible analytics methodology that became Caterpillar’s standard for reliability research across the global dealer network.
 
-- Develop and supervise a comprehensive failure analysis program that uses data driven insights to enhance operational performance. Increased the physical availability of an aging product line from 80% to 90% through specific interventions, which greatly improved fleet operational efficiency and focused on remediating chronic issues with the main components.
+- Led a root cause failure analysis program on an aging mining truck product line, remediating chronic engine, drivetrain, and hydraulic failures to raise physical availability from 80
 
-- Enhanced the technical excellence of products and established Empire-Cat as an industry leader by promoting continuous improvement and setting standards for reliability engineering.
+- Applied design of experiments, wear mode analysis, and statistical modeling to isolate the key drivers of unreliability, turning field failure data into reliability growth at client mine sites.
 
-Empire-Cat
-Technical Communications Manager | Mesa, AZ 12/2012 | 06/2016
+- Created a reproducible reliability research framework (R, SQL, Weibull analysis) that Caterpillar incorporated into its tooling and distributed across the global dealer network as the standard methodology.
 
-- The text highlights the expertise in linking customer feedback with engineering innovation through the leadership of a team of technical communicators. Leadership skills are used to synthesize client insights, identify key areas for product development, and drive performance improvements to enhance customer satisfaction.
+Technical Communications (Engineering) Manager12/2012 – 06/2016
 
-- Integrating DMAIC Six Sigma & Lean Manufacturing with advanced computer science identifies and implements improvement opportunities, achieving $1.2 billion in savings and efficiency over six years.
+- Applied DMAIC Six Sigma, Lean, and data science to identify and implement reliability improvements, delivering an estimated $1.2B in savings within a fleet wide program over six years.
 
-- A condition monitoring application was developed using R and SQL to automate fluid sample analysis for Empire-Cat, eliminating the need for costly software licenses and saving an estimated $100,000 annually. Provides crucial data for proactive maintenance and reliability assessments.
+- Developed a fluids and wear analysis application (R, SQL) applying oil tribology and spectroscopy to ASTM D7720 control limits, eliminating $100K per year in license costs and feeding proactive maintenance across the haul truck fleet.
 
-- Developed a Python and MS-SQL based tracking system that transformed fragmented data into actionable insights, speeding up evaluation and improving data driven decisions in product development.
+- Served as a client facing subject matter expert, translating reliability findings and maintenance strategies into guidance that customers and dealer partners acted on.
 
-- Instrumental in advancing Empire-Cat’s technical and operational excellence by integrating strategic leadership, creative problem-solving, and a customer focused approach.
+Reliability Engineer01/2012 – 12/2012
 
-Empire-Cat
-Reliability Engineer | Mesa, AZ 01/2012 | 12/2016
+- Led the Product Problem Management program, applying 8D and root cause failure analysis to resolve recurring mining haul truck failures and reduce unplanned downtime.
 
-- Led the Product Problem Management program, which improved operational efficiency and optimized maintenance spending on equipment reliability in the mining fleet. This initiative systematically identifies, analyzes and resolves recurring failures in mining haul trucks, significantly improving equipment reliability, reducing unplanned downtime, and improving overall operational efficiency.
+- Designed and executed statistical experiments with cross functional engineering teams to address critical failure modes, improving safety, durability, and performance.
 
-- Worked with cross-functional engineering teams to design and execute experiments using engineering and statistical methods. These efforts addressed critical failure modes and performance limitations, improving mining equipment’s safety, durability, and performance.
+- Analyzed field failure data to prioritize the highest impact failure modes, turning downtime patterns into a ranked remediation plan that guided the problem management program.
 
-Career Note
+Road Machinery, LLC01/2008 – 01/2012
 
-------------------------------------------------------------------------
+Technical Communicator
 
-Additional tenure as a Technical Consultant & Technical Communicator at Road Machinery LLC, Research and Development Design Engineer at Komatsu America, Mechanical Design Engineer at X-tek Mining Services, Heavy Equipment Operator at Ryan Central Inc., Heavy Equipment Mechanic at Roland Machinery, and Apprentice Heavy Equipment Mechanic at Harry W. Kuhn, Inc. Details are available at LinkedIn profile.
+- Built the Total Cost of Ownership analysis that underpinned a $72M sale of electric mining haul trucks, applying reliability engineering and engineering economics to model fleet life cycle costs.
 
-Certification & Technical Registration
+- Served as the principal technical consultant on a $2.5M gold mine account in central Mexico, building a long term client relationship through reliability and maintenance guidance.
 
-------------------------------------------------------------------------
+- Led root cause failure analysis on recurring haul truck failures for client fleets, turning findings into maintenance and lifecycle cost guidance that customers acted upon.
 
-- Amazon Web Services: AWS Certified Machine Learning – Specialty (MLS-C01)
+- Engineered below the hook lifting devices with SolidWorks and validated designs with finite element analysis.
 
-- Arizona State Board of Technical Registration: EIT, Mechanical Engineering, Registration No. 10670
+Komatsu North America06/2006 – 12/2007
 
-- Canonical: Ubuntu Linux Professional Certificate
+Design Engineer
 
-- Data Camp: AI Fundamentals Certificate • Certified SQL Associate, Data Scientist Professional Certificate
+- Ran FMEA and FRACAS on prototype and production machines to surface failure modes early, authoring corrective actions that drove design changes and improved durability and reliability before release.
 
-- Docker, Inc.: Docker Foundations Professional Certificate
+Certifications
 
-- GitHub: Career Essentials in GitHub Professional Certificate
+Six Sigma Black Belt · AWS Certified Machine Learning Specialty · IBM Agentic AI, RAG and Agentic AI · Docker Foundations SAFe 6 Agilist · Caterpillar Applied Failure Analysis · AI for Mechanical Engineers · Semiconductor Packaging Manufacturing Probabilistic Graphical Models
 
-- IBM: Advanced Deep Learning Specialist • RAG and Agentic AI Professional Certificate • Deep Learning with PyTorch, Keras and Tensorflow Professional Certificate
+Technical Skills
 
-- Komatsu North America: Certified Technical Communicator
+Failure Analysis and Reliability: Root Cause Failure Analysis · 8D · 5 Whys · FMEA, DFMEA, PFMEA · FRACAS · Weibull analysis · wear mode analysis · oil tribology and spectroscopy · design of experiments · condition monitoring
 
-- NCEES: Passed the FE Exam
+ML / AI: PyTorch · TensorFlow/Keras · scikit-learn · deep learning · sentence transformers · embeddings · anomaly detection · A/B testing · DoE · simulation tooling · Spark · pySpark · Hadoop · LangGraph · CrewAI · AutoGen · BeeAI
 
-- Scaled Agile Inc.: Certified SAFe 6 Agilist (SA)
-
-- UC, Berkeley: The Science of Happiness at Work Professional Certificate
-
-- US Department of Labor: Operating Engineer Vocational Certificate
+Data & Cloud: AWS (SageMaker AI, Redshift, Glue) · Snowflake DBA · Docker · Bash · CI/CD · Linux · Kubernetes
 
 Education
 
-------------------------------------------------------------------------
-
-Arizona State University
-Bachelor of Science in Mechanical Engineering Tempe, AZ
-Excel at distilling complex physical systems into mathematical models and converting real world engineering challenges into data driven solutions. A STEM background combines deep technical expertise with rigorous problem solving capabilities and attention to detail. This alignment supports advanced computational and analytical positions, particularly in Data Scientist, Artificial Intelligence and Machine Learning Engineer roles.
-
-Hard Skills
-
-------------------------------------------------------------------------
-
-A/B Testing, Agentic AI, Agile Methodology, AI/ML, Anomaly Detection, Artificial Intelligence, AWS, BASH, CI/CD, Computer Science, RDBMS, Database Administrator, Data Science, DBT, Deep Learning, Design of Experiments, DevOps, Docker, Embedding, ETL, Fine Tuning, Advanced Excel, Financial Forecasting, Generative AI, Git, Linear Algebra, Large Language Models, LLM, Mathematics, Natural Language Processing, NLP, Pandas, Power BI, Public Cloud, Python, PyTorch, R, RAG, Research, Sagemaker, Scikit-learn, Sagemaker, Scripting Language, SDLC, Simulation, SnapLogic, Snowflake, SQL Queries, Statistical Analysis, Streamlit, SQL, Tableau, TensorFlow, Transact SQL, Transformers, Version Control
-
-Soft Skills
-
-------------------------------------------------------------------------
-
-Adaptability, Business Requirements, Coaching, Communication Skills, Continuous Improvement, Creative Problem Solving, Data Driven, Decision Making, Growth Mindset, Interviewing, Leadership Experience, Life Long Learning, Listening, Mentoring, Methodical, Multicultural Collaboration, Open Minded, Problem Solving, Professional Services, Presentations, Public Speaking, Strategic Thinking, Team Building, Thought Leadership, Willing to Learn
+Arizona State UniversityB.S., Mechanical Engineering  2006Tempe, AZ

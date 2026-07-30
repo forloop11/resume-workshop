@@ -1,0 +1,172 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+
+% ---- packages ----
+\usepackage[letterpaper,top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{helvet}                       % Arial-like sans-serif
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\tolerance=1000
+
+% ---- colors ----
+\definecolor{navy}{RGB}{31,58,95}
+\definecolor{slate}{RGB}{85,85,85}
+
+\hypersetup{colorlinks=true, urlcolor=navy, linkcolor=navy}
+
+% ---- spacing ----
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+\setlist[itemize]{leftmargin=1.3em, itemsep=1.5pt, topsep=2pt, parsep=0pt,
+                  label=\textcolor{slate}{\textbullet}}
+
+% ---- section headings: uppercase navy with rule ----
+\titleformat{\section}
+  {\color{navy}\bfseries\large}{}{0em}{\MakeUppercase}[{\color{navy}\titlerule[1.1pt]}]
+\titlespacing{\section}{0pt}{5pt}{3pt}
+
+
+% company name + location ............ dates  (right aligned)
+\newcommand{\companyentry}[3]{%
+  \smallskip\textbf{#1}\hspace{0.4em}{\color{slate}\small #2}\hfill{\color{slate}\small #3}\par}
+
+% italic role title ............ dates (right aligned)
+\newcommand{\roledated}[2]{%
+  \textit{#1}\hfill{\color{slate}\small #2}\par\vspace{1pt}}
+
+% italic role title, no dates
+\newcommand{\role}[1]{\textit{#1}\par\vspace{1pt}}
+
+\begin{document}
+
+% ===================== HEADER =====================
+\begin{center}
+  {\color{navy}\Huge\bfseries Todd Takala}\\[3pt]
+  {\color{slate} Data Scientist Rooted in Physics and Engineering\\[4pt]}
+  %{\color{slate} Data \& AI - Principal Data Program Delivery Lead - Data Solution Owner\\[4pt]}
+   
+  
+  {\small Surprise, AZ · 602-775-0645 · \href{mailto:todd.c.takala@gmail.com}{todd.c.takala@gmail.com}}\\[2pt]
+  {\small \href{https://www.linkedin.com/in/toddtakala}{linkedin.com/in/toddtakala} ·
+          \href{https://www.github.com/forloop11}{github.com/forloop11} ·
+          \href{https://portfolio.derkooh.com/}{portfolio.derkooh.com}}
+\end{center}
+
+% ===================== SUMMARY =====================
+\section{Summary}
+Reliability engineer and data scientist with 25 years in heavy equipment, mining, and robotics, delivering \$66M in impact. Determines the root cause of high horsepower engines, planetary drivetrains, and high pressure hydraulic systems, then turns field failure data into design changes and production machine learning that reduces warranty costs. Grounds every model in real failure behavior using Weibull, FMEA, RCFA, FRACAS, 8D, and design of experiments. Started on the shop floor as a heavy equipment mechanic and operator, then studied mechanical engineering at Arizona State, so both executives and technicians trust the findings.
+
+% ===================== CORE COMPETENCIES =====================
+\section{Core Competencies}
+Root Cause Failure Analysis · 8D and 5 Whys · Fishbone Ishikawa · FMEA, DFMEA, PFMEA · FRACAS · Weibull Analysis · Wear Mode Analysis · Oil Tribology and Spectroscopy · Design of Experiments · Predictive Maintenance · Prognostics and Remaining Useful Life · Condition Monitoring · Machine Learning Engineering · MLOps and CI/CD · Time Series Forecasting · Anomaly Detection · Digital Twins · Data Engineering
+
+% ===================== RECOGNITION =====================
+\section{Recognition \& Speaking}
+Caterpillar CEO Award (ML labor time model) · 2× ML Competition Champion at Amazon, regression and recommender systems · Invited speaker on Product Problem Management, Truck Rebuild Program, and Data Science for Fleet Reliability
+
+% ===================== EXPERIENCE =====================
+\section{Professional Experience}
+
+\companyentry{Caterpillar Inc.}{Peoria, IL}{09/2022 -- 06/2026}
+\role{Lead Data Scientist}
+Led production machine learning for warranty, service labor, and life cycle cost across the global equipment fleet, turning enterprise scale equipment data into models that executives and dealers acted on.
+    \begin{itemize}
+        \item Designed and deployed an AI platform predicting heavy equipment repair times, which improved accuracy by 40\%, tripled warranty labor coverage, and eliminated \$4M annually in physical time studies. The work earned a Caterpillar CEO Award for strategic impact.
+        \item Built machine learning across tabular, time series, and LLM applications powering warranty adjudication, insurance reserves, and the quoting of service labor, parts, and technician capacity at enterprise scale.
+        \item Owned the full MLOps lifecycle on AWS SageMaker AI with Infrastructure as Code, GitHub CI/CD, Docker, drift detection, and automated retraining that kept production models accurate without manual intervention.
+        \item Architected the data foundation behind those models in Snowflake as DBA, building managed schemas, views, functions, scheduled tasks, and stored procedures, alongside pipelines in SQL, R, and SnapLogic.
+        \item Authored and deployed Power BI analytics adopted by 10,000 users, improving quote accuracy and labor forecasting across the dealer network.
+    \end{itemize}
+
+\companyentry{Amazon.com --- Amazon Robotics}{Tempe, AZ}{02/2022 -- 09/2022}
+\role{Reliability Analytics Manager}
+Brought reliability engineering and machine learning to a global autonomous robot fleet, turning fleet telemetry into maintenance strategies and design metric improvements.
+\begin{itemize}
+    \item Applied Weibull statistical modeling and reliability engineering to a global fleet of 400,000 autonomous warehouse robots, informing maintenance strategy and operational decisions across the fulfillment network.
+    \item Led a team of 5 BI engineers and analysts to build a real time global robot monitoring pipeline (Shiny, R, AWS), adopted across fulfillment sites for incident response and proactive maintenance.
+    \item Won 2 internal machine learning competitions at Amazon, in regression and recommender systems.
+\end{itemize}
+
+\companyentry{Empire-Cat}{Mesa, AZ}{01/2012 -- 02/2022}
+\roledated{Reliability Engineering Manager and Data Engineering Manager}{06/2016 -- 02/2022}
+Built the data and MLOps foundation that powered demand forecasting and supply chain reliability across a mining haul truck fleet.
+
+\begin{itemize}
+    \item Deployed Weibull demand forecasting models for a fleet of 250 mining haul trucks with MLOps integration, improving forecast accuracy by 89 percent and reducing component stockouts by 25 percent.
+    \item Used time series models to target components at risk of stockout, connecting reliability insights directly to forecasting and inventory decisions.
+    \item Architected the component exchange program with data warehousing and ETL and ELT pipelines, bringing observability and supply chain visibility to the 250 truck fleet.
+    \item Established data engineering governance, data quality, and metadata standards adopted as the foundation for dealership analytics.
+\end{itemize}
+
+
+\roledated{Lead Reliability Engineer}{06/2016 -- 12/2016}
+Built the reproducible analytics methodology that became Caterpillar's standard for reliability research across the global dealer network.
+
+\begin{itemize}
+    \item Led a root cause failure analysis program on an aging mining truck product line, remediating chronic engine, drivetrain, and hydraulic failures to raise physical availability from 80% to 90%.
+    \item Applied design of experiments, wear mode analysis, and statistical modeling to isolate the key drivers of unreliability, turning field failure data into reliability growth at client mine sites.
+    \item Created a reproducible reliability research framework (R, SQL, Weibull analysis) that Caterpillar incorporated into its tooling and distributed across the global dealer network as the standard methodology.
+\end{itemize}
+
+\roledated{Technical Communications (Engineering) Manager}{12/2012 -- 06/2016}
+\begin{itemize}
+    \item Applied DMAIC Six Sigma, Lean, and data science to identify and implement reliability improvements, delivering an estimated \$1.2B in savings within a fleet wide program over six years.
+    \item Developed a fluids and wear analysis application (R, SQL) applying oil tribology and spectroscopy to ASTM D7720 control limits, eliminating \$100K per year in license costs and feeding proactive maintenance across the haul truck fleet.
+    \item Served as a client facing subject matter expert, translating reliability findings and maintenance strategies into guidance that customers and dealer partners acted on.
+\end{itemize}
+
+\roledated{Reliability Engineer}{01/2012 -- 12/2012}
+\begin{itemize}
+    \item Led the Product Problem Management program, applying 8D and root cause failure analysis to resolve recurring mining haul truck failures and reduce unplanned downtime.
+    \item Designed and executed statistical experiments with cross functional engineering teams to address critical failure modes, improving safety, durability, and performance.
+    \item Analyzed field failure data to prioritize the highest impact failure modes, turning downtime patterns into a ranked remediation plan that guided the problem management program.
+\end{itemize}
+
+\companyentry{Road Machinery, LLC}{Phoenix, AZ}{01/2008 -- 01/2012}
+\role{Technical Communicator}
+\begin{itemize}
+    \item Built the Total Cost of Ownership analysis that underpinned a \$72M sale of electric mining haul trucks, applying reliability engineering and engineering economics to model fleet life cycle costs.
+    \item Served as the principal technical consultant on a \$2.5M gold mine account in central Mexico, building a long term client relationship through reliability and maintenance guidance.
+    \item Led root cause failure analysis on recurring haul truck failures for client fleets, turning findings into maintenance and lifecycle cost guidance that customers acted upon.
+    \item Engineered below the hook lifting devices with SolidWorks and validated designs with finite element analysis.
+\end{itemize}
+
+\companyentry{Komatsu North America}{Chattanooga, TN}{06/2006 -- 12/2007}
+\role{Design Engineer}
+\begin{itemize}
+    % \item Led end to end development of a 25 ton hydraulic rescue winch from concept through prototyping and field testing.
+    \item Ran FMEA and FRACAS on prototype and production machines to surface failure modes early, authoring corrective actions that drove design changes and improved durability and reliability before release.
+\end{itemize}
+
+% ===================== CERTIFICATIONS =====================
+\section{Certifications}
+Six Sigma Black Belt · AWS Certified Machine Learning Specialty · IBM Agentic AI, RAG and Agentic AI · Docker Foundations
+SAFe 6 Agilist · Caterpillar Applied Failure Analysis · AI for Mechanical Engineers · Semiconductor Packaging Manufacturing
+Probabilistic Graphical Models
+
+% ===================== TECHNICAL SKILLS =====================
+\section{Technical Skills}
+
+\textbf{Failure Analysis and Reliability:}  Root Cause Failure Analysis · 8D · 5 Whys · FMEA, DFMEA, PFMEA · FRACAS · Weibull analysis · wear mode analysis · oil tribology and spectroscopy · design of experiments · condition monitoring
+
+\textbf{ML / AI:} PyTorch · TensorFlow/Keras · scikit-learn · deep learning · sentence transformers · embeddings · anomaly detection · A/B testing · DoE · simulation tooling · Spark · pySpark · Hadoop · LangGraph · CrewAI · AutoGen · BeeAI
+
+\par\smallskip
+
+\textbf{Data \& Cloud:} AWS (SageMaker AI, Redshift, Glue) · Snowflake DBA · Docker · Bash · CI/CD · Linux · Kubernetes
+
+
+
+% ===================== EDUCATION =====================
+\section{Education}
+\textbf{Arizona State University}\hspace{0.4em}B.S., Mechanical Engineering \textperiodcentered\ 2006\hfill{\color{slate}\small Tempe, AZ}
+
+\end{document}

@@ -1,5 +1,5 @@
 Todd Takala
-Data Scientist Rooted in Physics and Engineering
+Rooted in Physics and Engineering
 
 Surprise, AZ · 602-775-0645 · todd.c.takala@gmail.com
 linkedin.com/in/toddtakala · github.com/forloop11 · portfolio.derkooh.com

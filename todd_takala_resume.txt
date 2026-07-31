@@ -1,12 +1,12 @@
 Todd Takala
-Rooted in Physics and Engineering
+Rooted in Physics, Engineering, and Data Science
 
 Surprise, AZ · 602-775-0645 · todd.c.takala@gmail.com
 linkedin.com/in/toddtakala · github.com/forloop11 · portfolio.derkooh.com
 
 Summary
 
-Professional with 25 years in industrial equipment, mining, and robotics, who delivered $66M in impact. Drives the reliability of internal combustion diesel engines, transmissions, and fluid power systems using field failure data. Drives maintenance, safety, and design changes using data science and machine learning grounded in physics and engineering. Employing Weibull, FMEA, RCFA, FRACAS, 8D, and design of experiments. Started on the shop floor as a heavy equipment mechanic and operator, then studied mechanical engineering at Arizona State, so both executives and technicians trust the findings.
+Customer facing professional with 25 years of experience solving tough capital equipment reliability, maintenance, and safety opportunities. Excellent communication with the shop floor, engineering, supervision, and leadership. Comfortable across the software development lifecycle and MLOps, extracting insights from failure data, IoT, and ERP systems to build physics and engineering grounded data science and ML data products. Began on the shop floor as a heavy equipment mechanic and operator, then studied mechanical engineering at Arizona State, earning the trust of both executives and technicians.
 
 Core Competencies
 
@@ -22,7 +22,7 @@ Caterpillar Inc.09/2022 – 06/2026
 
 Lead Data Scientist
 
-Led production machine learning for warranty, service labor, and lifecycle cost across the global equipment fleet, turning enterprise scale equipment data into models that executives and dealers acted on.
+- Led production machine learning for warranty, service labor, and lifecycle cost across the global equipment fleet, turning enterprise scale equipment data into models that executives and dealers acted on.
 
 - Designed and deployed an AI platform predicting heavy equipment repair times, which improved accuracy by 40%, tripled warranty labor coverage, and eliminated $4M annually in physical time studies. The work earned a Caterpillar CEO Award for strategic impact.
 
@@ -38,7 +38,7 @@ Amazon.com — Amazon Robotics02/2022 – 09/2022
 
 Reliability Analytics Manager
 
-Brought reliability engineering and machine learning to a global autonomous robot fleet, turning fleet telemetry into maintenance strategies and design metric improvements.
+- Brought reliability engineering and machine learning to a global autonomous robot fleet, turning fleet telemetry into maintenance strategies and design metric improvements.
 
 - Applied Weibull statistical modeling and reliability engineering to a global fleet of 400,000 autonomous warehouse robots, informing maintenance strategy and operational decisions across the fulfillment network.
 
@@ -50,7 +50,7 @@ Empire-Cat01/2012 – 02/2022
 
 Reliability Engineering Manager and Data Engineering Manager06/2016 – 02/2022
 
-Built the data and MLOps foundation that powered demand forecasting and supply chain reliability across a mining haul truck fleet.
+- Built the data and MLOps foundation that powered demand forecasting and supply chain reliability across a mining haul truck fleet.
 
 - Deployed Weibull demand forecasting models for a fleet of 250 mining haul trucks with MLOps integration, improving forecast accuracy by 89 percent and reducing component stock outs by 25 percent.
 
@@ -62,7 +62,7 @@ Built the data and MLOps foundation that powered demand forecasting and supply c
 
 Lead Reliability Engineer06/2016 – 12/2016
 
-Built the reproducible analytics methodology that became Caterpillar’s standard for reliability research across the global dealer network.
+- Built the reproducible analytics methodology that became Caterpillar’s standard for reliability research across the global dealer network.
 
 - Led a root cause failure analysis program on an aging mining truck product line, remediating chronic engine, drivetrain, and hydraulic failures to raise physical availability from 80
 

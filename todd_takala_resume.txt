@@ -18,7 +18,7 @@ Caterpillar CEO Award (ML labor time model) · 2× ML Competition Champion at Am
 
 Professional Experience
 
-Caterpillar Inc.09/2022 – 06/2026
+Caterpillar Inc. 09/2022 – 06/2026
 
 Lead Data Scientist
 
@@ -34,7 +34,7 @@ Lead Data Scientist
 
 - Authored and deployed Power BI analytics adopted by 10,000 users, improving quote accuracy and labor forecasting across the dealer network.
 
-Amazon.com — Amazon Robotics02/2022 – 09/2022
+Amazon.com — Amazon Robotics 02/2022 – 09/2022
 
 Reliability Analytics Manager
 
@@ -46,7 +46,7 @@ Reliability Analytics Manager
 
 - Won 2 internal machine learning competitions at Amazon, in regression and recommender systems.
 
-Empire-Cat01/2012 – 02/2022
+Empire-Cat 01/2012 – 02/2022
 
 Reliability Engineering Manager and Data Engineering Manager06/2016 – 02/2022
 
@@ -60,7 +60,7 @@ Reliability Engineering Manager and Data Engineering Manager06/2016 – 02/2022
 
 - Established data engineering governance, data quality, and metadata standards adopted as the foundation for dealership analytics.
 
-Lead Reliability Engineer06/2016 – 12/2016
+Lead Reliability Engineer 06/2016 – 12/2016
 
 - Built the reproducible analytics methodology that became Caterpillar’s standard for reliability research across the global dealer network.
 
@@ -70,7 +70,7 @@ Lead Reliability Engineer06/2016 – 12/2016
 
 - Created a reproducible reliability research framework (R, SQL, Weibull analysis) that Caterpillar incorporated into its tooling and distributed across the global dealer network as the standard methodology.
 
-Technical Communications (Engineering) Manager12/2012 – 06/2016
+Technical Communications (Engineering) Manager 12/2012 – 06/2016
 
 - Applied DMAIC Six Sigma, Lean, and data science to identify and implement reliability improvements, delivering an estimated $1.2B in savings within a fleet wide program over six years.
 
@@ -78,7 +78,7 @@ Technical Communications (Engineering) Manager12/2012 – 06/2016
 
 - Served as a client facing subject matter expert, translating reliability findings and maintenance strategies into guidance that customers and dealer partners acted on.
 
-Reliability Engineer01/2012 – 12/2012
+Reliability Engineer 01/2012 – 12/2012
 
 - Led the Product Problem Management program, applying 8D and root cause failure analysis to resolve recurring mining haul truck failures and reduce unplanned downtime.
 
@@ -86,7 +86,7 @@ Reliability Engineer01/2012 – 12/2012
 
 - Analyzed field failure data to prioritize the highest impact failure modes, turning downtime patterns into a ranked remediation plan that guided the problem management program.
 
-Road Machinery, LLC01/2008 – 01/2012
+Road Machinery, LLC 01/2008 – 01/2012
 
 Technical Communicator
 
@@ -98,7 +98,7 @@ Technical Communicator
 
 - Engineered below the hook lifting devices with SolidWorks and validated designs with finite element analysis.
 
-Komatsu North America06/2006 – 12/2007
+Komatsu North America 06/2006 – 12/2007
 
 Design Engineer
 

@@ -106,7 +106,7 @@ Design Engineer
 
 Certifications
 
-Six Sigma Black Belt · AWS Certified Machine Learning Specialty · IBM Agentic AI, RAG and Agentic AI · Docker Foundations SAFe 6 Agilist · Caterpillar Applied Failure Analysis · AI for Mechanical Engineers · Semiconductor Packaging Manufacturing Probabilistic Graphical Models
+Six Sigma Black Belt · AWS Certified Machine Learning Specialty · IBM Agentic AI, RAG and Agentic AI · Docker Foundations SAFe 6 Agilist · Caterpillar Applied Failure Analysis · University of Michigan Semiconductor Packaging Manufacturing Stanford Probabilistic Graphical Models · Duke Applied Python Data Engineering
 
 Technical Skills
 

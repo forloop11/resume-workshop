@@ -48,7 +48,7 @@ Reliability Analytics Manager
 
 Empire-Cat 01/2012 – 02/2022
 
-Reliability Engineering Manager and Data Engineering Manager06/2016 – 02/2022
+Reliability Engineering Manager and Data Engineering Manager 06/2016 – 02/2022
 
 - Built the data and MLOps foundation that powered demand forecasting and supply chain reliability across a mining haul truck fleet.
 

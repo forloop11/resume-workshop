@@ -106,13 +106,13 @@ Design Engineer
 
 Certifications
 
-Six Sigma Black Belt · AWS Certified Machine Learning Specialty · IBM Agentic AI, RAG and Agentic AI · Docker Foundations SAFe 6 Agilist · Caterpillar Applied Failure Analysis · University of Michigan Semiconductor Packaging Manufacturing Stanford Probabilistic Graphical Models · Duke Applied Python Data Engineering
+Six Sigma Black Belt · AWS Certified Machine Learning Specialty · IBM Agentic AI, RAG and Agentic AI · Docker Foundations SAFe 6 Agilist · Caterpillar Applied Failure Analysis · University of Michigan Semiconductor Packaging Manufacturing · Stanford Probabilistic Graphical Models · Duke Applied Python Data Engineering
 
 Technical Skills
 
 Failure Analysis and Reliability: Root Cause Failure Analysis · 8D · 5 Whys · FMEA, DFMEA, PFMEA · FRACAS · Weibull analysis · wear mode analysis · oil tribology and spectroscopy · design of experiments · condition monitoring
 
-ML / AI: PyTorch · TensorFlow/Keras · scikit-learn · deep learning · sentence transformers · embeddings · anomaly detection · A/B testing · DoE · simulation tooling · Spark · pySpark · Hadoop · LangGraph · CrewAI · AutoGen · BeeAI
+ML / AI: PyTorch · TensorFlow/Keras · scikit-learn · deep learning · sentence transformers · embeddings anomaly detection · A/B testing · DoE · simulation tooling · Spark · pySpark · Hadoop · LangGraph · CrewAI · AutoGen · BeeAI
 
 Data & Cloud: AWS (SageMaker AI, Redshift, Glue) · Snowflake DBA · Docker · Bash · CI/CD · Linux · Kubernetes
 

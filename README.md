@@ -6,7 +6,7 @@ linkedin.com/in/toddtakala · github.com/forloop11 · portfolio.derkooh.com
 
 Summary
 
-Customer facing professional with 25 years of experience solving tough capital equipment reliability, maintenance, and safety opportunities. Excellent communication with the shop floor, engineering, supervision, and leadership. Comfortable across the software development lifecycle and MLOps, extracting insights from failure data, IoT, and ERP systems to build physics and engineering grounded data science and ML data products. Began on the shop floor as a heavy equipment mechanic and operator, then studied mechanical engineering at Arizona State, earning the trust of both executives and technicians.
+Professional with 25 years of experience solving tough capital equipment reliability, maintenance, and safety opportunities. Excellent communication with the shop floor, engineering, supervision, and leadership. Comfortable across the software development lifecycle and MLOps, extracting insights from failure data, IoT, and ERP systems to build physics and engineering grounded data science and ML data products. Began on the shop floor as a heavy equipment mechanic and operator, then studied mechanical engineering at Arizona State, earning the trust of both executives and technicians.
 
 Core Competencies
 

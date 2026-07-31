@@ -118,4 +118,4 @@ Data & Cloud: AWS (SageMaker AI, Redshift, Glue) · Snowflake DBA · Docker · B
 
 Education
 
-Arizona State UniversityB.S., Mechanical Engineering  2006 Tempe, AZ
+Arizona State University B.S., Mechanical Engineering  2006 Tempe, AZ

@@ -110,7 +110,7 @@ Six Sigma Black Belt · AWS Certified Machine Learning Specialty · IBM Agentic 
 
 Technical Skills
 
-Failure Analysis and Reliability: Root Cause Failure Analysis · 8D · 5 Whys · FMEA, DFMEA, PFMEA · FRACAS · Weibull analysis · wear mode analysis · oil tribology and spectroscopy · design of experiments · condition monitoring
+Reliability Engineering: Root Cause Failure Analysis · 8D · 5 Whys · FMEA, DFMEA, PFMEA · FRACAS · Weibull analysis · wear mode analysis · oil tribology and spectroscopy · design of experiments · condition monitoring
 
 ML / AI: PyTorch · TensorFlow/Keras · scikit-learn · deep learning · sentence transformers · embeddings anomaly detection · A/B testing · DoE · simulation tooling · Spark · pySpark · Hadoop · LangGraph · CrewAI · AutoGen · BeeAI
 

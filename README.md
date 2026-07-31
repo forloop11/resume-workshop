@@ -10,7 +10,7 @@ Professional with 25 years of experience solving tough capital equipment reliabi
 
 Core Competencies
 
-Root Cause Failure Analysis · 8D and 5 Whys · Fishbone Ishikawa · FMEA, DFMEA, PFMEA · FRACAS · Weibull Analysis · Wear Mode Analysis · Oil Tribology and Spectroscopy · Design of Experiments · Predictive Maintenance · Prognostics and Remaining Useful Life · Condition Monitoring · Machine Learning Engineering · MLOps and CI/CD · Time Series Forecasting · Anomaly Detection · Digital Twins · Data Engineering
+Root Cause Failure Analysis · 8D and 5 Whys · Fishbone Ishikawa · FMEA, DFMEA, PFMEA · FRACAS · Weibull Analysis · Physics of Failures Fluids Tribology and Spectroscopy · Design of Experiments · Predictive Maintenance · Prognostics and Remaining Useful Life · Condition Monitoring · Machine Learning Engineering · MLOps and CI/CD · Time Series Forecasting Anomaly Detection · Digital Twins · Data Engineering
 
 Recognition & Speaking
 

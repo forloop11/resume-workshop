@@ -6,7 +6,7 @@ linkedin.com/in/toddtakala · github.com/forloop11 · portfolio.derkooh.com
 
 Summary
 
-Reliability engineer and data scientist with 25 years in heavy equipment, mining, and robotics, delivering $66M in impact. Determines the root cause of high horsepower engines, planetary drivetrains, and high pressure hydraulic systems, then turns field failure data into design changes and production machine learning that reduces warranty costs. Grounds every model in real failure behavior using Weibull, FMEA, RCFA, FRACAS, 8D, and design of experiments. Started on the shop floor as a heavy equipment mechanic and operator, then studied mechanical engineering at Arizona State, so both executives and technicians trust the findings.
+Professional with 25 years in industrial equipment, mining, and robotics, who delivered $66M in impact. Drives the reliability of internal combustion diesel engines, transmissions, and fluid power systems using field failure data. Drives maintenance, safety, and design changes using data science and machine learning grounded in physics and engineering. Employing Weibull, FMEA, RCFA, FRACAS, 8D, and design of experiments. Started on the shop floor as a heavy equipment mechanic and operator, then studied mechanical engineering at Arizona State, so both executives and technicians trust the findings.
 
 Core Competencies
 
@@ -22,7 +22,7 @@ Caterpillar Inc.09/2022 – 06/2026
 
 Lead Data Scientist
 
-Led production machine learning for warranty, service labor, and life cycle cost across the global equipment fleet, turning enterprise scale equipment data into models that executives and dealers acted on.
+Led production machine learning for warranty, service labor, and lifecycle cost across the global equipment fleet, turning enterprise scale equipment data into models that executives and dealers acted on.
 
 - Designed and deployed an AI platform predicting heavy equipment repair times, which improved accuracy by 40%, tripled warranty labor coverage, and eliminated $4M annually in physical time studies. The work earned a Caterpillar CEO Award for strategic impact.
 
@@ -52,9 +52,9 @@ Reliability Engineering Manager and Data Engineering Manager06/2016 – 02/2022
 
 Built the data and MLOps foundation that powered demand forecasting and supply chain reliability across a mining haul truck fleet.
 
-- Deployed Weibull demand forecasting models for a fleet of 250 mining haul trucks with MLOps integration, improving forecast accuracy by 89 percent and reducing component stockouts by 25 percent.
+- Deployed Weibull demand forecasting models for a fleet of 250 mining haul trucks with MLOps integration, improving forecast accuracy by 89 percent and reducing component stock outs by 25 percent.
 
-- Used time series models to target components at risk of stockout, connecting reliability insights directly to forecasting and inventory decisions.
+- Used time series models to target components at risk of stock out, connecting reliability insights directly to forecasting and inventory decisions.
 
 - Architected the component exchange program with data warehousing and ETL and ELT pipelines, bringing observability and supply chain visibility to the 250 truck fleet.
 
@@ -94,7 +94,7 @@ Technical Communicator
 
 - Served as the principal technical consultant on a $2.5M gold mine account in central Mexico, building a long term client relationship through reliability and maintenance guidance.
 
-- Led root cause failure analysis on recurring haul truck failures for client fleets, turning findings into maintenance and lifecycle cost guidance that customers acted upon.
+- Led root cause failure analysis on recurring haul truck failures for client fleets, turning findings into maintenance and life cycle cost guidance that customers acted upon.
 
 - Engineered below the hook lifting devices with SolidWorks and validated designs with finite element analysis.
 

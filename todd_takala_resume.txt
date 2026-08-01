@@ -104,6 +104,8 @@ Education
 
 Arizona State University B.S., Mechanical Engineering  2006 Tempe, AZ
 
+U.S. Department of Labor, I.U.O.E. Local 150 Apprenticeship Certificate, Operating Engineer  2001 Plainfield, IL
+
 Core Competencies
 
 Root Cause Failure Analysis · 8D and 5 Whys · Fishbone Ishikawa · FMEA, DFMEA, PFMEA · FRACAS · Weibull Analysis Physics of Failures, Fluids, Tribology, and Spectroscopy · Design of Experiments · Predictive Maintenance · Prognostics and Remaining Useful Life · Condition Monitoring · Machine Learning Engineering · MLOps and CI/CD · Time Series Forecasting , Anomaly Detection · Digital Twins · Data Engineering

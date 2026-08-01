@@ -8,9 +8,9 @@ Summary
 
 Professional with 25 years of experience solving tough capital equipment reliability, maintenance, and safety challenges. Excellent communication with the shop floor, engineering, supervision, and leadership. Comfortable across the software development lifecycle and MLOps, extracting insights from failure data, IoT, and ERP systems to build physics and engineering grounded data science and ML data products. Began on the shop floor as a heavy equipment mechanic and operator, then studied mechanical engineering at Arizona State, earning the trust of both executives and technicians.
 
-Core Competencies
+Certifications
 
-Root Cause Failure Analysis · 8D and 5 Whys · Fishbone Ishikawa · FMEA, DFMEA, PFMEA · FRACAS · Weibull Analysis Physics of Failures, Fluids, Tribology, and Spectroscopy · Design of Experiments · Predictive Maintenance · Prognostics and Remaining Useful Life · Condition Monitoring · Machine Learning Engineering · MLOps and CI/CD · Time Series Forecasting , Anomaly Detection · Digital Twins · Data Engineering
+Six Sigma Black Belt · AWS Certified Machine Learning Specialty · IBM Agentic AI, RAG and Agentic AI · Docker Foundations SAFe 6 Agilist · Caterpillar Applied Failure Analysis · University of Michigan Semiconductor Packaging Manufacturing · Stanford Probabilistic Graphical Models · Duke Applied Python Data Engineering
 
 Recognition & Speaking
 
@@ -44,8 +44,6 @@ Reliability Analytics Manager
 
 - Led a team of 5 BI engineers and analysts to build a real time global robot monitoring pipeline (Shiny, R, AWS), adopted across fulfillment sites for incident response and proactive maintenance.
 
-- Won 2 internal machine learning competitions at Amazon, in regression and recommender systems.
-
 Empire-Cat 01/2012 – 02/2022
 
 Reliability Engineering Manager and Data Engineering Manager 06/2016 – 02/2022
@@ -57,8 +55,6 @@ Reliability Engineering Manager and Data Engineering Manager 06/2016 – 02/2022
 - Used time series models to target components at risk of stock out, connecting reliability insights directly to forecasting and inventory decisions.
 
 - Architected the component exchange program with data warehousing and ETL and ELT pipelines, bringing observability and supply chain visibility to the 250 truck fleet.
-
-- Established data engineering governance, data quality, and metadata standards adopted as the foundation for dealership analytics.
 
 Lead Reliability Engineer 06/2016 – 12/2016
 
@@ -104,9 +100,13 @@ Design Engineer
 
 - Ran FMEA and FRACAS on prototype and production machines to surface failure modes early, authoring corrective actions that drove design changes and improved durability and reliability before release.
 
-Certifications
+Education
 
-Six Sigma Black Belt · AWS Certified Machine Learning Specialty · IBM Agentic AI, RAG and Agentic AI · Docker Foundations SAFe 6 Agilist · Caterpillar Applied Failure Analysis · University of Michigan Semiconductor Packaging Manufacturing · Stanford Probabilistic Graphical Models · Duke Applied Python Data Engineering
+Arizona State University B.S., Mechanical Engineering  2006 Tempe, AZ
+
+Core Competencies
+
+Root Cause Failure Analysis · 8D and 5 Whys · Fishbone Ishikawa · FMEA, DFMEA, PFMEA · FRACAS · Weibull Analysis Physics of Failures, Fluids, Tribology, and Spectroscopy · Design of Experiments · Predictive Maintenance · Prognostics and Remaining Useful Life · Condition Monitoring · Machine Learning Engineering · MLOps and CI/CD · Time Series Forecasting , Anomaly Detection · Digital Twins · Data Engineering
 
 Technical Skills
 
@@ -115,7 +115,3 @@ Reliability Engineering: Root Cause Failure Analysis · 8D · 5 Whys · FMEA, DF
 ML / AI: PyTorch · TensorFlow/Keras · scikit-learn · deep learning · sentence transformers · embeddings anomaly detection · A/B testing · DoE · simulation tooling · Spark · pySpark · Hadoop · LangGraph · CrewAI · AutoGen · BeeAI
 
 Data & Cloud: AWS (SageMaker AI, Redshift, Glue) · Snowflake DBA · Docker · Bash · CI/CD · Linux · Kubernetes
-
-Education
-
-Arizona State University B.S., Mechanical Engineering  2006 Tempe, AZ

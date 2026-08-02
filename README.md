@@ -56,15 +56,15 @@ Reliability Engineering Manager and Data Engineering Manager 06/2016 – 02/2022
 
 - Architected the component exchange program with data warehousing and ETL and ELT pipelines, bringing observability and supply chain visibility to the 250 truck fleet.
 
-Lead Reliability Engineer 06/2016 – 12/2016
+- Established data engineering governance, data quality, and metadata standards adopted as the foundation for dealership analytics.
 
-- Built the reproducible analytics methodology that became Caterpillar’s standard for reliability research across the global dealer network.
+Lead Reliability Engineer 06/2016 – 12/2016
 
 - Led a root cause failure analysis program on an aging mining truck product line, remediating chronic engine, drivetrain, and hydraulic failures to raise physical availability from 80
 
 - Applied design of experiments, wear mode analysis, and statistical modeling to isolate the key drivers of unreliability, turning field failure data into reliability growth at client mine sites.
 
-- Created a reproducible reliability research framework (R, SQL, Weibull analysis) that Caterpillar incorporated into its tooling and distributed across the global dealer network as the standard methodology.
+- Created a reproducible research framework using RMarkdown, SQL, Weibull analysis that Caterpillar incorporated into its CRM system.
 
 Technical Communications (Engineering) Manager 12/2012 – 06/2016
 

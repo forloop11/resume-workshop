@@ -118,6 +118,9 @@ highlighting and formatting controls available in the editor.
 
 ![Resume JSON editor](docs/screenshots/editor-resume-json.png)
 
+* Example [resume.pdf](output/resume.pdf) file
+* Example [resume.txt](output/resume.txt) file
+
 ## Generated files
 
 Files under `interim/` are generated and should not be edited directly. Update

@@ -1,8 +1,56 @@
-# LaTeX Resume
+# Resume Workshop
 
-Created with LaTeX and makefile.
+Resume Workshop is a source-driven LaTeX resume builder. Resume content and
+metadata live in editable YAML, JSON, and TeX files; small Python generators
+convert the structured inputs into interim LaTeX, and Make targets build the
+final PDF and plain-text resume. The project also includes an optional local
+browser editor and a Docker-based build path for a reproducible toolchain.
 
-- `make build` compiles `output/resume.pdf` and `output/resume.txt`.
+## Contents
+
+- [Resume Workshop](#resume-workshop)
+  - [Contents](#contents)
+  - [Requirements](#requirements)
+  - [Quick start](#quick-start)
+  - [Project layout](#project-layout)
+  - [Make targets](#make-targets)
+  - [Editing the resume](#editing-the-resume)
+  - [Local editor](#local-editor)
+  - [Generated files](#generated-files)
+  - [Docker workflow](#docker-workflow)
+  - [Spell checking](#spell-checking)
+
+## Requirements
+
+For a native build, install Python 3.13 or newer, GNU Make, a TeX Live
+installation with the packages used by [input/format.tex](input/format.tex),
+and Pandoc. Python dependencies are intentionally limited to the standard
+library; [requirements.txt](requirements.txt) is provided for documentation.
+
+If the LaTeX or Pandoc toolchain is not installed locally, use the Docker
+workflow instead.
+
+## Quick start
+
+1. Edit the source files in [input/](input/).
+2. Run `make build`.
+3. Open `output/resume.pdf` or `output/resume.txt`.
+
+To create a filename based on the name in the header, run `make user`. The
+current generated copy is `output/todd_takala_resume.pdf`.
+
+## Project layout
+
+- [input/](input/) contains the editable resume data, page geometry, and LaTeX layout.
+- [scripts/](scripts/) contains the standard-library Python generators and browser editor.
+- [interim/](interim/) contains generated LaTeX fragments used during a build.
+- [output/](output/) contains generated PDF and plain-text resume files.
+- [docker/](docker/) contains the reproducible build image definition.
+- [etc/](etc/) contains cspell configuration and project-specific words.
+
+## Make targets
+
+- `make build` regenerates all interim files, then creates `output/resume.pdf` and `output/resume.txt`.
 - `make header` regenerates `interim/header.tex` from [input/header.yaml](input/header.yaml) without a full build.
 - `make geometry` regenerates `interim/geometry.tex` from [input/geometry.yaml](input/geometry.yaml) without a full build.
 - `make resume` regenerates `interim/resume_content.tex` from [input/resume.json](input/resume.json) without a full build.
@@ -12,6 +60,7 @@ Created with LaTeX and makefile.
   — currently `output/todd_takala_resume.pdf`.
 - `make editor` starts a local browser editor for the files in `input/`, the `build`/`user` Makefile targets, and the generated PDF.
 - `make clean` removes auxiliary pdflatex files and generated interim files.
+- `make docker-image` builds the local `resume-builder` Docker image.
 - `make docker-build` builds a Docker image with pdflatex/pandoc/python3 and
   runs `make build` inside a container against this directory — use this if
   you don't have the LaTeX/pandoc toolchain installed locally. Output files
@@ -20,7 +69,7 @@ Created with LaTeX and makefile.
   image (via `--network host`) — use this if you don't have Python installed
   locally either.
 
-## Editing the header
+## Editing the resume
 
 Name, title, location, phone, email, and links live in [input/header.yaml](input/header.yaml)
 instead of the `.tex` file. Edit that file and run `make build` (or `make header`)
@@ -54,3 +103,24 @@ The local editor enables the browser's native spellcheck while editing.
 this repo's goal of using only a standard TeX Live install), so it only supports
 a narrow subset: flat `key: value` pairs plus one `links:` list of `text`/`url`
 pairs, as shown in the existing file.
+
+## Generated files
+
+Files under `interim/` are generated and should not be edited directly. Update
+the corresponding file under [input/](input/) and run the matching generator or
+`make build`. Auxiliary LaTeX files and generated interim files can be removed
+with `make clean`.
+
+## Docker workflow
+
+The Docker image installs Python 3, GNU Make, Pandoc, and the TeX Live packages
+needed by the resume. Run `make docker-build` from the repository root to build
+without installing those tools locally. Run `make docker-editor` to launch the
+browser editor in the container; its default address is
+`http://127.0.0.1:8765/`. Set `RESUME_EDITOR_PORT` to use another port.
+
+## Spell checking
+
+[etc/dictionary.txt](etc/dictionary.txt) contains project-specific spell-check
+terms, configured via [etc/cspell.json](etc/cspell.json). The local editor also
+enables the browser's native spellcheck while editing.

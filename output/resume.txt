@@ -142,6 +142,12 @@ Selected Certifications
 
 AWS Certified Machine Learning – Specialty (MLS-C01) ⋅ Lean Six Sigma Black Belt, Kennesaw State University ⋅ Certified SAFe Agilist ⋅ Probabilistic Graphical Models Specialization, Stanford University ⋅ Applied Python Data Engineering, Duke University ⋅ RAG and Agentic AI, IBM ⋅ Advanced Deep Learning Specialist, IBM ⋅ Caterpillar Applied Failure Analysis
 
+Selected Independent Projects
+
+10-Node Raspberry Pi 5 HPC Cluster (2025–2026): Distributed ML testbed on Ray, Dask, SLURM, MPI, and Ansible; 70%+ speedup on parallelizable workloads.
+
+Deploying & Experimenting with AI at Scale (2025–2026): Benchmark local models up to 200B parameters on NVIDIA DGX Spark hardware (Ollama, DeepSeek, Qwen3, GPT-OSS) against commercial APIs.
+
 Recognition & Speaking
 
 Caterpillar CEO Award (2024): AI-driven labor time model, for exceptional personal contribution and business impact.
@@ -151,9 +157,3 @@ Caterpillar CEO Award (2024): AI-driven labor time model, for exceptional person
 Invited Speaker, Data Science for Fleet Reliability (2021): Diesel engine digital twin that extended engine life 23%, saving the client $62M in 90 days.
 
 Invited Speaker, Reliability & Rebuild Programs (2015, 2019): Product Problem Management; and a truck rebuild program at Caterpillar’s large mining truck conference, delivering 2–4% higher availability at 60% of new-machine cost.
-
-Selected Independent Projects
-
-10-Node Raspberry Pi 5 HPC Cluster (2025–2026): Distributed ML testbed on Ray, Dask, SLURM, MPI, and Ansible; 70%+ speedup on parallelizable workloads.
-
-Deploying & Experimenting with AI at Scale (2025–2026): Benchmark local models up to 200B parameters on NVIDIA DGX Spark hardware (Ollama, DeepSeek, Qwen3, GPT-OSS) against commercial APIs.

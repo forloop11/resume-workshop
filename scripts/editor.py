@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parent.parent
 INPUT_DIR = ROOT / "input"
 OUTPUT_DIR = ROOT / "output"
-EDITABLE_FILES = ("format.tex", "header.yaml", "geometry.yaml", "resume.json")
+EDITABLE_FILES = ("format.tex", "header.yaml", "geometry.yaml", "section_order.yaml", "resume.json")
 MAKE_TARGETS = ("build", "user")
 
 HTML = """<!doctype html>

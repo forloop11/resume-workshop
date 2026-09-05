@@ -54,7 +54,7 @@ current generated copy is `output/todd_takala_resume.pdf`.
 - `make build` regenerates all interim files, then creates `output/resume.pdf` and `output/resume.txt`.
 - `make header` regenerates `interim/header.tex` from [input/header.yaml](input/header.yaml) without a full build.
 - `make geometry` regenerates `interim/geometry.tex` from [input/geometry.yaml](input/geometry.yaml) without a full build.
-- `make resume` regenerates `interim/resume_content.tex` from [input/resume.json](input/resume.json) without a full build.
+- `make resume` regenerates `interim/resume_content.tex` from [input/resume.json](input/resume.json) and [input/section_order.yaml](input/section_order.yaml) without a full build.
 - `make user` creates `output/<name>_resume.pdf`, where `<name>` is the `name`
   field from [input/header.yaml](input/header.yaml), lowercased, with spaces
   replaced by underscores and everything else reduced to alphanumerics/underscores
@@ -82,7 +82,8 @@ file and run `make build` (or `make geometry`) to regenerate
 `interim/geometry.tex`.
 
 The complete resume content is stored in [input/resume.json](input/resume.json) and
-rendered into `interim/resume_content.tex`. The [input/format.tex](input/format.tex)
+rendered into `interim/resume_content.tex`. Edit [input/section_order.yaml](input/section_order.yaml)
+to control the order of the top-level resume sections. The [input/format.tex](input/format.tex)
 file contains the LaTeX layout, commands, and document configuration.
 
 ## Local editor

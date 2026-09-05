@@ -10,7 +10,7 @@ header: input/header.yaml scripts/generate_header.py
 geometry: input/geometry.yaml scripts/generate_geometry.py
 	python3 scripts/generate_geometry.py
 
-resume: input/resume.json scripts/generate_resume.py
+resume: input/resume.json input/section_order.yaml scripts/generate_resume.py
 	python3 scripts/generate_resume.py
 
 editor: scripts/editor.py

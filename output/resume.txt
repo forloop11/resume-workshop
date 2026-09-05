@@ -1,0 +1,159 @@
+TODD TAKALA
+DATA SCIENTIST, MACHINE LEARNING & RELIABILITY ENGINEERING LEADER
+Greater Phoenix, AZ  ⋅  +1 (xxx) xxx-xxxx  ⋅   xxxx@gmail.com
+linkedin.com/in/toddtakala  ⋅   portfolio.derkooh.com  ⋅   credly.com/users/toddtakala
+
+Professional Summary
+
+Data science leader with 29 years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and LLM applications built on failure data, IoT telemetry, and ERP systems, and owns the full MLOps lifecycle on AWS and Snowflake. Caterpillar CEO Award recipient, 2x Amazon ML competition champion, and a leader of cross-functional engineering and analytics teams, trusted equally by technicians on the floor and executives in the boardroom.
+
+Core Competencies
+
+Machine Learning & AI: Deep learning (PyTorch, TensorFlow/Keras) ⋅ time series forecasting ⋅ anomaly detection ⋅ survival analysis and censored data ⋅ ordinal regression and entity embeddings ⋅ NLP and embeddings ⋅ LLM, RAG, and agentic AI ⋅ design of experiments
+
+MLOps, Data & Cloud: AWS SageMaker and Bedrock ⋅ Snowflake ⋅ CI/CD and Infrastructure as Code ⋅ Docker and Kubernetes ⋅ model governance, validation gates, and drift detection ⋅ automated retraining ⋅ ETL/ELT pipelines and dbt ⋅ data architecture and governance ⋅ Spark/PySpark ⋅ Linux
+
+Reliability Engineering: Root cause failure analysis ⋅ 8D and 5 Whys ⋅ FMEA / DFMEA / PFMEA ⋅ FRACAS ⋅ Weibull analysis ⋅ prognostics and remaining useful life ⋅ condition monitoring ⋅ digital twins ⋅ oil tribology and spectroscopy ⋅ life cycle cost analysis
+
+Domain Expertise: Heavy equipment, mining, and manufacturing ⋅ fleet and maintenance management ⋅ warranty and service operations ⋅ supply chain and demand planning
+
+Leadership: Team building and mentoring ⋅ cross-functional and client-facing program ownership ⋅ executive communication and storytelling ⋅ continuous and process improvement ⋅ Six Sigma Black Belt (DMAIC) ⋅ SAFe Agilist ⋅ change management
+
+Professional Experience
+
+  ------------------ ---------------------
+  Caterpillar Inc.     Sep 2022 – Jun 2026
+  ------------------ ---------------------
+
+Lead Data Scientist
+
+Designed and deployed a TensorFlow ordinal deep-learning model predicting equipment repair times, using entity embeddings across 2M+ combinations of labor code, sales model, and build variant: improved accuracy 40%, tripled warranty coverage, and cut $4M annually in time studies; earned the Caterpillar CEO Award.
+
+Engineered the training labels rather than inheriting them: found warranty labor times were censored at the published standard, excluded them, and built ground truth from time studies, engineering estimates, and outlier-trimmed non-warranty medians.
+
+Governed the model with an explicit abstention rule (no prediction on unseen build variants or job codes) plus per-segment validation gates at a 90% floor; still delivered 95% coverage of warranty labor lines against an 80% business target.
+
+Owned the full MLOps lifecycle on AWS SageMaker (Infrastructure as Code, CI/CD, Docker, drift detection, and automated retraining) and architected the Snowflake data foundation behind the team’s analytics platform.
+
+Delivered production ML across tabular, time series, and LLM applications for warranty adjudication, insurance reserving, and service quoting; mentored early-career data scientists on the team.
+
+Stack: Python, R, SQL ⋅ PyTorch, TensorFlow/Keras, XGBoost, scikit-learn ⋅ Snowflake ⋅ AWS (SageMaker, Glue, Athena, Lambda, Step Functions, ECS/EKS, CloudWatch) ⋅ Docker ⋅ Azure DevOps, GitHub Actions
+
+  ----------------------- ---------------------
+  AmazonAmazon Robotics     Feb 2022 – Sep 2022
+  ----------------------- ---------------------
+
+Reliability Analytics Manager, Robotics
+
+Replaced compliance-dependent failure reporting with a machine-generated signal: built a pipeline consuming hourly serialized component logs from S3 and reconstructed true component life from serial-number changes, then moved the fleet design standard from average life to B10.
+
+Applied Weibull and survival analysis across a global fleet of 400,000 autonomous robots, informing maintenance strategy and design metrics network-wide.
+
+Led a team of 5 BI engineers building a global robot monitoring pipeline (R/Shiny, AWS) adopted across sites for incident response and proactive maintenance.
+
+Two-time champion of Amazon internal machine learning competitions.
+
+Stack: R, Python ⋅ scikit-learn, AutoGluon ⋅ Shiny ⋅ PostgreSQL ⋅ Docker ⋅ AWS (Redshift, Athena, SageMaker, S3)
+
+  -------------------- ---------------------
+  Empire CatMesa, AZ     Jan 2012 – Feb 2022
+  -------------------- ---------------------
+
+  ------------------------------------------------------------ ---------------------
+  Reliability Engineering Manager & Data Engineering Manager     Dec 2016 – Feb 2022
+  ------------------------------------------------------------ ---------------------
+
+Led modeling on a 25-person cross-functional program that replaced Caterpillar’s estimated engine life target with an evidence-based one: reduced thousands of candidate factors via PCA to 9 controllable levers, extending haul truck engine life 23%.
+
+Built the data and MLOps foundation powering demand forecasting and supply chain reliability for a 250-truck mining fleet; deployed Weibull models that improved forecast accuracy 89% and reduced stock outs 25%.
+
+Architected a component exchange program with data warehousing, ETL/ELT pipelines, and time series models to target at-risk components, with client-facing ownership of the reliability and product problem management programs.
+
+Established data engineering governance, quality standards, and a metadata framework adopted across the dealership.
+
+Stack: SQL Server, T-SQL ⋅ R (ggplot2, tidyverse, RMarkdown) ⋅ Python (Pandas, scikit-learn) ⋅ SQLite ⋅ Jupyter ⋅ Docker ⋅ Ubuntu, Linux
+
+  --------------------------- ---------------------
+  Lead Reliability Engineer     Jun 2016 – Dec 2016
+  --------------------------- ---------------------
+
+Led root cause failure analysis on an aging mining truck line, remediating engine, drivetrain, and hydraulic failures to raise availability from 80% to 90%.
+
+Applied design of experiments and statistical modeling to isolate unreliability drivers; created an RMarkdown research framework Caterpillar incorporated into its CRM.
+
+Stack: SQL Server, T-SQL ⋅ R (ggplot2, tidyverse, RMarkdown) ⋅ Python (Pandas, scikit-learn) ⋅ SQLite ⋅ Jupyter ⋅ Docker ⋅ Ubuntu, Linux
+
+  -------------------------------------------------------- ---------------------
+  Technical Communications Manager (Engineering Manager)     Dec 2012 – Jun 2016
+  -------------------------------------------------------- ---------------------
+
+Applied DMAIC Six Sigma and data science to identify and prioritize reliability improvements across a fleet-wide program.
+
+Developed a fluids and wear analysis application (R, SQL) using oil tribology and spectroscopy to drive proactive maintenance, eliminating $100K/year in license costs.
+
+Stack: SQL Server, T-SQL ⋅ R (ggplot2, tidyverse, RMarkdown) ⋅ Python (Pandas, scikit-learn) ⋅ SQLite ⋅ Jupyter ⋅ Docker ⋅ Ubuntu, Linux
+
+  ---------------------- ---------------------
+  Reliability Engineer     Jan 2012 – Dec 2012
+  ---------------------- ---------------------
+
+Led the Product Problem Management program, applying 8D and RCFA to resolve recurring failures and reduce downtime.
+
+Analyzed field failure data to prioritize the highest-impact failure modes and guide remediation planning.
+
+Stack: SQL Server, T-SQL ⋅ R (ggplot2, tidyverse, RMarkdown) ⋅ Python (Pandas, scikit-learn) ⋅ SQLite ⋅ Jupyter ⋅ Docker ⋅ Ubuntu, Linux
+
+  -------------------------------- ---------------------
+  Road Machinery, LLCPhoenix, AZ     Jan 2008 – Jan 2012
+  -------------------------------- ---------------------
+
+Technical Communicator
+
+Built the Total Cost of Ownership analysis underpinning a $72M sale of electric mining haul trucks; principal consultant on a $2.5M gold mine account in Mexico.
+
+Led root cause failure analysis on recurring truck failures, converting findings into maintenance and life cycle cost guidance.
+
+Stack: SQL Server, T-SQL ⋅ MATLAB/Octave ⋅ SolidWorks, finite element analysis ⋅ LaTeX
+
+  -------------------------------------- ---------------------
+  Komatsu North AmericaChattanooga, TN     Jun 2006 – Dec 2007
+  -------------------------------------- ---------------------
+
+Design Engineer
+
+Led end-to-end development of a 25-ton hydraulic rescue winch from concept through prototyping, field testing, and release.
+
+Ran FMEA and FRACAS on prototype and production machines, authoring corrective actions that drove design changes and improved durability before release.
+
+Stack: MATLAB/Octave ⋅ PTC ⋅ finite element analysis
+
+Early Career
+
+Engineering Intern, Xtek Mining Services (2005) ⋅ Heavy Equipment Operator and Mechanic, Ryan Incorporated Central, Roland Machinery Co., and Harry W. Kuhn, Inc. (1997–2002), diagnosing and repairing mechanical, hydraulic, electrical, and control system failures on heavy capital equipment.
+
+Education
+
+  ------------------------------------------------------------------------------------------------------- ------
+  Bachelor of Science in Mechanical Engineering, Arizona State University                                   2006
+  Certificate of Apprenticeship, Operating Engineer, U.S. Department of Labor & I.U.O.E. Local 150 AISP     2001
+  ------------------------------------------------------------------------------------------------------- ------
+
+Selected Certifications
+
+AWS Certified Machine Learning – Specialty (MLS-C01) ⋅ Lean Six Sigma Black Belt, Kennesaw State University ⋅ Certified SAFe Agilist ⋅ Probabilistic Graphical Models Specialization, Stanford University ⋅ Applied Python Data Engineering, Duke University ⋅ RAG and Agentic AI, IBM ⋅ Advanced Deep Learning Specialist, IBM ⋅ Caterpillar Applied Failure Analysis
+
+Recognition & Speaking
+
+Caterpillar CEO Award (2024): AI-driven labor time model, for exceptional personal contribution and business impact.
+
+2x ML Competition Champion, Amazon (2022): Internal regression and recommender system competitions.
+
+Invited Speaker, Data Science for Fleet Reliability (2021): Diesel engine digital twin that extended engine life 23%, saving the client $62M in 90 days.
+
+Invited Speaker, Reliability & Rebuild Programs (2015, 2019): Product Problem Management; and a truck rebuild program at Caterpillar’s large mining truck conference, delivering 2–4% higher availability at 60% of new-machine cost.
+
+Selected Independent Projects
+
+10-Node Raspberry Pi 5 HPC Cluster (2025–2026): Distributed ML testbed on Ray, Dask, SLURM, MPI, and Ansible; 70%+ speedup on parallelizable workloads.
+
+Deploying & Experimenting with AI at Scale (2025–2026): Benchmark local models up to 200B parameters on NVIDIA DGX Spark hardware (Ollama, DeepSeek, Qwen3, GPT-OSS) against commercial APIs.

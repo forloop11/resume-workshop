@@ -16,6 +16,7 @@ browser editor and a Docker-based build path for a reproducible toolchain.
   - [Make targets](#make-targets)
   - [Editing the resume](#editing-the-resume)
   - [Local editor](#local-editor)
+  - [Screenshots](#screenshots)
   - [Generated files](#generated-files)
   - [Docker workflow](#docker-workflow)
   - [Spell checking](#spell-checking)
@@ -103,6 +104,18 @@ The local editor enables the browser's native spellcheck while editing.
 this repo's goal of using only a standard TeX Live install), so it only supports
 a narrow subset: flat `key: value` pairs plus one `links:` list of `text`/`url`
 pairs, as shown in the existing file.
+
+## Screenshots
+
+These focused captures show the Dracula-themed source editor without including
+the generated PDF or plain-text resume output.
+
+![LaTeX layout editor](docs/screenshots/editor-format.png)
+
+The structured resume content can be edited directly as JSON, with syntax
+highlighting and formatting controls available in the editor.
+
+![Resume JSON editor](docs/screenshots/editor-resume-json.png)
 
 ## Generated files
 

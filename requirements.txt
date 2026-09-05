@@ -1,0 +1,4 @@
+# This project has no third-party Python dependencies.
+# scripts/*.py (editor.py, generate_header.py, generate_geometry.py,
+# generate_resume.py) use only the Python standard library, by design —
+# see the note in scripts/generate_header.py. Requires Python 3.13+.

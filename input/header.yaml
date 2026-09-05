@@ -1,0 +1,15 @@
+# Resume header details.
+# Edit this file to update the header, then run `make build`
+# (or `make header`) to regenerate header.tex.
+name: Todd Takala
+title: Data Scientist, Machine Learning & Reliability Engineering Leader
+location: Greater Phoenix, AZ
+phone: +1 (xxx) xxx-xxxx
+email: xxxx@gmail.com
+links:
+  - text: linkedin.com/in/toddtakala
+    url: https://www.linkedin.com/in/toddtakala
+  - text: portfolio.derkooh.com
+    url: https://portfolio.derkooh.com/
+  - text: credly.com/users/toddtakala
+    url: https://www.credly.com/users/toddtakala/badges

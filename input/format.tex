@@ -1,0 +1,121 @@
+%==============================================================================
+%  Compile with:  pdflatex -jobname=resume input/format.tex   (run twice for hyperrefs)
+%  Portable: uses only standard TeX Live / Overleaf packages, no custom class.
+%==============================================================================
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% --- Font ------------------------------------------------------------------
+% Helvetica (psnfss) scaled to Calibri-like metrics. Chosen because it ships
+% with every TeX distribution, so the two-page layout is reproducible anywhere,
+% and Helvetica/Arial is the safest face for resume parsers.
+\IfFileExists{helvet.sty}{\usepackage[scaled=0.92]{helvet}}{}
+\renewcommand{\familydefault}{\sfdefault}
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+%------------------------------------------------------------------------------
+%  LAYOUT DENSITY KNOBS
+%------------------------------------------------------------------------------
+\newcommand{\resumeLeading}{0.93}
+\newlength{\sectionGapAbove}\setlength{\sectionGapAbove}{3pt}
+\newlength{\sectionGapBelow}\setlength{\sectionGapBelow}{3pt}
+\newlength{\jobGap}\setlength{\jobGap}{2pt}
+
+\input{interim/geometry.tex}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage[hidelinks]{hyperref}
+
+%------------------------------------------------------------------------------
+%  Colors
+%------------------------------------------------------------------------------
+\definecolor{accent}{HTML}{1F3A5F}
+\definecolor{rule}{HTML}{8FA3BC}
+\definecolor{body}{HTML}{222222}
+\definecolor{muted}{HTML}{555555}
+\color{body}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=accent,
+  linkcolor=accent,
+  pdftitle={Todd Takala Resume},
+  pdfauthor={Todd Takala},
+  pdfsubject={Lead Data Scientist / Machine Learning \& Reliability Engineering Leader}
+}
+
+%------------------------------------------------------------------------------
+%  Page setup
+%------------------------------------------------------------------------------
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{0pt}
+\linespread{\resumeLeading}
+
+\titleformat{\section}
+  {\normalsize\bfseries\color{accent}}
+  {}{0pt}
+  {\MakeUppercase}
+  [\vspace{-7pt}{\color{rule}\rule{\textwidth}{0.6pt}}]
+\titlespacing*{\section}{0pt}{\sectionGapAbove}{\sectionGapBelow}
+
+%------------------------------------------------------------------------------
+%  Custom commands
+%------------------------------------------------------------------------------
+\newcommand{\role}[1]{%
+  \textit{\textbf{\color{accent}#1}}\par\vspace{1pt}%
+}
+
+\newcommand{\position}[3]{%
+  \vspace{\jobGap}%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textbf{\large #1}\hspace{4pt}\textit{\small\color{muted}#2} &
+    \textbf{\small\color{muted}#3} \\
+  \end{tabularx}%
+  \vspace{1pt}%
+}
+
+\newcommand{\subrole}[2]{%
+  \vspace{3pt}%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textit{\textbf{\color{accent}#1}} &
+    \textit{\small\color{muted}#2} \\
+  \end{tabularx}%
+  \vspace{1pt}%
+}
+
+\newcommand{\entry}[2]{%
+  {\color{accent}\textbf{#1:}} #2\par\vspace{2pt}%
+}
+
+\newcommand{\stack}[1]{%
+  \vspace{1pt}%
+  {\small\color{muted}\hspace{12pt}\textbf{Stack:} #1}\par\vspace{2pt}%
+}
+
+\newlist{duties}{itemize}{1}
+\setlist[duties]{
+  label={\color{accent}\textendash},
+  leftmargin=13pt,
+  labelsep=5pt,
+  topsep=0.5pt,
+  parsep=0pt,
+  itemsep=1pt,
+  after=\vspace{1pt}
+}
+
+%==============================================================================
+\begin{document}
+%==============================================================================
+
+\input{interim/header.tex}
+\input{interim/resume_content.tex}
+
+%==============================================================================
+\end{document}
+%==============================================================================

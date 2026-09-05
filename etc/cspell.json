@@ -1,0 +1,13 @@
+{
+  "version": "0.2",
+  "language": "en,en-US",
+  "files": ["README.md", "input/**/*.{json,yaml,tex}", "scripts/**/*.py"],
+  "dictionaryDefinitions": [
+    {
+      "name": "resume-terms",
+      "path": "./dictionary.txt"
+    }
+  ],
+  "dictionaries": ["resume-terms"],
+  "useGitignore": true
+}

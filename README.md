@@ -86,6 +86,18 @@ rendered into `interim/resume_content.tex`. Edit [input/section_order.yaml](inpu
 to control the order of the top-level resume sections; omit a section to leave it out of the resume. The [input/format.tex](input/format.tex)
 file contains the LaTeX layout, commands, and document configuration.
 
+To start an experience role on a new page, add `"pagebreak_before": true` to
+that role in `input/resume.json`:
+
+```json
+{
+  "pagebreak_before": true,
+  "title": "Technical Communications Manager (Engineering Manager)",
+  "dates": "Dec 2012 -- Jun 2016",
+  ...
+}
+```
+
 ## Local editor
 
 Run `make editor` or `python3 scripts/editor.py`, then open the displayed local URL.

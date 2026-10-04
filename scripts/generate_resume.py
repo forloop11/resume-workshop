@@ -56,6 +56,8 @@ def render_experience(data):
         for role in employer["roles"]:
             command = "subrole" if len(employer["roles"]) > 1 else "role"
             args = f"{{{latex_text(role['title'])}}}{{{latex_text(role['dates'])}}}" if command == "subrole" else f"{{{latex_text(role['title'])}}}"
+            if role.get("pagebreak_before"):
+                lines += ["\\newpage"]
             lines += [f"\\{command}{args}", "\\begin{duties}"]
             lines += [f"  \\item {latex_text(duty)}" for duty in role["duties"]]
             lines += ["\\end{duties}"]

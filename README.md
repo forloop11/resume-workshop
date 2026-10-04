@@ -83,7 +83,7 @@ file and run `make build` (or `make geometry`) to regenerate
 
 The complete resume content is stored in [input/resume.json](input/resume.json) and
 rendered into `interim/resume_content.tex`. Edit [input/section_order.yaml](input/section_order.yaml)
-to control the order of the top-level resume sections. The [input/format.tex](input/format.tex)
+to control the order of the top-level resume sections; omit a section to leave it out of the resume. The [input/format.tex](input/format.tex)
 file contains the LaTeX layout, commands, and document configuration.
 
 ## Local editor

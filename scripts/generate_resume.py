@@ -26,13 +26,10 @@ def parse_section_order(path):
                 raise SystemExit(f"{path}: invalid line: {raw_line.rstrip()}")
             sections.append(match.group(1))
 
-    missing = [section for section in SECTIONS if section not in sections]
     unknown = [section for section in sections if section not in SECTIONS]
     duplicates = sorted({section for section in sections if sections.count(section) > 1})
-    if missing or unknown or duplicates:
+    if unknown or duplicates:
         problems = []
-        if missing:
-            problems.append(f"missing section(s): {', '.join(missing)}")
         if unknown:
             problems.append(f"unknown section(s): {', '.join(unknown)}")
         if duplicates:
@@ -54,14 +51,17 @@ def render_competencies(data):
 
 def render_experience(data):
     lines = ["\\section{Professional Experience}", ""]
-    for employer in data["experience"]:
+    for employer in data.get("experience", []):
         lines += [f"\\position{{{latex_text(employer['employer'])}}}{{{latex_text(employer['location'])}}}{{{latex_text(employer['dates'])}}}"]
         for role in employer["roles"]:
             command = "subrole" if len(employer["roles"]) > 1 else "role"
             args = f"{{{latex_text(role['title'])}}}{{{latex_text(role['dates'])}}}" if command == "subrole" else f"{{{latex_text(role['title'])}}}"
             lines += [f"\\{command}{args}", "\\begin{duties}"]
             lines += [f"  \\item {latex_text(duty)}" for duty in role["duties"]]
-            lines += ["\\end{duties}", f"\\stack{{{latex_text(role['stack'])}}}", ""]
+            lines += ["\\end{duties}"]
+            if role.get("stack"):
+                lines += [f"\\stack{{{latex_text(role['stack'])}}}"]
+            lines += [""]
     return lines
 
 
@@ -114,25 +114,25 @@ def render(data, section_order):
     return "\n".join(lines)
 
 
-def validate(data):
-    required = SECTIONS
+def validate(data, section_order):
+    required = section_order
     missing = [key for key in required if key not in data]
     if missing:
         raise SystemExit(f"{SRC}: missing required field(s): {', '.join(missing)}")
-    if not isinstance(data["competencies"], list) or not all(item.get("name") and item.get("description") for item in data["competencies"]):
+    if "competencies" in data and (not isinstance(data["competencies"], list) or not all(item.get("name") and item.get("description") for item in data["competencies"])):
         raise SystemExit(f"{SRC}: competencies must contain name and description")
-    for employer in data["experience"]:
+    for employer in data.get("experience", []):
         if not employer.get("employer") or not isinstance(employer.get("roles"), list):
             raise SystemExit(f"{SRC}: each experience entry needs employer and roles")
         for role in employer["roles"]:
-            if not role.get("title") or not role.get("duties") or not role.get("stack"):
-                raise SystemExit(f"{SRC}: each role needs title, duties, and stack")
+            if not role.get("title") or not role.get("duties"):
+                raise SystemExit(f"{SRC}: each role needs title and duties")
 
 
 def main():
     data = json.loads(SRC.read_text(encoding="utf-8"))
     section_order = parse_section_order(ORDER_SRC)
-    validate(data)
+    validate(data, section_order)
     DEST.parent.mkdir(parents=True, exist_ok=True)
     DEST.write_text(render(data, section_order), encoding="utf-8")
     print(f"wrote {DEST} from {SRC} and {ORDER_SRC}")

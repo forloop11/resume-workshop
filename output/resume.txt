@@ -95,9 +95,9 @@ Led the Product Problem Management program, applying 8D and RCFA to resolve recu
 
 Analyzed field failure data to prioritize the highest-impact failure modes and guide remediation planning.
 
-  -------------------------------- ---------------------
-  Road Machinery, LLCPhoenix, AZ     Jan 2008 – Jan 2012
-  -------------------------------- ---------------------
+  ---------------------------------------------- ---------------------
+  Road Machinery, LLC (now Komatsu)Phoenix, AZ     Jan 2008 – Jan 2012
+  ---------------------------------------------- ---------------------
 
 Technical Communicator (Engineer)
 
@@ -121,7 +121,7 @@ Stack: MATLAB/Octave ⋅ PTC ⋅ finite element analysis
 
 Early Career
 
-Engineering Intern, Xtek Mining Services (2005) ⋅ Heavy Equipment Operator and Mechanic, Ryan Incorporated Central, Roland Machinery Co., and Harry W. Kuhn, Inc. (1997–2002), diagnosing and repairing mechanical, hydraulic, electrical, and control system failures on heavy capital equipment.
+Engineering Intern, Xtek Mining Services (now L&H Industrial) (2005) ⋅ Heavy Equipment Operator and Mechanic, Ryan Incorporated Central, Roland Machinery Co., and Harry W. Kuhn, Inc. (1997–2002), diagnosing and repairing mechanical, hydraulic, electrical, and control system failures on heavy capital equipment.
 
 Education
 

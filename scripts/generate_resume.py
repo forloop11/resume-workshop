@@ -64,6 +64,8 @@ def render_experience(data):
             if role.get("stack"):
                 lines += [f"\\stack{{{latex_text(role['stack'])}}}"]
             lines += [""]
+        if employer.get("stack"):
+            lines += [f"\\stack{{{latex_text(employer['stack'])}}}", ""]
     return lines
 
 
@@ -126,9 +128,13 @@ def validate(data, section_order):
     for employer in data.get("experience", []):
         if not employer.get("employer") or not isinstance(employer.get("roles"), list):
             raise SystemExit(f"{SRC}: each experience entry needs employer and roles")
+        if not isinstance(employer.get("stack", ""), str):
+            raise SystemExit(f"{SRC}: employer stack must be a string")
         for role in employer["roles"]:
             if not role.get("title") or not role.get("duties"):
                 raise SystemExit(f"{SRC}: each role needs title and duties")
+            if not isinstance(role.get("stack", ""), str):
+                raise SystemExit(f"{SRC}: role stack must be a string")
 
 
 def main():

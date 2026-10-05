@@ -98,6 +98,23 @@ that role in `input/resume.json`:
 }
 ```
 
+A `stack` line can be set on a role, on an employer, or both. A role-level
+`stack` prints directly under that role's duties; an employer-level `stack`
+prints once, after all of that employer's roles. This is useful when several
+roles at one employer share the same tools:
+
+```json
+{
+  "employer": "Empire Cat",
+  "location": "Mesa, AZ",
+  "dates": "Jan 2012 -- Feb 2022",
+  "stack": "SQL Server, T-SQL $\\cdot$ R $\\cdot$ Python",
+  "roles": [ ... ]
+}
+```
+
+Leave a `stack` empty (`""`) or omit it to print nothing.
+
 ## Local editor
 
 Run `make editor` or `python3 scripts/editor.py`, then open the displayed local URL.

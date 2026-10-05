@@ -1,5 +1,5 @@
 {
-  "summary": "Data scientist with 25+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and LLM applications built on failure data, IoT telemetry, and ERP systems, and owns the full MLOps lifecycle on AWS and Snowflake. Caterpillar CEO Award recipient and 2x Amazon ML competition champion.",
+  "summary": "Individual contributor holding the top IC grade at both Caterpillar and Ford. 25+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and NLP built on failure data, IoT telemetry, and ERP systems, and owns the full MLOps lifecycle on AWS and Snowflake. Sets standards adopted beyond the immediate team, including Amazon's fleet design life standard and dealership-wide data governance at Empire Cat. Caterpillar CEO Award recipient and 2x Amazon ML competition champion.",
   "competencies": [
     {
       "name": "Machine Learning \\& AI",
@@ -43,11 +43,11 @@
           "title": "Lead Data Scientist",
           "dates": "",
           "duties": [
-            "Designed and deployed a TensorFlow ordinal deep-learning model predicting equipment repair times, using sentence transformer embeddings of labor descriptions across 2M+ combinations of labor code, sales model, and build variant, which improved accuracy to 98% from 54%, tripled warranty coverage, and cut \\$4M annually in time studies.",
-            "Engineered the training labels rather than inheriting them: found warranty labor times were censored at the published standard, excluded them, and built ground truth from time studies, engineering estimates, and outlier trimmed non-warranty medians.",
+            "Designed and deployed a TensorFlow ordinal deep-learning model predicting equipment repair times, replacing a regression model (R² 0.54) and using sentence transformer embeddings of labor descriptions across 2M+ combinations of labor code, sales model, and build variant. Reached 98\\% exact-class accuracy on the holdout set, tripled warranty coverage, and cut \\$4M annually in time studies.",
+            "Engineered the training labels rather than inheriting them: found warranty labor times were censored at the published standard, excluded them, and built ground truth from time studies, engineering estimates, and outlier-trimmed non-warranty medians.",
             "Governed the model with an explicit abstention rule (no prediction on unseen build variants or job codes) plus per-segment validation gates at a 90% floor; still delivered 95% coverage of warranty labor lines against an 80% business target.",
             "Owned the full MLOps lifecycle on AWS SageMaker (Infrastructure as Code, CI/CD, Docker, drift detection, and automated retraining) and architected the Snowflake data foundation behind the team's analytics platform.",
-            "Delivered production ML across tabular, time series, and LLM applications for warranty adjudication, insurance reserving, and service quoting; mentored early-career data scientists on the team."
+            "Delivered production ML across tabular, time series, and NLP applications for warranty adjudication, insurance reserving, and service quoting; mentored early-career data scientists on the team."
           ],
           "stack": "Python, R, SQL $\\cdot$ PyTorch, TensorFlow/Keras, XGBoost, scikit-learn $\\cdot$ Snowflake $\\cdot$ AWS (SageMaker, Glue, Athena, Lambda, Step Functions, ECS/EKS, CloudWatch) $\\cdot$ Docker $\\cdot$ Azure DevOps, GitHub Actions"
         }
@@ -79,8 +79,8 @@
           "title": "Reliability Engineering Manager \\& Data Engineering Manager",
           "dates": "Dec 2016 -- Feb 2022",
           "duties": [
-            "Led modeling on a 25-person cross-functional program that replaced Caterpillar's estimated engine life target with an evidence based one: reduced thousands of candidate factors via PCA to 9 controllable variables, then built a diesel engine digital twin on live telemetry to monitor them, extending haul truck engine life 23% and saving the client \\$62M in 90 days.",
-            "Connected reliability Weibull models to parts demand, which reduced part stock outs by 25%.",
+            "Led modeling on a 25-person cross-functional program that replaced Caterpillar's estimated engine life target with an evidence-based one: reduced thousands of candidate factors via PCA to 9 controllable variables, then built a diesel engine digital twin on live telemetry to monitor them, extending haul truck engine life 23%.",
+            "Connected reliability Weibull models to parts demand, which reduced part stockouts by 25%.",
             "Architected a component exchange program with data warehousing, ETL/ELT pipelines, and time series models to target at-risk components, with client-facing ownership of the reliability and product problem management programs.",
             "Established data engineering governance, quality standards, and a metadata framework adopted across the dealership."
           ],
@@ -175,7 +175,7 @@
     },
     {
       "title": "Invited Speaker, Data Science for Fleet Reliability (2021) at Caterpillar Six Sigma List Manager Workshop, Peoria, IL",
-      "description": "Diesel engine digital twin on live telemetry, tracking 9 PCA-derived controllable variables to set an evidence based engine life target."
+      "description": "Diesel engine digital twin on live telemetry, tracking 9 PCA-derived controllable variables to set an evidence-based engine life target."
     },
     {
       "title": "Invited Speaker, Reliability \\& Rebuild Programs (2015, 2019) at Caterpillar, Tinaja Proving Grounds",

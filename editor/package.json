@@ -1,0 +1,14 @@
+{
+  "name": "resume-workshop-editor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Desktop editor for Resume Workshop's input files and Makefile targets",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^44.6.0"
+  }
+}

@@ -1,9 +1,8 @@
 # The resume generators (scripts/generate_header.py, generate_geometry.py,
 # generate_resume.py) use only the Python standard library, by design --
 # see the note in scripts/generate_header.py -- so `make build` needs no
-# pip packages. The optional browser editor (scripts/editor.py, `make
-# editor`) needs Flask, and it and `make validate` (scripts/validate_resume.py)
-# check input/resume.json against the JSON Resume schema with jsonschema.
+# pip packages. `make validate` (scripts/validate_resume.py) and the desktop
+# editor's save check (scripts/editor_backend.py, `make editor`) validate
+# input/resume.json against the JSON Resume schema with jsonschema.
 # Requires Python 3.13+.
-flask>=3.0
 jsonschema>=4.0

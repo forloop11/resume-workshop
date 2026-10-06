@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'">
 <title>Resume Workshop</title>
 <style>
 :root { color-scheme: dark; --ink:#f8f8f2; --muted:#a6acc5; --line:#44475a; --paper:#282a36; --wash:#191a21; --accent:#bd93f9; --accent-dark:#ff79c6; }
@@ -34,11 +35,10 @@ button:hover { border-color:var(--accent); color:#ff79c6; } button.primary { bac
 .status.ok { color:#50fa7b; } .status.error { color:#ff5555; }
 .make-output { margin-top:12px; } .make-output summary { cursor:pointer; color:var(--muted); } .make-output pre { max-height:260px; overflow:auto; margin:8px 0 0; padding:10px; background:var(--wash); font-size:12px; white-space:pre-wrap; }
 </style>
-<link rel="stylesheet" href="{{ url_for('static', filename='blocks.css') }}">
-<script id="config" type="application/json">{{ config | tojson }}</script>
+<link rel="stylesheet" href="blocks.css">
 </head>
 <body>
-<header><div><h1>Resume Workshop</h1><p>Edit source files, run the pipeline, and inspect the generated PDF from one local page.</p><p class="status" id="status" role="status"></p></div><button id="openPdf">Open PDF</button></header>
+<header><div><h1>Resume Workshop</h1><p>Edit source files, run the pipeline, and inspect the generated PDF from one window.</p><p class="status" id="status" role="status"></p></div><button id="openPdf">Open PDF</button></header>
 <main>
 <section class="panel"><nav class="tabs" id="tabs"></nav>
 <div id="blocks" hidden><div class="actions blocks-actions"><button class="primary" id="blocksSave">Save</button><button id="blocksBuild">Save &amp; build</button><button id="blocksUndo" disabled>Undo</button><button id="blocksExpand">Expand all</button><button id="blocksCollapse">Collapse all</button><button id="blocksReload">Reload</button><span class="insert-chars" title="Insert at the cursor in the last field you clicked">Insert <button data-insert="·" title="Middle dot (printed as $\cdot$)">·</button><button data-insert="–" title="En dash (printed as --)">–</button></span></div><div id="blocksBody"></div></div>
@@ -46,7 +46,7 @@ button:hover { border-color:var(--accent); color:#ff79c6; } button.primary { bac
 <aside class="panel side"><h2>Make targets</h2><div class="target-grid" id="targets"></div><details class="make-output" id="makeOutput" hidden><summary>Last make output</summary><pre id="makeLog"></pre></details><iframe class="pdf" id="pdf" title="Generated resume PDF"></iframe></aside>
 </main>
 <script>
-// BLOCKS is the "Resume (blocks)" tab (static/blocks.js), which edits resume.json and section_order.yaml together; every other tab is a raw file.
+// BLOCKS is the "Resume (blocks)" tab (blocks.js), which edits resume.json and section_order.yaml together; every other tab is a raw file.
 const BLOCKS = '__blocks__';
 // Files the blocks tab fully covers: still loaded and saved, but not shown as their own raw tab.
 const NO_TAB = new Set(['section_order.yaml']);
@@ -59,24 +59,25 @@ function anyDirty() { return Object.keys(state.files).some(isDirty); }
 function toggleWrap() { wrapEnabled = !wrapEnabled; editorShell.classList.toggle('nowrap', !wrapEnabled); wrapBtn.textContent = wrapEnabled ? 'Wrap: On' : 'Wrap: Off'; }
 function escapeHtml(str) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 function renderHighlight() { const isJson = state.active && state.active.endsWith('.json'); const pattern = isJson ? /"(?:[^"\\]|\\.)*"(?=\s*:)|\\(?:[a-zA-Z@]+\*?|[^a-zA-Z@\\])/g : /\\(?:[a-zA-Z@]+\*?|[^a-zA-Z@\\])/g; const text = editor.value; let html = '', last = 0, match; while ((match = pattern.exec(text))) { const cls = match[0][0] === '"' ? 'key' : 'cmd'; html += escapeHtml(text.slice(last, match.index)) + `<span class="${cls}">${escapeHtml(match[0])}</span>`; last = match.index + match[0].length; } highlightCode.innerHTML = html + escapeHtml(text.slice(last)) + '\n'; }
-async function request(url, options) { const response = await fetch(url, options); const data = await response.json(); if (!response.ok) throw new Error(data.error || 'Request failed'); return data; }
 function renderTabs() { tabs.innerHTML = ''; [BLOCKS, ...Object.keys(state.files).filter(name => !NO_TAB.has(name))].forEach(name => { const button = document.createElement('button'); button.className = 'tab' + (name === state.active ? ' active' : '') + (isDirty(name) ? ' dirty' : ''); button.textContent = name === BLOCKS ? 'Resume (blocks)' : name; button.onclick = () => selectFile(name); tabs.append(button); }); }
 function updateFormatButton() { formatBtn.style.display = state.active && state.active.endsWith('.json') ? '' : 'none'; }
 function syncEditor() { if (state.active && state.active !== BLOCKS) state.files[state.active] = editor.value; }
 function selectFile(name) { syncEditor(); state.active = name; const blocks = name === BLOCKS; document.querySelector('#blocks').hidden = !blocks; document.querySelector('#rawEditor').hidden = blocks; if (blocks) Blocks.open(); else { editor.value = state.files[name]; renderHighlight(); updateFormatButton(); } renderTabs(); }
-async function loadFiles() { if (anyDirty() && !confirm('Discard unsaved changes and reload all files from disk?')) return; const data = await request('/api/files'); const active = state.active === BLOCKS || (data.files[state.active] !== undefined && !NO_TAB.has(state.active)) ? state.active : null; state.files = data.files; state.saved = { ...data.files }; state.active = null; Blocks.reset(); selectFile(active || BLOCKS); }
-async function save() { syncEditor(); if (state.active.endsWith('.json')) { try { JSON.parse(editor.value); } catch (error) { report(`Cannot save ${state.active}: invalid JSON — ${error.message}`, 'error'); return; } } const name = state.active, content = editor.value; try { const data = await request('/api/save', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, content}) }); state.saved[name] = content; renderTabs(); report(data.message, 'ok'); } catch (error) { report(error.message, 'error'); } }
+async function loadFiles() { if (anyDirty() && !confirm('Discard unsaved changes and reload all files from disk?')) return; const data = await workshop.files(); const active = state.active === BLOCKS || (data.files[state.active] !== undefined && !NO_TAB.has(state.active)) ? state.active : null; state.files = data.files; state.saved = { ...data.files }; state.active = null; Blocks.reset(); selectFile(active || BLOCKS); }
+async function save() { syncEditor(); if (state.active.endsWith('.json')) { try { JSON.parse(editor.value); } catch (error) { report(`Cannot save ${state.active}: invalid JSON — ${error.message}`, 'error'); return; } } const name = state.active, content = editor.value; try { const data = await workshop.save(name, content); state.saved[name] = content; renderTabs(); report(data.message, 'ok'); } catch (error) { report(error.message, 'error'); } }
 function formatJson() { try { editor.value = JSON.stringify(JSON.parse(editor.value), null, 2); state.files[state.active] = editor.value; renderHighlight(); renderTabs(); report(`Formatted ${state.active}. Click "Save file" to persist.`); } catch (error) { report(`Cannot format ${state.active}: ${error.message}`, 'error'); } }
+function showPdf(url) { if (url) document.querySelector('#pdf').src = url; }
 function showMakeOutput(text) { document.querySelector('#makeLog').textContent = text; document.querySelector('#makeOutput').hidden = !text; }
-async function run(target) { syncEditor(); report(`Running make ${target}...`); try { const data = await request('/api/make', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({target}) }); showMakeOutput(data.output); report(`make ${target} completed.`, 'ok'); if (target === 'build' || target === 'user') document.querySelector('#pdf').src = '/output/resume.pdf?ts=' + Date.now(); } catch (error) { showMakeOutput(error.message); document.querySelector('#makeOutput').open = true; report(`make ${target} failed — see "Last make output".`, 'error'); } }
+async function run(target) { syncEditor(); report(`Running make ${target}...`); try { const data = await workshop.make(target); showMakeOutput(data.output); report(`make ${target} completed.`, 'ok'); showPdf(data.pdf); } catch (error) { showMakeOutput(error.message); document.querySelector('#makeOutput').open = true; report(`make ${target} failed — see "Last make output".`, 'error'); } }
 editor.addEventListener('input', () => { renderHighlight(); state.files[state.active] = editor.value; renderTabs(); });
 editor.addEventListener('scroll', () => { highlightEl.scrollTop = editor.scrollTop; highlightEl.scrollLeft = editor.scrollLeft; });
 window.addEventListener('beforeunload', event => { syncEditor(); if (anyDirty()) event.preventDefault(); });
-document.querySelector('#save').onclick = save; document.querySelector('#reload').onclick = document.querySelector('#blocksReload').onclick = () => loadFiles().catch(error => report(error.message, 'error')); document.querySelector('#openPdf').onclick = () => window.open('/output/resume.pdf', '_blank'); formatBtn.onclick = formatJson; wrapBtn.onclick = toggleWrap;
-request('/api/targets').then(data => data.targets.forEach(target => { const button = document.createElement('button'); button.textContent = 'make ' + target; button.onclick = () => run(target); document.querySelector('#targets').append(button); })).catch(error => report(error.message, 'error'));
+document.querySelector('#save').onclick = save; document.querySelector('#reload').onclick = document.querySelector('#blocksReload').onclick = () => loadFiles().catch(error => report(error.message, 'error')); document.querySelector('#openPdf').onclick = () => workshop.openPdf().catch(error => report(error.message, 'error')); formatBtn.onclick = formatJson; wrapBtn.onclick = toggleWrap;
+workshop.config.targets.forEach(target => { const button = document.createElement('button'); button.textContent = 'make ' + target; button.onclick = () => run(target); document.querySelector('#targets').append(button); });
+workshop.pdf().then(data => showPdf(data.url)).catch(error => report(error.message, 'error'));
 </script>
-<script src="{{ url_for('static', filename='Sortable.min.js') }}"></script>
-<script src="{{ url_for('static', filename='blocks.js') }}"></script>
+<script src="Sortable.min.js"></script>
+<script src="blocks.js"></script>
 <script>loadFiles().catch(error => report(error.message, 'error'));</script>
 </body>
 </html>

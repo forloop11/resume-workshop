@@ -2,7 +2,7 @@ TEXFILE = input/format
 OUTPUT = output/resume
 DOCKER_IMAGE = resume-builder
 
-.PHONY: build header geometry resume validate editor clean user docker-image docker-build docker-editor
+.PHONY: build header geometry resume validate editor clean user docker-image docker-build
 
 header: input/resume.json scripts/generate_header.py scripts/jsonresume.py
 	python3 scripts/generate_header.py
@@ -18,8 +18,16 @@ resume: input/resume.json input/section_order.yaml scripts/generate_resume.py sc
 validate: input/resume.json etc/resume-schema.json scripts/validate_resume.py
 	python3 scripts/validate_resume.py
 
-editor: scripts/editor.py scripts/templates/editor.html
-	python3 scripts/editor.py
+# The desktop editor (editor/, an Electron app). Needs Node.js/npm; the first
+# run installs Electron into editor/node_modules. ELECTRON_RUN_AS_NODE is
+# unset because some hosts (e.g. VS Code's extension host) set it, which
+# would make Electron run as plain Node instead of opening a window.
+editor/node_modules: editor/package.json editor/package-lock.json
+	cd editor && npm ci
+	touch editor/node_modules
+
+editor: editor/node_modules
+	cd editor && env -u ELECTRON_RUN_AS_NODE npm start
 
 build: header geometry resume $(TEXFILE).tex
 	mkdir -p output
@@ -45,10 +53,4 @@ docker-image:
 
 docker-build: docker-image
 	docker run --rm -u "$$(id -u):$$(id -g)" -v "$$(pwd)":/resume $(DOCKER_IMAGE)
-
-# Launch the browser editor without needing python3 installed locally.
-# --network host so the container's server on RESUME_EDITOR_PORT (default 8765)
-# is reachable at http://127.0.0.1:8765/ from the host (Linux only).
-docker-editor: docker-image
-	docker run --rm -it -u "$$(id -u):$$(id -g)" -v "$$(pwd)":/resume --network host $(DOCKER_IMAGE) editor
 

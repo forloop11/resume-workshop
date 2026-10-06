@@ -5,7 +5,7 @@ lives in a single [JSON Resume](https://jsonresume.org/schema) document, with
 page geometry and section order in small YAML files and the layout in a TeX
 file. Standard-library Python generators turn those inputs into interim LaTeX,
 and Make targets build the final PDF and plain-text resume. The project also
-includes an optional local browser editor with a drag-and-drop block view of
+includes an optional desktop editor with a drag-and-drop block view of
 the resume, and a Docker-based build path for a reproducible toolchain.
 
 ![Block editor: header and section order](docs/screenshots/editor-blocks.png)
@@ -30,9 +30,10 @@ the resume, and a Docker-based build path for a reproducible toolchain.
 For a native build, install Python 3.13 or newer, GNU Make, a TeX Live
 installation with the packages used by [input/format.tex](input/format.tex),
 and Pandoc. The resume generators use only the Python standard library, so
-`make build` needs no pip packages. The optional local editor and
-`make validate` need Flask and jsonschema: run
-`pip install -r requirements.txt` first.
+`make build` needs no pip packages. `make validate` and the optional desktop
+editor need jsonschema: run `pip install -r requirements.txt` first. The
+editor is an [Electron](https://www.electronjs.org/) app, so it also needs
+Node.js and npm; `make editor` installs Electron on its first run.
 
 If the LaTeX or Pandoc toolchain is not installed locally, use the Docker
 workflow instead.
@@ -40,7 +41,7 @@ workflow instead.
 ## Quick start
 
 1. Edit [input/resume.json](input/resume.json), either by hand or in the
-   browser editor (`make editor`).
+   desktop editor (`make editor`).
 2. Run `make build`.
 3. Open `output/resume.pdf` or `output/resume.txt`.
 
@@ -53,7 +54,8 @@ Example output: [resume.pdf](output/resume.pdf) and
 ## Project layout
 
 - [input/](input/) contains the resume content (`resume.json`), section order, page geometry, and LaTeX layout.
-- [scripts/](scripts/) contains the standard-library Python generators, the schema validator, and the Flask browser editor.
+- [scripts/](scripts/) contains the standard-library Python generators, the schema validator, and the editor's Python helper.
+- [editor/](editor/) contains the Electron desktop editor.
 - [interim/](interim/) contains generated LaTeX fragments used during a build.
 - [output/](output/) contains generated PDF and plain-text resume files.
 - [docker/](docker/) contains the reproducible build image definition.
@@ -71,7 +73,7 @@ Example output: [resume.pdf](output/resume.pdf) and
   field from [input/resume.json](input/resume.json), lowercased, with spaces
   replaced by underscores and everything else reduced to alphanumerics/underscores
   (for example, "Todd Takala" gives `output/todd_takala_resume.pdf`).
-- `make editor` starts the local browser editor: a drag-and-drop block view of
+- `make editor` opens the desktop editor: a drag-and-drop block view of
   the resume, raw tabs for the input files, the `build`/`user` Makefile
   targets, and the generated PDF.
 - `make clean` removes auxiliary pdflatex files and generated interim files.
@@ -80,9 +82,6 @@ Example output: [resume.pdf](output/resume.pdf) and
   runs `make build` inside a container against this directory — use this if
   you don't have the LaTeX/pandoc toolchain installed locally. Output files
   land in the `output/` directory, owned by your user, same as a native build.
-- `make docker-editor` runs the local browser editor inside that same Docker
-  image (via `--network host`) — use this if you don't have Python installed
-  locally either.
 
 ## Editing the resume
 
@@ -173,18 +172,24 @@ the LaTeX layout, commands, and document configuration.
 
 ## Local editor
 
-Run `make editor` or `python3 scripts/editor.py`, then open the displayed local
-URL (`http://127.0.0.1:8765/` by default; set `RESUME_EDITOR_PORT` to change
-it). The editor is a small [Flask](https://flask.palletsprojects.com/) app —
-install its dependencies first with `pip install -r requirements.txt`. Its page
-lives in [scripts/templates/editor.html](scripts/templates/editor.html), and the
-block editor in [scripts/static/](scripts/static/).
+Run `make editor` to open the editor window. It's a small
+[Electron](https://www.electronjs.org/) app in [editor/](editor/): the first
+run installs Electron into `editor/node_modules` with `npm ci`, and saving
+`resume.json` needs jsonschema (`pip install -r requirements.txt`). The main
+process ([editor/main.js](editor/main.js)) reads and writes the files in
+`input/` and runs the Makefile targets; the page is
+[editor/index.html](editor/index.html), with the block editor in
+[editor/blocks.js](editor/blocks.js). The editor gets the section list and the
+JSON Resume schema check from
+[scripts/editor_backend.py](scripts/editor_backend.py), so it uses the same
+rules as the generators and `make validate`.
 
 The editor has four tabs — **Resume (blocks)**, `format.tex`, `geometry.yaml`,
 and `resume.json` — plus a side panel with the `make build` / `make user`
 buttons, the output of the last make run, and a preview of the generated PDF.
 Messages about saves and builds appear under the page title, and a dot on a
-tab marks unsaved changes; the browser asks before leaving the page with any.
+tab marks unsaved changes; closing or reloading the window with any asks
+first. **Open PDF** opens the generated PDF in your system's PDF viewer.
 
 ### Block editor
 
@@ -243,7 +248,7 @@ Professional Experience shows one card per employer:
   anything missing. **Save & build** saves, then runs `make build`.
 
 Drag-and-drop uses [SortableJS](https://github.com/SortableJS/Sortable),
-vendored in [scripts/static/](scripts/static/) so the editor works offline.
+vendored in [editor/](editor/) so the editor works offline.
 
 ### Raw file tabs
 
@@ -275,18 +280,16 @@ with `make clean`.
 
 ## Docker workflow
 
-The Docker image installs Python 3 (with Flask and jsonschema, for the editor
-and `make validate`), GNU Make, Pandoc, and the TeX Live packages needed by the
+The Docker image installs Python 3 (with jsonschema, for `make validate`), GNU Make, Pandoc, and the TeX Live packages needed by the
 resume. Run `make docker-build` from the repository root to build without
-installing those tools locally. Run `make docker-editor` to launch the browser
-editor in the container; its default address is `http://127.0.0.1:8765/`. Set
-`RESUME_EDITOR_PORT` to use another port.
+installing those tools locally. The desktop editor runs on the host, not in
+the container, so its **make** buttons need the native toolchain.
 
 ## Spell checking
 
 [etc/dictionary.txt](etc/dictionary.txt) contains project-specific spell-check
-terms, configured via [etc/cspell.json](etc/cspell.json). The local editor also
-enables the browser's native spellcheck while editing.
+terms, configured via [etc/cspell.json](etc/cspell.json). The desktop editor also
+enables Chromium's built-in spellcheck while editing.
 
 ## Credits
 
@@ -297,4 +300,4 @@ enables the browser's native spellcheck while editing.
   © 2024 JSON Resume, used under the MIT License
   ([etc/resume-schema.LICENSE.md](etc/resume-schema.LICENSE.md)).
 - The block editor's drag-and-drop uses [SortableJS](https://github.com/SortableJS/Sortable)
-  (MIT License), vendored in [scripts/static/Sortable.min.js](scripts/static/Sortable.min.js).
+  (MIT License), vendored in [editor/Sortable.min.js](editor/Sortable.min.js).

@@ -1,4 +1,4 @@
-/* Block editor (static/blocks.js) -- same Dracula palette as editor.html. */
+/* Block editor (blocks.js) -- same Dracula palette as index.html. */
 
 .blocks-actions { border-top: 0; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 2; background: #21222c; }
 #blocksBody { padding: 16px; display: flex; flex-direction: column; gap: 14px; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; }

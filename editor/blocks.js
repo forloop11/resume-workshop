@@ -2,7 +2,7 @@
 // https://jsonresume.org/schema) and input/section_order.yaml.
 //
 // Works on the same in-memory file contents as the raw editor tabs
-// (state.files in templates/editor.html): every edit here re-serializes the
+// (state.files in index.html): every edit here re-serializes the
 // document back into state.files["resume.json"], so switching to the raw tab
 // always shows the current blocks, and vice versa. Text is plain Unicode
 // (&, %, ·, –); scripts/generate_resume.py escapes it for LaTeX.
@@ -26,7 +26,7 @@ const Blocks = (() => {
   const RESUME = "resume.json";
   const ORDER = "section_order.yaml";
   const PAGEBREAK = "pagebreak"; // section_order.yaml line: next section starts a new page
-  const SECTIONS = JSON.parse(document.querySelector("#config").textContent).sections;
+  const SECTIONS = workshop.config.sections;
   // Headings as generate_resume.py prints them.
   const LABELS = {
     summary: "Professional Summary",
@@ -820,7 +820,7 @@ const Blocks = (() => {
     try {
       for (const name of changed) {
         const content = state.files[name];
-        await request("/api/save", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, content }) });
+        await workshop.save(name, content);
         state.saved[name] = content;
       }
       renderTabs();

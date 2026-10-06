@@ -5,7 +5,7 @@
     "label": "Data Scientist",
     "email": "xxxx@gmail.com",
     "phone": "+1 (xxx) xxx-xxxx",
-    "summary": "Individual contributor holding the top IC grade at both Caterpillar and Ford. 25+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and NLP built on failure data, IoT telemetry, and ERP systems, and owns the full MLOps lifecycle on AWS and Snowflake. Sets standards adopted beyond the immediate team, including Amazon's fleet design life standard and dealership-wide data governance at Empire Cat. Caterpillar CEO Award recipient and 2x Amazon ML competition champion.",
+    "summary": "Individual contributor holding the top IC grade at both Caterpillar and Ford. 20+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and NLP built on failure data, IoT telemetry, and ERP systems, and owns the full MLOps lifecycle on AWS and Snowflake. Sets standards adopted beyond the immediate team, including Amazon's fleet design life standard and dealership-wide data governance at Empire Cat. Caterpillar CEO Award recipient and 2x Amazon ML competition champion.",
     "location": {
       "city": "Surprise",
       "region": "AZ",
@@ -141,15 +141,15 @@
     {
       "name": "Xtek Mining Services (now L&H Industrial)",
       "position": "Engineering Intern",
-      "startDate": "2005",
-      "endDate": "2005",
+      "startDate": "",
+      "endDate": "",
       "earlyCareer": true
     },
     {
       "name": "Ryan Incorporated Central, Roland Machinery Co., and Harry W. Kuhn, Inc.",
       "position": "Heavy Equipment Operator and Mechanic",
-      "startDate": "1997",
-      "endDate": "2002",
+      "startDate": "",
+      "endDate": "",
       "summary": "diagnosing and repairing mechanical, hydraulic, electrical, and control system failures on heavy capital earth moving equipment.",
       "earlyCareer": true
     }

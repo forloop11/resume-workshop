@@ -1,12 +1,18 @@
-// Drag-and-drop block editor for input/resume.json and input/section_order.yaml.
+// Drag-and-drop block editor for input/resume.json (a JSON Resume document,
+// https://jsonresume.org/schema) and input/section_order.yaml.
 //
 // Works on the same in-memory file contents as the raw editor tabs
 // (state.files in templates/editor.html): every edit here re-serializes the
-// parsed resume back into state.files["resume.json"], so switching to the raw
-// tab always shows the current blocks, and vice versa. Fields show LaTeX with
-// single backslashes (e.g. $\cdot$); JSON escaping only happens on serialize.
-// Unknown keys in resume.json are preserved, since edits mutate the parsed
-// objects in place.
+// document back into state.files["resume.json"], so switching to the raw tab
+// always shows the current blocks, and vice versa. Text is plain Unicode
+// (&, %, ·, –); scripts/generate_resume.py escapes it for LaTeX.
+//
+// JSON Resume stores one work[] entry per position. Like the generator
+// (scripts/jsonresume.py's experience_groups), this editor shows consecutive
+// entries with the same employer name and location as one employer card, and
+// writes the card's name/location back onto each of its roles. Entries
+// flagged earlyCareer get their own Early Career card instead. Unknown keys
+// are preserved, since edits mutate the parsed objects in place.
 "use strict";
 
 const Blocks = (() => {
@@ -24,13 +30,10 @@ const Blocks = (() => {
     recognition: "Recognition & Speaking",
     projects: "Selected Independent Projects",
   };
-  const TEXT_SECTIONS = new Set(["summary", "early_career", "certifications"]);
-  // Sections that are lists of two-field entries ({name|title, description}).
-  const ENTRY_SECTIONS = {
-    competencies: ["name", "description"],
-    recognition: ["title", "description"],
-    projects: ["title", "description"],
-  };
+  // The top-level JSON Resume array each list section edits.
+  const LIST_KEYS = { competencies: "skills", education: "education", certifications: "certificates", recognition: "awards", projects: "projects" };
+  // The JSON Resume iso8601 definition: YYYY, YYYY-MM, or YYYY-MM-DD.
+  const ISO8601 = /^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$/;
   const UNDO_LIMIT = 50;
   const NATIVE_AUTOSIZE = Boolean(window.CSS && CSS.supports("field-sizing", "content"));
 
@@ -38,11 +41,14 @@ const Blocks = (() => {
   const body = document.querySelector("#blocksBody");
   const undoBtn = document.querySelector("#blocksUndo");
 
-  let model = null; // parsed resume.json
+  let model = null; // the parsed JSON Resume document
+  let groups = []; // experience: [{ name, location, companyStack, roles: [work entries] }]
+  let early = []; // work entries with earlyCareer: true
   let order = []; // section_order.yaml's list
   let orderHeader = []; // section_order.yaml's leading comment lines
   let parsedFrom = { resume: null, order: null }; // file text model/order came from
   let undoStack = [];
+  let lastField = null; // most recently focused field, for the · and – buttons
   const closedSections = new Set();
   const openEmployers = new WeakSet();
 
@@ -75,6 +81,7 @@ const Blocks = (() => {
   }
 
   const handle = () => h("span", { class: "handle", title: "Drag to reorder", "aria-hidden": "true" }, "⠿");
+  const list = (value) => (Array.isArray(value) ? value : []);
 
   // --- section_order.yaml ------------------------------------------------------
 
@@ -99,6 +106,51 @@ const Blocks = (() => {
     return [...orderHeader, ...order.map((s) => `- ${s}`)].join("\n") + "\n";
   }
 
+  // --- work[] <-> employer groups ----------------------------------------------
+
+  function groupWork(work) {
+    const result = [];
+    const earlyEntries = [];
+    for (const entry of list(work)) {
+      if (entry.earlyCareer) {
+        earlyEntries.push(entry);
+        continue;
+      }
+      const last = result[result.length - 1];
+      if (last && last.name === (entry.name || "") && last.location === (entry.location || "")) {
+        last.roles.push(entry);
+      } else {
+        result.push({ name: entry.name || "", location: entry.location || "", companyStack: "", roles: [entry] });
+      }
+    }
+    for (const group of result) group.companyStack = group.roles.map((r) => r.companyStack).find(Boolean) || "";
+    return { groups: result, early: earlyEntries };
+  }
+
+  // Writes the employer cards back as flat work[] entries: each role gets its
+  // card's name/location, and companyStack lives on the first role only.
+  function flattenWork() {
+    const work = [];
+    for (const group of groups) {
+      group.roles.forEach((role, i) => {
+        role.name = group.name;
+        if (group.location) role.location = group.location;
+        else delete role.location;
+        // Assign only on change, so existing keys keep their position in the file.
+        const companyStack = i === 0 ? group.companyStack : "";
+        if (!companyStack) delete role.companyStack;
+        else if (role.companyStack !== companyStack) role.companyStack = companyStack;
+        delete role.earlyCareer;
+        work.push(role);
+      });
+    }
+    for (const entry of early) {
+      entry.earlyCareer = true;
+      work.push(entry);
+    }
+    return work;
+  }
+
   // --- state <-> files -------------------------------------------------------
 
   // Re-parses the files only if they changed since this editor last
@@ -116,8 +168,10 @@ const Blocks = (() => {
       if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("expected a JSON object");
       const parsedOrder = parseOrder(orderText);
       model = parsed;
+      if (!model.basics || typeof model.basics !== "object") model.basics = {};
+      ({ groups, early } = groupWork(model.work));
       order = parsedOrder.sections;
-      orderHeader = parsedOrder.header.length ? parsedOrder.header : ["# Top-level keys from resume.json, in the order they appear in the resume."];
+      orderHeader = parsedOrder.header.length ? parsedOrder.header : ["# Resume sections, in the order they appear. Omit one to leave it out."];
       parsedFrom = { resume: resumeText, order: orderText };
       undoStack = [];
       render();
@@ -139,6 +193,7 @@ const Blocks = (() => {
 
   // Writes the model back into state.files after any edit.
   function commit() {
+    model.work = flattenWork();
     const resumeText = JSON.stringify(model, null, 2);
     const orderText = state.files[ORDER] === parsedFrom.order && sameOrder() ? state.files[ORDER] : serializeOrder();
     state.files[RESUME] = resumeText;
@@ -173,13 +228,12 @@ const Blocks = (() => {
     const snapshot = undoStack.pop();
     if (!snapshot) return;
     const stack = undoStack;
-    const employers = () => (Array.isArray(model.experience) ? model.experience : []);
-    const openIndexes = employers().flatMap((e, i) => (openEmployers.has(e) ? [i] : []));
+    const openIndexes = groups.flatMap((g, i) => (openEmployers.has(g) ? [i] : []));
     state.files[RESUME] = snapshot.resume;
     state.files[ORDER] = snapshot.order;
     reset();
     open();
-    for (const i of openIndexes) if (employers()[i]) openEmployers.add(employers()[i]);
+    for (const i of openIndexes) if (groups[i]) openEmployers.add(groups[i]);
     render();
     undoStack = stack;
     undoBtn.disabled = !undoStack.length;
@@ -189,15 +243,17 @@ const Blocks = (() => {
   // --- fields ----------------------------------------------------------------
 
   // An input (or auto-growing textarea, with multiline) bound to obj[key].
-  // optional: the key is only created once it's non-empty, so untouched
-  // optional fields (like stack) don't appear in resume.json as "".
-  function field(obj, key, { label, multiline = false, required = false, optional = false, hint, onInput } = {}) {
-    const hadKey = key in obj;
-    const control = multiline ? h("textarea", { rows: 1, spellcheck: "true" }) : h("input", { type: "text", spellcheck: "true" });
+  // An emptied field removes its key, as JSON Resume documents usually omit
+  // unused fields -- except required ones, which stay as "".
+  // date: validated as YYYY / YYYY-MM / YYYY-MM-DD.
+  function field(obj, key, { label, multiline = false, required = false, date = false, placeholder, hint, onInput } = {}) {
+    const control = multiline ? h("textarea", { rows: 1, spellcheck: "true" }) : h("input", { type: "text", spellcheck: date ? "false" : "true" });
     control.value = obj[key] ?? "";
+    if (placeholder || date) control.placeholder = placeholder || "YYYY-MM";
     if (required) control.dataset.required = "";
+    if (date) control.dataset.date = "";
     control.addEventListener("input", () => {
-      if (optional && !hadKey && control.value === "") delete obj[key];
+      if (control.value === "" && !required) delete obj[key];
       else obj[key] = control.value;
       control.classList.remove("invalid");
       autosize(control);
@@ -209,24 +265,44 @@ const Blocks = (() => {
       control);
   }
 
+  // A textarea editing obj[key], an array of strings, one item per line.
+  function linesField(obj, key, { label, hint, required = false } = {}) {
+    const control = h("textarea", { rows: 2, spellcheck: "true" });
+    control.value = list(obj[key]).join("\n");
+    if (required) control.dataset.required = "";
+    control.addEventListener("input", () => {
+      obj[key] = control.value.split("\n").map((line) => line.trim()).filter(Boolean);
+      control.classList.remove("invalid");
+      autosize(control);
+      commit();
+    });
+    return h("label", { class: "field wide" },
+      h("span", { class: "label" }, label, required ? h("span", { class: "req" }, " *") : null, hint ? h("span", { class: "hint" }, ` — ${hint}`) : null),
+      control);
+  }
+
+  let pendingSortables = [];
+
+  // forceFallback: Sortable's own mouse-driven drag instead of native HTML5
+  // drag-and-drop, which Chromium won't start for large items full of inputs
+  // (a whole role card); fallbackOnBody keeps the drag image above nested lists.
+  const SORTABLE_OPTIONS = { animation: 150, ghostClass: "ghost", forceFallback: true, fallbackOnBody: true };
+
   // A sortable list of `items`, rendered by renderItem(item, index, items).
-  function list(items, group, renderItem, className = "") {
+  function sortableList(items, group, renderItem, className = "") {
     const el = h("div", { class: `list ${className}` }, items.map((item, i) => renderItem(item, i, items)));
     el._items = items;
     pendingSortables.push({ el, group });
     return el;
   }
 
-  let pendingSortables = [];
-
   function initSortables() {
     for (const { el, group } of pendingSortables) {
       Sortable.create(el, {
+        ...SORTABLE_OPTIONS,
         group,
         handle: ".handle",
         draggable: ".item",
-        animation: 150,
-        ghostClass: "ghost",
         onEnd(evt) {
           const from = evt.from._items;
           const to = evt.to._items;
@@ -249,7 +325,60 @@ const Blocks = (() => {
       button("Delete", () => change(() => items.splice(index, 1)), { class: "danger", title: "Delete" }));
   }
 
+  // A card for a list of simple entries: a drag handle, the fields from
+  // renderFields(item), and Duplicate/Delete.
+  function entryList(items, group, renderFields, { addLabel, blank, fieldsClass = "" }) {
+    return h("div", {},
+      sortableList(items, group, (item, i) => h("div", { class: "item entry" },
+        handle(),
+        h("div", { class: `fields ${fieldsClass}` }, renderFields(item)),
+        itemTools(items, i))),
+      button(addLabel, () => change(() => items.push(blank())), { class: "add" }));
+  }
+
+  // --- header card (basics) ------------------------------------------------------
+
+  function renderBasics() {
+    const basics = model.basics;
+    if (!basics.location || typeof basics.location !== "object") basics.location = {};
+    if (!Array.isArray(basics.profiles)) basics.profiles = [];
+    const details = h("details", { class: "block section", open: !closedSections.has("basics") },
+      h("summary", {}, "Header", h("span", { class: "tag" }, "basics")),
+      h("div", { class: "fields row3" },
+        field(basics, "name", { label: "Name", required: true }),
+        field(basics, "label", { label: "Title", required: true }),
+        field(basics, "email", { label: "Email", required: true })),
+      h("div", { class: "fields row3" },
+        field(basics, "phone", { label: "Phone", required: true }),
+        field(basics.location, "city", { label: "City", required: true }),
+        field(basics.location, "region", { label: "Region / state" })),
+      h("div", { class: "fields row2" },
+        field(basics.location, "countryCode", { label: "Country code", hint: "not printed" }),
+        field(basics, "url", { label: "Website", hint: "printed before the profile links" })),
+      h("div", { class: "label" }, "Profile links", h("span", { class: "hint" }, " — printed in this order")),
+      entryList(basics.profiles, "profiles", (p) => [
+        field(p, "network", { label: "Network", placeholder: "LinkedIn" }),
+        field(p, "username", { label: "Username", hint: "link text ends here" }),
+        field(p, "url", { label: "URL", required: true, placeholder: "https://" }),
+      ], { addLabel: "+ Add profile link", blank: () => ({ network: "", url: "" }), fieldsClass: "row-profile" }));
+    details.addEventListener("toggle", () => toggleSection(details, "basics"));
+    return details;
+  }
+
   // --- section order card ---------------------------------------------------------
+
+  // Gives a section something to edit once it's added to the resume.
+  function ensureSectionData(key) {
+    if (key === "summary" && typeof model.basics.summary !== "string") model.basics.summary = "";
+    if (LIST_KEYS[key] && !Array.isArray(model[LIST_KEYS[key]])) model[LIST_KEYS[key]] = [];
+  }
+
+  function hasData(key) {
+    if (key === "summary") return typeof model.basics.summary === "string";
+    if (key === "experience") return groups.length > 0;
+    if (key === "early_career") return early.length > 0;
+    return Array.isArray(model[LIST_KEYS[key]]);
+  }
 
   function renderOrderCard() {
     const excluded = SECTIONS.filter((s) => !order.includes(s));
@@ -258,16 +387,15 @@ const Blocks = (() => {
     const hidden = h("div", { class: "chips excluded" }, excluded.map(chip));
     for (const el of [included, hidden]) {
       Sortable.create(el, {
+        ...SORTABLE_OPTIONS,
         group: "section-order",
         draggable: ".item",
-        animation: 150,
-        ghostClass: "ghost",
         onEnd() {
           const next = [...included.children].map((c) => c.dataset.key);
           if (next.join() === order.join()) return;
           change(() => {
             order = next;
-            for (const key of order) if (!(key in model)) model[key] = TEXT_SECTIONS.has(key) ? "" : [];
+            order.forEach(ensureSectionData);
           });
         },
       });
@@ -281,126 +409,153 @@ const Blocks = (() => {
 
   // --- sections -----------------------------------------------------------------
 
+  function toggleSection(details, key) {
+    if (details.open) closedSections.delete(key);
+    else closedSections.add(key);
+    autosizeWithin(details);
+  }
+
   function renderSection(key) {
     const included = order.includes(key);
     const details = h("details", { class: `block section${included ? "" : " excluded"}`, open: !closedSections.has(key) },
       h("summary", {}, LABELS[key] || key, included ? null : h("span", { class: "tag" }, "not in resume")),
       renderSectionBody(key));
-    details.addEventListener("toggle", () => {
-      if (details.open) closedSections.delete(key);
-      else closedSections.add(key);
-      autosizeWithin(details);
-    });
+    details.addEventListener("toggle", () => toggleSection(details, key));
     return details;
   }
 
   function renderSectionBody(key) {
-    const value = model[key];
-    if (TEXT_SECTIONS.has(key) && typeof value === "string") {
-      return field(model, key, { label: "Text", multiline: true });
+    switch (key) {
+      case "summary":
+        return field(model.basics, "summary", { label: "basics.summary", multiline: true, required: included(key) });
+      case "experience":
+        return renderExperience();
+      case "early_career":
+        return entryList(early, "early", (e) => [
+          h("div", { class: "fields row2" },
+            field(e, "position", { label: "Position", required: true }),
+            field(e, "name", { label: "Employer(s)", required: true })),
+          h("div", { class: "fields row2" },
+            field(e, "startDate", { label: "Start", date: true, placeholder: "YYYY" }),
+            field(e, "endDate", { label: "End", date: true, placeholder: "YYYY" })),
+          field(e, "summary", { label: "Summary", multiline: true, hint: "printed after the dates" }),
+        ], { addLabel: "+ Add early career entry", blank: () => ({ name: "", position: "", earlyCareer: true }) });
+      case "competencies":
+        return entryList(listFor(key), "skills", (s) => [
+          field(s, "name", { label: "Name", required: true }),
+          linesField(s, "keywords", { label: "Keywords", hint: "one per line, printed separated by ·", required: true }),
+        ], { addLabel: "+ Add competency", blank: () => ({ name: "", keywords: [] }) });
+      case "education":
+        return entryList(listFor(key), "education", (e) => [
+          h("div", { class: "fields row2" },
+            field(e, "studyType", { label: "Degree type", placeholder: "Bachelor of Science" }),
+            field(e, "area", { label: "Area", hint: "printed as “type in area”" })),
+          h("div", { class: "fields row2" },
+            field(e, "institution", { label: "Institution", required: true }),
+            field(e, "endDate", { label: "Year completed", date: true, placeholder: "YYYY" })),
+        ], { addLabel: "+ Add education", blank: () => ({ institution: "", studyType: "" }) });
+      case "certifications":
+        return entryList(listFor(key), "certificates", (c) => [
+          h("div", { class: "fields row2" },
+            field(c, "name", { label: "Name", required: true }),
+            field(c, "issuer", { label: "Issuer", hint: "printed after the name" })),
+          h("div", { class: "fields row2" },
+            field(c, "date", { label: "Date", date: true, hint: "not printed" }),
+            field(c, "url", { label: "URL", hint: "not printed" })),
+        ], { addLabel: "+ Add certification", blank: () => ({ name: "" }) });
+      case "recognition":
+        return entryList(listFor(key), "awards", (a) => [
+          field(a, "title", { label: "Title", required: true }),
+          field(a, "summary", { label: "Summary", multiline: true }),
+          h("div", { class: "fields row2" },
+            field(a, "date", { label: "Date", date: true, placeholder: "YYYY", hint: "not printed" }),
+            field(a, "awarder", { label: "Awarder", hint: "not printed" })),
+        ], { addLabel: "+ Add entry", blank: () => ({ title: "" }) });
+      case "projects":
+        return entryList(listFor(key), "projects", (p) => [
+          field(p, "name", { label: "Name", required: true }),
+          field(p, "description", { label: "Description", multiline: true }),
+        ], { addLabel: "+ Add project", blank: () => ({ name: "" }) });
+      default:
+        return h("p", { class: "hint" }, `Edit "${key}" in the raw ${RESUME} tab.`);
     }
-    if (key === "experience" && Array.isArray(value)) return renderExperience(value);
-    if (key === "education" && Array.isArray(value)) return renderEducation(value);
-    if (ENTRY_SECTIONS[key] && Array.isArray(value)) return renderEntries(key, value);
-    return h("p", { class: "hint" }, `Edit "${key}" in the raw ${RESUME} tab.`);
   }
 
-  function renderEntries(key, items) {
-    const [titleKey, descKey] = ENTRY_SECTIONS[key];
-    const blank = () => ({ [titleKey]: "", [descKey]: "" });
-    const required = key === "competencies"; // generate_resume.py's validate()
-    return h("div", {},
-      list(items, key, (item, i) => h("div", { class: "item entry" },
-        handle(),
-        h("div", { class: "fields" },
-          field(item, titleKey, { label: titleKey === "name" ? "Name" : "Title", required }),
-          field(item, descKey, { label: "Description", multiline: true, required })),
-        itemTools(items, i))),
-      button(`+ Add ${key === "competencies" ? "competency" : "entry"}`, () => change(() => items.push(blank())), { class: "add" }));
+  const included = (key) => order.includes(key);
+
+  function listFor(key) {
+    ensureSectionData(key);
+    return model[LIST_KEYS[key]];
   }
 
-  function renderEducation(items) {
-    return h("div", {},
-      list(items, "education", (item, i) => h("div", { class: "item entry" },
-        handle(),
-        h("div", { class: "fields row3" },
-          field(item, "degree", { label: "Degree" }),
-          field(item, "institution", { label: "Institution" }),
-          field(item, "year", { label: "Year" })),
-        itemTools(items, i))),
-      button("+ Add education", () => change(() => items.push({ degree: "", institution: "", year: "" })), { class: "add" }));
-  }
+  const newRole = () => ({ name: "", position: "", highlights: [""] });
 
-  function renderExperience(employers) {
+  function renderExperience() {
     return h("div", {},
-      list(employers, "employers", (employer, i) => renderEmployer(employer, i, employers)),
+      sortableList(groups, "employers", (group, i) => renderEmployer(group, i)),
       button("+ Add employer", () => change(() => {
-        const employer = { employer: "", location: "", dates: "", roles: [newRole()] };
-        employers.unshift(employer);
-        openEmployers.add(employer);
+        const group = { name: "", location: "", companyStack: "", roles: [newRole()] };
+        groups.unshift(group);
+        openEmployers.add(group);
       }), { class: "add" }));
   }
 
-  const newRole = () => ({ title: "", dates: "", duties: [""] });
-
-  function renderEmployer(employer, index, employers) {
-    const roles = Array.isArray(employer.roles) ? employer.roles : (employer.roles = []);
+  function renderEmployer(group, index) {
     const title = h("span", { class: "title" });
     const updateTitle = () => {
-      const roleCount = `${roles.length} role${roles.length === 1 ? "" : "s"}`;
-      title.textContent = [employer.employer || "(new employer)", employer.dates, roleCount].filter(Boolean).join(" · ");
+      const roleCount = `${group.roles.length} role${group.roles.length === 1 ? "" : "s"}`;
+      title.textContent = [group.name || "(new employer)", group.location, roleCount].filter(Boolean).join(" · ");
     };
     updateTitle();
-    const details = h("details", { class: "item employer", open: openEmployers.has(employer) },
-      h("summary", {}, handle(), title, itemTools(employers, index)),
-      h("div", { class: "fields row3" },
-        field(employer, "employer", { label: "Employer", required: true, onInput: updateTitle }),
-        field(employer, "location", { label: "Location" }),
-        field(employer, "dates", { label: "Dates", onInput: updateTitle })),
+    const details = h("details", { class: "item employer", open: openEmployers.has(group) },
+      h("summary", {}, handle(), title, itemTools(groups, index)),
+      h("div", { class: "fields row2" },
+        field(group, "name", { label: "Employer", required: true, onInput: updateTitle }),
+        field(group, "location", { label: "Location", onInput: updateTitle })),
       h("div", { class: "fields" },
-        field(employer, "stack", { label: "Stack", optional: true, hint: "printed once, after all roles" })),
-      list(roles, "roles", (role, i) => renderRole(role, i, roles, employer), "roles"),
-      button("+ Add role", () => change(() => roles.push(newRole())), { class: "add" }));
+        field(group, "companyStack", { label: "Company stack", hint: "printed once, after all roles" })),
+      sortableList(group.roles, "roles", (role, i) => renderRole(role, i, group), "roles"),
+      button("+ Add role", () => change(() => group.roles.push(newRole())), { class: "add" }));
     details.addEventListener("toggle", () => {
-      if (details.open) openEmployers.add(employer);
-      else openEmployers.delete(employer);
+      if (details.open) openEmployers.add(group);
+      else openEmployers.delete(group);
       autosizeWithin(details);
     });
     return details;
   }
 
-  function renderRole(role, index, roles, employer) {
-    const duties = Array.isArray(role.duties) ? role.duties : (role.duties = []);
-    const pagebreak = h("input", { type: "checkbox", checked: Boolean(role.pagebreak_before) });
+  function renderRole(role, index, group) {
+    const highlights = Array.isArray(role.highlights) ? role.highlights : (role.highlights = []);
+    const pagebreak = h("input", { type: "checkbox", checked: Boolean(role.pagebreakBefore) });
     pagebreak.addEventListener("change", () => {
-      if (pagebreak.checked) role.pagebreak_before = true;
-      else delete role.pagebreak_before;
+      if (pagebreak.checked) role.pagebreakBefore = true;
+      else delete role.pagebreakBefore;
       commit();
     });
-    const multiRole = (employer.roles || []).length > 1;
     return h("div", { class: "item role" },
       h("div", { class: "role-head" },
         handle(),
         h("strong", {}, "Role"),
         h("label", { class: "check" }, pagebreak, "Start on a new page"),
-        itemTools(roles, index)),
-      h("div", { class: "fields row2" },
-        field(role, "title", { label: "Title", required: true }),
-        field(role, "dates", { label: "Dates", hint: multiRole ? null : "only printed when the employer has several roles" })),
-      h("div", { class: "label" }, "Duties", h("span", { class: "req" }, " *")),
-      list(duties, "duties", (duty, i) => {
-        const text = h("textarea", { rows: 1, spellcheck: "true", "data-required": true });
-        text.value = duty;
-        text.addEventListener("input", () => {
-          duties[i] = text.value;
-          text.classList.remove("invalid");
-          autosize(text);
+        itemTools(group.roles, index)),
+      h("div", { class: "fields row3" },
+        field(role, "position", { label: "Position", required: true }),
+        field(role, "startDate", { label: "Start", date: true }),
+        field(role, "endDate", { label: "End", date: true, placeholder: "Present" })),
+      h("div", { class: "label" }, "Highlights", h("span", { class: "req" }, " *"), h("span", { class: "hint" }, " — the role's bullet points")),
+      sortableList(highlights, "highlights", (text, i) => {
+        const area = h("textarea", { rows: 1, spellcheck: "true", "data-required": true });
+        area.value = text;
+        area.addEventListener("input", () => {
+          highlights[i] = area.value;
+          area.classList.remove("invalid");
+          autosize(area);
           commit();
         });
-        return h("div", { class: "item duty" }, handle(), text, button("✕", () => change(() => duties.splice(i, 1)), { class: "danger icon", title: "Delete duty" }));
+        return h("div", { class: "item duty" }, handle(), area, button("✕", () => change(() => highlights.splice(i, 1)), { class: "danger icon", title: "Delete highlight" }));
       }, "duties"),
-      button("+ Add duty", () => change(() => duties.push("")), { class: "add" }),
-      h("div", { class: "fields" }, field(role, "stack", { label: "Stack", optional: true, hint: "printed under this role" })));
+      button("+ Add highlight", () => change(() => highlights.push("")), { class: "add" }),
+      h("div", { class: "fields" }, field(role, "stack", { label: "Stack", hint: "printed under this role" })));
   }
 
   // --- render / validate / save ---------------------------------------------------
@@ -408,40 +563,52 @@ const Blocks = (() => {
   function render() {
     if (!model) return;
     const scroll = window.scrollY;
-    const shown = [...order, ...SECTIONS.filter((s) => !order.includes(s) && s in model)];
-    for (const key of Object.keys(model)) if (!shown.includes(key)) shown.push(key);
-    body.replaceChildren(renderOrderCard(), ...shown.map(renderSection));
+    const shown = [...order, ...SECTIONS.filter((s) => !order.includes(s) && hasData(s))];
+    body.replaceChildren(renderBasics(), renderOrderCard(), ...shown.map(renderSection));
     initSortables();
     autosizeWithin(body);
     window.scrollTo(0, scroll);
     undoBtn.disabled = !undoStack.length;
   }
 
-  // Mirrors generate_resume.py's validate(), so a save here never produces a
-  // resume.json that `make build` would reject -- plus blank duties, which it
-  // would happily print as empty bullets.
+  // Mirrors generate_header.py and generate_resume.py's validate(), so a save
+  // here never produces a resume.json that `make build` would reject -- plus
+  // blank highlights, which it would happily print as empty bullets. The
+  // server also checks the JSON Resume schema itself on save.
   function validate() {
     const problems = [];
-    for (const key of order) if (!(key in model)) problems.push(`${LABELS[key] || key} is in the section order but has no content.`);
-    (Array.isArray(model.competencies) ? model.competencies : []).forEach((c, i) => {
-      if (!c.name || !c.description) problems.push(`Core Competencies #${i + 1} needs a name and description.`);
-    });
-    (Array.isArray(model.experience) ? model.experience : []).forEach((employer, i) => {
-      const where = employer.employer || `employer #${i + 1}`;
-      if (!employer.employer) problems.push(`Experience ${where}: employer name is required.`);
-      (employer.roles || []).forEach((role, j) => {
-        const roleName = role.title || `role #${j + 1}`;
-        if (!role.title) problems.push(`Experience ${where} › ${roleName}: title is required.`);
-        if (!role.duties || !role.duties.length) problems.push(`Experience ${where} › ${roleName}: add at least one duty.`);
-        if ((role.duties || []).some((d) => !String(d).trim())) problems.push(`Experience ${where} › ${roleName}: fill in or delete the blank duty.`);
+    const b = model.basics;
+    for (const [k, name] of [["name", "name"], ["label", "title"], ["email", "email"], ["phone", "phone"]]) if (!b[k]) problems.push(`Header: ${name} is required.`);
+    if (!(b.location && b.location.city)) problems.push("Header: city is required.");
+    if (!b.url && !list(b.profiles).some((p) => p.url)) problems.push("Header: add a website or at least one profile link.");
+    for (const key of order) {
+      const label = LABELS[key] || key;
+      if (key === "summary" && !b.summary) problems.push(`${label} is empty.`);
+      if (key === "early_career" && !early.length) problems.push(`${label} has no entries.`);
+      if (key === "competencies") list(model.skills).forEach((s, i) => { if (!s.name || !list(s.keywords).length) problems.push(`${label} #${i + 1} needs a name and keywords.`); });
+    }
+    groups.forEach((group, i) => {
+      const where = group.name || `employer #${i + 1}`;
+      if (!group.name) problems.push(`Experience ${where}: employer name is required.`);
+      group.roles.forEach((role, j) => {
+        const roleName = role.position || `role #${j + 1}`;
+        if (!role.position) problems.push(`Experience ${where} › ${roleName}: position is required.`);
+        if (!list(role.highlights).length) problems.push(`Experience ${where} › ${roleName}: add at least one highlight.`);
+        if (list(role.highlights).some((d) => !String(d).trim())) problems.push(`Experience ${where} › ${roleName}: fill in or delete the blank highlight.`);
       });
     });
-    // Highlight empty required fields, opening anything collapsed around them.
-    root.querySelectorAll("[data-required]").forEach((el) => {
-      const empty = !el.value.trim();
-      el.classList.toggle("invalid", empty);
-      if (empty) for (let d = el.closest("details"); d; d = d.parentElement.closest("details")) d.open = true;
+    // Highlight empty required fields and malformed dates, opening anything
+    // collapsed around them.
+    let badDates = 0;
+    root.querySelectorAll("[data-required], [data-date]").forEach((el) => {
+      const value = el.value.trim();
+      const bad = (el.dataset.required !== undefined && !value) || (el.dataset.date !== undefined && value && !ISO8601.test(value));
+      if (el.dataset.date !== undefined && value && !ISO8601.test(value)) badDates++;
+      el.classList.toggle("invalid", bad);
+      if (bad) for (let d = el.closest("details"); d; d = d.parentElement.closest("details")) d.open = true;
     });
+    if (badDates) problems.push(`${badDates} date${badDates === 1 ? " is" : "s are"} not YYYY, YYYY-MM, or YYYY-MM-DD.`);
+    if (!problems.length && root.querySelector(".invalid")) problems.push("Fill in the highlighted required fields.");
     return problems;
   }
 
@@ -477,6 +644,28 @@ const Blocks = (() => {
     root.querySelectorAll("details.section").forEach((d) => (d.open = open));
   }
 
+  // The · and – buttons insert at the cursor of the last focused field, since
+  // neither character is on most keyboards.
+  function insertChar(ch) {
+    const el = lastField;
+    if (!el || !root.contains(el)) {
+      report("Click into a field first, then insert.");
+      return;
+    }
+    const start = el.selectionStart ?? el.value.length;
+    const end = el.selectionEnd ?? start;
+    el.setRangeText(ch, start, end, "end");
+    el.focus();
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  root.addEventListener("focusin", (e) => {
+    if (e.target.matches("input[type=text], textarea")) lastField = e.target;
+  });
+  for (const btn of root.querySelectorAll("[data-insert]")) {
+    btn.addEventListener("mousedown", (e) => e.preventDefault()); // keep the field's focus/selection
+    btn.addEventListener("click", () => insertChar(btn.dataset.insert));
+  }
   document.querySelector("#blocksSave").addEventListener("click", save);
   document.querySelector("#blocksBuild").addEventListener("click", async () => {
     if (await save()) run("build");

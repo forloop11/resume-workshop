@@ -2,16 +2,21 @@ TEXFILE = input/format
 OUTPUT = output/resume
 DOCKER_IMAGE = resume-builder
 
-.PHONY: build header geometry resume editor clean user docker-image docker-build docker-editor
+.PHONY: build header geometry resume validate editor clean user docker-image docker-build docker-editor
 
-header: input/header.yaml scripts/generate_header.py
+header: input/resume.json scripts/generate_header.py scripts/jsonresume.py
 	python3 scripts/generate_header.py
 
 geometry: input/geometry.yaml scripts/generate_geometry.py
 	python3 scripts/generate_geometry.py
 
-resume: input/resume.json input/section_order.yaml scripts/generate_resume.py
+resume: input/resume.json input/section_order.yaml scripts/generate_resume.py scripts/jsonresume.py
 	python3 scripts/generate_resume.py
+
+# Checks input/resume.json against the JSON Resume schema (etc/resume-schema.json)
+# and the generator's own rules. Needs jsonschema (pip install -r requirements.txt).
+validate: input/resume.json etc/resume-schema.json scripts/validate_resume.py
+	python3 scripts/validate_resume.py
 
 editor: scripts/editor.py scripts/templates/editor.html
 	python3 scripts/editor.py
@@ -22,12 +27,12 @@ build: header geometry resume $(TEXFILE).tex
 	pandoc --wrap=none -f latex -t plain $(TEXFILE).tex -o $(OUTPUT).txt
 	rm -f $(OUTPUT).aux $(OUTPUT).fdb_latexmk $(OUTPUT).fls $(OUTPUT).log $(OUTPUT).out $(OUTPUT).synctex.gz
 
-# Copies the build output to a filename derived from input/header.yaml's
-# `name` field (lowercased, spaces replaced with underscores, everything
+# Copies the build output to a filename derived from input/resume.json's
+# `basics.name` field (lowercased, spaces replaced with underscores, everything
 # else stripped down to alphanumerics and underscores), e.g.
 # "Todd Takala" -> output/todd_takala_resume.pdf.
 user: build
-	name=$$(sed -n 's/^name: *//p' input/header.yaml | tr '[:upper:]' '[:lower:]' | tr ' ' '_' | tr -cd 'a-z0-9_'); \
+	name=$$(python3 -c 'import json; print(json.load(open("input/resume.json"))["basics"]["name"])' | tr '[:upper:]' '[:lower:]' | tr ' ' '_' | tr -cd 'a-z0-9_'); \
 	rm -f "output/$${name}_resume.pdf"; \
 	cp $(OUTPUT).pdf "output/$${name}_resume.pdf"
 

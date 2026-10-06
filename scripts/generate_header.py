@@ -1,102 +1,68 @@
 #!/usr/bin/env python3
-"""Generate interim/header.tex from input/header.yaml.
+"""Generate interim/header.tex from input/resume.json's `basics`.
 
-Reads the resume's contact-header details (name, title, location, phone,
-email, links) from a simple YAML file and emits a LaTeX fragment that
-input/format.tex pulls in with \\input{interim/header.tex}.
+Reads the resume's contact-header details (name, label, location, phone,
+email, profiles) from the JSON Resume document and emits a LaTeX fragment
+that input/format.tex pulls in with \\input{interim/header.tex}.
 
-No third-party dependencies (PyYAML isn't installed on this system, and
-this repo intentionally avoids anything beyond standard TeX Live). The
-YAML supported here is intentionally a narrow, known subset:
-
-    key: value
-    ...
-    links:
-      - text: some label
-        url: https://example.com
-      ...
+No third-party dependencies (this repo intentionally avoids anything beyond
+standard TeX Live and the Python standard library for the build).
 """
 import re
 import sys
 from pathlib import Path
 
-SRC = "input/header.yaml"
+from jsonresume import SRC, load, tex as escape
+
 DEST = Path("interim/header.tex")
 
-SPECIAL_CHARS = {
-    "\\": r"\textbackslash{}",
-    "&": r"\&",
-    "%": r"\%",
-    "$": r"\$",
-    "#": r"\#",
-    "_": r"\_",
-    "{": r"\{",
-    "}": r"\}",
-    "~": r"\textasciitilde{}",
-    "^": r"\textasciicircum{}",
-}
+
+def link_text(url, username=""):
+    """The display text for a profile link: its URL without the scheme,
+    a leading "www.", or a trailing slash, and cut off after the profile's
+    username if it appears in the path (so ".../users/someone/badges" shows
+    as "credly.com/users/someone")."""
+    text = re.sub(r"^www\.", "", re.sub(r"^[a-z]+://", "", url)).rstrip("/")
+    if username and f"/{username}/" in f"{text}/":
+        text = text[: text.index(f"/{username}") + len(username) + 1]
+    return text
 
 
-def escape(text):
-    return "".join(SPECIAL_CHARS.get(ch, ch) for ch in text)
-
-
-def strip_quotes(value):
-    if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
-        return value[1:-1]
-    return value
-
-
-def parse_header_yaml(path):
-    fields = {}
-    links = []
-    current_link = None
-
-    with open(path, encoding="utf-8") as fh:
-        for raw_line in fh:
-            line = raw_line.rstrip("\n")
-            if not line.strip() or line.strip().startswith("#"):
-                continue
-
-            list_item = re.match(r"^\s*-\s*(\w+):\s*(.*)$", line)
-            nested = re.match(r"^\s{2,}(\w+):\s*(.*)$", line)
-            top_level = re.match(r"^(\w+):\s*(.*)$", line)
-
-            if list_item:
-                key, value = list_item.groups()
-                current_link = {key: strip_quotes(value.strip())}
-                links.append(current_link)
-            elif nested and current_link is not None:
-                key, value = nested.groups()
-                current_link[key] = strip_quotes(value.strip())
-            elif top_level:
-                key, value = top_level.groups()
-                current_link = None
-                value = strip_quotes(value.strip())
-                if value:
-                    fields[key] = value
-
+def header_fields(basics):
+    """The header's fields from JSON Resume `basics`, in the shape render() takes."""
+    location = basics.get("location") or {}
+    place = ", ".join(part for part in (location.get("city"), location.get("region")) if part)
+    fields = {
+        "name": basics.get("name"),
+        "title": basics.get("label"),
+        "location": place,
+        "phone": basics.get("phone"),
+        "email": basics.get("email"),
+    }
+    fields = {key: value for key, value in fields.items() if value}
+    profiles = ([{"url": basics["url"]}] if basics.get("url") else []) + basics.get("profiles", [])
+    links = [{"text": link_text(p["url"], p.get("username", "")), "url": p["url"]} for p in profiles if p.get("url")]
     return fields, links
 
 
 def render(fields, links):
-    required = ["name", "title", "location", "phone", "email"]
-    missing = [key for key in required if key not in fields]
+    required = {"name": "name", "title": "label", "location": "location.city", "phone": "phone", "email": "email"}
+    missing = [f"basics.{source}" for key, source in required.items() if key not in fields]
     if missing:
         sys.exit(f"{SRC}: missing required field(s): {', '.join(missing)}")
     if not links:
-        sys.exit(f"{SRC}: at least one entry under 'links' is required")
+        sys.exit(f"{SRC}: basics needs a url or at least one entry under profiles")
 
-    name = escape(fields["name"]).upper()
-    title = escape(fields["title"]).upper().replace(" | ", "~~$|$~~")
+    # Uppercase before escaping, so LaTeX commands from escape() (e.g.
+    # $\cdot$ for "·") aren't uppercased into undefined ones.
+    name = escape(fields["name"].upper())
+    title = escape(fields["title"].upper()).replace(" | ", "~~$|$~~")
     location = escape(fields["location"])
     phone = escape(fields["phone"])
     email = fields["email"]  # used verbatim in mailto: and display
 
     link_parts = []
     for link in links:
-        if "text" not in link or "url" not in link:
-            sys.exit(f"{SRC}: each link needs both 'text' and 'url'")
         link_parts.append(r"\href{%s}{%s}" % (link["url"], escape(link["text"])))
     links_line = "~~$\\cdot$~~%\n    ".join(link_parts)
 
@@ -117,7 +83,7 @@ def render(fields, links):
 
 
 def main():
-    fields, links = parse_header_yaml(SRC)
+    fields, links = header_fields(load()["basics"])
     DEST.parent.mkdir(parents=True, exist_ok=True)
     with open(DEST, "w", encoding="utf-8") as fh:
         fh.write(render(fields, links))

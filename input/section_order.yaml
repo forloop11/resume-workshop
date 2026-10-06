@@ -1,4 +1,4 @@
-# Top-level keys from resume.json, in the order they appear in the resume.
+# Resume sections, in the order they appear. Omit one to leave it out.
 - summary
 - experience
 - early_career

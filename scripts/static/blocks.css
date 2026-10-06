@@ -48,7 +48,8 @@
 .fields { display: grid; gap: 8px; }
 .fields.row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .fields.row3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-@media (max-width: 1100px) { .fields.row2, .fields.row3 { grid-template-columns: minmax(0, 1fr); } }
+.fields.row-profile { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr); }
+@media (max-width: 1100px) { .fields.row2, .fields.row3, .fields.row-profile { grid-template-columns: minmax(0, 1fr); } }
 
 .field { display: flex; flex-direction: column; gap: 3px; }
 .label { color: var(--muted); font-size: 12px; }
@@ -74,3 +75,7 @@
 #blocks button.link { padding: 0; border: 0; background: none; color: #8be9fd; text-decoration: underline; }
 
 .blocks-error { padding: 14px; border: 1px solid #ff5555; color: #ff5555; }
+
+.insert-chars { display: flex; align-items: center; gap: 4px; margin-left: auto; color: var(--muted); font-size: 13px; }
+.insert-chars button { padding: 6px 10px; }
+.sortable-fallback { opacity: 0.9 !important; box-shadow: 0 8px 24px rgba(0,0,0,.4); }

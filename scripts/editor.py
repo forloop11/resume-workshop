@@ -8,6 +8,7 @@ the generator scripts, this needs Flask (`pip install -r requirements.txt`).
 """
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import sys
@@ -15,16 +16,18 @@ import threading
 from pathlib import Path
 
 try:
+    import jsonschema  # noqa: F401  (used by validate_resume.schema_errors)
     from flask import Flask, jsonify, render_template, request, send_file
 except ImportError:
-    sys.exit("The editor needs Flask: pip install -r requirements.txt")
+    sys.exit("The editor needs Flask and jsonschema: pip install -r requirements.txt")
 
 from generate_resume import SECTIONS
+from validate_resume import schema_errors
 
 ROOT = Path(__file__).resolve().parent.parent
 INPUT_DIR = ROOT / "input"
 OUTPUT_DIR = ROOT / "output"
-EDITABLE_FILES = ("format.tex", "header.yaml", "geometry.yaml", "section_order.yaml", "resume.json")
+EDITABLE_FILES = ("format.tex", "geometry.yaml", "section_order.yaml", "resume.json")
 MAKE_TARGETS = ("build", "user")
 
 app = Flask(__name__)
@@ -75,6 +78,15 @@ def save():
     name, content = payload["name"], payload["content"]
     if name not in EDITABLE_FILES or not isinstance(content, str):
         raise ValueError("Invalid input file")
+    if name == "resume.json":
+        # resume.json is a JSON Resume document; refuse to save one that
+        # doesn't match the schema (etc/resume-schema.json).
+        try:
+            errors = schema_errors(json.loads(content))
+        except json.JSONDecodeError as error:
+            raise ValueError(f"resume.json is not valid JSON: {error}") from None
+        if errors:
+            raise ValueError("resume.json does not match the JSON Resume schema: " + "; ".join(errors))
     (INPUT_DIR / name).write_text(content, encoding="utf-8")
     return jsonify(message=f"Saved input/{name}.")
 

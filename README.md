@@ -123,6 +123,30 @@ The editor is a small [Flask](https://flask.palletsprojects.com/) app — instal
 with `pip install -r requirements.txt`. Its page lives in
 [scripts/templates/editor.html](scripts/templates/editor.html).
 
+The editor opens on the **Resume (blocks)** tab, a drag-and-drop editor for
+`input/resume.json` and `input/section_order.yaml`:
+
+- A **Sections** card at the top sets the section order. Drag a section into the
+  second row to leave it out of the resume; its content is kept in `resume.json`.
+- Each section is a collapsible card. Employers, roles, duties, competencies,
+  education, and recognition entries each have a drag handle (⠿) for
+  reordering, plus Duplicate/Delete buttons. Roles and duties can also be
+  dragged from one employer or role to another.
+- Fields show LaTeX the way it should appear in the `.tex` output: type
+  `\&` and `$\cdot$`, not the doubled backslashes JSON needs. The editor handles
+  that escaping on save.
+- Optional fields such as `stack` stay out of `resume.json` until you fill them
+  in, and the "Start on a new page" checkbox sets `pagebreak_before`.
+- **Undo** reverses the last add, delete, or move (typing uses each field's own
+  undo). **Save** checks the same rules as `scripts/generate_resume.py`
+  (employer names, role titles, at least one duty, no blank duties) and
+  highlights anything missing. **Save & build** saves, then runs `make build`.
+
+Edits in the blocks tab and the raw `resume.json` tab stay in sync, and a dot
+on a tab marks unsaved changes. Drag-and-drop uses
+[SortableJS](https://github.com/SortableJS/Sortable), vendored in
+[scripts/static/](scripts/static/) so the editor works offline.
+
 The editor highlights LaTeX commands (`\command`) in every file, plus JSON object
 keys when editing `input/resume.json`. A "Pretty-print JSON" button reformats
 `resume.json` with indentation, a word-wrap toggle switches the editor between

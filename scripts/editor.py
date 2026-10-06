@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Local browser editor for input files and Makefile targets.
 
-A small Flask app: templates/editor.html is the page, and the JSON routes
+A small Flask app: templates/editor.html is the page (with a drag-and-drop
+block editor for resume.json in static/blocks.js), and the JSON routes
 below read/write the files in input/ and run the Makefile targets. Unlike
 the generator scripts, this needs Flask (`pip install -r requirements.txt`).
 """
@@ -17,6 +18,8 @@ try:
     from flask import Flask, jsonify, render_template, request, send_file
 except ImportError:
     sys.exit("The editor needs Flask: pip install -r requirements.txt")
+
+from generate_resume import SECTIONS
 
 ROOT = Path(__file__).resolve().parent.parent
 INPUT_DIR = ROOT / "input"
@@ -43,7 +46,9 @@ def bad_request(error):
 
 @app.get("/")
 def index():
-    return render_template("editor.html")
+    # SECTIONS is every section generate_resume.py knows how to render, so
+    # the block editor offers exactly those in its section-order list.
+    return render_template("editor.html", config={"sections": SECTIONS})
 
 
 @app.get("/api/files")

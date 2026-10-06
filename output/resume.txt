@@ -67,8 +67,6 @@ Architected a component exchange program with data warehousing, ETL/ELT pipeline
 
 Established data engineering governance, quality standards, and a metadata framework adopted across the dealership.
 
-Stack: SQL Server, T-SQL ⋅ R (ggplot2, tidyverse, RMarkdown) ⋅ Python (Pandas, scikit-learn) ⋅ SQLite ⋅ Jupyter ⋅ Docker ⋅ Ubuntu, Linux
-
   --------------------------- ---------------------
   Lead Reliability Engineer     Jun 2016 – Dec 2016
   --------------------------- ---------------------
@@ -94,6 +92,8 @@ Developed a fluids and wear analysis application (R, SQL) using oil tribology an
 Led the Product Problem Management program, applying 8D and RCFA to resolve recurring failures and reduce downtime.
 
 Analyzed field failure data to prioritize the highest-impact failure modes and guide remediation planning.
+
+Stack: SQL Server, T-SQL ⋅ R (ggplot2, tidyverse, RMarkdown) ⋅ Python (Pandas, scikit-learn) ⋅ SQLite ⋅ Jupyter ⋅ Docker ⋅ Ubuntu, Linux
 
   ---------------------------------------------- ---------------------
   Road Machinery, LLC (now Komatsu)Phoenix, AZ     Jan 2008 – Jan 2012

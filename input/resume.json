@@ -19,7 +19,7 @@
     }
   ],
   "experience": [
-        {
+    {
       "employer": "Ford Motor Company",
       "location": "",
       "dates": "Sep 2026 -- Present",
@@ -84,7 +84,7 @@
             "Architected a component exchange program with data warehousing, ETL/ELT pipelines, and time series models to target at-risk components, with client-facing ownership of the reliability and product problem management programs.",
             "Established data engineering governance, quality standards, and a metadata framework adopted across the dealership."
           ],
-          "stack": "SQL Server, T-SQL $\\cdot$ R (ggplot2, tidyverse, RMarkdown) $\\cdot$ Python (Pandas, scikit-learn) $\\cdot$ SQLite $\\cdot$ Jupyter $\\cdot$ Docker $\\cdot$ Ubuntu, Linux"
+          "stack": ""
         },
         {
           "title": "Lead Reliability Engineer",
@@ -115,12 +115,13 @@
           ],
           "stack": ""
         }
-      ]
+      ],
+      "stack": "SQL Server, T-SQL $\\cdot$ R (ggplot2, tidyverse, RMarkdown) $\\cdot$ Python (Pandas, scikit-learn) $\\cdot$ SQLite $\\cdot$ Jupyter $\\cdot$ Docker $\\cdot$ Ubuntu, Linux"
     },
     {
       "employer": "Road Machinery, LLC (now Komatsu)",
       "location": "Phoenix, AZ",
-      "dates": "Jan 2008 -- Jan 2012",  
+      "dates": "Jan 2008 -- Jan 2012",
       "roles": [
         {
           "title": "Technical Communicator (Engineer)",

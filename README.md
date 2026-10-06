@@ -44,8 +44,8 @@ workflow instead.
 2. Run `make build`.
 3. Open `output/resume.pdf` or `output/resume.txt`.
 
-To create a filename based on the name in the header, run `make user`. The
-current generated copy is `output/todd_takala_resume.pdf`.
+To create a filename based on the name in the header, run `make user` (for
+example, "Todd Takala" gives `output/todd_takala_resume.pdf`).
 
 Example output: [resume.pdf](output/resume.pdf) and
 [resume.txt](output/resume.txt).
@@ -70,7 +70,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - `make user` creates `output/<name>_resume.pdf`, where `<name>` is the `basics.name`
   field from [input/resume.json](input/resume.json), lowercased, with spaces
   replaced by underscores and everything else reduced to alphanumerics/underscores
-  — currently `output/todd_takala_resume.pdf`.
+  (for example, "Todd Takala" gives `output/todd_takala_resume.pdf`).
 - `make editor` starts the local browser editor: a drag-and-drop block view of
   the resume, raw tabs for the input files, the `build`/`user` Makefile
   targets, and the generated PDF.
@@ -120,18 +120,20 @@ the fields map onto the printed resume (the section id is what
 | References (`references`) | `references[]`: `name` and `reference` |
 | Core Competencies (`competencies`) | `skills[]`: `name (level)`, then `keywords` joined with `·` |
 
-Fields not listed above (`basics.image`, `location.address`/`postalCode`/`countryCode`,
-the `url` fields, `work[].description`, award and certificate dates, project
-`roles`/`entity`/`type`/dates, and `meta`) are kept in the file and editable in the
-block editor, but aren't printed.
+Fields not listed above are kept in the file and editable in the block
+editor, but aren't printed: `basics.image`, `location.address`/`postalCode`/`countryCode`,
+the `url` on entries (only `basics.url` and the profile links print),
+`work[].description`, an early-career entry's `location` and `highlights`,
+award `date`/`awarder`, certificate `date`, project `roles`/`entity`/`type`/dates,
+and `meta`.
 
 [input/section_order.yaml](input/section_order.yaml) sets the order of these
 sections; omit a section to leave it out of the resume. All of them are listed
 by default, and a section with no entries in `resume.json` (no `volunteer[]`,
 say) is skipped, along with any page break before it, so it starts printing
 once you add an entry. A `- pagebreak` line starts the section after it on a
-new page. The block editor's Sections card
-and **New page** toggles edit this file for you.
+new page. The block editor's Sections card and **New page** toggles edit this
+file for you.
 
 The schema allows extra fields on any entry, and a few LaTeX-specific ones
 are used:
@@ -191,18 +193,28 @@ The editor opens on the **Resume (blocks)** tab, a drag-and-drop editor for
 contact header and the section order, as in the screenshot at the top of this
 README:
 
-- The **Header** card edits `basics`: name, title, contact details, and the
-  profile links, which print in the order shown.
+- The **Header** card edits `basics`: name, title, contact details, website,
+  and the profile links, which print in the order shown. Its **More fields**
+  holds the street address, postal code, country code, and photo URL.
 - The **Sections** card sets the section order. Drag a section into the second
-  row to leave it out of the resume; its content is kept in `resume.json`.
+  row to leave it out of the resume; its content is kept in `resume.json`. A
+  section that starts on a new page is marked "new page".
 
-Below those, every JSON Resume section has a collapsible card, including the
-ones left out of the resume (marked "not in resume", and collapsed while
-empty), and a final **Document info** card edits `meta`. Every field in the
-schema has a place in these cards; fields that aren't printed are tucked
-under each entry's **More fields**, which opens by itself when one of them is
-filled in. Opening an empty section doesn't add anything to `resume.json`
-until you add an entry.
+Below those, every JSON Resume section has a collapsible card, and a final
+**Document info** card edits `meta`:
+
+![Block editor: section cards, with Education open](docs/screenshots/editor-blocks-sections.png)
+
+- Sections left out of the resume are marked "not in resume" and start
+  collapsed while empty. Sections in the resume with no entries yet are
+  marked "empty · not printed".
+- Every field in the schema has a place in these cards. Fields that aren't
+  printed are under each entry's **More fields**, which opens by itself when
+  one of them is filled in.
+- Opening an empty section doesn't add anything to `resume.json` until you
+  add an entry.
+
+Professional Experience shows one card per employer:
 
 ![Block editor: experience with a multi-role employer](docs/screenshots/editor-blocks-experience.png)
 
@@ -210,25 +222,25 @@ until you add an entry.
   section each have a drag handle (⠿) for reordering, plus Duplicate/Delete
   buttons. Roles and highlights can also be dragged from one employer or role
   to another.
-- Experience shows one card per employer, even though JSON Resume stores one
-  `work[]` entry per position. Editing the employer's name, location, website,
-  or description updates all of its roles.
+- JSON Resume stores one `work[]` entry per position, so editing an
+  employer's name, location, website, or description updates all of its
+  roles. Each role has a position, dates, an optional summary, its highlight
+  bullets, and a Stack line.
 - Fields are plain text. The **Insert · / –** buttons in the toolbar add a
   middle dot or en dash at the cursor. Dates are `YYYY-MM` (or `YYYY`), and a
-  role's blank End means Present. List fields (keywords, courses, project
-  highlights and roles) take one item per line.
+  role's blank End means Present. List fields (keywords, courses, and the
+  highlights and roles of projects and volunteer work) take one item per line.
 - Emptied optional fields are removed from `resume.json`.
 - Every section, employer, role, and entry card has a **New page** toggle that
   starts it on a new page in the PDF (highlighted when on). A section's toggle
   adds a `pagebreak` line to `section_order.yaml`, and the Sections card marks
   that section "new page"; the others set `pagebreakBefore` on the entry. An
   employer's toggle is its first role's, so the first role has none of its own.
-- **Undo** reverses the last add, delete, or move (typing uses each field's own
-  undo). **Save** checks the same rules as the generators (header fields,
+- **Undo** reverses the last add, delete, move, or New page toggle (typing
+  uses each field's own undo). **Save** checks the same rules as the generators (header fields,
   employer names, positions, a highlight or summary for each role, no blank
   highlights, required fields in each section, valid dates) and highlights
-  anything missing. **Save & build** saves, then
-  runs `make build`.
+  anything missing. **Save & build** saves, then runs `make build`.
 
 Drag-and-drop uses [SortableJS](https://github.com/SortableJS/Sortable),
 vendored in [scripts/static/](scripts/static/) so the editor works offline.
@@ -237,9 +249,8 @@ vendored in [scripts/static/](scripts/static/) so the editor works offline.
 
 The `resume.json` tab shows the same document as raw JSON, and stays in sync
 with the blocks tab. It's the fallback for fixing invalid JSON and for any
-custom fields of your own beyond the schema.
-`section_order.yaml` has no raw tab of its own, since the Sections card covers
-it.
+custom fields of your own beyond the schema. `section_order.yaml` has no raw
+tab of its own, since the Sections card and **New page** toggles cover it.
 
 ![Raw resume.json in JSON Resume format](docs/screenshots/editor-resume-json.png)
 

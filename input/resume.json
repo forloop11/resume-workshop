@@ -1,11 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.2.1/schema.json",
   "basics": {
-    "name": "Todd Takala",
-    "label": "Principal-level Data Scientist",
+    "name": "First Last",
+    "label": "Senior Data Scientist · Reliability & Manufacturing ML",
     "email": "xxxx@gmail.com",
     "phone": "+1 (xxx) xxx-xxxx",
-    "summary": "Individual contributor holding the top IC grade at both Caterpillar and Ford. 25+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and NLP built on failure data, IoT telemetry, and ERP systems, and owns the full MLOps lifecycle on AWS and Snowflake. Sets standards adopted beyond the immediate team, including Amazon's fleet design life standard and dealership-wide data governance at Empire Cat. Caterpillar CEO Award recipient and 2x Amazon ML competition champion.",
+    "summary": "Built the labor time model that earned Caterpillar's CEO Award, cutting $4M annually and raising warranty coverage from 16% to 95% of labor events against an 85% target. 25+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and NLP on failure data, IoT telemetry, and ERP systems, with full MLOps lifecycle ownership on AWS and Snowflake. Sets standards adopted beyond the immediate team, including Amazon's fleet design life standard and dealership-wide data governance at Empire Cat.",
     "location": {
       "city": "Surprise",
       "region": "AZ",
@@ -20,11 +20,6 @@
       {
         "network": "Portfolio",
         "url": "https://portfolio.derkooh.com/"
-      },
-      {
-        "network": "Credly",
-        "username": "toddtakala",
-        "url": "https://www.credly.com/users/toddtakala/badges"
       }
     ]
   },
@@ -36,7 +31,8 @@
       "highlights": [
         "Architect graph network ontology of automotive manufacturing plant equipment within Neo4j and Google Cloud Platform."
       ],
-      "stack": "Python, GCP, Neo4j, Docker, Make"
+      "stack": "Python, GCP, Neo4j, Docker, Make",
+      "location": "Surprise, AZ"
     },
     {
       "name": "Caterpillar Inc.",
@@ -44,16 +40,18 @@
       "startDate": "2022-09",
       "endDate": "2026-06",
       "highlights": [
-        "Designed and deployed a TensorFlow ordinal deep-learning model predicting equipment repair times, replacing a regression model (R² 0.54) and using sentence transformer embeddings of labor descriptions across 2M+ combinations of labor code, sales model, and build variant. Reached 98% exact-class accuracy on the holdout set, tripled warranty coverage, and cut $4M annually in time studies.",
-        "Engineered the training labels rather than inheriting them: found warranty labor times were censored at the published standard, excluded them, and built ground truth from time studies, engineering estimates, and outlier-trimmed non-warranty medians.",
-        "Governed the model with an explicit abstention rule (no prediction on unseen build variants or job codes) plus per-segment validation gates at a 90% floor; still delivered 95% coverage of warranty labor lines against an 80% business target.",
-        "Owned the full MLOps lifecycle on AWS SageMaker (Infrastructure as Code, CI/CD, Docker, drift detection, and automated retraining) and architected the Snowflake data foundation behind the team's analytics platform.",
-        "Delivered production ML across tabular, time series, and NLP applications for warranty adjudication, insurance reserving, and service quoting; mentored early-career data scientists on the team."
+        "Raised warranty coverage from 16% to 95% of labor events (target: 85%) and eliminated $4M in physical time study labor with a TensorFlow ordinal deep-learning model predicting equipment repair times, reaching 98% exact-class accuracy on the holdout set.",
+        "Replaced a regression model (R² 0.54) using sentence transformer embeddings of labor descriptions across 2M+ combinations of labor code, sales model, and build variant.",
+        "Found warranty labor times were censored at the published standard and excluded them, building ground truth from time studies, engineering estimates, and outlier-trimmed non-warranty medians instead of inheriting flawed labels.",
+        "Governed the model with an explicit abstention rule (no prediction on unseen build variants or job codes) and per-segment validation gates at a 90% floor.",
+        "Delivered in one month a parts revenue forecast across 280 global dealers that two prior attempts over two years had not produced: a time series decomposition neural network forecasting parts dollars per technician at 3% MAPE, separating trend, seasonality, and residual.",
+        "Embedded a clustering model in Power BI to track dealer trends over time, giving Caterpillar a basis to engage dealers on service operations, marketing, and training programs."
       ],
-      "stack": "Python, R, SQL · PyTorch, TensorFlow/Keras, XGBoost, scikit-learn · Snowflake · AWS (SageMaker, Glue, Athena, Lambda, Step Functions, ECS/EKS, CloudWatch) · Docker · Azure DevOps, GitHub Actions"
+      "stack": "Python, R, SQL · PyTorch, TensorFlow/Keras, XGBoost, scikit-learn · Snowflake · AWS (SageMaker, Glue, Athena, Lambda, Step Functions, ECS/EKS, CloudWatch) · Docker · Azure DevOps, GitHub Actions",
+      "location": "Peoria, IL"
     },
     {
-      "name": "Amazon.com",
+      "name": "Amazon",
       "location": "Tempe, AZ",
       "position": "Reliability Analytics Manager",
       "startDate": "2022-02",
@@ -77,7 +75,7 @@
         "Architected a component exchange program with data warehousing, ETL/ELT pipelines, and time series models to target at-risk components, with client-facing ownership of the reliability and product problem management programs.",
         "Established data engineering governance, quality standards, and a metadata framework adopted across the dealership."
       ],
-      "companyStack": "SQL Server, T-SQL · R (ggplot2, tidyverse, RMarkdown) · Python (Pandas, scikit-learn) · SQLite · Jupyter · Docker · Ubuntu, Linux"
+      "companyStack": "SQL Server, T-SQL · R (ggplot2, tidyverse, RMarkdown) · Python (Pandas, scikit-learn, XGBoost) · Jupyter · Docker · Linux"
     },
     {
       "name": "Empire Cat",
@@ -86,8 +84,7 @@
       "startDate": "2016-06",
       "endDate": "2016-12",
       "highlights": [
-        "Led root cause failure analysis on an aging mining truck line, remediating engine, drivetrain, and hydraulic failures to raise availability from 80% to 90%.",
-        "Applied design of experiments and statistical modeling to isolate unreliability drivers; created an RMarkdown research framework Caterpillar incorporated into its CRM."
+        "Raised availability of an aging mining truck line from 80% to 90% through root cause failure analysis; built an RMarkdown research framework Caterpillar incorporated into its CRM."
       ]
     },
     {
@@ -97,9 +94,7 @@
       "startDate": "2012-12",
       "endDate": "2016-06",
       "highlights": [
-        "Engineering manager of a 5-person team delivering technical communications, reliability analytics, and data engineering for a 250-truck mining fleet.",
-        "Applied DMAIC Six Sigma and data science to identify and prioritize reliability improvements across a fleet-wide program.",
-        "Developed a fluids and wear analysis application (R, SQL) using oil tribology and spectroscopy to drive proactive maintenance, eliminating $100K/year in license costs."
+        "Managed a 5-person team delivering reliability analytics and data engineering for a 250-truck mining fleet; built a fluids and wear analysis application that eliminated $100K/year in license costs."
       ],
       "pagebreakBefore": true
     },
@@ -110,8 +105,7 @@
       "startDate": "2012-01",
       "endDate": "2012-12",
       "highlights": [
-        "Led the Product Problem Management program, applying 8D and RCFA to resolve recurring failures and reduce downtime.",
-        "Analyzed field failure data to prioritize the highest-impact failure modes and guide remediation planning."
+        "Led the Product Problem Management program, applying 8D and RCFA to resolve recurring failures."
       ]
     },
     {
@@ -121,8 +115,7 @@
       "startDate": "2008-01",
       "endDate": "2012-01",
       "highlights": [
-        "Direct engineering support to clients and field service technicians, including root cause failure analysis, maintenance guidance, and life cycle cost analysis.",
-        "Built the Total Cost of Ownership analysis underpinning a $72M sale of electric mining haul trucks; principal consultant on a $2.5M gold mine account in Mexico."
+        "Built the Total Cost of Ownership analysis underpinning a $72M sale of electric mining haul trucks; provided root cause failure analysis and life cycle cost support to mining clients."
       ],
       "stack": "SQL Server, T-SQL · MATLAB/Octave · SolidWorks, finite element analysis · LaTeX"
     },
@@ -133,10 +126,9 @@
       "startDate": "2006-06",
       "endDate": "2007-12",
       "highlights": [
-        "Led end-to-end development of a 25-ton hydraulic rescue winch from concept through prototyping, field testing, and release.",
-        "Ran FMEA and FRACAS on prototype and production machines, authoring corrective actions that drove design changes and improved durability before release."
+        "Led development of a 25-ton hydraulic rescue winch from concept through release; ran FMEA and FRACAS on prototype and production machines."
       ],
-      "stack": "MATLAB/Octave · PTC · finite element analysis"
+      "stack": ""
     },
     {
       "name": "Xtek Mining Services (now L&H Industrial)",
@@ -150,7 +142,7 @@
       "position": "Heavy Equipment Operator and Mechanic",
       "startDate": "1997",
       "endDate": "2002",
-      "summary": "diagnosing and repairing mechanical, hydraulic, electrical, and control system failures on heavy capital earth moving equipment.",
+      "summary": "diagnosing and repairing mechanical, hydraulic, electrical, and control system failures on heavy earthmoving equipment.",
       "earlyCareer": true
     }
   ],
@@ -158,14 +150,11 @@
     {
       "institution": "Arizona State University",
       "studyType": "Bachelor of Science",
-      "area": "Mechanical Engineering",
-      "endDate": "2006"
+      "area": "Mechanical Engineering"
     },
     {
       "institution": "U.S. Department of Labor & I.U.O.E. Local 150 AISP",
-      "studyType": "Certificate of Apprenticeship",
-      "endDate": "2001",
-      "area": "Operating Engineer"
+      "studyType": "Operating Engineer Apprenticeship Certificate"
     }
   ],
   "certificates": [
@@ -179,15 +168,6 @@
       "url": "https://www.coursera.org/account/accomplishments/specialization/3EOLHJ57IMRP"
     },
     {
-      "name": "Certified SAFe Agilist",
-      "url": "https://www.credly.com/badges/a4c2f671-694e-46f5-bdd1-a1025d0e3b00"
-    },
-    {
-      "name": "Advanced Deep Learning Specialist",
-      "issuer": "IBM",
-      "url": "https://www.credly.com/badges/c0442903-5f35-4a0f-8fa9-ec034ee3c092"
-    },
-    {
       "name": "Caterpillar Applied Failure Analysis"
     }
   ],
@@ -196,7 +176,7 @@
       "title": "Caterpillar CEO Award (2024)",
       "date": "2024",
       "awarder": "Caterpillar",
-      "summary": "AI-driven labor time model, for exceptional personal contribution and business impact."
+      "summary": "AI-driven labor time model."
     },
     {
       "title": "2x ML Competition Champion, Amazon (2022)",
@@ -205,16 +185,9 @@
       "summary": "Internal regression and recommender system competitions."
     },
     {
-      "title": "Invited Speaker, Data Science for Fleet Reliability (2021) at Caterpillar Six Sigma List Manager Workshop, Peoria, IL",
-      "date": "2021",
+      "title": "Invited Speaker: Caterpillar (2015, 2019, 2021)",
       "awarder": "Caterpillar",
-      "summary": "Diesel engine digital twin on live telemetry, tracking 9 PCA-derived controllable variables to set an evidence-based engine life target."
-    },
-    {
-      "title": "Invited Speaker, Reliability & Rebuild Programs (2015, 2019) at Caterpillar, Tinaja Hills, AZ",
-      "date": "2015",
-      "awarder": "Caterpillar",
-      "summary": "Product Problem Management; and a truck rebuild program at Caterpillar's large mining truck conference, delivering 2–4% higher availability at 60% of new-machine cost."
+      "summary": "Engine digital twin and evidence-based life targets, Product Problem Management, and a truck rebuild program delivering 2–4% higher availability at 60% of new-machine cost."
     }
   ],
   "skills": [
@@ -234,12 +207,14 @@
       "name": "MLOps, Data & Cloud",
       "keywords": [
         "AWS SageMaker",
+        "Google Cloud Platform",
         "Snowflake",
         "CI/CD and Infrastructure as Code",
         "Docker",
         "model governance, validation gates, and drift detection",
         "automated retraining",
         "ETL/ELT pipelines",
+        "knowledge graphs and ontologies (Neo4j)",
         "data architecture and governance",
         "Linux"
       ]

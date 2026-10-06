@@ -99,32 +99,52 @@ Write the text as plain text, not LaTeX: use `&`, `%`, `·` (middle dot), and
 as `$\cdot$`, `–` as `--`). Dates are ISO 8601 (`2012-01`, or just `2005`) and
 print as `Jan 2012` / `2005`. A role with no `endDate` prints as `Present`.
 
-How the JSON Resume fields map onto the printed resume:
+Every section of the JSON Resume schema has a resume section. This is how
+the fields map onto the printed resume (the section id is what
+`section_order.yaml` uses):
 
-| Printed | JSON Resume |
+| Printed (section id) | JSON Resume |
 | --- | --- |
 | Header | `basics`: `name`, `label` (title), `location.city`/`region`, `phone`, `email`, then `url` and `profiles[].url` as links. A link's text is its URL without the scheme or `www.`, cut off after the profile's `username` |
-| Professional Summary | `basics.summary` |
-| Professional Experience | `work[]`, one entry per position. Consecutive entries with the same `name` and `location` print as one employer with several roles. `highlights` are the bullets |
-| Early Career | `work[]` entries with `"earlyCareer": true`, printed as `position, name (years), summary` |
-| Education | `education[]`: `studyType in area, institution`, plus the `endDate` year |
-| Selected Certifications | `certificates[]`: `name, issuer` |
-| Recognition & Speaking | `awards[]`: `title` and `summary` |
-| Core Competencies | `skills[]`: `name`, then `keywords` joined with `·` |
-| Selected Independent Projects | `projects[]`: `name` and `description` |
+| Professional Summary (`summary`) | `basics.summary` |
+| Professional Experience (`experience`) | `work[]`, one entry per position. Consecutive entries with the same `name` and `location` print as one employer with several roles. A role prints its `summary` (if any) above its `highlights` bullets |
+| Early Career (`early_career`) | `work[]` entries with `"earlyCareer": true`, printed as `position, name (years), summary` |
+| Volunteer Experience (`volunteer`) | `volunteer[]`: `organization`, dates, `position`, `summary`, and `highlights` bullets, laid out like a job |
+| Education (`education`) | `education[]`: `studyType in area, institution, score`, the `startDate`–`endDate` years, and `courses` joined with `·` on a line below |
+| Selected Certifications (`certifications`) | `certificates[]`: `name, issuer` |
+| Recognition & Speaking (`recognition`) | `awards[]`: `title` and `summary` |
+| Publications (`publications`) | `publications[]`: `name`, then `publisher (year). summary` |
+| Selected Independent Projects (`projects`) | `projects[]`: `name` and `description`, `highlights` bullets, and `keywords` as a Stack line |
+| Languages (`languages`) | `languages[]`: `language (fluency)`, joined with `·` |
+| Interests (`interests`) | `interests[]`: `name`, then `keywords` joined with `·` |
+| References (`references`) | `references[]`: `name` and `reference` |
+| Core Competencies (`competencies`) | `skills[]`: `name (level)`, then `keywords` joined with `·` |
+
+Fields not listed above (`basics.image`, `location.address`/`postalCode`/`countryCode`,
+the `url` fields, `work[].description`, award and certificate dates, project
+`roles`/`entity`/`type`/dates, and `meta`) are kept in the file and editable in the
+block editor, but aren't printed.
 
 [input/section_order.yaml](input/section_order.yaml) sets the order of these
-sections; omit a section to leave it out of the resume. The block editor's
-Sections card edits this file for you.
+sections; omit a section to leave it out of the resume. All of them are listed
+by default, and a section with no entries in `resume.json` (no `volunteer[]`,
+say) is skipped, along with any page break before it, so it starts printing
+once you add an entry. A `- pagebreak` line starts the section after it on a
+new page. The block editor's Sections card
+and **New page** toggles edit this file for you.
 
 The schema allows extra fields on any entry, and a few LaTeX-specific ones
-are used on `work[]` entries:
+are used:
 
-- `stack`: a tools line printed under that role.
-- `companyStack`: a tools line printed once after all of that employer's roles,
-  for when several roles share the same tools. Set it on the employer's first entry.
-- `pagebreakBefore`: `true` starts that role on a new page.
-- `earlyCareer`: `true` moves the entry to the Early Career section.
+- `pagebreakBefore`: `true` on any section entry (a role, skill, education,
+  certificate, award, project, and so on) starts that entry on a new page. On
+  the first entry of a section, the section heading moves to the new page
+  too; on an employer's first role, the employer's name does.
+- `stack` (`work[]`): a tools line printed under that role.
+- `companyStack` (`work[]`): a tools line printed once after all of that
+  employer's roles, for when several roles share the same tools. Set it on the
+  employer's first entry.
+- `earlyCareer` (`work[]`): `true` moves the entry to the Early Career section.
 
 ```json
 {
@@ -176,26 +196,38 @@ README:
 - The **Sections** card sets the section order. Drag a section into the second
   row to leave it out of the resume; its content is kept in `resume.json`.
 
-Below those, each section is a collapsible card:
+Below those, every JSON Resume section has a collapsible card, including the
+ones left out of the resume (marked "not in resume", and collapsed while
+empty), and a final **Document info** card edits `meta`. Every field in the
+schema has a place in these cards; fields that aren't printed are tucked
+under each entry's **More fields**, which opens by itself when one of them is
+filled in. Opening an empty section doesn't add anything to `resume.json`
+until you add an entry.
 
 ![Block editor: experience with a multi-role employer](docs/screenshots/editor-blocks-experience.png)
 
-- Employers, roles, highlights, competencies, education, certifications,
-  recognition entries, and profile links each have a drag handle (⠿) for
-  reordering, plus Duplicate/Delete buttons. Roles and highlights can also be
-  dragged from one employer or role to another.
+- Employers, roles, highlights, profile links, and the entries in every other
+  section each have a drag handle (⠿) for reordering, plus Duplicate/Delete
+  buttons. Roles and highlights can also be dragged from one employer or role
+  to another.
 - Experience shows one card per employer, even though JSON Resume stores one
-  `work[]` entry per position. Editing the employer's name or location updates
-  all of its roles.
+  `work[]` entry per position. Editing the employer's name, location, website,
+  or description updates all of its roles.
 - Fields are plain text. The **Insert · / –** buttons in the toolbar add a
   middle dot or en dash at the cursor. Dates are `YYYY-MM` (or `YYYY`), and a
-  role's blank End means Present.
-- Emptied optional fields are removed from `resume.json`, and the "Start on a
-  new page" checkbox sets `pagebreakBefore`.
+  role's blank End means Present. List fields (keywords, courses, project
+  highlights and roles) take one item per line.
+- Emptied optional fields are removed from `resume.json`.
+- Every section, employer, role, and entry card has a **New page** toggle that
+  starts it on a new page in the PDF (highlighted when on). A section's toggle
+  adds a `pagebreak` line to `section_order.yaml`, and the Sections card marks
+  that section "new page"; the others set `pagebreakBefore` on the entry. An
+  employer's toggle is its first role's, so the first role has none of its own.
 - **Undo** reverses the last add, delete, or move (typing uses each field's own
   undo). **Save** checks the same rules as the generators (header fields,
-  employer names, positions, at least one highlight, no blank highlights,
-  valid dates) and highlights anything missing. **Save & build** saves, then
+  employer names, positions, a highlight or summary for each role, no blank
+  highlights, required fields in each section, valid dates) and highlights
+  anything missing. **Save & build** saves, then
   runs `make build`.
 
 Drag-and-drop uses [SortableJS](https://github.com/SortableJS/Sortable),
@@ -204,8 +236,8 @@ vendored in [scripts/static/](scripts/static/) so the editor works offline.
 ### Raw file tabs
 
 The `resume.json` tab shows the same document as raw JSON, and stays in sync
-with the blocks tab. It's the fallback for fixing invalid JSON and for JSON
-Resume sections the blocks don't cover (such as `volunteer` or `languages`).
+with the blocks tab. It's the fallback for fixing invalid JSON and for any
+custom fields of your own beyond the schema.
 `section_order.yaml` has no raw tab of its own, since the Sections card covers
 it.
 

@@ -10,7 +10,9 @@ on every object:
 
 - work[].stack           printed under that role
 - work[].companyStack    printed once after all roles at that employer
-- work[].pagebreakBefore start that role on a new page
+- pagebreakBefore        on any section entry: start it on a new page (on a
+                         section's first entry, the heading moves with it; on
+                         an employer's first role, the employer's name does)
 - work[].earlyCareer     list the entry in the compact Early Career section
                          instead of Professional Experience
 

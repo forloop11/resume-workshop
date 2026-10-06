@@ -13,11 +13,19 @@
 // writes the card's name/location back onto each of its roles. Entries
 // flagged earlyCareer get their own Early Career card instead. Unknown keys
 // are preserved, since edits mutate the parsed objects in place.
+//
+// Every property in the schema (etc/resume-schema.json) has a field here.
+// Fields the generator doesn't print sit under each card's "More fields".
+//
+// Each section, employer, role, and entry card has a "New page" toggle: a
+// `pagebreak` line before the section in section_order.yaml, or
+// "pagebreakBefore": true on the entry (an employer's is its first role's).
 "use strict";
 
 const Blocks = (() => {
   const RESUME = "resume.json";
   const ORDER = "section_order.yaml";
+  const PAGEBREAK = "pagebreak"; // section_order.yaml line: next section starts a new page
   const SECTIONS = JSON.parse(document.querySelector("#config").textContent).sections;
   // Headings as generate_resume.py prints them.
   const LABELS = {
@@ -25,13 +33,21 @@ const Blocks = (() => {
     competencies: "Core Competencies",
     experience: "Professional Experience",
     early_career: "Early Career",
+    volunteer: "Volunteer Experience",
     education: "Education",
     certifications: "Selected Certifications",
     recognition: "Recognition & Speaking",
+    publications: "Publications",
     projects: "Selected Independent Projects",
+    languages: "Languages",
+    interests: "Interests",
+    references: "References",
   };
   // The top-level JSON Resume array each list section edits.
-  const LIST_KEYS = { competencies: "skills", education: "education", certifications: "certificates", recognition: "awards", projects: "projects" };
+  const LIST_KEYS = {
+    competencies: "skills", volunteer: "volunteer", education: "education", certifications: "certificates", recognition: "awards",
+    publications: "publications", projects: "projects", languages: "languages", interests: "interests", references: "references",
+  };
   // The JSON Resume iso8601 definition: YYYY, YYYY-MM, or YYYY-MM-DD.
   const ISO8601 = /^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$/;
   const UNDO_LIMIT = 50;
@@ -45,11 +61,13 @@ const Blocks = (() => {
   let groups = []; // experience: [{ name, location, companyStack, roles: [work entries] }]
   let early = []; // work entries with earlyCareer: true
   let order = []; // section_order.yaml's list
+  let breaks = new Set(); // sections with a pagebreak line before them
   let orderHeader = []; // section_order.yaml's leading comment lines
   let parsedFrom = { resume: null, order: null }; // file text model/order came from
+  let detached = new Map(); // top-level arrays/objects shown before the document has them
   let undoStack = [];
   let lastField = null; // most recently focused field, for the · and – buttons
-  const closedSections = new Set();
+  const sectionOpen = new Map(); // card key -> open, once the user toggles it
   const openEmployers = new WeakSet();
 
   // --- helpers --------------------------------------------------------------
@@ -82,31 +100,76 @@ const Blocks = (() => {
 
   const handle = () => h("span", { class: "handle", title: "Drag to reorder", "aria-hidden": "true" }, "⠿");
   const list = (value) => (Array.isArray(value) ? value : []);
+  const isObject = (value) => Boolean(value) && typeof value === "object" && !Array.isArray(value);
+
+  // Fields the generator doesn't print, folded away; open if any is filled in.
+  function more(...children) {
+    const el = h("details", { class: "more" }, h("summary", {}, "More fields"), h("div", { class: "fields" }, children));
+    el.open = [...el.querySelectorAll("input, textarea")].some((c) => c.value);
+    el.addEventListener("toggle", () => autosizeWithin(el));
+    return el;
+  }
+
+  // model[key] as an array (or object, for meta). A section the document
+  // doesn't have yet gets a stand-in that commit() adds to the model once it
+  // holds something, so just looking at an empty card doesn't write
+  // "volunteer": [] into resume.json.
+  function topLevel(key, kind = Array) {
+    const value = model[key];
+    if (kind === Array ? Array.isArray(value) : isObject(value)) return value;
+    if (!detached.has(key)) detached.set(key, kind === Array ? [] : {});
+    return detached.get(key);
+  }
+
+  function attachDetached() {
+    for (const [key, value] of detached) {
+      if (Array.isArray(value) ? value.length : Object.keys(value).length) {
+        model[key] = value;
+        detached.delete(key);
+      }
+    }
+  }
 
   // --- section_order.yaml ------------------------------------------------------
 
   function parseOrder(text) {
     const header = [];
     const sections = [];
+    const breaksBefore = new Set();
+    let pendingBreak = false;
     for (const raw of text.split("\n")) {
       const line = raw.trim();
       if (!line) continue;
       if (line.startsWith("#")) {
-        if (!sections.length) header.push(raw);
+        if (!sections.length && !pendingBreak) header.push(raw);
         continue;
       }
       const match = /^-\s+(\w+)$/.exec(line);
       if (!match) throw new Error(`${ORDER}: can't read line "${raw}"`);
+      if (match[1] === PAGEBREAK) {
+        pendingBreak = true;
+        continue;
+      }
       sections.push(match[1]);
+      if (pendingBreak) breaksBefore.add(match[1]);
+      pendingBreak = false;
     }
-    return { header, sections };
+    return { header, sections, breaks: breaksBefore };
+  }
+
+  // Page breaks are only written for sections in the resume.
+  function orderLines(sections, breaksBefore) {
+    return sections.flatMap((s) => (breaksBefore.has(s) ? [`- ${PAGEBREAK}`, `- ${s}`] : [`- ${s}`]));
   }
 
   function serializeOrder() {
-    return [...orderHeader, ...order.map((s) => `- ${s}`)].join("\n") + "\n";
+    return [...orderHeader, ...orderLines(order, breaks)].join("\n") + "\n";
   }
 
   // --- work[] <-> employer groups ----------------------------------------------
+
+  // Per-employer work[] fields the employer card edits for all of its roles.
+  const EMPLOYER_KEYS = ["url", "description"];
 
   function groupWork(work) {
     const result = [];
@@ -123,7 +186,13 @@ const Blocks = (() => {
         result.push({ name: entry.name || "", location: entry.location || "", companyStack: "", roles: [entry] });
       }
     }
-    for (const group of result) group.companyStack = group.roles.map((r) => r.companyStack).find(Boolean) || "";
+    for (const group of result) {
+      group.companyStack = group.roles.map((r) => r.companyStack).find(Boolean) || "";
+      for (const key of EMPLOYER_KEYS) {
+        const value = group.roles.map((r) => r[key]).find(Boolean);
+        if (value) group[key] = value;
+      }
+    }
     return { groups: result, early: earlyEntries };
   }
 
@@ -170,8 +239,10 @@ const Blocks = (() => {
       model = parsed;
       if (!model.basics || typeof model.basics !== "object") model.basics = {};
       ({ groups, early } = groupWork(model.work));
+      detached = new Map();
       order = parsedOrder.sections;
-      orderHeader = parsedOrder.header.length ? parsedOrder.header : ["# Resume sections, in the order they appear. Omit one to leave it out."];
+      breaks = parsedOrder.breaks;
+      orderHeader = parsedOrder.header.length ? parsedOrder.header : ["# Resume sections, in the order they appear. Omit one to leave it out.", "# A `- pagebreak` line starts the next section on a new page."];
       parsedFrom = { resume: resumeText, order: orderText };
       undoStack = [];
       render();
@@ -193,6 +264,7 @@ const Blocks = (() => {
 
   // Writes the model back into state.files after any edit.
   function commit() {
+    attachDetached();
     model.work = flattenWork();
     const resumeText = JSON.stringify(model, null, 2);
     const orderText = state.files[ORDER] === parsedFrom.order && sameOrder() ? state.files[ORDER] : serializeOrder();
@@ -206,7 +278,8 @@ const Blocks = (() => {
   // when only resume.json changed.
   function sameOrder() {
     try {
-      return parseOrder(parsedFrom.order).sections.join() === order.join();
+      const parsed = parseOrder(parsedFrom.order);
+      return orderLines(parsed.sections, parsed.breaks).join() === orderLines(order, breaks).join();
     } catch {
       return false;
     }
@@ -266,12 +339,15 @@ const Blocks = (() => {
   }
 
   // A textarea editing obj[key], an array of strings, one item per line.
+  // Like field(), emptying an optional one removes its key.
   function linesField(obj, key, { label, hint, required = false } = {}) {
     const control = h("textarea", { rows: 2, spellcheck: "true" });
     control.value = list(obj[key]).join("\n");
     if (required) control.dataset.required = "";
     control.addEventListener("input", () => {
-      obj[key] = control.value.split("\n").map((line) => line.trim()).filter(Boolean);
+      const items = control.value.split("\n").map((line) => line.trim()).filter(Boolean);
+      if (!items.length && !required) delete obj[key];
+      else obj[key] = items;
       control.classList.remove("invalid");
       autosize(control);
       commit();
@@ -319,31 +395,57 @@ const Blocks = (() => {
     pendingSortables = [];
   }
 
-  function itemTools(items, index, { duplicate = true } = {}) {
+  // A "New page" toggle: on means a LaTeX \newpage before this card's content.
+  function pageToggle(on, setOn) {
+    return button("New page", () => change(() => setOn(!on)), {
+      class: `page-toggle${on ? " on" : ""}`,
+      "aria-pressed": String(on),
+      title: on ? "Starts on a new page (click to undo)" : "Start on a new page",
+    });
+  }
+
+  // The toggle for an entry's own "pagebreakBefore".
+  function entryPageToggle(entry) {
+    return pageToggle(Boolean(entry.pagebreakBefore), (on) => {
+      if (on) entry.pagebreakBefore = true;
+      else delete entry.pagebreakBefore;
+    });
+  }
+
+  function itemTools(items, index, { duplicate = true, pagebreak = null } = {}) {
     return h("span", { class: "tools" },
+      pagebreak,
       duplicate ? button("Duplicate", () => change(() => items.splice(index + 1, 0, structuredClone(items[index]))), { title: "Duplicate" }) : null,
       button("Delete", () => change(() => items.splice(index, 1)), { class: "danger", title: "Delete" }));
   }
 
   // A card for a list of simple entries: a drag handle, the fields from
   // renderFields(item), and Duplicate/Delete.
-  function entryList(items, group, renderFields, { addLabel, blank, fieldsClass = "" }) {
+  function entryList(items, group, renderFields, { addLabel, blank, fieldsClass = "", pagebreak = true }) {
     return h("div", {},
       sortableList(items, group, (item, i) => h("div", { class: "item entry" },
         handle(),
         h("div", { class: `fields ${fieldsClass}` }, renderFields(item)),
-        itemTools(items, i))),
+        itemTools(items, i, { pagebreak: pagebreak ? entryPageToggle(item) : null }))),
       button(addLabel, () => change(() => items.push(blank())), { class: "add" }));
   }
 
   // --- header card (basics) ------------------------------------------------------
 
+  // A collapsible top-level card, remembering whether the user left it open.
+  function card(key, title, tag, openByDefault, ...children) {
+    const details = h("details", { class: "block section", open: sectionOpen.get(key) ?? openByDefault },
+      h("summary", {}, title, tag ? h("span", { class: "tag" }, tag) : null),
+      ...children);
+    details.addEventListener("toggle", () => toggleSection(details, key));
+    return details;
+  }
+
   function renderBasics() {
     const basics = model.basics;
-    if (!basics.location || typeof basics.location !== "object") basics.location = {};
+    if (!isObject(basics.location)) basics.location = {};
     if (!Array.isArray(basics.profiles)) basics.profiles = [];
-    const details = h("details", { class: "block section", open: !closedSections.has("basics") },
-      h("summary", {}, "Header", h("span", { class: "tag" }, "basics")),
+    return card("basics", "Header", "basics", true,
       h("div", { class: "fields row3" },
         field(basics, "name", { label: "Name", required: true }),
         field(basics, "label", { label: "Title", required: true }),
@@ -352,17 +454,31 @@ const Blocks = (() => {
         field(basics, "phone", { label: "Phone", required: true }),
         field(basics.location, "city", { label: "City", required: true }),
         field(basics.location, "region", { label: "Region / state" })),
-      h("div", { class: "fields row2" },
-        field(basics.location, "countryCode", { label: "Country code", hint: "not printed" }),
-        field(basics, "url", { label: "Website", hint: "printed before the profile links" })),
+      h("div", { class: "fields" },
+        field(basics, "url", { label: "Website", placeholder: "https://", hint: "printed before the profile links" })),
+      more(
+        h("div", { class: "fields row2" },
+          field(basics.location, "address", { label: "Street address" }),
+          field(basics.location, "postalCode", { label: "Postal code" })),
+        h("div", { class: "fields row2" },
+          field(basics.location, "countryCode", { label: "Country code", placeholder: "US" }),
+          field(basics, "image", { label: "Photo URL", placeholder: "https://" }))),
       h("div", { class: "label" }, "Profile links", h("span", { class: "hint" }, " — printed in this order")),
       entryList(basics.profiles, "profiles", (p) => [
         field(p, "network", { label: "Network", placeholder: "LinkedIn" }),
         field(p, "username", { label: "Username", hint: "link text ends here" }),
         field(p, "url", { label: "URL", required: true, placeholder: "https://" }),
-      ], { addLabel: "+ Add profile link", blank: () => ({ network: "", url: "" }), fieldsClass: "row-profile" }));
-    details.addEventListener("toggle", () => toggleSection(details, "basics"));
-    return details;
+      ], { addLabel: "+ Add profile link", blank: () => ({ network: "", url: "" }), fieldsClass: "row-profile", pagebreak: false }));
+  }
+
+  // meta: details about the document itself, for JSON Resume tools.
+  function renderMeta() {
+    const meta = topLevel("meta", Object);
+    return card("meta", "Document info", "meta · not printed", false,
+      h("div", { class: "fields row3" },
+        field(meta, "canonical", { label: "Canonical URL", placeholder: "https://", hint: "where this resume.json is published" }),
+        field(meta, "version", { label: "Version", placeholder: "v1.0.0" }),
+        field(meta, "lastModified", { label: "Last modified", placeholder: "2026-10-06T12:00:00" })));
   }
 
   // --- section order card ---------------------------------------------------------
@@ -370,19 +486,24 @@ const Blocks = (() => {
   // Gives a section something to edit once it's added to the resume.
   function ensureSectionData(key) {
     if (key === "summary" && typeof model.basics.summary !== "string") model.basics.summary = "";
-    if (LIST_KEYS[key] && !Array.isArray(model[LIST_KEYS[key]])) model[LIST_KEYS[key]] = [];
+    const listKey = LIST_KEYS[key];
+    if (listKey && !Array.isArray(model[listKey])) {
+      model[listKey] = topLevel(listKey);
+      detached.delete(listKey);
+    }
   }
 
   function hasData(key) {
-    if (key === "summary") return typeof model.basics.summary === "string";
+    if (key === "summary") return Boolean(model.basics.summary);
     if (key === "experience") return groups.length > 0;
     if (key === "early_career") return early.length > 0;
-    return Array.isArray(model[LIST_KEYS[key]]);
+    return list(model[LIST_KEYS[key]]).length > 0;
   }
 
   function renderOrderCard() {
     const excluded = SECTIONS.filter((s) => !order.includes(s));
-    const chip = (key) => h("div", { class: "item chip", "data-key": key }, handle(), LABELS[key] || key);
+    const chip = (key) => h("div", { class: "item chip", "data-key": key }, handle(), LABELS[key] || key,
+      order.includes(key) && breaks.has(key) ? h("span", { class: "break-mark", title: "Starts on a new page" }, "new page") : null);
     const included = h("div", { class: "chips" }, order.map(chip));
     const hidden = h("div", { class: "chips excluded" }, excluded.map(chip));
     for (const el of [included, hidden]) {
@@ -410,19 +531,26 @@ const Blocks = (() => {
   // --- sections -----------------------------------------------------------------
 
   function toggleSection(details, key) {
-    if (details.open) closedSections.delete(key);
-    else closedSections.add(key);
+    sectionOpen.set(key, details.open);
     autosizeWithin(details);
   }
 
+  // Every section gets a card, so any part of the schema can be filled in;
+  // ones left out of the resume start collapsed unless they hold something.
+  // The generator skips a section with no entries, so those are tagged too.
   function renderSection(key) {
-    const included = order.includes(key);
-    const details = h("details", { class: `block section${included ? "" : " excluded"}`, open: !closedSections.has(key) },
-      h("summary", {}, LABELS[key] || key, included ? null : h("span", { class: "tag" }, "not in resume")),
-      renderSectionBody(key));
-    details.addEventListener("toggle", () => toggleSection(details, key));
+    const isIncluded = included(key);
+    const tag = !isIncluded ? "not in resume" : key !== "summary" && !hasData(key) ? "empty · not printed" : null;
+    const details = card(key, LABELS[key] || key, tag, isIncluded || hasData(key), renderSectionBody(key));
+    if (!isIncluded) details.classList.add("excluded");
+    else details.querySelector("summary").append(pageToggle(breaks.has(key), (on) => (on ? breaks.add(key) : breaks.delete(key))));
     return details;
   }
+
+  const dates = (obj, { startKey = "startDate", endKey = "endDate", placeholder, endPlaceholder, hint } = {}) =>
+    h("div", { class: "fields row2" },
+      field(obj, startKey, { label: "Start", date: true, placeholder, hint }),
+      field(obj, endKey, { label: "End", date: true, placeholder: endPlaceholder || placeholder, hint }));
 
   function renderSectionBody(key) {
     switch (key) {
@@ -435,14 +563,30 @@ const Blocks = (() => {
           h("div", { class: "fields row2" },
             field(e, "position", { label: "Position", required: true }),
             field(e, "name", { label: "Employer(s)", required: true })),
-          h("div", { class: "fields row2" },
-            field(e, "startDate", { label: "Start", date: true, placeholder: "YYYY" }),
-            field(e, "endDate", { label: "End", date: true, placeholder: "YYYY" })),
+          dates(e, { placeholder: "YYYY", hint: "printed as years" }),
           field(e, "summary", { label: "Summary", multiline: true, hint: "printed after the dates" }),
+          more(
+            h("div", { class: "fields row2" },
+              field(e, "location", { label: "Location" }),
+              field(e, "url", { label: "Employer website", placeholder: "https://" })),
+            field(e, "description", { label: "Employer description" }),
+            linesField(e, "highlights", { label: "Highlights", hint: "one per line" })),
         ], { addLabel: "+ Add early career entry", blank: () => ({ name: "", position: "", earlyCareer: true }) });
+      case "volunteer":
+        return entryList(listFor(key), "volunteer", (v) => [
+          h("div", { class: "fields row2" },
+            field(v, "organization", { label: "Organization", required: true }),
+            field(v, "position", { label: "Position", required: true })),
+          dates(v, { endPlaceholder: "Present" }),
+          field(v, "summary", { label: "Summary", multiline: true, hint: "printed above the highlights" }),
+          linesField(v, "highlights", { label: "Highlights", hint: "one per line, printed as bullets" }),
+          more(field(v, "url", { label: "Website", placeholder: "https://" })),
+        ], { addLabel: "+ Add volunteer role", blank: () => ({ organization: "", position: "" }) });
       case "competencies":
         return entryList(listFor(key), "skills", (s) => [
-          field(s, "name", { label: "Name", required: true }),
+          h("div", { class: "fields row2" },
+            field(s, "name", { label: "Name", required: true }),
+            field(s, "level", { label: "Level", placeholder: "Advanced", hint: "printed after the name" })),
           linesField(s, "keywords", { label: "Keywords", hint: "one per line, printed separated by ·", required: true }),
         ], { addLabel: "+ Add competency", blank: () => ({ name: "", keywords: [] }) });
       case "education":
@@ -452,30 +596,69 @@ const Blocks = (() => {
             field(e, "area", { label: "Area", hint: "printed as “type in area”" })),
           h("div", { class: "fields row2" },
             field(e, "institution", { label: "Institution", required: true }),
-            field(e, "endDate", { label: "Year completed", date: true, placeholder: "YYYY" })),
+            field(e, "score", { label: "Score", placeholder: "3.8 GPA", hint: "printed after the institution" })),
+          dates(e, { placeholder: "YYYY", hint: "printed as years" }),
+          linesField(e, "courses", { label: "Courses", hint: "one per line, printed under the entry" }),
+          more(field(e, "url", { label: "Institution website", placeholder: "https://" })),
         ], { addLabel: "+ Add education", blank: () => ({ institution: "", studyType: "" }) });
       case "certifications":
         return entryList(listFor(key), "certificates", (c) => [
           h("div", { class: "fields row2" },
             field(c, "name", { label: "Name", required: true }),
             field(c, "issuer", { label: "Issuer", hint: "printed after the name" })),
-          h("div", { class: "fields row2" },
-            field(c, "date", { label: "Date", date: true, hint: "not printed" }),
-            field(c, "url", { label: "URL", hint: "not printed" })),
+          more(
+            h("div", { class: "fields row2" },
+              field(c, "date", { label: "Date", date: true }),
+              field(c, "url", { label: "URL", placeholder: "https://" }))),
         ], { addLabel: "+ Add certification", blank: () => ({ name: "" }) });
       case "recognition":
         return entryList(listFor(key), "awards", (a) => [
           field(a, "title", { label: "Title", required: true }),
           field(a, "summary", { label: "Summary", multiline: true }),
-          h("div", { class: "fields row2" },
-            field(a, "date", { label: "Date", date: true, placeholder: "YYYY", hint: "not printed" }),
-            field(a, "awarder", { label: "Awarder", hint: "not printed" })),
+          more(
+            h("div", { class: "fields row2" },
+              field(a, "date", { label: "Date", date: true, placeholder: "YYYY" }),
+              field(a, "awarder", { label: "Awarder" }))),
         ], { addLabel: "+ Add entry", blank: () => ({ title: "" }) });
+      case "publications":
+        return entryList(listFor(key), "publications", (pub) => [
+          h("div", { class: "fields row2" },
+            field(pub, "name", { label: "Title", required: true }),
+            field(pub, "publisher", { label: "Publisher", hint: "printed after the title" })),
+          field(pub, "releaseDate", { label: "Release date", date: true, hint: "printed as the year" }),
+          field(pub, "summary", { label: "Summary", multiline: true }),
+          more(field(pub, "url", { label: "URL", placeholder: "https://" })),
+        ], { addLabel: "+ Add publication", blank: () => ({ name: "" }) });
       case "projects":
         return entryList(listFor(key), "projects", (p) => [
           field(p, "name", { label: "Name", required: true }),
           field(p, "description", { label: "Description", multiline: true }),
+          linesField(p, "highlights", { label: "Highlights", hint: "one per line, printed as bullets" }),
+          linesField(p, "keywords", { label: "Keywords", hint: "one per line, printed as a Stack line" }),
+          more(
+            dates(p, { endPlaceholder: "Present" }),
+            h("div", { class: "fields row3" },
+              field(p, "url", { label: "URL", placeholder: "https://" }),
+              field(p, "entity", { label: "Entity", placeholder: "Company or organization" }),
+              field(p, "type", { label: "Type", placeholder: "application" })),
+            linesField(p, "roles", { label: "Your roles", hint: "one per line" })),
         ], { addLabel: "+ Add project", blank: () => ({ name: "" }) });
+      case "languages":
+        return entryList(listFor(key), "languages", (l) => [
+          h("div", { class: "fields row2" },
+            field(l, "language", { label: "Language", required: true }),
+            field(l, "fluency", { label: "Fluency", placeholder: "Native speaker", hint: "printed after the language" })),
+        ], { addLabel: "+ Add language", blank: () => ({ language: "" }) });
+      case "interests":
+        return entryList(listFor(key), "interests", (i) => [
+          field(i, "name", { label: "Name", required: true }),
+          linesField(i, "keywords", { label: "Keywords", hint: "one per line, printed separated by ·" }),
+        ], { addLabel: "+ Add interest", blank: () => ({ name: "" }) });
+      case "references":
+        return entryList(listFor(key), "references", (r) => [
+          field(r, "name", { label: "Name", required: true }),
+          field(r, "reference", { label: "Reference", multiline: true, required: true }),
+        ], { addLabel: "+ Add reference", blank: () => ({ name: "", reference: "" }) });
       default:
         return h("p", { class: "hint" }, `Edit "${key}" in the raw ${RESUME} tab.`);
     }
@@ -484,11 +667,15 @@ const Blocks = (() => {
   const included = (key) => order.includes(key);
 
   function listFor(key) {
-    ensureSectionData(key);
-    return model[LIST_KEYS[key]];
+    return topLevel(LIST_KEYS[key]);
   }
 
-  const newRole = () => ({ name: "", position: "", highlights: [""] });
+  // A new role at `group` inherits the employer's website and description.
+  function newRole(group) {
+    const role = { name: "", position: "", highlights: [""] };
+    for (const key of EMPLOYER_KEYS) if (group && group[key]) role[key] = group[key];
+    return role;
+  }
 
   function renderExperience() {
     return h("div", {},
@@ -508,14 +695,17 @@ const Blocks = (() => {
     };
     updateTitle();
     const details = h("details", { class: "item employer", open: openEmployers.has(group) },
-      h("summary", {}, handle(), title, itemTools(groups, index)),
+      h("summary", {}, handle(), title, itemTools(groups, index, { pagebreak: group.roles.length ? entryPageToggle(group.roles[0]) : null })),
       h("div", { class: "fields row2" },
         field(group, "name", { label: "Employer", required: true, onInput: updateTitle }),
         field(group, "location", { label: "Location", onInput: updateTitle })),
       h("div", { class: "fields" },
         field(group, "companyStack", { label: "Company stack", hint: "printed once, after all roles" })),
+      more(
+        field(group, "url", { label: "Employer website", placeholder: "https://", onInput: () => copyToRoles(group, "url") }),
+        field(group, "description", { label: "Employer description", placeholder: "Construction equipment manufacturer", onInput: () => copyToRoles(group, "description") })),
       sortableList(group.roles, "roles", (role, i) => renderRole(role, i, group), "roles"),
-      button("+ Add role", () => change(() => group.roles.push(newRole())), { class: "add" }));
+      button("+ Add role", () => change(() => group.roles.push(newRole(group))), { class: "add" }));
     details.addEventListener("toggle", () => {
       if (details.open) openEmployers.add(group);
       else openEmployers.delete(group);
@@ -524,25 +714,29 @@ const Blocks = (() => {
     return details;
   }
 
+  // JSON Resume keeps employer fields on each work[] entry; set them on all of the employer's roles.
+  function copyToRoles(group, key) {
+    for (const role of group.roles) {
+      if (group[key]) role[key] = group[key];
+      else delete role[key];
+    }
+    commit();
+  }
+
   function renderRole(role, index, group) {
     const highlights = Array.isArray(role.highlights) ? role.highlights : (role.highlights = []);
-    const pagebreak = h("input", { type: "checkbox", checked: Boolean(role.pagebreakBefore) });
-    pagebreak.addEventListener("change", () => {
-      if (pagebreak.checked) role.pagebreakBefore = true;
-      else delete role.pagebreakBefore;
-      commit();
-    });
+    // The first role's page break is the employer card's toggle.
     return h("div", { class: "item role" },
       h("div", { class: "role-head" },
         handle(),
         h("strong", {}, "Role"),
-        h("label", { class: "check" }, pagebreak, "Start on a new page"),
-        itemTools(group.roles, index)),
+        itemTools(group.roles, index, { pagebreak: index ? entryPageToggle(role) : null })),
       h("div", { class: "fields row3" },
         field(role, "position", { label: "Position", required: true }),
         field(role, "startDate", { label: "Start", date: true }),
         field(role, "endDate", { label: "End", date: true, placeholder: "Present" })),
-      h("div", { class: "label" }, "Highlights", h("span", { class: "req" }, " *"), h("span", { class: "hint" }, " — the role's bullet points")),
+      field(role, "summary", { label: "Summary", multiline: true, hint: "printed above the highlights" }),
+      h("div", { class: "label" }, "Highlights", h("span", { class: "hint" }, " — the role's bullet points; a role needs highlights or a summary")),
       sortableList(highlights, "highlights", (text, i) => {
         const area = h("textarea", { rows: 1, spellcheck: "true", "data-required": true });
         area.value = text;
@@ -563,8 +757,8 @@ const Blocks = (() => {
   function render() {
     if (!model) return;
     const scroll = window.scrollY;
-    const shown = [...order, ...SECTIONS.filter((s) => !order.includes(s) && hasData(s))];
-    body.replaceChildren(renderBasics(), renderOrderCard(), ...shown.map(renderSection));
+    const shown = [...order, ...SECTIONS.filter((s) => !order.includes(s))];
+    body.replaceChildren(renderBasics(), renderOrderCard(), ...shown.map(renderSection), renderMeta());
     initSortables();
     autosizeWithin(body);
     window.scrollTo(0, scroll);
@@ -584,7 +778,6 @@ const Blocks = (() => {
     for (const key of order) {
       const label = LABELS[key] || key;
       if (key === "summary" && !b.summary) problems.push(`${label} is empty.`);
-      if (key === "early_career" && !early.length) problems.push(`${label} has no entries.`);
       if (key === "competencies") list(model.skills).forEach((s, i) => { if (!s.name || !list(s.keywords).length) problems.push(`${label} #${i + 1} needs a name and keywords.`); });
     }
     groups.forEach((group, i) => {
@@ -593,7 +786,7 @@ const Blocks = (() => {
       group.roles.forEach((role, j) => {
         const roleName = role.position || `role #${j + 1}`;
         if (!role.position) problems.push(`Experience ${where} › ${roleName}: position is required.`);
-        if (!list(role.highlights).length) problems.push(`Experience ${where} › ${roleName}: add at least one highlight.`);
+        if (!list(role.highlights).length && !role.summary) problems.push(`Experience ${where} › ${roleName}: add a highlight or a summary.`);
         if (list(role.highlights).some((d) => !String(d).trim())) problems.push(`Experience ${where} › ${roleName}: fill in or delete the blank highlight.`);
       });
     });

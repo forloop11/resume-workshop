@@ -39,7 +39,6 @@
 .roles { gap: 10px; }
 .role-head { display: flex; align-items: center; gap: 10px; }
 .role-head .tools { margin-left: auto; }
-.check { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; cursor: pointer; }
 
 .duties { gap: 4px; }
 .duty { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px; align-items: start; }
@@ -52,6 +51,11 @@
 @media (max-width: 1100px) { .fields.row2, .fields.row3, .fields.row-profile { grid-template-columns: minmax(0, 1fr); } }
 
 .field { display: flex; flex-direction: column; gap: 3px; }
+
+/* "More fields": schema fields the generator doesn't print. */
+.more > summary { cursor: pointer; color: var(--muted); font-size: 12px; width: fit-content; }
+.more > summary:hover { color: var(--accent); }
+.more > .fields { margin-top: 8px; padding-left: 10px; border-left: 2px solid var(--line); }
 .label { color: var(--muted); font-size: 12px; }
 .req { color: #ff79c6; }
 
@@ -71,6 +75,12 @@
 .tools { display: flex; gap: 4px; }
 #blocks .tools button, #blocks button.icon { padding: 4px 8px; font-size: 12px; }
 #blocks button.danger:hover { border-color: #ff5555; color: #ff5555; }
+
+/* "New page" toggles: on = a LaTeX \newpage before the card's content. */
+#blocks button.page-toggle { padding: 4px 8px; font: 12px ui-sans-serif, system-ui, sans-serif; background: transparent; color: var(--muted); }
+#blocks button.page-toggle.on { background: #ffb86c; border-color: #ffb86c; color: var(--paper); }
+.block > summary .page-toggle { float: right; }
+.break-mark { padding: 0 6px; border-radius: 999px; background: #ffb86c; color: var(--paper); font-size: 11px; }
 #blocks button.add { align-self: flex-start; margin-top: 8px; padding: 6px 10px; font-size: 13px; background: transparent; border-style: dashed; }
 #blocks button.link { padding: 0; border: 0; background: none; color: #8be9fd; text-decoration: underline; }
 

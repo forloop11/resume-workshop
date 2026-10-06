@@ -25,8 +25,9 @@ browser editor and a Docker-based build path for a reproducible toolchain.
 
 For a native build, install Python 3.13 or newer, GNU Make, a TeX Live
 installation with the packages used by [input/format.tex](input/format.tex),
-and Pandoc. Python dependencies are intentionally limited to the standard
-library; [requirements.txt](requirements.txt) is provided for documentation.
+and Pandoc. The resume generators use only the Python standard library, so
+`make build` needs no pip packages. The optional local editor needs Flask:
+run `pip install -r requirements.txt` before `make editor`.
 
 If the LaTeX or Pandoc toolchain is not installed locally, use the Docker
 workflow instead.
@@ -43,7 +44,7 @@ current generated copy is `output/todd_takala_resume.pdf`.
 ## Project layout
 
 - [input/](input/) contains the editable resume data, page geometry, and LaTeX layout.
-- [scripts/](scripts/) contains the standard-library Python generators and browser editor.
+- [scripts/](scripts/) contains the standard-library Python generators and the Flask browser editor.
 - [interim/](interim/) contains generated LaTeX fragments used during a build.
 - [output/](output/) contains generated PDF and plain-text resume files.
 - [docker/](docker/) contains the reproducible build image definition.
@@ -118,8 +119,9 @@ Leave a `stack` empty (`""`) or omit it to print nothing.
 ## Local editor
 
 Run `make editor` or `python3 scripts/editor.py`, then open the displayed local URL.
-The editor uses only Python's standard library and does not require Tkinter or third-party
-packages.
+The editor is a small [Flask](https://flask.palletsprojects.com/) app — install it first
+with `pip install -r requirements.txt`. Its page lives in
+[scripts/templates/editor.html](scripts/templates/editor.html).
 
 The editor highlights LaTeX commands (`\command`) in every file, plus JSON object
 keys when editing `input/resume.json`. A "Pretty-print JSON" button reformats
@@ -159,7 +161,7 @@ with `make clean`.
 
 ## Docker workflow
 
-The Docker image installs Python 3, GNU Make, Pandoc, and the TeX Live packages
+The Docker image installs Python 3 (with Flask, for the editor), GNU Make, Pandoc, and the TeX Live packages
 needed by the resume. Run `make docker-build` from the repository root to build
 without installing those tools locally. Run `make docker-editor` to launch the
 browser editor in the container; its default address is

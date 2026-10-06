@@ -13,7 +13,7 @@ geometry: input/geometry.yaml scripts/generate_geometry.py
 resume: input/resume.json input/section_order.yaml scripts/generate_resume.py
 	python3 scripts/generate_resume.py
 
-editor: scripts/editor.py
+editor: scripts/editor.py scripts/templates/editor.html
 	python3 scripts/editor.py
 
 build: header geometry resume $(TEXFILE).tex

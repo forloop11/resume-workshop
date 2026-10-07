@@ -212,6 +212,8 @@ first. **Open PDF** opens the generated PDF in your system's PDF viewer.
 where to save a copy of the [Reactive Resume export](#reactive-resume-export)
 (unsaved edits aren't included).
 
+![Editor window: header buttons, Make targets, and the PDF preview](docs/screenshots/editor-window.png)
+
 ### Block editor
 
 The editor opens on the **Resume (blocks)** tab, a drag-and-drop editor for

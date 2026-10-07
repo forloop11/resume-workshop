@@ -16,6 +16,8 @@ on every object:
 - work[].earlyCareer     list the entry in the compact Early Career section
                          instead of Professional Experience
 
+scripts/generate_schema.py adds them to the schema as output/resume-workshop.json.
+
 Standard library only, like the generators that use it.
 """
 import json

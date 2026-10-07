@@ -2,7 +2,7 @@ TEXFILE = input/format
 OUTPUT = output/resume
 DOCKER_IMAGE = resume-builder
 
-.PHONY: build header geometry resume rxresume validate editor clean user docker-image docker-build
+.PHONY: build header geometry resume rxresume schema validate editor clean user docker-image docker-build
 
 header: input/resume.json scripts/generate_header.py scripts/jsonresume.py
 	python3 scripts/generate_header.py
@@ -17,6 +17,11 @@ resume: input/resume.json input/section_order.yaml scripts/generate_resume.py sc
 # document, for importing there.
 rxresume: input/resume.json input/section_order.yaml input/geometry.yaml input/format.tex scripts/export_rxresume.py scripts/generate_resume.py scripts/generate_header.py scripts/generate_geometry.py scripts/jsonresume.py
 	python3 scripts/export_rxresume.py
+
+# Writes output/resume-workshop.json: the JSON Resume schema plus this
+# project's extension fields, for editors to check input/resume.json against.
+schema: etc/resume-schema.json scripts/generate_schema.py scripts/generate_resume.py
+	python3 scripts/generate_schema.py
 
 # Checks input/resume.json against the JSON Resume schema (etc/resume-schema.json)
 # and the generator's own rules, and the Reactive Resume export against its
@@ -35,7 +40,7 @@ editor/node_modules: editor/package.json editor/package-lock.json
 editor: editor/node_modules
 	cd editor && env -u ELECTRON_RUN_AS_NODE npm start
 
-build: header geometry resume rxresume $(TEXFILE).tex
+build: header geometry resume rxresume schema $(TEXFILE).tex
 	mkdir -p output
 	pdflatex -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
 	pandoc --wrap=none -f latex -t plain $(TEXFILE).tex -o $(OUTPUT).txt

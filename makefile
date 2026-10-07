@@ -2,7 +2,7 @@ TEXFILE = input/format
 OUTPUT = output/resume
 DOCKER_IMAGE = resume-builder
 
-.PHONY: build header geometry resume validate editor clean user docker-image docker-build
+.PHONY: build header geometry resume rxresume validate editor clean user docker-image docker-build
 
 header: input/resume.json scripts/generate_header.py scripts/jsonresume.py
 	python3 scripts/generate_header.py
@@ -13,9 +13,15 @@ geometry: input/geometry.yaml scripts/generate_geometry.py
 resume: input/resume.json input/section_order.yaml scripts/generate_resume.py scripts/jsonresume.py
 	python3 scripts/generate_resume.py
 
+# Exports output/rxresume.json, the resume as a Reactive Resume (rxresu.me)
+# document, for importing there.
+rxresume: input/resume.json input/section_order.yaml input/geometry.yaml input/format.tex scripts/export_rxresume.py scripts/generate_resume.py scripts/generate_header.py scripts/generate_geometry.py scripts/jsonresume.py
+	python3 scripts/export_rxresume.py
+
 # Checks input/resume.json against the JSON Resume schema (etc/resume-schema.json)
-# and the generator's own rules. Needs jsonschema (pip install -r requirements.txt).
-validate: input/resume.json etc/resume-schema.json scripts/validate_resume.py
+# and the generator's own rules, and the Reactive Resume export against its
+# schema (etc/rxresume-schema.json). Needs jsonschema (pip install -r requirements.txt).
+validate: input/resume.json etc/resume-schema.json etc/rxresume-schema.json scripts/validate_resume.py scripts/export_rxresume.py
 	python3 scripts/validate_resume.py
 
 # The desktop editor (editor/, an Electron app). Needs Node.js/npm; the first
@@ -29,7 +35,7 @@ editor/node_modules: editor/package.json editor/package-lock.json
 editor: editor/node_modules
 	cd editor && env -u ELECTRON_RUN_AS_NODE npm start
 
-build: header geometry resume $(TEXFILE).tex
+build: header geometry resume rxresume $(TEXFILE).tex
 	mkdir -p output
 	pdflatex -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
 	pandoc --wrap=none -f latex -t plain $(TEXFILE).tex -o $(OUTPUT).txt

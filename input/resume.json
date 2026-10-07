@@ -45,7 +45,7 @@
         "Replaced a regression model (R² 0.54) using sentence transformer embeddings of labor descriptions across 2M+ combinations of labor code, sales model, and build variant.",
         "Found warranty labor times were censored at the published standard and excluded them, building ground truth from time studies, engineering estimates, and outlier-trimmed non-warranty medians instead of inheriting flawed labels.",
         "Governed the model with an explicit abstention rule (no prediction on unseen build variants or job codes) and per-segment validation gates at a 90% floor.",
-        "Delivered in one month a parts revenue forecast across 280 global dealers that two prior attempts over two years had not produced: a time series decomposition neural network forecasting parts dollars per technician at 3% MAPE, separating trend, seasonality, and residual.",
+        "Delivered in one month a parts revenue forecast across 156 global dealers that two prior attempts over two years had not produced: a time series decomposition neural network forecasting parts dollars per technician at 3% MAPE, separating trend, seasonality, and residual.",
         "Embedded a clustering model in Power BI to track dealer trends over time, giving Caterpillar a basis to engage dealers on service operations, marketing, and training programs."
       ],
       "stack": "Python, R, SQL · PyTorch, TensorFlow/Keras, XGBoost, scikit-learn · Snowflake · AWS (SageMaker, Glue, Athena, Lambda, Step Functions, ECS/EKS, CloudWatch) · Docker · Azure DevOps, GitHub Actions",
@@ -219,7 +219,7 @@
     {
       "name": "Reliability Engineering",
       "keywords": [
-        "Root cause failure analysis",
+        "root cause failure analysis",
         "8D and 5 Whys",
         "FMEA / DFMEA / PFMEA",
         "FRACAS",
@@ -233,11 +233,12 @@
     {
       "name": "Domain Expertise",
       "keywords": [
-        "Heavy equipment, mining, automotive and manufacturing",
+        "heavy equipment, mining, automotive and manufacturing",
         "fleet and maintenance management",
         "warranty and service operations",
         "supply chain and demand planning"
       ]
     }
-  ]
+  ],
+  "projects": []
 }

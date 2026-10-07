@@ -22,4 +22,5 @@ contextBridge.exposeInMainWorld("workshop", {
   make: (target) => invoke("make", target),
   pdf: () => invoke("pdf"),
   openPdf: () => invoke("open-pdf"),
+  downloadRxresume: () => invoke("download-rxresume"),
 });

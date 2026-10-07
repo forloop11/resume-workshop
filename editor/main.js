@@ -1,8 +1,8 @@
 // Desktop editor for the input files and Makefile targets (`make editor`).
 //
 // The main process does what a local web server would: it reads and writes
-// the files in input/, runs the Makefile targets, and points the page at the
-// generated PDF. The page (index.html, with the drag-and-drop block editor in
+// the files in input/, runs the Makefile targets, points the page at the
+// generated PDF, and saves copies of the Reactive Resume export. The page (index.html, with the drag-and-drop block editor in
 // blocks.js) reaches these through the API in preload.js. Section names and
 // the JSON Resume schema check come from scripts/editor_backend.py, so the
 // editor and the generators share one copy of each.
@@ -17,6 +17,7 @@ const { pathToFileURL } = require("node:url");
 const ROOT = path.resolve(__dirname, "..");
 const INPUT_DIR = path.join(ROOT, "input");
 const PDF = path.join(ROOT, "output", "resume.pdf");
+const RXRESUME = path.join(ROOT, "output", "rxresume.json");
 const BACKEND = path.join(ROOT, "scripts", "editor_backend.py");
 const EDITABLE_FILES = ["format.tex", "geometry.yaml", "section_order.yaml", "resume.json"];
 const MAKE_TARGETS = ["build", "user"];
@@ -73,6 +74,23 @@ async function make(target) {
   return { output: output || `make ${target} completed.`, pdf: await pdfUrl() };
 }
 
+// Regenerates output/rxresume.json from the saved input files and asks
+// where to save a copy.
+async function downloadRxresume() {
+  const { code, stdout, stderr } = await run("make", ["rxresume"]);
+  if (code) throw new Error(stdout + stderr || "make rxresume failed");
+  const options = {
+    title: "Save Reactive Resume export",
+    defaultPath: path.join(app.getPath("downloads"), "rxresume.json"),
+    filters: [{ name: "JSON", extensions: ["json"] }],
+  };
+  const win = BrowserWindow.getFocusedWindow();
+  const { canceled, filePath } = await (win ? dialog.showSaveDialog(win, options) : dialog.showSaveDialog(options));
+  if (canceled || !filePath) return { canceled: true, message: "Download canceled." };
+  await fs.copyFile(RXRESUME, filePath);
+  return { message: `Saved the Reactive Resume export to ${filePath}.` };
+}
+
 // Each handler resolves with its result, or with { error } so the page gets
 // the plain message instead of Electron's "Error invoking remote method" one.
 function handle(channel, fn) {
@@ -93,6 +111,7 @@ handle("files", async () => {
 handle("save", saveFile);
 handle("make", make);
 handle("pdf", async () => ({ url: await pdfUrl() }));
+handle("download-rxresume", downloadRxresume);
 handle("open-pdf", async () => {
   if (!(await pdfUrl())) throw new Error("Build the resume before viewing the PDF.");
   const error = await shell.openPath(PDF);

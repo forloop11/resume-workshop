@@ -33,7 +33,7 @@ Found warranty labor times were censored at the published standard and excluded 
 
 Governed the model with an explicit abstention rule (no prediction on unseen build variants or job codes) and per-segment validation gates at a 90% floor.
 
-Delivered in one month a parts revenue forecast across 280 global dealers that two prior attempts over two years had not produced: a time series decomposition neural network forecasting parts dollars per technician at 3% MAPE, separating trend, seasonality, and residual.
+Delivered in one month a parts revenue forecast across 156 global dealers that two prior attempts over two years had not produced: a time series decomposition neural network forecasting parts dollars per technician at 3% MAPE, separating trend, seasonality, and residual.
 
 Embedded a clustering model in Power BI to track dealer trends over time, giving Caterpillar a basis to engage dealers on service operations, marketing, and training programs.
 
@@ -136,6 +136,6 @@ Machine Learning & AI: Deep learning (PyTorch, TensorFlow/Keras) ⋅ time series
 
 MLOps, Data & Cloud: AWS SageMaker ⋅ Google Cloud Platform ⋅ Snowflake ⋅ CI/CD and Infrastructure as Code ⋅ Docker ⋅ model governance, validation gates, and drift detection ⋅ automated retraining ⋅ ETL/ELT pipelines ⋅ knowledge graphs and ontologies (Neo4j) ⋅ data architecture and governance ⋅ Linux
 
-Reliability Engineering: Root cause failure analysis ⋅ 8D and 5 Whys ⋅ FMEA / DFMEA / PFMEA ⋅ FRACAS ⋅ Weibull analysis ⋅ prognostics and remaining useful life ⋅ condition monitoring ⋅ oil tribology and spectroscopy ⋅ life cycle cost analysis
+Reliability Engineering: root cause failure analysis ⋅ 8D and 5 Whys ⋅ FMEA / DFMEA / PFMEA ⋅ FRACAS ⋅ Weibull analysis ⋅ prognostics and remaining useful life ⋅ condition monitoring ⋅ oil tribology and spectroscopy ⋅ life cycle cost analysis
 
-Domain Expertise: Heavy equipment, mining, automotive and manufacturing ⋅ fleet and maintenance management ⋅ warranty and service operations ⋅ supply chain and demand planning
+Domain Expertise: heavy equipment, mining, automotive and manufacturing ⋅ fleet and maintenance management ⋅ warranty and service operations ⋅ supply chain and demand planning

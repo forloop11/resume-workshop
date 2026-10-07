@@ -51,3 +51,8 @@ Weibull
 XGBoost
 Xtek
 YAML
+Amruth
+Pillai
+Plex
+rxresu
+rxresume

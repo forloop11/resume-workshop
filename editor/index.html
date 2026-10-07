@@ -11,6 +11,7 @@
 body { margin:0; color:var(--ink); background:linear-gradient(135deg,#191a21 0%,#282a36 55%,#20212b 100%); font:15px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
 header { padding:28px 5vw 20px; display:flex; justify-content:space-between; align-items:end; gap:20px; }
 h1 { margin:0; font:700 clamp(1.8rem,4vw,3.2rem)/1 Georgia,serif; letter-spacing:0; }
+.header-actions { display:flex; flex-wrap:wrap; gap:8px; }
 header p { max-width:48rem; margin:8px 0 0; color:var(--muted); font-family:ui-sans-serif,system-ui,sans-serif; }
 main { width:min(1400px,90vw); margin:0 auto 40px; display:grid; grid-template-columns:minmax(0,1.5fr) minmax(280px,.7fr); gap:18px; }
 .panel { background:rgba(40,42,54,.94); border:1px solid var(--line); box-shadow:0 12px 30px rgba(0,0,0,.28); }
@@ -38,7 +39,7 @@ button:hover { border-color:var(--accent); color:#ff79c6; } button.primary { bac
 <link rel="stylesheet" href="blocks.css">
 </head>
 <body>
-<header><div><h1>Resume Workshop</h1><p>Edit source files, run the pipeline, and inspect the generated PDF from one window.</p><p class="status" id="status" role="status"></p></div><button id="openPdf">Open PDF</button></header>
+<header><div><h1>Resume Workshop</h1><p>Edit source files, run the pipeline, and inspect the generated PDF from one window.</p><p class="status" id="status" role="status"></p></div><div class="header-actions"><button id="downloadRx" title="Export the saved resume for Reactive Resume (rxresu.me)">Download rxresume.json</button><button id="openPdf">Open PDF</button></div></header>
 <main>
 <section class="panel"><nav class="tabs" id="tabs"></nav>
 <div id="blocks" hidden><div class="actions blocks-actions"><button class="primary" id="blocksSave">Save</button><button id="blocksBuild">Save &amp; build</button><button id="blocksUndo" disabled>Undo</button><button id="blocksExpand">Expand all</button><button id="blocksCollapse">Collapse all</button><button id="blocksReload">Reload</button><span class="insert-chars" title="Insert at the cursor in the last field you clicked">Insert <button data-insert="·" title="Middle dot (printed as $\cdot$)">·</button><button data-insert="–" title="En dash (printed as --)">–</button></span></div><div id="blocksBody"></div></div>
@@ -67,12 +68,13 @@ async function loadFiles() { if (anyDirty() && !confirm('Discard unsaved changes
 async function save() { syncEditor(); if (state.active.endsWith('.json')) { try { JSON.parse(editor.value); } catch (error) { report(`Cannot save ${state.active}: invalid JSON — ${error.message}`, 'error'); return; } } const name = state.active, content = editor.value; try { const data = await workshop.save(name, content); state.saved[name] = content; renderTabs(); report(data.message, 'ok'); } catch (error) { report(error.message, 'error'); } }
 function formatJson() { try { editor.value = JSON.stringify(JSON.parse(editor.value), null, 2); state.files[state.active] = editor.value; renderHighlight(); renderTabs(); report(`Formatted ${state.active}. Click "Save file" to persist.`); } catch (error) { report(`Cannot format ${state.active}: ${error.message}`, 'error'); } }
 function showPdf(url) { if (url) document.querySelector('#pdf').src = url; }
+async function downloadRx() { report('Exporting rxresume.json...'); try { const data = await workshop.downloadRxresume(); report(data.message + (!data.canceled && anyDirty() ? ' It has the saved files only; save and download again to include your unsaved changes.' : ''), data.canceled ? '' : 'ok'); } catch (error) { showMakeOutput(error.message); document.querySelector('#makeOutput').open = true; report('make rxresume failed — see "Last make output".', 'error'); } }
 function showMakeOutput(text) { document.querySelector('#makeLog').textContent = text; document.querySelector('#makeOutput').hidden = !text; }
 async function run(target) { syncEditor(); report(`Running make ${target}...`); try { const data = await workshop.make(target); showMakeOutput(data.output); report(`make ${target} completed.`, 'ok'); showPdf(data.pdf); } catch (error) { showMakeOutput(error.message); document.querySelector('#makeOutput').open = true; report(`make ${target} failed — see "Last make output".`, 'error'); } }
 editor.addEventListener('input', () => { renderHighlight(); state.files[state.active] = editor.value; renderTabs(); });
 editor.addEventListener('scroll', () => { highlightEl.scrollTop = editor.scrollTop; highlightEl.scrollLeft = editor.scrollLeft; });
 window.addEventListener('beforeunload', event => { syncEditor(); if (anyDirty()) event.preventDefault(); });
-document.querySelector('#save').onclick = save; document.querySelector('#reload').onclick = document.querySelector('#blocksReload').onclick = () => loadFiles().catch(error => report(error.message, 'error')); document.querySelector('#openPdf').onclick = () => workshop.openPdf().catch(error => report(error.message, 'error')); formatBtn.onclick = formatJson; wrapBtn.onclick = toggleWrap;
+document.querySelector('#save').onclick = save; document.querySelector('#reload').onclick = document.querySelector('#blocksReload').onclick = () => loadFiles().catch(error => report(error.message, 'error')); document.querySelector('#openPdf').onclick = () => workshop.openPdf().catch(error => report(error.message, 'error')); document.querySelector('#downloadRx').onclick = downloadRx; formatBtn.onclick = formatJson; wrapBtn.onclick = toggleWrap;
 workshop.config.targets.forEach(target => { const button = document.createElement('button'); button.textContent = 'make ' + target; button.onclick = () => run(target); document.querySelector('#targets').append(button); });
 workshop.pdf().then(data => showPdf(data.url)).catch(error => report(error.message, 'error'));
 </script>

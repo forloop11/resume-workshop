@@ -4,7 +4,8 @@ Resume Workshop is a source-driven LaTeX resume builder. The resume's content
 lives in a single [JSON Resume](https://jsonresume.org/schema) document, with
 page geometry and section order in small YAML files and the layout in a TeX
 file. Standard-library Python generators turn those inputs into interim LaTeX,
-and Make targets build the final PDF and plain-text resume. The project also
+and Make targets build the final PDF and plain-text resume, plus a
+[Reactive Resume](https://rxresu.me) export for importing there. The project also
 includes an optional desktop editor with a drag-and-drop block view of
 the resume, and a Docker-based build path for a reproducible toolchain.
 
@@ -20,6 +21,7 @@ the resume, and a Docker-based build path for a reproducible toolchain.
   - [Make targets](#make-targets)
   - [Editing the resume](#editing-the-resume)
   - [Local editor](#local-editor)
+  - [Reactive Resume export](#reactive-resume-export)
   - [Generated files](#generated-files)
   - [Docker workflow](#docker-workflow)
   - [Spell checking](#spell-checking)
@@ -57,18 +59,19 @@ Example output: [resume.pdf](output/resume.pdf) and
 - [scripts/](scripts/) contains the standard-library Python generators, the schema validator, and the editor's Python helper.
 - [editor/](editor/) contains the Electron desktop editor.
 - [interim/](interim/) contains generated LaTeX fragments used during a build.
-- [output/](output/) contains generated PDF and plain-text resume files.
+- [output/](output/) contains the generated PDF and plain-text resumes and the Reactive Resume export (`rxresume.json`).
 - [docker/](docker/) contains the reproducible build image definition.
 - [docs/screenshots/](docs/screenshots/) contains the editor screenshots used in this README.
-- [etc/](etc/) contains the vendored JSON Resume schema, cspell configuration, and project-specific words.
+- [etc/](etc/) contains the vendored JSON Resume and Reactive Resume schemas, cspell configuration, and project-specific words.
 
 ## Make targets
 
-- `make build` regenerates all interim files, then creates `output/resume.pdf` and `output/resume.txt`.
+- `make build` regenerates all interim files, then creates `output/resume.pdf`, `output/resume.txt`, and `output/rxresume.json`.
 - `make header` regenerates `interim/header.tex` from the `basics` in [input/resume.json](input/resume.json) without a full build.
 - `make geometry` regenerates `interim/geometry.tex` from [input/geometry.yaml](input/geometry.yaml) without a full build.
 - `make resume` regenerates `interim/resume_content.tex` from [input/resume.json](input/resume.json) and [input/section_order.yaml](input/section_order.yaml) without a full build.
-- `make validate` checks [input/resume.json](input/resume.json) against the JSON Resume schema and the generator's rules.
+- `make rxresume` writes `output/rxresume.json`, the resume as a [Reactive Resume](https://rxresu.me) document (see [Reactive Resume export](#reactive-resume-export)), without a full build.
+- `make validate` checks [input/resume.json](input/resume.json) against the JSON Resume schema and the generator's rules, and the Reactive Resume export against its schema.
 - `make user` creates `output/<name>_resume.pdf`, where `<name>` is the `basics.name`
   field from [input/resume.json](input/resume.json), lowercased, with spaces
   replaced by underscores and everything else reduced to alphanumerics/underscores
@@ -162,7 +165,8 @@ are used:
 Run `make validate` to check `input/resume.json` against the schema (the
 [JSON Resume](https://jsonresume.org/) project's v1.2.1 schema, vendored at
 [etc/resume-schema.json](etc/resume-schema.json); see [Credits](#credits)) and
-against the fields each section in `section_order.yaml` needs. This needs
+against the fields each section in `section_order.yaml` needs, then checks
+the [Reactive Resume export](#reactive-resume-export) against its schema. This needs
 `jsonschema` from `requirements.txt`; `make build` itself doesn't.
 
 Page geometry lives in [input/geometry.yaml](input/geometry.yaml). Edit that
@@ -190,6 +194,9 @@ buttons, the output of the last make run, and a preview of the generated PDF.
 Messages about saves and builds appear under the page title, and a dot on a
 tab marks unsaved changes; closing or reloading the window with any asks
 first. **Open PDF** opens the generated PDF in your system's PDF viewer.
+**Download rxresume.json** runs `make rxresume` on the saved files and asks
+where to save a copy of the [Reactive Resume export](#reactive-resume-export)
+(unsaved edits aren't included).
 
 ### Block editor
 
@@ -271,6 +278,38 @@ geometry:
 
 ![LaTeX layout editor](docs/screenshots/editor-format.png)
 
+## Reactive Resume export
+
+`make build` (or `make rxresume`) also writes `output/rxresume.json`, the
+resume in [Reactive Resume](https://rxresu.me)'s own format, which you can
+import into that app. Its schema, [etc/rxresume-schema.json](etc/rxresume-schema.json),
+is different from JSON Resume's, so
+[scripts/export_rxresume.py](scripts/export_rxresume.py) converts the resume
+rather than copying it:
+
+- Summaries become HTML paragraphs, `highlights` become bullet lists, and
+  `stack`/`companyStack` become a "Stack:" paragraph.
+- An employer with several roles becomes one experience entry with `roles`,
+  grouped as in the PDF. Early Career entries go in a custom "Early Career"
+  section.
+- The section headings match the PDF's. `section_order.yaml` sets the page
+  layout: one single-column page per `- pagebreak`, or per `pagebreakBefore`
+  on a section's first entry. A `pagebreakBefore` partway through a section
+  has no Reactive Resume equivalent, so it is dropped.
+- `basics.url` becomes the header's website, and each of `basics.profiles`
+  becomes a header link.
+- The margins come from `geometry.yaml`, the accent and text colors from
+  `format.tex`, and the paper size is US Letter. The font is set to IBM Plex
+  Sans in place of the PDF's Helvetica; pick a font and template in Reactive
+  Resume after importing.
+
+The export uses only the Python standard library. `make validate` checks it
+against the Reactive Resume schema (vendored from
+[rxresu.me/schema.json](https://rxresu.me/schema.json); see [Credits](#credits)).
+Reactive Resume has no field for some data, such as a volunteer `position`
+(it starts the description instead) or project `keywords` (they become a
+"Stack:" line).
+
 ## Generated files
 
 Files under `interim/` are generated and should not be edited directly. Update
@@ -299,5 +338,14 @@ enables Chromium's built-in spellcheck while editing.
   [resume-schema v1.2.1](https://github.com/jsonresume/resume-schema/tree/v1.2.1),
   © 2024 JSON Resume, used under the MIT License
   ([etc/resume-schema.LICENSE.md](etc/resume-schema.LICENSE.md)).
+- The `rxresume.json` export format and schema come from
+  [Reactive Resume](https://rxresu.me) by Amruth Pillai, a free and
+  open-source resume builder
+  ([source on GitHub](https://github.com/AmruthPillai/Reactive-Resume)).
+  The schema in [etc/rxresume-schema.json](etc/rxresume-schema.json) is a copy
+  of [rxresu.me/schema.json](https://rxresu.me/schema.json), reformatted with
+  indentation but otherwise unmodified, © 2026 Amruth Pillai, used under the
+  MIT License ([etc/rxresume-schema.LICENSE.md](etc/rxresume-schema.LICENSE.md)).
+  Resume Workshop isn't affiliated with Reactive Resume.
 - The block editor's drag-and-drop uses [SortableJS](https://github.com/SortableJS/Sortable)
   (MIT License), vendored in [editor/Sortable.min.js](editor/Sortable.min.js).

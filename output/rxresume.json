@@ -1,0 +1,700 @@
+{
+  "picture": {
+    "hidden": true,
+    "url": "",
+    "size": 64,
+    "rotation": 0,
+    "aspectRatio": 1,
+    "borderRadius": 0,
+    "borderColor": "rgba(0, 0, 0, 0.5)",
+    "borderWidth": 0,
+    "shadowColor": "rgba(0, 0, 0, 0.5)",
+    "shadowWidth": 0
+  },
+  "basics": {
+    "name": "First Last",
+    "headline": "Senior Data Scientist · Reliability & Manufacturing ML",
+    "email": "xxxx@gmail.com",
+    "phone": "+1 (xxx) xxx-xxxx",
+    "location": "Surprise, AZ",
+    "website": {
+      "url": "",
+      "label": "",
+      "inlineLink": false
+    },
+    "customFields": [
+      {
+        "id": "b98901a3-eea4-52d8-9a32-fc605e455f4c",
+        "icon": "linkedin-logo",
+        "text": "linkedin.com/in/toddtakala",
+        "link": "https://www.linkedin.com/in/toddtakala"
+      },
+      {
+        "id": "c8e596b1-03d1-5330-81b0-73ded9396f41",
+        "icon": "globe",
+        "text": "portfolio.derkooh.com",
+        "link": "https://portfolio.derkooh.com/"
+      }
+    ]
+  },
+  "summary": {
+    "title": "Professional Summary",
+    "icon": "",
+    "columns": 1,
+    "hidden": false,
+    "keepTogether": false,
+    "startOnNewPage": false,
+    "content": "<p>Built the labor time model that earned Caterpillar's CEO Award, cutting $4M annually and raising warranty coverage from 16% to 95% of labor events against an 85% target. 25+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and NLP on failure data, IoT telemetry, and ERP systems, with full MLOps lifecycle ownership on AWS and Snowflake. Sets standards adopted beyond the immediate team, including Amazon's fleet design life standard and dealership-wide data governance at Empire Cat.</p>"
+  },
+  "sections": {
+    "profiles": {
+      "title": "Profiles",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "be7d109c-51e6-54fb-9363-2809224aadb4",
+          "hidden": false,
+          "icon": "linkedin-logo",
+          "iconColor": "",
+          "network": "LinkedIn",
+          "username": "toddtakala",
+          "website": {
+            "url": "https://www.linkedin.com/in/toddtakala",
+            "label": "linkedin.com/in/toddtakala",
+            "inlineLink": false
+          }
+        },
+        {
+          "id": "c0271ec2-fbdd-555b-a53b-a2fb342584a4",
+          "hidden": false,
+          "icon": "globe",
+          "iconColor": "",
+          "network": "Portfolio",
+          "username": "",
+          "website": {
+            "url": "https://portfolio.derkooh.com/",
+            "label": "portfolio.derkooh.com",
+            "inlineLink": false
+          }
+        }
+      ]
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "b4715495-8f28-5f15-ad50-d531487aa7c4",
+          "hidden": false,
+          "company": "Ford Motor Company",
+          "position": "Senior Data Scientist, Manufacturing Intelligence, Machine Learning & AI",
+          "location": "Surprise, AZ",
+          "period": "Sep 2026 – Present",
+          "dates": {
+            "start": "2026-09",
+            "end": null,
+            "present": true
+          },
+          "website": {
+            "url": "https://www.ford.com/",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<ul><li>Architect graph network ontology of automotive manufacturing plant equipment within Neo4j and Google Cloud Platform.</li></ul><p><strong>Stack:</strong> Python, GCP, Neo4j, Docker, Make</p>",
+          "roles": []
+        },
+        {
+          "id": "95f89029-8af2-5369-ae62-33512e60ccfc",
+          "hidden": false,
+          "company": "Caterpillar Inc.",
+          "position": "Lead Data Scientist",
+          "location": "Peoria, IL",
+          "period": "Sep 2022 – Jun 2026",
+          "dates": {
+            "start": "2022-09",
+            "end": "2026-06",
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<ul><li>Raised warranty coverage from 16% to 95% of labor events (target: 85%) and eliminated $4M in physical time study labor with a TensorFlow ordinal deep-learning model predicting equipment repair times, reaching 98% exact-class accuracy on the holdout set.</li><li>Replaced a regression model (R² 0.54) using sentence transformer embeddings of labor descriptions across 2M+ combinations of labor code, sales model, and build variant.</li><li>Found warranty labor times were censored at the published standard and excluded them, building ground truth from time studies, engineering estimates, and outlier-trimmed non-warranty medians instead of inheriting flawed labels.</li><li>Governed the model with an explicit abstention rule (no prediction on unseen build variants or job codes) and per-segment validation gates at a 90% floor.</li><li>Delivered in one month a parts revenue forecast across 156 global dealers that two prior attempts over two years had not produced: a time series decomposition neural network forecasting parts dollars per technician at 3% MAPE, separating trend, seasonality, and residual.</li><li>Embedded a clustering model in Power BI to track dealer trends over time, giving Caterpillar a basis to engage dealers on service operations, marketing, and training programs.</li></ul><p><strong>Stack:</strong> Python, R, SQL · PyTorch, TensorFlow/Keras, XGBoost, scikit-learn · Snowflake · AWS (SageMaker, Glue, Athena, Lambda, Step Functions, ECS/EKS, CloudWatch) · Docker · Azure DevOps, GitHub Actions</p>",
+          "roles": []
+        },
+        {
+          "id": "aab5bac9-09ff-539a-884f-4b2e931e2b1b",
+          "hidden": false,
+          "company": "Amazon",
+          "position": "Reliability Analytics Manager",
+          "location": "Tempe, AZ",
+          "period": "Feb 2022 – Sep 2022",
+          "dates": {
+            "start": "2022-02",
+            "end": "2022-09",
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<ul><li>Replaced compliance-dependent failure reporting with a machine-generated signal: built a pipeline consuming hourly serialized component logs from S3 and reconstructed true component life from serial-number changes, then moved the fleet design standard from average life to B10.</li><li>Applied Weibull and survival analysis across a global fleet of 400,000 autonomous robots, informing maintenance strategy and design metrics network-wide.</li><li>Led a team of 5 BI engineers building a global robot monitoring pipeline (R/Shiny, AWS) adopted across sites for incident response and proactive maintenance.</li></ul><p><strong>Stack:</strong> R, Python · scikit-learn, AutoGluon · Shiny · PostgreSQL · Docker · AWS (Redshift, Athena, SageMaker, S3)</p>",
+          "roles": []
+        },
+        {
+          "id": "c4da912e-bbcc-5d26-9c0c-448388746143",
+          "hidden": false,
+          "company": "Empire Cat",
+          "position": "",
+          "location": "Mesa, AZ",
+          "period": "Jan 2012 – Feb 2022",
+          "dates": {
+            "start": "2012-01",
+            "end": "2022-02",
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p><strong>Stack:</strong> SQL Server, T-SQL · R (ggplot2, tidyverse, RMarkdown) · Python (Pandas, scikit-learn, XGBoost) · Jupyter · Docker · Linux</p>",
+          "roles": [
+            {
+              "id": "7fb3a81d-03d3-5813-ab05-39a2393b08ef",
+              "position": "Reliability Engineering Manager & Data Engineering Manager",
+              "period": "Dec 2016 – Feb 2022",
+              "dates": {
+                "start": "2016-12",
+                "end": "2022-02",
+                "present": false
+              },
+              "description": "<ul><li>Led modeling on a 25-person cross-functional program that replaced Caterpillar's estimated engine life target with an evidence-based one: reduced thousands of candidate factors via PCA to 9 controllable variables, then built a diesel engine digital twin on live telemetry to monitor them, extending haul truck engine life 23%.</li><li>Connected reliability Weibull models to parts demand, which reduced part stockouts by 25%.</li><li>Architected a component exchange program with data warehousing, ETL/ELT pipelines, and time series models to target at-risk components, with client-facing ownership of the reliability and product problem management programs.</li><li>Established data engineering governance, quality standards, and a metadata framework adopted across the dealership.</li></ul>"
+            },
+            {
+              "id": "a4f8f336-f1d9-5481-9bb6-28097e7dc3b8",
+              "position": "Lead Reliability Engineer",
+              "period": "Jun 2016 – Dec 2016",
+              "dates": {
+                "start": "2016-06",
+                "end": "2016-12",
+                "present": false
+              },
+              "description": "<ul><li>Raised availability of an aging mining truck line from 80% to 90% through root cause failure analysis; built an RMarkdown research framework Caterpillar incorporated into its CRM.</li></ul>"
+            },
+            {
+              "id": "cc2b5ff0-2f93-5f59-85c9-9dc424357ec5",
+              "position": "Technical Communications Manager (Engineering Manager)",
+              "period": "Dec 2012 – Jun 2016",
+              "dates": {
+                "start": "2012-12",
+                "end": "2016-06",
+                "present": false
+              },
+              "description": "<ul><li>Managed a 5-person team delivering reliability analytics and data engineering for a 250-truck mining fleet; built a fluids and wear analysis application that eliminated $100K/year in license costs.</li></ul>"
+            },
+            {
+              "id": "c6521f95-41c8-50e3-8f54-248dbc7cc805",
+              "position": "Reliability Engineer",
+              "period": "Jan 2012 – Dec 2012",
+              "dates": {
+                "start": "2012-01",
+                "end": "2012-12",
+                "present": false
+              },
+              "description": "<ul><li>Led the Product Problem Management program, applying 8D and RCFA to resolve recurring failures.</li></ul>"
+            }
+          ]
+        },
+        {
+          "id": "d561570a-145b-55ed-9bb6-96e36a196da3",
+          "hidden": false,
+          "company": "Road Machinery, LLC (now Komatsu)",
+          "position": "Technical Communicator (Engineer)",
+          "location": "Phoenix, AZ",
+          "period": "Jan 2008 – Jan 2012",
+          "dates": {
+            "start": "2008-01",
+            "end": "2012-01",
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<ul><li>Built the Total Cost of Ownership analysis underpinning a $72M sale of electric mining haul trucks; provided root cause failure analysis and life cycle cost support to mining clients.</li></ul><p><strong>Stack:</strong> SQL Server, T-SQL · MATLAB/Octave · SolidWorks, finite element analysis · LaTeX</p>",
+          "roles": []
+        },
+        {
+          "id": "6cbe7e1e-f62d-5cb5-ae47-e0ed9335e371",
+          "hidden": false,
+          "company": "Komatsu North America",
+          "position": "Design Engineer",
+          "location": "Chattanooga, TN",
+          "period": "Jun 2006 – Dec 2007",
+          "dates": {
+            "start": "2006-06",
+            "end": "2007-12",
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<ul><li>Led development of a 25-ton hydraulic rescue winch from concept through release; ran FMEA and FRACAS on prototype and production machines.</li></ul>",
+          "roles": []
+        }
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "1480552c-22c2-585f-b936-f25923745e2f",
+          "hidden": false,
+          "school": "Arizona State University",
+          "degree": "Bachelor of Science",
+          "area": "Mechanical Engineering",
+          "grade": "",
+          "location": "",
+          "period": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        },
+        {
+          "id": "105abe18-7fea-533c-b0f2-19806edf9886",
+          "hidden": false,
+          "school": "U.S. Department of Labor & I.U.O.E. Local 150 AISP",
+          "degree": "Operating Engineer Apprenticeship Certificate",
+          "area": "",
+          "grade": "",
+          "location": "",
+          "period": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        }
+      ]
+    },
+    "projects": {
+      "title": "Selected Independent Projects",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": []
+    },
+    "skills": {
+      "title": "Core Competencies",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "42305c4b-7fe3-52e7-a3fe-b7e0d1d35804",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Machine Learning & AI",
+          "proficiency": "",
+          "level": 0,
+          "keywords": [
+            "Deep learning (PyTorch, TensorFlow/Keras)",
+            "time series forecasting",
+            "anomaly detection",
+            "survival analysis and censored data",
+            "ordinal regression",
+            "NLP and embeddings",
+            "design of experiments"
+          ]
+        },
+        {
+          "id": "54d0ff50-49b8-5db5-b97b-7be5e884597f",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "MLOps, Data & Cloud",
+          "proficiency": "",
+          "level": 0,
+          "keywords": [
+            "AWS SageMaker",
+            "Google Cloud Platform",
+            "Snowflake",
+            "CI/CD and Infrastructure as Code",
+            "Docker",
+            "model governance, validation gates, and drift detection",
+            "automated retraining",
+            "ETL/ELT pipelines",
+            "knowledge graphs and ontologies (Neo4j)",
+            "data architecture and governance",
+            "Linux"
+          ]
+        },
+        {
+          "id": "f2404fba-75e2-5220-8397-0b778b8a9f5d",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Reliability Engineering",
+          "proficiency": "",
+          "level": 0,
+          "keywords": [
+            "root cause failure analysis",
+            "8D and 5 Whys",
+            "FMEA / DFMEA / PFMEA",
+            "FRACAS",
+            "Weibull analysis",
+            "prognostics and remaining useful life",
+            "condition monitoring",
+            "oil tribology and spectroscopy",
+            "life cycle cost analysis"
+          ]
+        },
+        {
+          "id": "a58b5448-fc32-50f7-bc94-4ce43d18bb2c",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Domain Expertise",
+          "proficiency": "",
+          "level": 0,
+          "keywords": [
+            "heavy equipment, mining, automotive and manufacturing",
+            "fleet and maintenance management",
+            "warranty and service operations",
+            "supply chain and demand planning"
+          ]
+        }
+      ]
+    },
+    "languages": {
+      "title": "Languages",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": []
+    },
+    "interests": {
+      "title": "Interests",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": []
+    },
+    "awards": {
+      "title": "Recognition & Speaking",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "82f3c5bd-06e7-591e-bbab-43d423177505",
+          "hidden": false,
+          "title": "Caterpillar CEO Award (2024)",
+          "awarder": "Caterpillar",
+          "date": "2024",
+          "dates": {
+            "start": "2024",
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>AI-driven labor time model.</p>"
+        },
+        {
+          "id": "71981460-a88e-5cbd-848c-8d14415c4e1f",
+          "hidden": false,
+          "title": "2x ML Competition Champion, Amazon (2022)",
+          "awarder": "Amazon",
+          "date": "2022",
+          "dates": {
+            "start": "2022",
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>Internal regression and recommender system competitions.</p>"
+        },
+        {
+          "id": "d90d729e-1cc8-5d76-bb8b-a9ee836fdccc",
+          "hidden": false,
+          "title": "Invited Speaker: Caterpillar (2015, 2019, 2021)",
+          "awarder": "Caterpillar",
+          "date": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>Engine digital twin and evidence-based life targets, Product Problem Management, and a truck rebuild program delivering 2–4% higher availability at 60% of new-machine cost.</p>"
+        }
+      ]
+    },
+    "certifications": {
+      "title": "Selected Certifications",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "801008c0-6b6d-518f-9433-54fefe8ecef8",
+          "hidden": false,
+          "title": "AWS Certified Machine Learning – Specialty (MLS-C01)",
+          "issuer": "",
+          "date": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "https://www.credly.com/badges/65a3c7d5-1977-4c71-94d6-2d016ea1fe29",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        },
+        {
+          "id": "9a9db8b3-b513-51ab-8736-222dd6527b6f",
+          "hidden": false,
+          "title": "Lean Six Sigma Black Belt",
+          "issuer": "Kennesaw State University",
+          "date": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "https://www.coursera.org/account/accomplishments/specialization/3EOLHJ57IMRP",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        },
+        {
+          "id": "e975c503-a9c4-5cc0-9f69-8c75cbbfd480",
+          "hidden": false,
+          "title": "Caterpillar Applied Failure Analysis",
+          "issuer": "",
+          "date": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        }
+      ]
+    },
+    "publications": {
+      "title": "Publications",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": []
+    },
+    "volunteer": {
+      "title": "Volunteer Experience",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": []
+    },
+    "references": {
+      "title": "References",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": []
+    }
+  },
+  "customSections": [
+    {
+      "title": "Early Career",
+      "icon": "",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "51a2e1ee-83f2-5c6d-88df-c15bd8929420",
+          "hidden": false,
+          "company": "Xtek Mining Services (now L&H Industrial)",
+          "position": "Engineering Intern",
+          "location": "",
+          "period": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "",
+          "roles": []
+        },
+        {
+          "id": "51095cff-bb8e-5d07-8d8c-3f1efa97b43c",
+          "hidden": false,
+          "company": "Ryan Incorporated Central, Roland Machinery Co., and Harry W. Kuhn, Inc.",
+          "position": "Heavy Equipment Operator and Mechanic",
+          "location": "",
+          "period": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>diagnosing and repairing mechanical, hydraulic, electrical, and control system failures on heavy earthmoving equipment.</p>",
+          "roles": []
+        }
+      ],
+      "id": "2b4cab84-fc7e-5a12-86c6-d2d90228144a",
+      "type": "experience"
+    }
+  ],
+  "metadata": {
+    "template": "onyx",
+    "layout": {
+      "sidebarWidth": 35,
+      "pages": [
+        {
+          "fullWidth": true,
+          "main": [
+            "summary",
+            "experience",
+            "2b4cab84-fc7e-5a12-86c6-d2d90228144a",
+            "education",
+            "certifications",
+            "awards",
+            "skills"
+          ],
+          "sidebar": []
+        }
+      ]
+    },
+    "page": {
+      "gapX": 4,
+      "gapY": 6,
+      "marginX": 36,
+      "marginY": 36,
+      "format": "letter",
+      "locale": "en-US",
+      "hideLinkUnderline": true,
+      "hideIcons": false,
+      "hideSectionIcons": true
+    },
+    "design": {
+      "level": {
+        "icon": "",
+        "type": "hidden"
+      },
+      "colors": {
+        "primary": "rgba(31, 58, 95, 1)",
+        "text": "rgba(34, 34, 34, 1)",
+        "background": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "typography": {
+      "body": {
+        "fontFamily": "IBM Plex Sans",
+        "fontWeights": [
+          "400",
+          "700"
+        ],
+        "fontSize": 10,
+        "lineHeight": 1.4
+      },
+      "heading": {
+        "fontFamily": "IBM Plex Sans",
+        "fontWeights": [
+          "400",
+          "700"
+        ],
+        "fontSize": 12,
+        "lineHeight": 1.4
+      }
+    },
+    "notes": "Exported from input/resume.json by scripts/export_rxresume.py; edit it there and rebuild.",
+    "styleRules": []
+  }
+}

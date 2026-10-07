@@ -94,9 +94,15 @@ def experience_groups(work):
     return [roles for _, roles in groups]
 
 
-def group_dates(roles):
-    """The employer-level date range spanning all of a group's roles."""
+def group_span(roles):
+    """(start, end) spanning all of a group's roles; end is None while any
+    role is ongoing."""
     starts = [r["startDate"] for r in roles if r.get("startDate")]
     ends = [r.get("endDate") or None for r in roles]
     end = None if any(e is None for e in ends) else max(ends)
-    return date_range(min(starts) if starts else "", end)
+    return (min(starts) if starts else ""), end
+
+
+def group_dates(roles, sep=" -- "):
+    """The employer-level date range spanning all of a group's roles."""
+    return date_range(*group_span(roles), sep=sep)

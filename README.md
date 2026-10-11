@@ -82,8 +82,8 @@ Example output: [resume.pdf](output/resume.pdf) and
   replaced by underscores and everything else reduced to alphanumerics/underscores
   (for example, "Todd Takala" gives `output/todd_takala_resume.pdf`).
 - `make editor` opens the desktop editor: a drag-and-drop block view of
-  the resume, a raw `resume.json` tab, the `build`/`user` Makefile
-  targets, and the generated PDF.
+  the resume, a raw `resume.json` tab, and a live preview of the PDF; see
+  [Local editor](#local-editor).
 - `make appimage` packages the editor as an AppImage, and `make install-appimage`
   installs it; see [Installing the editor](#installing-the-editor).
 - `make clean` removes auxiliary pdflatex files and generated interim files.
@@ -190,103 +190,140 @@ the [Reactive Resume export](#reactive-resume-export) against its schema. This n
 `jsonschema` from `requirements.txt`; `make build` itself doesn't.
 
 Page geometry lives in [input/geometry.yaml](input/geometry.yaml). Edit that
-file and run `make build` (or `make geometry`) to regenerate
-`interim/geometry.tex`. The [input/format.tex](input/format.tex) file contains
+file, or use the editor's [Page Setup](#page-setup), and run `make build` (or
+`make geometry`) to regenerate `interim/geometry.tex`. The [input/format.tex](input/format.tex) file contains
 the LaTeX layout, commands, and document configuration.
 
 ## Local editor
 
-Run `make editor` to open the editor window. It's a small
-[Qt](https://www.qt.io/) app in [editor/](editor/), written in Python with
-PySide6, so it needs the packages in `requirements.txt`
-(`pip install -r requirements.txt`). The window
-([editor/main.py](editor/main.py)) reads and writes the files in `input/` and
-runs the Makefile targets; the block editor is
-[editor/blocks.py](editor/blocks.py), on top of the document model in
-[editor/document.py](editor/document.py) and the drag-and-drop widgets in
-[editor/widgets.py](editor/widgets.py), with spelling and grammar checking in
-[editor/proofing.py](editor/proofing.py), the PDF preview in
-[editor/preview.py](editor/preview.py), Find and Replace in
-[editor/find.py](editor/find.py), the live preview in
-[editor/live.py](editor/live.py), resume folders in
-[editor/project.py](editor/project.py), and the colors in
-[editor/style.qss](editor/style.qss). The editor imports the section list from
-the generators and the JSON Resume schema check from
-[scripts/validate_resume.py](scripts/validate_resume.py), so it uses the same
-rules as `make build` and `make validate`.
+Run `make editor` to open the editor window. It's a [Qt](https://www.qt.io/)
+app in [editor/](editor/), written in Python with PySide6, so it needs the
+packages in `requirements.txt` (`pip install -r requirements.txt`). To start
+it from the applications menu instead, see
+[Installing the editor](#installing-the-editor).
 
-The editor has two tabs — **Resume (blocks)** and `resume.json` — plus a side
-panel with a preview of the generated PDF and, above it, the output of the
-last make run. `make build` and `make user` are run from the File menu.
+![Editor window: menu bar, block editor, and the live PDF preview](docs/screenshots/editor-window.png)
+
+The window has two tabs on the left, **Resume (blocks)** and `resume.json`,
+and a live preview of the PDF on the right. Drag the gap between them to
+resize them.
+
+- Messages about saves and builds appear under the window's title.
+- A dot on a tab marks unsaved changes. Closing the window, reloading the
+  files, or switching to another resume with any asks first.
+- After a make target runs, its output is in a **Last make output** box above
+  the preview, which opens by itself if the target failed.
+
+### Menus
+
+Every command is in the menu bar:
+
+![The File menu](docs/screenshots/editor-file-menu.png)
+
+- **File**
+  - New Resume (Ctrl+N), Open Resume Folder (Ctrl+O), and Open Recent: see
+    [Resume folders](#resume-folders).
+  - Save (Ctrl+S) and Save & Build (Ctrl+B) act on the tab that is showing.
+    Reload from Disk (Ctrl+R) rereads the files in `input/`.
+  - Run make build and Run make user run those [Make targets](#make-targets).
+  - Page Setup (Ctrl+Shift+P): see [Page Setup](#page-setup).
+  - Print PDF (Ctrl+P), Open PDF (Ctrl+Shift+O), Import JSON Resume (Ctrl+I),
+    Export PDF (Ctrl+E), Export TXT, Export JSON, and Download rxresume.json:
+    see [Printing, exporting, and importing](#printing-exporting-and-importing).
+  - Quit (Ctrl+Q).
+- **Edit**
+  - Undo, Redo, Cut, Copy, Paste, and Select All act on the text box you're
+    in.
+  - Undo Block Change (Ctrl+Alt+Z) is the block editor's own **Undo**.
+  - Find (Ctrl+F), Find Next (F3), Find Previous (Shift+F3), and Replace
+    (Ctrl+H): see [Find and Replace](#find-and-replace).
+  - Insert Middle Dot (Ctrl+.) and Insert En Dash (Ctrl+-) type those
+    characters into the block editor field you're in.
+  - Pretty-print JSON reformats the raw tab.
+- **View**
+  - Resume (blocks) (Ctrl+1) and resume.json (Ctrl+2) switch tabs.
+  - Expand All (Ctrl+Shift+E) and Collapse All (Ctrl+Shift+C) open and close
+    the block editor's cards.
+  - Wrap Lines, for the raw tab; Live Preview; and Full Screen (F11).
+
+### Live preview
+
 The preview is [PDF.js](https://mozilla.github.io/pdf.js/), Mozilla's PDF
-viewer, with its page thumbnails, search, and zoom; it is vendored in
+viewer, with its own page thumbnails, search, and zoom. It is vendored in
 [editor/pdfjs/](editor/pdfjs/), so it works offline.
 
-The preview is live: about a second after you stop typing, the editor builds
-the PDF from what is on screen, saved or not, and shows it without losing your
-place. It also highlights the text of the field you're in and scrolls the
-preview to it; moving to another field moves the highlight. (Text the PDF
-prints differently from how it's typed, such as dates, isn't highlighted.)
-The build runs `make pdf` in a temporary copy of the project, so `input/` and
-`output/` are untouched: `output/resume.pdf`, which **Print PDF** and **Open
-PDF** use, still changes only when you run a make target. A line above the
-preview says when it includes unsaved changes, or why it couldn't be updated
-(for example while a required field is empty). **View > Live Preview** turns
-it off, leaving the preview on `output/resume.pdf`.
-Drag the gap between the tabs and the side panel to resize them. Messages
-about saves and builds appear under the window's title, and a dot on a tab
-marks unsaved changes; closing the window or reloading the files with any asks
-first. In the File menu, **Print PDF** (Ctrl+P, or the preview's own print
-button) prints the generated PDF after asking for the printer and pages,
-and **Open PDF** opens it in your system's PDF viewer. Four commands save a
-copy wherever you choose, offering your Downloads folder: **Export PDF**
-runs `make pdf` and saves the PDF, **Export TXT** runs `make txt` and saves
-the plain-text resume, **Export JSON** saves `input/resume.json`
-(the JSON Resume document), and **Download rxresume.json** runs
-`make rxresume` and saves the
-[Reactive Resume export](#reactive-resume-export). The PDF, text, and JSON are
-offered under a name taken from the resume, such as `todd_takala_resume.pdf`.
-All four use the saved files, so unsaved edits aren't included.
+- About a second after you stop typing, the editor builds the PDF from what
+  is on screen, saved or not, and shows it without losing your place.
+- The text of the field you're in is highlighted in the preview, which
+  scrolls to it, as in the screenshot above. Moving to another field moves
+  the highlight. Text the PDF prints differently from how it's typed, such as
+  dates, isn't highlighted.
+- The build runs `make pdf` in a temporary copy of the project, so `input/`
+  and `output/` are untouched. `output/resume.pdf` still changes only when a
+  make target runs.
+- A line above the preview says when it includes unsaved changes, or why it
+  couldn't be updated (for example while a required field is empty). The last
+  good preview stays on show meanwhile.
+- **View > Live Preview** turns it off, leaving the preview on
+  `output/resume.pdf`.
+
+### Find and Replace
+
+**Edit > Find** opens a bar under the tabs:
+
+![The Find bar, with a match selected in the block editor](docs/screenshots/editor-find.png)
+
+- It searches the tab that is showing: every field of the block editor, in
+  order, or the raw `resume.json`. A match in a collapsed card opens the card.
+- The bar shows which match you're on ("3 of 9"), and has **Match case** and
+  **Whole words** options.
+- **Replace** and **Replace all** type the replacement into the fields, so
+  each field's own undo reverses it.
+- Esc closes the bar. The PDF preview isn't searched; it has a search of its
+  own in its toolbar.
+
+### Page Setup
+
+**File > Page Setup** edits the page margins and footer distance in
+[input/geometry.yaml](input/geometry.yaml):
+
+![The Page Setup dialog](docs/screenshots/editor-page-setup.png)
+
+- Each length is a number and a unit (in, cm, mm, or pt). Changing the unit
+  converts the number.
+- The preview follows the dialog as you change values.
+- OK writes the file straight away, keeping its comments and any length you
+  didn't change as it was written. Cancel leaves the file alone.
+- The paper size isn't here: it is US Letter, set in
+  [input/format.tex](input/format.tex).
+
+### Printing, exporting, and importing
+
+These File menu commands work on the saved files, so save first to include
+your latest edits:
+
+- **Print PDF** prints `output/resume.pdf` after asking for the printer and
+  pages. The preview's own print button does the same.
+- **Open PDF** opens `output/resume.pdf` in your system's PDF viewer.
+- **Export PDF** runs `make pdf`, and **Export TXT** runs `make txt`, then
+  asks where to save a copy.
+- **Export JSON** asks where to save a copy of `input/resume.json`, the JSON
+  Resume document.
+- **Download rxresume.json** runs `make rxresume`, then asks where to save
+  the [Reactive Resume export](#reactive-resume-export).
+
+The exports offer your Downloads folder, and the PDF, text, and JSON a name
+taken from the resume, such as `todd_takala_resume.pdf`.
 
 **Import JSON Resume** goes the other way: it replaces the resume in the
 editor with one from a [JSON Resume](https://jsonresume.org/schema) file,
-such as an export from another tool. Nothing is written to
-`input/resume.json` until you save, so **Reload from Disk** undoes it. A file
-that doesn't match the schema is still imported, with a message saying what
-to fix before it can be saved; the section order and layout are kept.
+such as an export from another tool.
 
-![Editor window: menu bar, block editor, and the PDF preview](docs/screenshots/editor-window.png)
-
-The menu bar has the commands, with keyboard shortcuts:
-
-- **File**: New Resume (Ctrl+N), Open Resume Folder (Ctrl+O), and Open Recent
-  (see [Resume folders](#resume-folders)); Save (Ctrl+S) and Save & Build (Ctrl+B) for the current tab,
-  Reload from Disk (Ctrl+R), the make targets, Page Setup (Ctrl+Shift+P),
-  Print PDF (Ctrl+P), Open PDF
-  (Ctrl+Shift+O), Import JSON Resume (Ctrl+I), Export PDF (Ctrl+E), Export TXT, Export JSON, Download
-  rxresume.json, and
-  Quit (Ctrl+Q).
-- **Edit**: Undo, Redo, Cut, Copy, Paste, and Select All for the text box
-  you're in; Undo Block Change (Ctrl+Alt+Z), which is the block editor's own
-  **Undo**; Find (Ctrl+F), Find Next (F3), Find Previous (Shift+F3), and
-  Replace (Ctrl+H); Insert Middle Dot (Ctrl+.) and En Dash (Ctrl+-); and
-  Pretty-print JSON.
-- **View**: the two tabs (Ctrl+1, Ctrl+2), Expand All and Collapse All for the
-  block editor's cards, Wrap Lines for the raw tab, Live Preview, and Full
-  Screen (F11).
-
-**Page Setup** edits the page margins and footer distance in
-[input/geometry.yaml](input/geometry.yaml), each as a number and a unit (in,
-cm, mm, or pt; changing the unit converts the number). The preview follows
-the dialog as you change values. OK writes the file, keeping its comments;
-Cancel leaves it as it was.
-
-**Find** opens a bar under the tabs that searches the tab that is showing:
-every field of the block editor, in order (opening any collapsed card a match
-is in), or the raw `resume.json`. It shows which match you're on ("3 of 9"),
-with **Match case** and **Whole words** options, and **Replace** / **Replace
-all** type the replacement into the fields, so each field's own undo reverses
-it. Esc closes the bar. The PDF preview has its own search, in its toolbar.
+- Nothing is written to `input/resume.json` until you save, so **Reload from
+  Disk** undoes the import.
+- A file that doesn't match the schema is still imported, with a message
+  saying what to fix before it can be saved.
+- The section order, layout, and page setup are kept.
 
 ### Resume folders
 
@@ -333,9 +370,8 @@ from the applications menu instead of a terminal:
 The AppImage holds the editor and the template files that New Resume copies;
 resumes stay in their own [resume folders](#resume-folders). The installed
 launcher opens this checkout the first time, and after that whichever folder
-was open last. The make commands still
-need Make, Python, pdflatex, and Pandoc on the machine, as do spell checking
-(Enchant) and grammar checking (Java).
+was open last. The make commands still need Make, Python, pdflatex, and Pandoc
+on the machine, spell checking needs Enchant, and grammar checking needs Java.
 
 ### Block editor
 
@@ -392,11 +428,12 @@ Professional Experience shows one card per employer:
   adds a `pagebreak` line to `section_order.yaml`, and the Sections card marks
   that section "new page"; the others set `pagebreakBefore` on the entry. An
   employer's toggle is its first role's, so the first role has none of its own.
-- **Undo** reverses the last add, delete, move, or New page toggle (typing
-  uses each field's own undo). **Save** checks the same rules as the generators (header fields,
-  employer names, positions, a highlight or summary for each role, no blank
-  highlights, required fields in each section, valid dates) and highlights
-  anything missing. **Save & build** saves, then runs `make build`.
+- **Undo** reverses the last add, delete, move, or New page toggle. Typing
+  uses each field's own undo.
+- **Save** checks the same rules as the generators (header fields, employer
+  names, positions, a highlight or summary for each role, no blank highlights,
+  required fields in each section, valid dates) and highlights anything
+  missing. **Save & build** saves, then runs `make build`.
 
 ### Spelling and grammar
 
@@ -435,7 +472,26 @@ JSON Resume schema, instead of being written.
 
 The LaTeX layout ([input/format.tex](input/format.tex)) has no tab; edit it in
 a text editor. The page geometry ([input/geometry.yaml](input/geometry.yaml))
-is edited with File > Page Setup.
+is edited with [Page Setup](#page-setup).
+
+### Source files
+
+The editor imports the section list from the generators and the JSON Resume
+schema check from [scripts/validate_resume.py](scripts/validate_resume.py), so
+it uses the same rules as `make build` and `make validate`. Its own code is in
+[editor/](editor/):
+
+- [main.py](editor/main.py): the window, menus, and make runner.
+- [blocks.py](editor/blocks.py) and [document.py](editor/document.py): the
+  block editor and the resume model behind it.
+- [widgets.py](editor/widgets.py): the cards and drag-and-drop lists.
+- [live.py](editor/live.py), [preview.py](editor/preview.py), and
+  [preview.js](editor/preview.js): the live preview and the PDF.js view.
+- [proofing.py](editor/proofing.py): spelling and grammar checking.
+- [find.py](editor/find.py): Find and Replace.
+- [page_setup.py](editor/page_setup.py): the Page Setup dialog.
+- [project.py](editor/project.py): resume folders.
+- [style.qss](editor/style.qss): the colors.
 
 ## Reactive Resume export
 

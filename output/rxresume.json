@@ -15,8 +15,8 @@
     "name": "First Last",
     "headline": "Senior Data Scientist · Reliability & Manufacturing ML",
     "email": "xxxx@gmail.com",
-    "phone": "+1 (xxx) xxx-xxxx",
-    "location": "Surprise, AZ",
+    "phone": "+1 (xxx) xxx-xxxx ",
+    "location": "Greater Phoenix Area, AZ",
     "website": {
       "url": "",
       "label": "",
@@ -44,7 +44,7 @@
     "hidden": false,
     "keepTogether": false,
     "startOnNewPage": false,
-    "content": "<p>Built the labor time model that earned Caterpillar's CEO Award, cutting $4M annually and raising warranty coverage from 16% to 95% of labor events against an 85% target. 25+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and NLP on failure data, IoT telemetry, and ERP systems, with full MLOps lifecycle ownership on AWS and Snowflake. Sets standards adopted beyond the immediate team, including Amazon's fleet design life standard and dealership-wide data governance at Empire Cat.</p>"
+    "content": "<p>Built the labor time model that earned Caterpillar's CEO Award, cutting $4M annually and raising warranty coverage from 16% to 95% of labor events against an 85% target. 25+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and NLP on failure data, IoT telemetry, and ERP systems, with full MLOps life cycle ownership on AWS and Snowflake. Sets standards adopted beyond the immediate team, including Amazon's fleet design life standard and dealership-wide data governance at Empire Cat.</p>"
   },
   "sections": {
     "profiles": {
@@ -179,7 +179,7 @@
                 "end": "2022-02",
                 "present": false
               },
-              "description": "<ul><li>Led modeling on a 25-person cross-functional program that replaced Caterpillar's estimated engine life target with an evidence-based one: reduced thousands of candidate factors via PCA to 9 controllable variables, then built a diesel engine digital twin on live telemetry to monitor them, extending haul truck engine life 23%.</li><li>Connected reliability Weibull models to parts demand, which reduced part stockouts by 25%.</li><li>Architected a component exchange program with data warehousing, ETL/ELT pipelines, and time series models to target at-risk components, with client-facing ownership of the reliability and product problem management programs.</li><li>Established data engineering governance, quality standards, and a metadata framework adopted across the dealership.</li></ul>"
+              "description": "<ul><li>Led modeling on a 25-person cross-functional program that replaced Caterpillar's estimated engine life target with an evidence-based one: reduced thousands of candidate factors via PCA to 9 controllable variables, then built a diesel engine digital twin on live telemetry to monitor them, extending haul truck engine life 23%.</li><li>Connected reliability Weibull models to parts demand, which reduced part stock outs by 25%.</li><li>Architected a component exchange program with data warehousing, ETL/ELT pipelines, and time series models to target at-risk components, with client-facing ownership of the reliability and product problem management programs.</li><li>Established data engineering governance, quality standards, and a metadata framework adopted across the dealership.</li></ul>"
             },
             {
               "id": "a4f8f336-f1d9-5481-9bb6-28097e7dc3b8",
@@ -317,7 +317,59 @@
       "hidden": false,
       "keepTogether": false,
       "startOnNewPage": false,
-      "items": []
+      "items": [
+        {
+          "id": "8a2b4107-123b-502a-822f-6c4c17115d30",
+          "hidden": false,
+          "name": "Resume Workshop",
+          "period": "2026 – Present",
+          "dates": {
+            "start": "2026",
+            "end": null,
+            "present": true
+          },
+          "website": {
+            "url": "https://github.com/forloop11/resume-workshop",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>Open source application that builds resumes in JSON Resume Schema and renders using Python and LaTeX to a PDF and TXT file</p>"
+        },
+        {
+          "id": "6ec83795-52fd-5fa4-9a11-9ff7544cfb87",
+          "hidden": false,
+          "name": "Markdown Cornell Notes",
+          "period": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "https://github.com/forloop11/markdown-cornell-notes",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>Open source note taking application that allows users to capture notes in friendly Markdown language and generate LaTeX pdf files.</p>"
+        },
+        {
+          "id": "99860651-9a15-5847-985e-35e19a84502d",
+          "hidden": false,
+          "name": "10-Node RPi 5 HPC Cluster for Distributed Computing & ML",
+          "period": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>Designed and built a 10-node high-performance computing (HPC) cluster using Raspberry Pi 5 SBCs to gain hands-on expertise in open source distributed computing frameworks. </p>"
+        }
+      ]
     },
     "skills": {
       "title": "Core Competencies",
@@ -497,8 +549,8 @@
         {
           "id": "801008c0-6b6d-518f-9433-54fefe8ecef8",
           "hidden": false,
-          "title": "AWS Certified Machine Learning – Specialty (MLS-C01)",
-          "issuer": "",
+          "title": "Certified Machine Learning – Specialty (MLS-C01)",
+          "issuer": "AWS",
           "date": "",
           "dates": {
             "start": null,
@@ -533,8 +585,26 @@
         {
           "id": "e975c503-a9c4-5cc0-9f69-8c75cbbfd480",
           "hidden": false,
-          "title": "Caterpillar Applied Failure Analysis",
-          "issuer": "",
+          "title": "Applied Failure Analysis",
+          "issuer": "Caterpillar",
+          "date": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        },
+        {
+          "id": "478fd284-0efc-5346-b2c3-61253617e5be",
+          "hidden": false,
+          "title": "SAFe 6 Agilist (SA)",
+          "issuer": "Scaled Agile Framework",
           "date": "",
           "dates": {
             "start": null,
@@ -624,7 +694,7 @@
             "label": "",
             "inlineLink": false
           },
-          "description": "<p>diagnosing and repairing mechanical, hydraulic, electrical, and control system failures on heavy earthmoving equipment.</p>",
+          "description": "<p>Diagnose and repaired mechanical, hydraulic, electrical, and control system failures on heavy earth moving equipment.</p>",
           "roles": []
         }
       ],
@@ -641,11 +711,12 @@
           "fullWidth": true,
           "main": [
             "summary",
+            "awards",
             "experience",
             "2b4cab84-fc7e-5a12-86c6-d2d90228144a",
+            "projects",
             "education",
             "certifications",
-            "awards",
             "skills"
           ],
           "sidebar": []

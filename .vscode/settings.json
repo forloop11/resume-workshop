@@ -1,8 +1,0 @@
-{
-    "chat.tools.terminal.autoApprove": {
-        "/^python3 -m py_compile scripts/editor_backend\\.py$/": {
-            "approve": true,
-            "matchCommandLine": true
-        }
-    }
-}

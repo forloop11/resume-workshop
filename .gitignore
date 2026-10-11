@@ -7,5 +7,5 @@
 interim/header.tex
 interim/geometry.tex
 interim/resume_content.tex
-build/
-dist/
+/build/
+/dist/

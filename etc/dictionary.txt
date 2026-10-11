@@ -56,3 +56,8 @@ Pillai
 Plex
 rxresu
 rxresume
+Kennesaw
+recommender
+embeddings
+ontologies
+tribology

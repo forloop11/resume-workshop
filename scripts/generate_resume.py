@@ -4,7 +4,8 @@
 input/resume.json is a JSON Resume document (see scripts/jsonresume.py for the
 schema notes and extension fields); input/section_order.yaml picks which
 resume sections appear, and in what order, and where a `pagebreak` line
-starts the next section on a new page. A listed section with no entries in
+starts the next section on a new page. A line can also give its section a
+heading of its own, in place of the usual one: `- competencies: Skills`. A listed section with no entries in
 resume.json (say, no volunteer[] yet) is left out of the resume, along with
 its page break.
 """
@@ -32,17 +33,36 @@ SECTION_LISTS = {
 }
 
 
-def parse_section_order(path):
-    sections = []
+# A section_order.yaml line: "- section", or "- section: Its Heading".
+ORDER_LINE = re.compile(r"-\s+(\w+)(?:\s*:\s*(.*))?")
+
+
+def order_lines(path):
+    """(section, heading or "") for each line of section_order.yaml."""
+    lines = []
     with path.open(encoding="utf-8") as fh:
         for raw_line in fh:
             line = raw_line.strip()
             if not line or line.startswith("#"):
                 continue
-            match = re.fullmatch(r"-\s+(\w+)", line)
+            match = ORDER_LINE.fullmatch(line)
             if not match:
                 raise SystemExit(f"{path}: invalid line: {raw_line.rstrip()}")
-            sections.append(match.group(1))
+            heading = (match.group(2) or "").strip()
+            if len(heading) > 1 and heading[0] == heading[-1] and heading[0] in "\"'":
+                heading = heading[1:-1]  # quoted, as YAML allows
+            lines.append((match.group(1), heading))
+    return lines
+
+
+def parse_headings(path):
+    """{section: heading} for the sections section_order.yaml gives a
+    heading of their own."""
+    return {section: heading for section, heading in order_lines(path) if heading and section != PAGEBREAK}
+
+
+def parse_section_order(path):
+    sections = [section for section, _ in order_lines(path)]
 
     unknown = [section for section in sections if section not in SECTIONS and section != PAGEBREAK]
     duplicates = sorted({section for section in sections if section != PAGEBREAK and sections.count(section) > 1})
@@ -337,7 +357,9 @@ SECTION_RENDERERS = {
 }
 
 
-def render(data, section_order):
+def render(data, section_order, headings=None):
+    """The resume's sections as LaTeX. `headings` ({section: heading}, see
+    parse_headings()) replaces the usual heading of the sections in it."""
     lines = ["% GENERATED FILE -- do not edit directly.", f"% Edit {SRC} and {ORDER_SRC} and run `make resume` (or `make build`) to regenerate."]
     break_next = False
     for section in section_order:
@@ -351,7 +373,10 @@ def render(data, section_order):
         if break_next or (entries and entries[0].get("pagebreakBefore")):
             lines += ["\\newpage", ""]
         break_next = False
-        lines.extend(SECTION_RENDERERS[section](data))
+        rendered = SECTION_RENDERERS[section](data)
+        if (headings or {}).get(section):
+            rendered[0] = f"\\section{{{tex(headings[section])}}}"  # each renderer's first line is its heading
+        lines.extend(rendered)
     return "\n".join(lines + render_meta(data.get("meta") or {}))
 
 
@@ -442,7 +467,7 @@ def main():
     section_order = parse_section_order(ORDER_SRC)
     validate(data, section_order)
     DEST.parent.mkdir(parents=True, exist_ok=True)
-    DEST.write_text(render(data, section_order), encoding="utf-8")
+    DEST.write_text(render(data, section_order, parse_headings(ORDER_SRC)), encoding="utf-8")
     print(f"wrote {DEST} from {SRC} and {ORDER_SRC}")
 
 

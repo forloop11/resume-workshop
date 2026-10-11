@@ -22,8 +22,8 @@ import project  # noqa: E402
 # offers exactly what it can render.
 sys.path.insert(0, str(project.SOURCE / "scripts"))
 
-from generate_resume import PAGEBREAK, SECTION_LISTS, SECTIONS  # noqa: E402
-from jsonresume import ISO8601  # noqa: E402
+from generate_resume import ORDER_LINE, PAGEBREAK, SECTION_LISTS, SECTIONS  # noqa: E402
+from jsonresume import BOLD, ISO8601, plain  # noqa: E402, F401  (BOLD and plain are for the editor's other modules)
 
 RESUME = "resume.json"
 ORDER = "section_order.yaml"
@@ -57,8 +57,8 @@ def as_list(value):
 
 def parse_order(text):
     """section_order.yaml -> (leading comment lines, sections, sections with
-    a pagebreak line before them)."""
-    header, sections, breaks = [], [], set()
+    a pagebreak line before them, {section: the heading its line gives it})."""
+    header, sections, breaks, headings = [], [], set(), {}
     pending_break = False
     for raw in text.split("\n"):
         line = raw.strip()
@@ -68,26 +68,33 @@ def parse_order(text):
             if not sections and not pending_break:
                 header.append(raw)
             continue
-        match = re.fullmatch(r"-\s+(\w+)", line)
+        match = ORDER_LINE.fullmatch(line)
         if not match:
             raise ValueError(f'{ORDER}: can\'t read line "{raw}"')
         if match.group(1) == PAGEBREAK:
             pending_break = True
             continue
         sections.append(match.group(1))
+        heading = (match.group(2) or "").strip()
+        if len(heading) > 1 and heading[0] == heading[-1] and heading[0] in "\"'":
+            heading = heading[1:-1]
+        if heading:
+            headings[match.group(1)] = heading
         if pending_break:
             breaks.add(match.group(1))
         pending_break = False
-    return header, sections, breaks
+    return header, sections, breaks, headings
 
 
-def order_lines(sections, breaks):
-    """Page breaks are only written for sections in the resume."""
+def order_lines(sections, breaks, headings):
+    """Page breaks and headings are only written for sections in the resume."""
     lines = []
     for section in sections:
         if section in breaks:
             lines.append(f"- {PAGEBREAK}")
-        lines.append(f"- {section}")
+        heading = headings.get(section, "").strip()
+        # Quoted where a bare "#" would start a comment, should YAML tools read the file.
+        lines.append(f"- {section}" + (f': "{heading}"' if "#" in heading else f": {heading}" if heading else ""))
     return lines
 
 
@@ -185,7 +192,7 @@ class Document:
         model = json.loads(resume_text)
         if not isinstance(model, dict):
             raise ValueError("expected a JSON object")
-        header, self.order, self.breaks = parse_order(order_text)
+        header, self.order, self.breaks, self.headings = parse_order(order_text)
         self.order_header = header or list(DEFAULT_ORDER_HEADER)
         self.model = model
         if not isinstance(model.get("basics"), dict):
@@ -248,16 +255,20 @@ class Document:
         self.model["work"] = flatten_work(self.groups, self.early)
         resume_text = json.dumps(self.model, indent=2, ensure_ascii=False)
         if order_text != self.parsed_order or not self._same_order():
-            order_text = "\n".join(self.order_header + order_lines(self.order, self.breaks)) + "\n"
+            order_text = "\n".join(self.order_header + order_lines(self.order, self.breaks, self.headings)) + "\n"
         self.parsed_resume, self.parsed_order = resume_text, order_text
         return resume_text, order_text
 
     def _same_order(self):
         try:
-            _, sections, breaks = parse_order(self.parsed_order)
+            _, sections, breaks, headings = parse_order(self.parsed_order)
         except ValueError:
             return False
-        return order_lines(sections, breaks) == order_lines(self.order, self.breaks)
+        return order_lines(sections, breaks, headings) == order_lines(self.order, self.breaks, self.headings)
+
+    def heading(self, section):
+        """The heading `section` is printed under: its own, or the usual one."""
+        return self.headings.get(section) or LABELS.get(section, section)
 
     def problems(self):
         """Mirrors generate_header.py and generate_resume.py's validate(), so

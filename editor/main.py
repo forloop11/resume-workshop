@@ -22,7 +22,7 @@ from pathlib import Path
 try:
     from PySide6.QtCore import QPoint, QProcess, QProcessEnvironment, QRect, QSize, QStandardPaths, Qt, QTimer, QUrl
     from PySide6.QtGui import QActionGroup, QColor, QDesktopServices, QFont, QFontDatabase, QIcon, QKeySequence, QPageSize, QPainter, QTextCharFormat, QTextOption
-    from PySide6.QtWidgets import QApplication, QDialog, QFileDialog, QFrame, QHBoxLayout, QLabel, QMainWindow, QMessageBox, QPlainTextEdit, QSplitter, QTabWidget, QTextEdit, QVBoxLayout, QWidget
+    from PySide6.QtWidgets import QApplication, QDialog, QFileDialog, QFrame, QHBoxLayout, QLabel, QMainWindow, QMessageBox, QPlainTextEdit, QPushButton, QSplitter, QTabWidget, QTextEdit, QVBoxLayout, QWidget
     from PySide6.QtPdf import QPdfDocument
     from PySide6.QtPrintSupport import QPrintDialog, QPrinter
 except ImportError:
@@ -113,6 +113,7 @@ def startup_resume():
 import build  # noqa: E402
 import distribution  # noqa: E402
 import launcher  # noqa: E402
+from ats import AtsPanel  # noqa: E402
 from blocks import BlocksEditor, button, label, on_edit  # noqa: E402
 from document import ORDER, RESUME  # noqa: E402
 from find import FindBar  # noqa: E402
@@ -126,6 +127,7 @@ EDITABLE_FILES = [ORDER, RESUME]
 # Files the blocks tab fully covers: still loaded and saved, but with no raw tab of their own.
 NO_TAB = {ORDER}
 PRINT_DPI = 600
+EDITOR_WIDTH = 870  # what the block editor's cards need to show their fields whole
 # Written into the packaged editor (packaging/collect_licenses.py).
 LICENSES = project.SOURCE / "THIRD-PARTY-LICENSES.txt"
 
@@ -288,7 +290,14 @@ class Workshop(QMainWindow):
         heading.addWidget(title)
         heading.addWidget(label("Edit source files, run the pipeline, and inspect the generated PDF from one window.", "subtitle"))
         heading.addWidget(self.status)
+        self.ats_button = QPushButton("☰")
+        self.ats_button.setProperty("kind", "menu")
+        self.ats_button.setCheckable(True)
+        self.ats_button.setToolTip("ATS check: how an applicant tracking system is likely to read the resume")
+        self.ats_button.clicked.connect(self.show_ats)
         header = QHBoxLayout()
+        header.setSpacing(16)
+        header.addWidget(self.ats_button, 0, Qt.AlignmentFlag.AlignTop)
         header.addLayout(heading, 1)
 
         self.blocks = BlocksEditor(self)
@@ -313,9 +322,9 @@ class Workshop(QMainWindow):
         self.make_output.content.addWidget(self.make_log)
         self.make_output.hide()
         self.pdf_view = PdfPreview(self.pdf)
-        side = QFrame()
-        side.setProperty("kind", "panel")
-        side_layout = QVBoxLayout(side)
+        self.side = QFrame()
+        self.side.setProperty("kind", "panel")
+        side_layout = QVBoxLayout(self.side)
         side_layout.setContentsMargins(18, 18, 18, 18)
         side_layout.setSpacing(12)
         side_layout.addWidget(self.make_output)
@@ -336,7 +345,7 @@ class Workshop(QMainWindow):
         panel_layout.addWidget(self.find_bar)
         splitter = QSplitter()
         splitter.addWidget(panel)
-        splitter.addWidget(side)
+        splitter.addWidget(self.side)
         splitter.setStretchFactor(0, 15)
         splitter.setStretchFactor(1, 7)
         splitter.setSizes([1000, 470])
@@ -348,7 +357,12 @@ class Workshop(QMainWindow):
         layout.setContentsMargins(24, 18, 24, 20)
         layout.setSpacing(14)
         layout.addLayout(header)
-        layout.addWidget(splitter, 1)
+        self.ats = AtsPanel(self)
+        body = QHBoxLayout()
+        body.setSpacing(14)
+        body.addWidget(self.ats)
+        body.addWidget(splitter, 1)
+        layout.addLayout(body, 1)
         self.setCentralWidget(root)
         self._build_menus()
 
@@ -414,6 +428,24 @@ class Workshop(QMainWindow):
             return
         self.report(f"Updated {', '.join(stale)} in {self._short(self.root)}.", "ok")
 
+    def show_ats(self, shown):
+        """Slides the ATS check (ats.py) out at the left, or away."""
+        self.ats.set_open(shown)
+        for control in (self.ats_button, self.ats_action):
+            control.setChecked(shown)
+        self._make_room()
+
+    def _make_room(self):
+        """In a window too narrow for the ATS check, the editor, and the PDF
+        preview side by side, the preview steps aside while the check is
+        open: the editor is what the check is used with."""
+        needed = self.ats.WIDTH + EDITOR_WIDTH + self.pdf_view.minimumWidth() + 150  # 150: the margins and gaps between them
+        self.side.setVisible(not self.ats.is_open or self.width() >= needed)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._make_room()
+
     def toggle_launcher(self):
         """Adds the AppImage to the applications menu, or takes it out."""
         try:
@@ -466,6 +498,7 @@ class Workshop(QMainWindow):
         add(file_menu, "Build Resu&me", self.run_build)
         add(file_menu, "Build and &Name PDF", lambda: self.run_build(named=True))
         add(file_menu, "Update &Folder's Build Files…", self.update_build_files)
+        self.ats_action = add(file_menu, "ATS Chec&k", self.show_ats, "Ctrl+Shift+A", checkable=True)
         file_menu.addSeparator()
         add(file_menu, "Page Set&up…", self.page_setup, "Ctrl+Shift+P")
         add(file_menu, "&Print PDF…", self.print_pdf, Key.Print)
@@ -496,6 +529,7 @@ class Workshop(QMainWindow):
         add(edit_menu, "R&eplace…", lambda: self.find_bar.open(replacing=True), "Ctrl+H")
         edit_menu.addSeparator()
         self.insert_actions = [
+            add(edit_menu, "&Bold", blocks.toggle_bold, "Ctrl+Shift+B"),
             add(edit_menu, "Insert &Middle Dot (·)", lambda: blocks.insert_char("·"), "Ctrl+."),
             add(edit_menu, "Insert &En Dash (–)", lambda: blocks.insert_char("–"), "Ctrl+-"),
         ]
@@ -589,6 +623,7 @@ class Workshop(QMainWindow):
         self.speller.changed.emit()
         for tab in self.raw_tabs.values():
             tab.highlighter.rehighlight()
+        self.ats.changed()
 
     def restart(self):
         """Starts the editor again on this folder, as after an update (see
@@ -644,6 +679,7 @@ class Workshop(QMainWindow):
                 text, dirty = tab.name, self.is_dirty(tab.name)
             self.tabs.setTabText(index, f"{text} •" if dirty else text)
         self.live.changed()
+        self.ats.changed()
 
     def search_targets(self):
         """The text boxes Find looks through: the showing tab's, in order."""

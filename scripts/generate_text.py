@@ -14,8 +14,8 @@ from pathlib import Path
 
 from generate_header import check, header_fields
 from generate_resume import (ORDER_SRC, PAGEBREAK, award_title, certificate_text, early_career, early_career_text, first, meta_parts,
-                             parse_section_order, project_details, section_entries, validate)
-from jsonresume import SRC, date_range, experience_groups, group_dates, load, year_range
+                             parse_headings, parse_section_order, project_details, section_entries, validate)
+from jsonresume import SRC, date_range, experience_groups, group_dates, load, plain, year_range
 
 DEST = Path("output/resume.txt")
 DOT = " · "
@@ -173,13 +173,15 @@ SECTION_TEXT = {
 }
 
 
-def render(data, section_order):
+def render(data, section_order, headings=None):
+    """The resume as text; `headings` as generate_resume.render() takes it."""
+    data = plain(data)  # no bold in plain text
     blocks = [text_header(data["basics"])]
     for section in section_order:
         if section == PAGEBREAK or (section != "summary" and not section_entries(data, section)):
             continue
         heading, text = SECTION_TEXT[section]
-        blocks += [[heading.upper()], *text(data)]
+        blocks += [[((headings or {}).get(section) or heading).upper()], *text(data)]
     meta = data.get("meta") or {}
     if meta_parts(meta) or meta.get("canonical"):
         blocks.append([dots([*meta_parts(meta), *([meta["canonical"]] if meta.get("canonical") else [])])])
@@ -191,7 +193,7 @@ def main():
     section_order = parse_section_order(ORDER_SRC)
     validate(data, section_order)
     DEST.parent.mkdir(parents=True, exist_ok=True)
-    DEST.write_text(render(data, section_order), encoding="utf-8")
+    DEST.write_text(render(data, section_order, parse_headings(ORDER_SRC)), encoding="utf-8")
     print(f"wrote {DEST} from {SRC} and {ORDER_SRC}")
 
 

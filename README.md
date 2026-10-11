@@ -78,6 +78,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - `make rxresume` writes `output/rxresume.json`, the resume as a [Reactive Resume](https://rxresu.me) document (see [Reactive Resume export](#reactive-resume-export)), without a full build.
 - `make schema` writes `output/resume-workshop.json`, the JSON Resume schema with this project's extension fields added (see [Editing the resume](#editing-the-resume)), without a full build.
 - `make validate` checks [input/resume.json](input/resume.json) against the JSON Resume schema and the generator's rules, and the Reactive Resume export against its schema.
+- `make ats` checks the text resume for what applicant tracking systems trip on, and `make ats JOB=job.txt` also lists which of a job description's terms the resume has; see [ATS check](#ats-check).
 - `make test` runs the tests in [tests/](tests/): the generators, the updater, and the editor driven without a display. The editor's tests need its pip packages, and Make and pdflatex to compare its builds with `make build`; they are skipped without them. [.github/workflows/test.yml](.github/workflows/test.yml) runs them on every push.
 - `make user` creates `output/<name>_resume.pdf`, where `<name>` is the `basics.name`
   field from [input/resume.json](input/resume.json), lowercased, with spaces
@@ -109,6 +110,12 @@ Write the text as plain text, not LaTeX: use `&`, `%`, `·` (middle dot), and
 `–` (en dash) directly, and the generators escape them for LaTeX (`·` prints
 as `$\cdot$`, `–` as `--`). Dates are ISO 8601 (`2012-01`, or just `2005`) and
 print as `Jan 2012` / `2005`. A role with no `endDate` prints as `Present`.
+
+The one piece of markup is bold, written as in Markdown: `**words**` print in
+bold in the PDF, as in `Cut costs by **$4M** a year`. The text resume, the
+PDF's properties, the ATS check, and the Reactive Resume export get the
+words without the stars, as plain text. Other JSON Resume tools will show
+the stars unless they read Markdown.
 
 Every field of the JSON Resume schema is printed when it is filled in, apart
 from `$schema` itself, and every section of the schema has a resume section.
@@ -153,8 +160,11 @@ sections; omit a section to leave it out of the resume. All of them are listed
 by default, and a section with no entries in `resume.json` (no `volunteer[]`,
 say) is skipped, along with any page break before it, so it starts printing
 once you add an entry. A `- pagebreak` line starts the section after it on a
-new page. The block editor's Sections card and **New page** toggles edit this
-file for you.
+new page. A line can also give its section a heading of its own, in place of
+the one in the table above: `- competencies: Skills` prints that section as
+"Skills", in the PDF, the text resume, and the Reactive Resume export. The
+block editor's Sections card, **New page** toggles, and each section card's
+**Heading** field edit this file for you.
 
 The schema allows extra fields on any entry, and a few LaTeX-specific ones
 are used:
@@ -240,6 +250,8 @@ Every command is in the menu bar:
   - Build Resume and Build and Name PDF do what `make build` and
     `make user` do: see [Building](#building).
   - Update Folder's Build Files: see [Resume folders](#resume-folders).
+  - ATS Check (Ctrl+Shift+A) opens and closes the card the ☰ button does:
+    see [ATS check](#ats-check).
   - Page Setup (Ctrl+Shift+P): see [Page Setup](#page-setup).
   - Print PDF (Ctrl+P), Open PDF (Ctrl+Shift+O), Import JSON Resume (Ctrl+I),
     Export PDF (Ctrl+E), Export TXT, Export JSON, and Download rxresume.json:
@@ -251,6 +263,8 @@ Every command is in the menu bar:
   - Undo Block Change (Ctrl+Alt+Z) is the block editor's own **Undo**.
   - Find (Ctrl+F), Find Next (F3), Find Previous (Shift+F3), and Replace
     (Ctrl+H): see [Find and Replace](#find-and-replace).
+  - Bold (Ctrl+Shift+B) makes the selected words of the block editor field
+    you're in bold, or plain again: see [Block editor](#block-editor).
   - Insert Middle Dot (Ctrl+.) and Insert En Dash (Ctrl+-) type those
     characters into the block editor field you're in.
   - Pretty-print JSON reformats the raw tab.
@@ -297,9 +311,11 @@ places, as the folder's Make targets write.
 ### Live preview
 
 The preview shows the PDF's pages, fitted to the panel's width, drawn by
-Qt's own PDF module. It is for looking, not working in: to select text,
-search, or zoom, open the PDF in your system's viewer with **File > Open
-PDF**.
+Qt's own PDF module. Its links work: the pointer becomes a hand over one,
+with the address as a tooltip, and a click opens a web address in your
+browser or an email address in your mail program. Otherwise it is for
+looking, not working in: to select text, search, or zoom, open the PDF in
+your system's viewer with **File > Open PDF**.
 
 - About a second after you stop typing, the editor builds the PDF from what
   is on screen, saved or not, and shows it without losing your place.
@@ -496,12 +512,19 @@ Below those, every JSON Resume section has a collapsible card, and a final
 
 ![Block editor: section cards, with Education open](docs/screenshots/editor-blocks-sections.png)
 
+- A section in the resume has a **Heading** field at the top of its card:
+  what to print in place of its usual heading, such as "Skills" for Core
+  Competencies. Empty, the usual one prints.
 - Sections left out of the resume are marked "not in resume" and start
   collapsed while empty. Sections in the resume with no entries yet are
   marked "empty · not printed".
 - Every field in the schema has a place in these cards. The less usual ones
   are under each entry's **More fields**, which opens by itself when one of
   them is filled in.
+- The **B** button above the cards (or Ctrl+Shift+B) makes the selected
+  words bold in the PDF, or the word the cursor is in if nothing is selected;
+  used on bold words, it makes them plain again. It puts `**` around the
+  words, which the field shows faintly, with the words in bold.
 - Each field that holds a web address has two small buttons beside it.
   **Open** opens the address in your browser. **Test** asks the site for the
   page and says, under the window's title and on the button, whether it
@@ -545,6 +568,46 @@ Professional Experience shows one card per employer:
   names, positions, a highlight or summary for each role, no blank highlights,
   required fields in each section, valid dates) and highlights anything
   missing. **Save & build** saves, then builds as `make build` does.
+
+### ATS check
+
+The **☰** button beside the window's title (or **File > ATS Check**,
+Ctrl+Shift+A) slides a card out at the left that shows how an applicant
+tracking system is likely to read the resume; the same button slides it
+away. The editor stays in use beside it, and the findings follow your edits,
+a moment after you stop typing. In a window too narrow for the card, the
+editor, and the PDF preview together, the preview steps aside while the card
+is open.
+
+Such a system takes a resume as plain text and files what it finds, so the
+check reads the resume as `output/resume.txt` has it, using what is in the
+editor, saved or not. Each finding is fine (✓), worth noting (•), or worth
+fixing (✗):
+
+- **Contact details** it can find: an email address and a full phone number,
+  a city and region, and a LinkedIn link.
+- **Sections** it will recognize: work experience, education, and skills are
+  there, and which headings aren't the usual name for their section (a
+  section's **Heading** field changes its heading).
+- **Jobs** it can place: each has a start date, and bullet points.
+- **Bullet points** that say something: how many include a number, any that
+  open with a weak phrase such as "Responsible for", use "I" or "we", or run
+  past about three lines.
+- **The text**: its length, the summary's length, how many skills are
+  listed, and any characters older parsers garble.
+
+Paste a job description into the box below the findings, and the card lists
+which of its main terms the resume has and lacks, also kept up to date as
+you edit. Drag the gaps between the card's three boxes (the findings, the
+job description, and its terms) to make one taller. Its terms are the names it mentions (tools, fields: words with a
+capital or a symbol in them), the other words it repeats, and the pairs of
+words it repeats, such as "machine learning"; a word matches in any of its
+forms ("model", "models"). The job description is kept until the editor is
+closed.
+
+These are rules of thumb, not a score: no two systems read alike, and none
+publishes how. Nothing leaves the machine. `make ats` prints the same
+findings in a terminal ([scripts/check_ats.py](scripts/check_ats.py)).
 
 ### Spelling and grammar
 
@@ -609,6 +672,7 @@ it uses the same rules as `make build` and `make validate`. Its own code is in
 - [preview.py](editor/preview.py): the PDF view.
 - [proofing.py](editor/proofing.py): spelling and grammar checking.
 - [links.py](editor/links.py): testing a web address.
+- [ats.py](editor/ats.py): the ATS check.
 - [find.py](editor/find.py): Find and Replace.
 - [page_setup.py](editor/page_setup.py): the Page Setup dialog.
 - [project.py](editor/project.py): resume folders.

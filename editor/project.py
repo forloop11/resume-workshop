@@ -38,6 +38,7 @@ RECENT_LIMIT = 8
 SECTION_ORDER = """\
 # Resume sections, in the order they appear. Omit one to leave it out.
 # A `- pagebreak` line starts the next section on a new page.
+# `- competencies: Skills` prints that section under the heading Skills.
 - summary
 - experience
 - early_career

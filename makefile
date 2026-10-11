@@ -2,7 +2,7 @@ TEXFILE = input/format
 OUTPUT = output/resume
 DOCKER_IMAGE = resume-builder
 
-.PHONY: build pdf txt header geometry resume rxresume schema validate test editor appimage install-appimage uninstall-appimage clean user docker-image docker-build
+.PHONY: build pdf txt header geometry resume rxresume schema validate ats test editor appimage install-appimage uninstall-appimage clean user docker-image docker-build
 
 header: input/resume.json scripts/generate_header.py scripts/jsonresume.py
 	python3 scripts/generate_header.py
@@ -28,6 +28,12 @@ schema: etc/resume-schema.json scripts/generate_schema.py scripts/generate_resum
 # schema (etc/rxresume-schema.json). Needs jsonschema (pip install -r requirements.txt).
 validate: input/resume.json etc/resume-schema.json etc/rxresume-schema.json scripts/validate_resume.py scripts/export_rxresume.py
 	python3 scripts/validate_resume.py
+
+# Checks the text resume for what applicant tracking systems trip on, and,
+# with a job description, which of its terms the resume has:
+#   make ats JOB=job.txt
+ats: input/resume.json input/section_order.yaml scripts/check_ats.py scripts/generate_text.py
+	python3 scripts/check_ats.py $(JOB)
 
 # The tests in tests/. Those of the editor need its packages
 # (pip install -r requirements.txt), and make and pdflatex to compare builds;

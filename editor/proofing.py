@@ -21,11 +21,12 @@ import sys
 import threading
 
 from PySide6.QtCore import QObject, Qt, QTimer, Signal
-from PySide6.QtGui import QAction, QColor, QSyntaxHighlighter, QTextCharFormat, QTextCursor
+from PySide6.QtGui import QAction, QColor, QFont, QSyntaxHighlighter, QTextCharFormat, QTextCursor
 
 import project
 import themes
 from distribution import STORE
+from document import BOLD
 
 WORDS = "etc/dictionary.txt"  # in a resume folder
 # Where `pip install --target` puts the grammar checker for a packaged
@@ -250,9 +251,22 @@ class Proofer(QSyntaxHighlighter):
                     found.append((utf16(text, a), utf16(text, b), "grammar", (whole, problem)))
         return found
 
-    def highlightBlock(self, _text):
+    def highlightBlock(self, text):
+        # **Words** marked bold look it, with their stars faint.
+        bold, faint = QTextCharFormat(), QTextCharFormat()
+        bold.setFontWeight(QFont.Weight.Bold)
+        faint.setForeground(QColor(themes.color("placeholder")))
+        for match in BOLD.finditer(text):
+            start, inner, close, end = (utf16(text, at) for at in (match.start(), match.start(1), match.end(1), match.end()))
+            self.setFormat(start, inner - start, faint)
+            self.setFormat(inner, close - inner, bold)
+            self.setFormat(close, end - close, faint)
         for start, end, kind, _ in self.problems(self.currentBlock()):
-            self.setFormat(start, end - start, self.SPELLING if kind == "spelling" else self.GRAMMAR)
+            underline = self.SPELLING if kind == "spelling" else self.GRAMMAR
+            for at in range(start, end):  # added to what the character has, bold included
+                merged = self.format(at)
+                merged.merge(underline)
+                self.setFormat(at, 1, merged)
 
     def _menu(self, point):
         edit = self.edit

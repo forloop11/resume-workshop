@@ -5,7 +5,8 @@ Reactive Resume (https://rxresu.me) has its own schema, vendored at
 etc/rxresume-schema.json, so this converts rather than copies:
 
 - Text becomes HTML: summaries are paragraphs, highlights are bullet lists,
-  and stack/companyStack become a "Stack:" paragraph, as in the PDF.
+  and stack/companyStack become a "Stack:" paragraph, as in the PDF. The
+  **bold** marks are left out, with the words they mark as plain text.
 - Consecutive work[] roles at one employer become a single experience item
   with roles[], grouped as in the PDF; earlyCareer entries go in a custom
   "Early Career" experience section.
@@ -30,8 +31,8 @@ from pathlib import Path
 
 from generate_geometry import SRC as GEOMETRY_SRC, parse_geometry
 from generate_header import link_text
-from generate_resume import ORDER_SRC, PAGEBREAK, early_career, parse_section_order, section_entries
-from jsonresume import SRC, date_range, experience_groups, format_date, group_span, load
+from generate_resume import ORDER_SRC, PAGEBREAK, early_career, parse_headings, parse_section_order, section_entries
+from jsonresume import SRC, date_range, experience_groups, format_date, group_span, load, plain
 
 DEST = Path("output/rxresume.json")
 FORMAT_SRC = Path("input/format.tex")
@@ -161,7 +162,7 @@ def header_fields(basics):
     ]
 
 
-def sections(data):
+def sections(data, titles=TITLES):
     lists = {key: data.get(key, []) for key in (
         "skills", "volunteer", "education", "certificates", "awards", "publications", "projects", "languages",
         "interests", "references")}
@@ -172,49 +173,49 @@ def sections(data):
              "iconColor": "", "network": profile.get("network", ""), "username": profile.get("username", ""),
              "website": website(profile.get("url"), link_text(profile.get("url", ""), profile.get("username", "")))}
             for index, profile in enumerate(profiles)]),
-        "experience": section(TITLES["experience"], [
+        "experience": section(titles["experience"], [
             experience_item(roles, "experience", index)
             for index, roles in enumerate(experience_groups(data.get("work", [])))]),
-        "education": section(TITLES["education"], [
+        "education": section(titles["education"], [
             education_item(education, index) for index, education in enumerate(lists["education"])]),
-        "projects": section(TITLES["projects"], [
+        "projects": section(titles["projects"], [
             {"id": uid("projects", index), "hidden": False, "name": project["name"],
              **dict(zip(("period", "dates"), span(project.get("startDate"), project.get("endDate")))),
              "website": website(project.get("url")),
              "description": paragraph(project.get("description")) + bullets(project.get("highlights"))
              + stack(" · ".join(project.get("keywords", [])))}
             for index, project in enumerate(lists["projects"])]),
-        "skills": section(TITLES["competencies"], [
+        "skills": section(titles["competencies"], [
             {"id": uid("skills", index), "hidden": False, "icon": "", "iconColor": "", "name": skill["name"],
              "proficiency": skill.get("level", ""), "level": 0, "keywords": skill.get("keywords", [])}
             for index, skill in enumerate(lists["skills"])]),
-        "languages": section(TITLES["languages"], [
+        "languages": section(titles["languages"], [
             {"id": uid("languages", index), "hidden": False, "language": language["language"],
              "fluency": language.get("fluency", ""), "level": 0}
             for index, language in enumerate(lists["languages"])]),
-        "interests": section(TITLES["interests"], [
+        "interests": section(titles["interests"], [
             {"id": uid("interests", index), "hidden": False, "icon": "", "iconColor": "", "name": interest["name"],
              "keywords": interest.get("keywords", [])}
             for index, interest in enumerate(lists["interests"])]),
-        "awards": section(TITLES["recognition"], [
+        "awards": section(titles["recognition"], [
             dated_item("awards", index, award, "date", title=award["title"], awarder=award.get("awarder", ""))
             for index, award in enumerate(lists["awards"])]),
-        "certifications": section(TITLES["certifications"], [
+        "certifications": section(titles["certifications"], [
             dated_item("certifications", index, cert, "date", title=cert["name"], issuer=cert.get("issuer", ""))
             for index, cert in enumerate(lists["certificates"])]),
-        "publications": section(TITLES["publications"], [
+        "publications": section(titles["publications"], [
             dated_item("publications", index, publication, "releaseDate", title=publication["name"],
                        publisher=publication.get("publisher", ""))
             for index, publication in enumerate(lists["publications"])]),
         # Reactive Resume volunteer items have no position, so it leads the description.
-        "volunteer": section(TITLES["volunteer"], [
+        "volunteer": section(titles["volunteer"], [
             {"id": uid("volunteer", index), "hidden": False, "organization": role["organization"], "location": "",
              **dict(zip(("period", "dates"), span(role.get("startDate"), role.get("endDate")))),
              "website": website(role.get("url")),
              "description": (f"<p><strong>{escape(role['position'], quote=False)}</strong></p>"
                              if role.get("position") else "") + role_html(role)}
             for index, role in enumerate(lists["volunteer"])]),
-        "references": section(TITLES["references"], [
+        "references": section(titles["references"], [
             {"id": uid("references", index), "hidden": False, "name": reference["name"], "position": "",
              "website": website(""), "phone": "", "description": paragraph(reference.get("reference"))}
             for index, reference in enumerate(lists["references"])]),
@@ -278,10 +279,12 @@ def metadata(data, section_order, root=Path()):
     }
 
 
-def export(data, section_order, root=Path()):
+def export(data, section_order, root=Path(), headings=None):
     """The resume as a Reactive Resume document. `root` is the resume folder
     whose geometry.yaml and format.tex set the margins and colors, if not
-    the current one."""
+    the current one; `headings` as generate_resume.render() takes it."""
+    data = plain(data)  # the words alone: the **bold** marks are for the PDF
+    titles = {**TITLES, **(headings or {})}
     basics = data["basics"]
     location = basics.get("location") or {}
     return {
@@ -295,11 +298,11 @@ def export(data, section_order, root=Path()):
             "website": website(basics.get("url"), link_text(basics["url"]) if basics.get("url") else ""),
             "customFields": header_fields(basics),
         },
-        "summary": {"title": TITLES["summary"], "icon": "", "columns": 1, "hidden": False, "keepTogether": False,
+        "summary": {"title": titles["summary"], "icon": "", "columns": 1, "hidden": False, "keepTogether": False,
                     "startOnNewPage": False, "content": paragraph(basics.get("summary"))},
-        "sections": sections(data),
+        "sections": sections(data, titles),
         "customSections": [{
-            **section(TITLES["early_career"], [
+            **section(titles["early_career"], [
                 experience_item([entry], "early_career", index) for index, entry in enumerate(early_career(data))]),
             "id": uid("early_career"), "type": "experience",
         }],
@@ -308,7 +311,7 @@ def export(data, section_order, root=Path()):
 
 
 def main():
-    document = export(load(), parse_section_order(ORDER_SRC))
+    document = export(load(), parse_section_order(ORDER_SRC), headings=parse_headings(ORDER_SRC))
     DEST.parent.mkdir(parents=True, exist_ok=True)
     DEST.write_text(json.dumps(document, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"wrote {DEST} from {SRC}, {ORDER_SRC}, and {GEOMETRY_SRC}")

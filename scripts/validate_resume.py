@@ -34,7 +34,7 @@ def schema_errors(data, schema_path=SCHEMA, validator_class=jsonschema.Draft7Val
 
 def main():
     from export_rxresume import export
-    from generate_resume import ORDER_SRC, SRC, parse_section_order, validate
+    from generate_resume import ORDER_SRC, SRC, parse_headings, parse_section_order, validate
     from jsonresume import load
 
     data = load()
@@ -43,7 +43,7 @@ def main():
         sys.exit(f"{SRC} does not match the JSON Resume schema:\n  " + "\n  ".join(errors))
     section_order = parse_section_order(ORDER_SRC)
     validate(data, section_order)
-    errors = schema_errors(export(data, section_order), RXRESUME_SCHEMA, jsonschema.Draft202012Validator)
+    errors = schema_errors(export(data, section_order, headings=parse_headings(ORDER_SRC)), RXRESUME_SCHEMA, jsonschema.Draft202012Validator)
     if errors:
         sys.exit("The Reactive Resume export does not match its schema:\n  " + "\n  ".join(errors))
     print(f"{SRC} is valid JSON Resume, renders every section in {ORDER_SRC}, and exports as valid Reactive Resume.")

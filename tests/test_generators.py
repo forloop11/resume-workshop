@@ -1,3 +1,4 @@
+import json
 import unittest
 
 from tests import RESUME
@@ -113,6 +114,81 @@ class EveryField(unittest.TestCase):
     def test_a_resume_without_them_is_unchanged(self):
         self.assertNotIn("hypersetup", generate_resume.render(RESUME, generate_resume.SECTIONS))
         self.assertNotIn("vfill", generate_resume.render(RESUME, generate_resume.SECTIONS))
+
+
+class Headings(unittest.TestCase):
+    """A line of section_order.yaml can give its section a heading of its own."""
+
+    def order_file(self, text):
+        import tempfile
+        from pathlib import Path
+
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        path = Path(folder.name) / "section_order.yaml"
+        path.write_text(text, encoding="utf-8")
+        return path
+
+    def test_reading_the_order_file(self):
+        path = self.order_file("# comment\n- summary\n- pagebreak\n- competencies: Skills & Tools\n- recognition:  \"Awards #1\"\n- education:\n")
+        self.assertEqual(generate_resume.parse_section_order(path), ["summary", "pagebreak", "competencies", "recognition", "education"])
+        self.assertEqual(generate_resume.parse_headings(path), {"competencies": "Skills & Tools", "recognition": "Awards #1"})
+        with self.assertRaises(SystemExit):
+            generate_resume.parse_section_order(self.order_file("- two words\n"))
+
+    def test_printed_in_place_of_the_usual_ones(self):
+        headings = {"competencies": "Skills & Tools", "summary": "Profile"}
+        tex = generate_resume.render(RESUME, generate_resume.SECTIONS, headings)
+        text = generate_text.render(RESUME, generate_resume.SECTIONS, headings)
+        self.assertIn("\\section{Skills \\& Tools}", tex)
+        self.assertIn("\\section{Profile}", tex)
+        self.assertNotIn("Core Competencies", tex)
+        self.assertIn("\\section{Education}", tex)  # the rest keep theirs
+        self.assertIn("\nSKILLS & TOOLS\n", text)
+        self.assertNotIn("CORE COMPETENCIES", text)
+        self.assertIn("Core Competencies", generate_resume.render(RESUME, generate_resume.SECTIONS))
+
+    def test_in_the_reactive_resume_export(self):
+        import export_rxresume
+        from tests import ROOT
+
+        document = export_rxresume.export(RESUME, generate_resume.SECTIONS, ROOT, {"competencies": "Skills", "summary": "Profile"})
+        self.assertEqual((document["sections"]["skills"]["title"], document["summary"]["title"]), ("Skills", "Profile"))
+        self.assertEqual(document["sections"]["education"]["title"], "Education")
+
+
+class Bold(unittest.TestCase):
+    """**Words** are bold in the PDF, and plain words everywhere else."""
+    RESUME = {**RESUME, "basics": {**RESUME["basics"], "name": "Ada **Example**", "summary": "Cut costs by **$4M & 10%** a year; 2 ** 3 stays."},
+              "work": [{**RESUME["work"][0], "highlights": ["Led **25 people** to ship."], "stack": "**Python**, Make"}, *RESUME["work"][1:]]}
+
+    def test_latex(self):
+        import jsonresume
+
+        self.assertEqual(jsonresume.tex("**a_b** & **c d**, 2 ** 3, x**y**z"), r"\textbf{a\_b} \& \textbf{c d}, 2 ** 3, x\textbf{y}z")
+        tex = generate_resume.render(self.RESUME, generate_resume.SECTIONS)
+        self.assertIn(r"Cut costs by \textbf{\$4M \& 10\%} a year; 2 ** 3 stays.", tex)
+        self.assertIn(r"\item Led \textbf{25 people} to ship.", tex)
+        self.assertIn(r"\stack{\textbf{Python}, Make}", tex)
+
+    def test_elsewhere_the_words_alone(self):
+        text = generate_text.render(self.RESUME, generate_resume.SECTIONS)
+        self.assertTrue(text.startswith("ADA EXAMPLE\n"))
+        self.assertIn("Cut costs by $4M & 10% a year; 2 ** 3 stays.", text)
+        self.assertIn("- Led 25 people to ship.\nStack: Python, Make", text)
+        header = generate_header.render(*generate_header.header_fields(self.RESUME["basics"]))
+        self.assertIn("pdftitle={Ada Example Resume}", header)
+
+    def test_reactive_resume_export(self):
+        import export_rxresume
+        from tests import ROOT
+
+        document = export_rxresume.export(self.RESUME, generate_resume.SECTIONS, ROOT)
+        self.assertEqual(document["basics"]["name"], "Ada Example")
+        self.assertEqual(document["summary"]["content"], "<p>Cut costs by $4M &amp; 10% a year; 2 ** 3 stays.</p>")
+        self.assertIn("<li>Led 25 people to ship.</li>", str(document["sections"]["experience"]))
+        self.assertIn("<p><strong>Stack:</strong> Python, Make</p>", str(document["sections"]["experience"]))  # the export's own label
+        self.assertNotIn("**", json.dumps(document).replace("2 ** 3", ""))
 
 
 class Header(unittest.TestCase):

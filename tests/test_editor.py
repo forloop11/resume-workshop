@@ -212,6 +212,177 @@ class Editor(unittest.TestCase):
         wait(lambda: gone.text() == "✗ Test")
         self.assertIn("no such page", window.status.text())
 
+    def test_ats_check(self):
+        window = self.open(self.folder("ats", RESUME))
+        panel = window.ats
+        self.assertFalse(panel.isVisible())
+        window.ats_button.click()  # the ☰ button slides it out
+        wait(lambda: panel.width() == panel.WIDTH)
+        self.assertTrue(panel.isVisible() and window.ats_action.isChecked())
+        self.assertIn("has a work experience section", panel.results.toPlainText())
+        self.assertIn("no LinkedIn", panel.results.toPlainText())
+        self.assertTrue(panel.matches.isHidden())
+        panel.job.setPlainText("We need Python and Kubernetes. Python daily, Kubernetes weekly.")
+        self.assertIn("has 1 of the job description's 2 main terms", panel.matches.toPlainText())
+        self.assertIn("Missing: kubernetes", panel.matches.toPlainText())
+        # The three boxes are a splitter: the lower two can be given the height.
+        panel.boxes.setSizes([200, 300, 250])
+        findings, job, matches = panel.boxes.sizes()
+        self.assertTrue(job > findings and matches > findings, panel.boxes.sizes())
+        self.assertEqual((panel.job.height(), panel.matches.height()), (job, matches))
+        # The editor stays usable beside it, and the findings follow the edits, saved or not.
+        resume = json.loads(window.files[main.RESUME])
+        resume["basics"]["profiles"].append({"network": "LinkedIn", "url": "https://www.linkedin.com/in/ada"})
+        resume["skills"][0]["keywords"].append("Kubernetes")
+        window.select_file(main.RESUME)
+        window.raw_tabs[main.RESUME].editor.setPlainText(json.dumps(resume, indent=2))
+        wait(lambda: "There is a LinkedIn profile link" in panel.results.toPlainText())
+        self.assertIn("has 2 of the job description's 2 main terms", panel.matches.toPlainText())
+        # A resume that can't be read is said, not raised.
+        window.raw_tabs[main.RESUME].editor.setPlainText("{ not json")
+        wait(lambda: "can't be checked until it is fixed" in panel.results.toPlainText())
+        self.assertTrue(panel.matches.isHidden())
+        window.ats_action.trigger()  # File > ATS Check closes it again
+        wait(lambda: not panel.isVisible())
+        self.assertFalse(window.ats_button.isChecked())
+
+    def test_ats_check_makes_room_in_a_narrow_window(self):
+        window = self.open(self.folder("narrow", RESUME))
+        window.resize(1900, 1000)
+        window.show_ats(True)
+        self.assertTrue(window.side.isVisible())  # room for the check, the editor, and the preview
+        window.resize(1400, 1000)
+        self.assertFalse(window.side.isVisible())  # the preview steps aside
+        window.show_ats(False)
+        self.assertTrue(window.side.isVisible())
+
+    def test_a_section_heading_of_its_own(self):
+        folder = self.folder("headings", RESUME)
+        order = folder / "input/section_order.yaml"
+        order.write_text(order.read_text(encoding="utf-8").replace("- competencies\n", "- competencies: Skills\n"), encoding="utf-8")
+        window = self.open(folder)
+        doc = window.blocks.doc
+        self.assertEqual((doc.headings, doc.heading("competencies"), doc.heading("education")), ({"competencies": "Skills"}, "Skills", "Education"))
+        # The card has a Heading field; typing in it rewrites that section's line, and only that.
+        field = next(control for control in window.blocks.controls if control.toPlainText() == "Skills")
+        field.setPlainText("Technical Skills")
+        self.assertIn("- competencies: Technical Skills\n", window.files[main.ORDER])
+        self.assertIn("- education\n", window.files[main.ORDER])
+        self.assertTrue(window.files[main.ORDER].startswith("# Resume sections"))  # the file's comments are kept
+        field.setPlainText("")
+        self.assertIn("- competencies\n", window.files[main.ORDER])
+        field.setPlainText("Technical Skills")
+        window.ats.refresh()
+        self.assertIn("'Recognition & Speaking' is not the usual name", window.ats.results.toPlainText())
+        self.assertTrue(window.blocks.save())
+        main.build.write_text(folder)
+        self.assertIn("\nTECHNICAL SKILLS\n", (folder / "output/resume.txt").read_text(encoding="utf-8"))
+        if LATEX:
+            window.run_build()
+            self.built(window)
+            self.assertIn("TECHNICAL SKILLS", "\n".join(pdf_text(folder / "output/resume.pdf")))
+
+    def test_bold(self):
+        from PySide6.QtGui import QFont, QTextCursor
+
+        window = self.open(self.folder("bold", RESUME))
+        blocks = window.blocks
+        field = next(control for control in blocks.controls if control.toPlainText().startswith("Builds things 100%"))
+        select = lambda start, end: (field.setFocus(), field.setTextCursor(span(field, start, end)))  # noqa: E731
+        blocks.last_field = field
+
+        def span(field, start, end):
+            cursor = QTextCursor(field.document())
+            cursor.setPosition(start)
+            cursor.setPosition(end, QTextCursor.MoveMode.KeepAnchor)
+            return cursor
+
+        select(7, 19)  # "things 100% " with the space after it
+        blocks.toggle_bold()
+        self.assertEqual(field.toPlainText(), "Builds **things 100%** of the time & writes about them.")
+        self.assertIn("Builds **things 100%** of the time", window.files[main.RESUME])
+        self.assertEqual(field.textCursor().selectedText(), "**things 100%**")
+        # ...shown bold in the field, its stars faint.
+        weights = lambda: {(piece.start, piece.length): piece.format.fontWeight()  # noqa: E731
+                           for piece in field.document().firstBlock().layout().formats()}
+        wait(lambda: weights().get((9, 11)) == QFont.Weight.Bold, 10)  # once the field has been redrawn
+        # The preview is searched for the words, without the stars.
+        self.assertIn("Builds things 100% of the time & writes about them.", blocks.preview_phrases())
+        # Again turns it off: with the stars selected, with just the words, and from a cursor inside.
+        blocks.toggle_bold()
+        self.assertEqual(field.toPlainText(), "Builds things 100% of the time & writes about them.")
+        blocks.toggle_bold()
+        select(9, 20)
+        blocks.toggle_bold()
+        self.assertEqual(field.toPlainText(), "Builds things 100% of the time & writes about them.")
+        select(2, 2)  # no selection: the word the cursor is in
+        blocks.toggle_bold()
+        self.assertEqual(field.toPlainText(), "**Builds** things 100% of the time & writes about them.")
+        select(5, 5)
+        blocks.toggle_bold()
+        self.assertEqual(field.toPlainText(), "Builds things 100% of the time & writes about them.")
+        if LATEX:
+            select(0, 6)
+            blocks.toggle_bold()
+            self.assertTrue(blocks.save())
+            window.run_build()
+            self.built(window)
+            self.assertIn("Builds things 100% of the time", "\n".join(pdf_text(window.root / "output/resume.pdf")))
+            self.assertIn("\\textbf{Builds} things", (window.root / "interim/resume_content.tex").read_text(encoding="utf-8"))
+
+    def test_links_in_the_preview_open_when_clicked(self):
+        from PySide6.QtCore import QObject, QPoint, QUrl, Slot
+        from PySide6.QtTest import QTest
+
+        folder = self.folder("pdflinks", RESUME)
+        shutil.copy(ROOT / "output/resume.pdf", folder / "output/resume.pdf")
+        window = self.open(folder)
+        window.live.set_enabled(False)  # keep that PDF on show
+        view = window.pdf_view
+
+        class Browser(QObject):
+            opened = []
+
+            @Slot(QUrl)
+            def open(self, url):
+                self.opened.append(url.toString())
+
+        browser = Browser()
+        for scheme in ("http", "https", "mailto"):  # in place of the system's browser and mail program
+            main.QDesktopServices.setUrlHandler(scheme, browser, "open")
+            self.addCleanup(main.QDesktopServices.unsetUrlHandler, scheme)
+        wait(lambda: view.viewport().width() > 300 and view.page_rects())
+        page = view.page_rects()[0]
+        scale = page.width() / view._document.pagePointSize(0).width()
+        links = view._page_links(0)
+        self.assertGreaterEqual(len(links), 3)
+        for where, url in links:
+            spot = QPoint(round(page.left() + where.center().x() * scale), round(page.top() + where.center().y() * scale))
+            QTest.mouseMove(view.viewport(), spot)
+            self.assertEqual(view.viewport().cursor().shape(), main.Qt.CursorShape.PointingHandCursor)
+            self.assertEqual(view.viewport().toolTip(), url.toString())
+            QTest.mouseClick(view.viewport(), main.Qt.MouseButton.LeftButton, pos=spot)
+            self.assertEqual(browser.opened[-1], url.toString())
+        # Off a link: an arrow, and a click opens nothing.
+        blank, count = QPoint(round(page.left()) + 3, round(page.top()) + 3), len(browser.opened)
+        QTest.mouseMove(view.viewport(), blank)
+        self.assertEqual(view.viewport().cursor().shape(), main.Qt.CursorShape.ArrowCursor)
+        QTest.mouseClick(view.viewport(), main.Qt.MouseButton.LeftButton, pos=blank)
+        self.assertEqual(len(browser.opened), count)
+        # Where the pages are worked out to be is where Qt draws them: a search match is painted in its place.
+        plain = view.viewport().grab().toImage()
+        self.assertTrue(view.highlight([pdf_text(folder / "output/resume.pdf")[0].split("\n")[0].strip()]))
+        match = view._search.resultsOnPage(0)[0].rectangles()[0]
+        marked = view.viewport().grab().toImage()
+        changed = [(x, y) for y in range(marked.height()) for x in range(marked.width()) if marked.pixel(x, y) != plain.pixel(x, y)]
+        self.assertTrue(changed)
+        painted = (min(x for x, _ in changed), min(y for _, y in changed), max(x for x, _ in changed), max(y for _, y in changed))
+        page = view.page_rects()[0]
+        worked_out = (page.left() + match.left() * scale, page.top() + match.top() * scale,
+                      page.left() + match.right() * scale, page.top() + match.bottom() * scale)
+        for drawn, expected in zip(painted, worked_out):
+            self.assertAlmostEqual(drawn, expected, delta=4)
+
     def test_exports_and_failures(self):
         window = self.open(self.folder("one", RESUME))
         saved = []

@@ -80,6 +80,11 @@ def _resume(root):
     return data, order
 
 
+def _headings(root):
+    """The headings the folder's section order gives sections of their own."""
+    return generate_resume.parse_headings(root / generate_resume.ORDER_SRC)
+
+
 def write_tex(root):
     def step():
         data, order = _resume(root)
@@ -87,18 +92,18 @@ def write_tex(root):
         geometry = generate_geometry.render(generate_geometry.parse_geometry(root / generate_geometry.SRC))
         _write(root / generate_header.DEST, header)
         _write(root / generate_geometry.DEST, geometry)
-        _write(root / generate_resume.DEST, generate_resume.render(data, order))
+        _write(root / generate_resume.DEST, generate_resume.render(data, order, _headings(root)))
 
     _generated(step)
 
 
 def write_text(root):
-    _generated(lambda: _write(root / generate_text.DEST, generate_text.render(*_resume(root))))
+    _generated(lambda: _write(root / generate_text.DEST, generate_text.render(*_resume(root), _headings(root))))
 
 
 def write_rxresume(root):
     def step():
-        document = export_rxresume.export(*_resume(root), root)
+        document = export_rxresume.export(*_resume(root), root, _headings(root))
         _write(root / export_rxresume.DEST, json.dumps(document, indent=2, ensure_ascii=False) + "\n")
 
     _generated(step)

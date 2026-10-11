@@ -51,6 +51,9 @@ QPushButton[kind="danger"]:hover { border-color: @error; color: @error; }
 QPushButton[kind="page-toggle"] { background: transparent; color: @muted; }
 QPushButton[kind="page-toggle"]:hover { border-color: @accent; color: @hover; }
 QPushButton[kind="page-toggle"][on="true"] { background: @warning; border-color: @warning; color: @on-accent; }
+QPushButton[kind="bold"] { font-weight: 800; }
+QPushButton[kind="menu"] { font-size: 20px; padding: 4px 11px; margin-top: 6px; }
+QPushButton[kind="menu"]:checked { background: @accent; border-color: @accent; color: @on-accent; }
 QPushButton[kind="add"] { background: transparent; border-style: dashed; padding: 5px 10px; }
 QPushButton[kind="link"] { background: transparent; border: 0; padding: 0; color: @link; text-decoration: underline; }
 

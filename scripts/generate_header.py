@@ -14,7 +14,7 @@ import re
 import sys
 from pathlib import Path
 
-from jsonresume import SRC, load, mentions, tex as escape
+from jsonresume import SRC, load, mentions, plain, tex as escape
 
 DEST = Path("interim/header.tex")
 
@@ -79,7 +79,7 @@ PDF_CHARS = {"·": r"\textperiodcentered{}", "–": r"\textendash{}", "—": r"\
 
 def pdf_string(text):
     """Plain resume text -> LaTeX for a PDF property (\\hypersetup)."""
-    return "".join(PDF_CHARS.get(ch) or escape(ch) for ch in text)
+    return "".join(PDF_CHARS.get(ch) or escape(ch) for ch in plain(text))
 
 
 def check(fields, links):

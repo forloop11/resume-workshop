@@ -18,13 +18,13 @@ import copy
 import re
 
 from PySide6.QtCore import Qt, QTimer, QUrl
-from PySide6.QtGui import QDesktopServices
+from PySide6.QtGui import QDesktopServices, QTextCursor
 from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout, QLabel, QPushButton, QScrollArea, QTextEdit, QVBoxLayout, QWidget
 from shiboken6 import isValid
 
 import links
 import themes
-from document import EMPLOYER_KEYS, LABELS, ORDER, RESUME, SECTIONS, Document, as_list, competency_duplicates, new_role, valid_date
+from document import EMPLOYER_KEYS, LABELS, ORDER, RESUME, SECTIONS, Document, as_list, competency_duplicates, new_role, plain, valid_date
 from widgets import AutoTextEdit, Chip, Collapsible, DragSurface, Handle, LineEdit, SortableList, restyle
 
 UNDO_LIMIT = 50
@@ -122,6 +122,10 @@ class BlocksEditor(QWidget):
         insert = label("Insert")
         insert.setToolTip("Insert at the cursor in the last field you clicked")
         bar.addWidget(insert)
+        bold_button = button("B", self.toggle_bold, tip="Bold the selected words, or the word the cursor is in (Ctrl+Shift+B)")
+        bold_button.setProperty("kind", "bold")
+        bold_button.setFocusPolicy(Qt.FocusPolicy.NoFocus)  # keep the field's focus and selection
+        bar.addWidget(bold_button)
         for char, tip in [("·", "Middle dot (printed as $\\cdot$)"), ("–", "En dash (printed as --)")]:
             insert_button = button(char, lambda char=char: self.insert_char(char), tip=tip)
             insert_button.setFocusPolicy(Qt.FocusPolicy.NoFocus)  # keep the field's focus and selection
@@ -452,7 +456,7 @@ class BlocksEditor(QWidget):
                 layout.setContentsMargins(10, 5, 10, 5)
                 layout.setSpacing(6)
                 layout.addWidget(label("⠿", "handle"))
-                layout.addWidget(QLabel(LABELS.get(section, section)))
+                layout.addWidget(QLabel(doc.heading(section) if sections is doc.order else LABELS.get(section, section)))
                 if sections is doc.order and section in doc.breaks:
                     mark = label("new page", "break-mark")
                     mark.setToolTip("Starts on a new page")
@@ -478,7 +482,12 @@ class BlocksEditor(QWidget):
         doc = self.doc
         included, has_data = doc.included(key), doc.has_data(key)
         tag = "not in resume" if not included else "empty · not printed" if key != "summary" and not has_data else None
-        card = self.card(key, LABELS.get(key, key), tag, included or has_data, self.render_section_body(key))
+        body = [self.render_section_body(key)]
+        if included:
+            # The section's own heading, kept on its line of section_order.yaml.
+            body.insert(0, self.field(doc.headings, key, "Heading", placeholder=LABELS.get(key, key),
+                                      hint="printed in place of the usual one; empty for that"))
+        card = self.card(key, doc.heading(key) if included else LABELS.get(key, key), tag, included or has_data, *body)
         if key == "competencies":
             self.duplicate_tag = label("", "warning-tag")
             card.head.insertWidget(card.head.count() - 1, self.duplicate_tag)  # before the stretch
@@ -833,13 +842,55 @@ class BlocksEditor(QWidget):
         if field not in self.controls or field.date:
             return []
         cursor = field.textCursor()
-        line = cursor.block().text()
-        before = len(line[:cursor.positionInBlock()].split())
+        line = plain(cursor.block().text())  # the PDF has the words, not the stars that bold them
+        before = len(plain(cursor.block().text()[:cursor.positionInBlock()]).split())
         words = line.split()
         phrases = [line.strip(), max(re.split(r"[·\"'“”‘’]", line), key=len).strip()]
         for reach in (4, 2):
             phrases.append(" ".join(words[max(before - reach, 0):before + reach]))
         return list(dict.fromkeys(phrase for phrase in phrases if len(phrase) >= PREVIEW_PHRASE_MIN))
+
+    def toggle_bold(self):
+        """Makes the selected words of the last focused field bold, by
+        putting ** around them as the generators read it -- or plain again,
+        if they are bold already. With nothing selected, it is the word the
+        cursor is in."""
+        field = self.last_field
+        if field is None or not isValid(field) or not self.scroll.isAncestorOf(field):
+            self.win.report("Click into a field first, then make words bold.")
+            return
+        cursor = field.textCursor()
+        if not cursor.hasSelection():
+            cursor.select(QTextCursor.SelectionType.WordUnderCursor)
+        words = cursor.selectedText()
+        if not words.strip() or "\u2029" in words:  # nothing, or more than one line
+            self.win.report("Select the words to make bold, within one line.")
+            return
+        # Leave the spaces at the ends outside the stars, where bold needs them.
+        lead, trail = len(words) - len(words.lstrip()), len(words) - len(words.rstrip())
+        start, end = cursor.selectionStart() + lead, cursor.selectionEnd() - trail
+        def text(a, b):
+            """The field's text between two cursor positions."""
+            span = QTextCursor(field.document())
+            span.setPosition(max(a, 0))
+            span.setPosition(min(b, field.document().characterCount() - 1), QTextCursor.MoveMode.KeepAnchor)
+            return span.selectedText()
+
+        inner = words.strip()
+        if len(inner) > 4 and inner.startswith("**") and inner.endswith("**"):
+            replacement, start, end = inner[2:-2], start, end  # the stars were selected too
+        elif text(start - 2, start) == "**" and text(end, end + 2) == "**":
+            replacement, start, end = inner, start - 2, end + 2  # they are just outside
+        else:
+            replacement = f"**{inner}**"
+        cursor.setPosition(start)
+        cursor.setPosition(end, QTextCursor.MoveMode.KeepAnchor)
+        cursor.insertText(replacement)
+        # Leave the words selected, so the button turns bold off again.
+        cursor.setPosition(start)
+        cursor.setPosition(start + len(replacement), QTextCursor.MoveMode.KeepAnchor)
+        field.setTextCursor(cursor)
+        field.setFocus()
 
     def insert_char(self, char):
         """The · and – buttons insert at the cursor of the last focused field,

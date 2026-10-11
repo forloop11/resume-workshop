@@ -3,7 +3,9 @@
 input/resume.json follows the JSON Resume schema (https://jsonresume.org/schema,
 vendored at etc/resume-schema.json), so its text is plain Unicode rather than
 LaTeX: "&", "%", "·" (middle dot), and "–" (en dash) are written as-is, and
-tex() escapes them when a generator writes LaTeX.
+tex() escapes them when a generator writes LaTeX. The one piece of markup is
+bold, written as in Markdown: `**words**` print in bold in the PDF (tex()),
+and as the plain words wherever bold can't be shown (plain()).
 
 A few LaTeX-specific extras live in extension fields, which the schema allows
 on every object:
@@ -51,13 +53,35 @@ TEX_CHARS = {
 }
 
 
+# Bold, written as in Markdown: "cut costs by **$4M** a year". The stars hug
+# the words they mark, so a stray "**" or "2 ** 3" is left as typed.
+BOLD = re.compile(r"\*\*(?=\S)(.+?)(?<=\S)\*\*")
+
+
 def load(path=SRC):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
 def tex(text):
-    """Plain resume text -> LaTeX."""
-    return "".join(TEX_CHARS.get(ch, ch) for ch in text)
+    """Plain resume text -> LaTeX, with **words** in bold."""
+    escape = lambda part: "".join(TEX_CHARS.get(ch, ch) for ch in part)  # noqa: E731
+    pieces, end = [], 0
+    for match in BOLD.finditer(text):
+        pieces += [escape(text[end:match.start()]), f"\\textbf{{{escape(match.group(1))}}}"]
+        end = match.end()
+    return "".join(pieces) + escape(text[end:])
+
+
+def plain(value):
+    """Resume text without its bold marks, for where bold can't be shown;
+    given a list or an object, all the text in it."""
+    if isinstance(value, str):
+        return BOLD.sub(r"\1", value)
+    if isinstance(value, list):
+        return [plain(item) for item in value]
+    if isinstance(value, dict):
+        return {key: plain(item) for key, item in value.items()}
+    return value
 
 
 # Characters a URL can't keep as they are inside a LaTeX command's argument.

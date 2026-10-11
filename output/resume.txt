@@ -1,6 +1,6 @@
 FIRST LAST
 SENIOR DATA SCIENTIST · RELIABILITY & MANUFACTURING ML
-Greater Phoenix Area, AZ · +1 (xxx) xxx-xxxx  · xxxx@gmail.com
+Greater Phoenix Area, AZ, US · +1 (xxx) xxx-xxxx  · xxxx@gmail.com
 linkedin.com/in/toddtakala · portfolio.derkooh.com
 
 PROFESSIONAL SUMMARY
@@ -73,9 +73,9 @@ Engineering Intern, Xtek Mining Services (now L&H Industrial) · Heavy Equipment
 
 SELECTED INDEPENDENT PROJECTS
 
-Resume Workshop: Open source application that builds resumes in JSON Resume Schema and renders using Python and LaTeX to a PDF and TXT file
+Resume Workshop (Developer, 2026 – Present): Open source application that builds resumes in JSON Resume Schema and renders using Python and LaTeX to a PDF and TXT file
 
-Markdown Cornell Notes: Open source note taking application that allows users to capture notes in friendly Markdown language and generate LaTeX pdf files.
+Markdown Cornell Notes (Developer): Open source note taking application that allows users to capture notes in friendly Markdown language and generate LaTeX pdf files.
 
 10-Node RPi 5 HPC Cluster for Distributed Computing & ML: Designed and built a 10-node high-performance computing (HPC) cluster using Raspberry Pi 5 SBCs to gain hands-on expertise in open source distributed computing frameworks. 
 

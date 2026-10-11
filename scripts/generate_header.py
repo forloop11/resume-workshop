@@ -14,7 +14,7 @@ import re
 import sys
 from pathlib import Path
 
-from jsonresume import SRC, load, tex as escape
+from jsonresume import SRC, load, mentions, tex as escape
 
 DEST = Path("interim/header.tex")
 
@@ -33,18 +33,43 @@ def link_text(url, username=""):
 def header_fields(basics):
     """The header's fields from JSON Resume `basics`, in the shape render() takes."""
     location = basics.get("location") or {}
-    place = ", ".join(part for part in (location.get("city"), location.get("region")) if part)
+    # "1 Main St, Springfield, IL 62701, US": whichever parts there are.
+    street = ", ".join(line.strip() for line in (location.get("address") or "").splitlines() if line.strip())
+    region = " ".join(part for part in (location.get("region"), location.get("postalCode")) if part)
+    place = ", ".join(part for part in (street, location.get("city"), region, location.get("countryCode")) if part)
     fields = {
         "name": basics.get("name"),
         "title": basics.get("label"),
         "location": place,
         "phone": basics.get("phone"),
         "email": basics.get("email"),
+        "image": image_file(basics.get("image")),
     }
     fields = {key: value for key, value in fields.items() if value}
     profiles = ([{"url": basics["url"]}] if basics.get("url") else []) + basics.get("profiles", [])
-    links = [{"text": link_text(p["url"], p.get("username", "")), "url": p["url"]} for p in profiles if p.get("url")]
-    return fields, links
+    return fields, [link for link in map(profile_link, profiles) if link]
+
+
+def image_file(image):
+    """basics.image as a file the PDF can include, or None: pdflatex reads
+    files, relative to the resume folder, and can't fetch a web address."""
+    image = re.sub(r"^file://", "", image or "")
+    return None if not image or re.match(r"^[a-z][a-z0-9+.-]*://", image) else image
+
+
+def profile_link(profile):
+    """A header link ({"text", "url"}) for a profile or the website, or None
+    if it has nothing to show. The text is the URL as link_text() trims it,
+    after the network's name unless the URL says it already ("Mastodon:
+    example.social/@me", but just "linkedin.com/in/me"). A profile with a
+    username and no URL is plain text ("Signal: me")."""
+    network, username, url = profile.get("network", ""), profile.get("username", ""), profile.get("url")
+    if url:
+        text = link_text(url, username)
+        return {"text": text if not network or mentions(text, network) else f"{network}: {text}", "url": url}
+    if username:
+        return {"text": f"{network}: {username}" if network else username, "url": None}
+    return None
 
 
 # Characters tex() writes in math mode or as ligatures, which a PDF's
@@ -80,8 +105,14 @@ def render(fields, links):
 
     link_parts = []
     for link in links:
-        link_parts.append(r"\href{%s}{%s}" % (link["url"], escape(link["text"])))
+        link_parts.append(r"\href{%s}{%s}" % (link["url"], escape(link["text"])) if link["url"] else escape(link["text"]))
     links_line = "~~$\\cdot$~~%\n    ".join(link_parts)
+    # The photo, if the layout can include one (it loads graphicx) and the
+    # file is there.
+    photo = ""
+    if fields.get("image"):
+        path = "\\detokenize{%s}" % fields["image"]
+        photo = f"  \\ifdefined\\includegraphics\\IfFileExists{{{path}}}{{\\includegraphics[height=0.9in]{{{path}}}\\\\[4pt]}}{{}}\\fi\n"
 
     return f"""%% GENERATED FILE -- do not edit directly.
 %% Edit {SRC} and run `make header` (or `make build`) to regenerate.
@@ -91,7 +122,7 @@ def render(fields, links):
   pdfsubject={{{pdf_string(fields["title"])}}}
 }}
 \\begin{{center}}
-  {{\\Huge\\bfseries\\color{{accent}}{name}}}\\\\[3pt]
+{photo}  {{\\Huge\\bfseries\\color{{accent}}{name}}}\\\\[3pt]
   {{\\small\\color{{accent}}{title}}}\\\\[4pt]
   {{\\small\\color{{muted}}
     {location}~~$\\cdot$~~{phone}~~$\\cdot$~~%

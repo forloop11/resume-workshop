@@ -56,6 +56,18 @@ def wait(until, seconds=60):
         raise AssertionError("timed out")
 
 
+def png():
+    """A small one-color PNG image, as bytes."""
+    import struct
+    import zlib
+
+    def chunk(kind, data):
+        return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data))
+
+    rows = b"".join(b"\x00" + b"\x1f\x3a\x5f" * 32 for _ in range(32))
+    return b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", 32, 32, 8, 2, 0, 0, 0)) + chunk(b"IDAT", zlib.compress(rows)) + chunk(b"IEND", b"")
+
+
 def pdf_text(path):
     document = QPdfDocument()
     document.load(str(path))
@@ -149,6 +161,56 @@ class Editor(unittest.TestCase):
         wait(lambda: watch.paints)
         self.assertFalse(view.highlight(["not in the resume at all"]))
         self.assertEqual(view._search.searchString(), "")
+
+    @unittest.skipUnless(LATEX, "needs make and pdflatex")
+    def test_every_field_builds(self):
+        from tests.test_generators import EveryField
+
+        resume = {**RESUME, **EveryField.RESUME}
+        folder = self.folder("all", resume)
+        (folder / "input/photo.png").write_bytes(png())
+        window = self.open(folder)
+        wait(lambda: window.live.shown is not None or window.live.failed is not None)
+        self.assertIsNone(window.live.failed, window.preview_note.text())
+        # The live preview's copy of the folder has no photo; pdflatex finds the folder's.
+        self.assertIn("photo.png", (window.live.root / "output/resume.log").read_text(encoding="utf-8", errors="replace"))
+        window.run_build()
+        self.built(window)
+        text = "\n".join(pdf_text(folder / "output/resume.pdf"))
+        for printed in ("1 Main St, Apt 2, Springfield, IL 62701, US", "Mastodon: example.social/@ada", "Makers of anvils & rockets_2",
+                        "Prize, The Academy (Jun 2024)", "Author, Maintainer, Tool Foundation, application", "Version v1.2.0"):
+            self.assertIn(printed, text)
+        # A layout from before the photo, without graphicx: it builds, leaving the photo out.
+        layout = folder / "input/format.tex"
+        layout.write_text(layout.read_text(encoding="utf-8").replace("\\usepackage{graphicx}", "%"), encoding="utf-8")
+        window.run_build()
+        self.built(window)
+
+    def test_url_fields_can_be_tested_and_opened(self):
+        from PySide6.QtWidgets import QPushButton
+
+        from tests.test_links import site
+
+        base, stop = site()
+        self.addCleanup(stop)
+        resume = json.loads(json.dumps(RESUME))
+        resume["basics"]["url"] = base + "/200"
+        resume["basics"]["profiles"] = [{"network": "Gone", "url": base + "/404"}]
+        window = self.open(self.folder("links", resume))
+        buttons = lambda text: [b for b in window.blocks.findChildren(QPushButton) if b.text() == text]  # noqa: E731
+        self.assertEqual(len(buttons("Test")), len(buttons("Open")))  # a pair beside each address field
+        opened = []
+        self.addCleanup(setattr, main.QDesktopServices, "openUrl", main.QDesktopServices.openUrl)
+        main.QDesktopServices.openUrl = lambda url: opened.append(url.toString()) or True
+        buttons("Open")[0].click()
+        self.assertEqual(opened, [base + "/200"])
+        works, gone = buttons("Test")[:2]  # the website's, and the profile link's
+        works.click()
+        wait(lambda: works.text() == "✓ Test")
+        self.assertIn("works", window.status.text())
+        gone.click()
+        wait(lambda: gone.text() == "✗ Test")
+        self.assertIn("no such page", window.status.text())
 
     def test_exports_and_failures(self):
         window = self.open(self.folder("one", RESUME))

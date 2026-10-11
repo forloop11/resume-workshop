@@ -5,7 +5,8 @@ edited highlighted there.
 Unsaved text can't be built in the resume folder itself without saving it,
 so the build (build.py) happens in a scratch copy: a temporary folder with
 the editor's current resume.json and section_order.yaml (and geometry.yaml,
-which Page Setup may be editing), and a link to the folder's format.tex.
+which Page Setup may be editing), and a link to the folder's format.tex;
+pdflatex finds anything else the resume uses, such as a photo, in the folder.
 input/ and output/ are never touched; output/resume.pdf still changes only
 when the resume is built.
 """
@@ -118,7 +119,8 @@ class LivePreview(QObject):
         run = self.run = object()
         try:
             build.write_tex(self.root)
-            self.process = build.run_latex(self, self.root, lambda succeeded, output: self._finished(run, content, succeeded, output), passes=1)
+            self.process = build.run_latex(self, self.root, lambda succeeded, output: self._finished(run, content, succeeded, output), passes=1,
+                                          files=self.win.root)
         except build.BuildError as error:
             self._failed(content, self._reason(str(error)))
 

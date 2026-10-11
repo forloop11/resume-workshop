@@ -11,7 +11,8 @@ its page break.
 import re
 from pathlib import Path
 
-from jsonresume import ISO8601, SRC, date_range, experience_groups, group_dates, load, tex, year_range
+from generate_header import link_text
+from jsonresume import ISO8601, SRC, date_range, experience_groups, format_date, group_dates, link, load, mentions, tex, year_range
 
 ORDER_SRC = Path("input/section_order.yaml")
 DEST = Path("interim/resume_content.tex")
@@ -105,6 +106,60 @@ def entry(title, text):
     return f"{{\\color{{accent}}\\textbf{{{title}}}}}\\par\\vspace{{2pt}}"
 
 
+def first(roles, key):
+    """An employer-level field (url, description, companyStack): the first
+    of the employer's roles to have it."""
+    return next((role[key] for role in roles if role.get(key)), "")
+
+
+def award_title(award):
+    """ "Title, awarder (Jun 2024)", leaving out what the title says already."""
+    title = award["title"]
+    if award.get("awarder") and not mentions(title, award["awarder"]):
+        title += f", {award['awarder']}"
+    if award.get("date") and not mentions(award["title"], award["date"][:4]):
+        title += f" ({format_date(award['date'])})"
+    return title
+
+
+def certificate_text(cert):
+    """ "name, issuer (2024)", as plain text."""
+    text = cert["name"] + (f", {cert['issuer']}" if cert.get("issuer") else "")
+    if cert.get("date") and not mentions(cert["name"], cert["date"][:4]):
+        text += f" ({cert['date'][:4]})"
+    return text
+
+
+def project_details(project, sep=" -- "):
+    """A project's roles, entity, type, and dates, as plain text: "Developer, Acme, application, 2024 -- Present"."""
+    dates = date_range(project.get("startDate"), project.get("endDate"), sep=sep)
+    return ", ".join(part for part in (*(project.get("roles") or []), project.get("entity"), project.get("type"), dates) if part)
+
+
+def early_career_text(entry, name=None):
+    """ "position, name, location (years), description, summary: highlights",
+    as plain text; `name` stands in for the name (already LaTeX, as a link)."""
+    item = ", ".join(part for part in (entry["position"], name or entry["name"], entry.get("location")) if part)
+    years = year_range(entry.get("startDate"), entry.get("endDate"))
+    if years:
+        item += f" ({years})"
+    for key in ("description", "summary"):
+        if entry.get(key):
+            item += f", {entry[key]}"
+    if entry.get("highlights"):
+        item += ": " + "; ".join(entry["highlights"])
+    return item
+
+
+def meta_parts(meta):
+    """Document info as plain text, without the canonical link: ["Version v1.0.0", "Updated Dec 2017"]."""
+    modified = (meta.get("lastModified") or "")[:10]
+    return [part for part in (
+        f"Version {meta['version']}" if meta.get("version") else "",
+        f"Updated {format_date(modified) if ISO8601.match(modified) else meta['lastModified']}" if modified else "",
+    ) if part]
+
+
 def role_body(role):
     """A work or volunteer entry's summary paragraph and highlight bullets."""
     lines = []
@@ -129,10 +184,13 @@ def render_competencies(data):
 def render_experience(data):
     lines = ["\\section{Professional Experience}", ""]
     for group_index, roles in enumerate(experience_groups(data.get("work", []))):
-        first = roles[0]
+        head = roles[0]
         # The first role's pagebreakBefore breaks before the employer's name.
-        lines += page_break(first, group_index)
-        lines += [f"\\position{{{tex(first['name'])}}}{{{tex(first.get('location', ''))}}}{{{group_dates(roles)}}}"]
+        lines += page_break(head, group_index)
+        name = link(first(roles, "url"), tex(head["name"]))
+        lines += [f"\\position{{{name}}}{{{tex(head.get('location', ''))}}}{{{group_dates(roles)}}}"]
+        if first(roles, "description"):
+            lines += [f"{{\\small\\itshape\\color{{muted}}{tex(first(roles, 'description'))}\\par}}\\vspace{{1pt}}"]
         for role_index, role in enumerate(roles):
             if len(roles) > 1:
                 command, args = "subrole", f"{{{tex(role['position'])}}}{{{date_range(role.get('startDate'), role.get('endDate'))}}}"
@@ -144,7 +202,7 @@ def render_experience(data):
             if role.get("stack"):
                 lines += [f"\\stack{{{tex(role['stack'])}}}"]
             lines += [""]
-        company_stack = next((role["companyStack"] for role in roles if role.get("companyStack")), "")
+        company_stack = first(roles, "companyStack")
         if company_stack:
             lines += [f"\\stack{{{tex(company_stack)}}}", ""]
     return lines
@@ -154,13 +212,12 @@ def render_early_career(data):
     entries = early_career(data)
     items = []
     for entry in entries:
-        item = f"{tex(entry['position'])}, {tex(entry['name'])}"
-        years = year_range(entry.get("startDate"), entry.get("endDate"))
-        if years:
-            item += f" ({years})"
-        if entry.get("summary"):
-            item += f", {tex(entry['summary'])}"
-        items.append(item)
+        if entry.get("url"):
+            # Escape around the name, which becomes a link.
+            before, after = early_career_text(entry, name="\0").split("\0")
+            items.append(tex(before) + link(entry["url"], tex(entry["name"])) + tex(after))
+        else:
+            items.append(tex(early_career_text(entry)))
     return ["\\section{Early Career}", "", "{\\small\\color{muted}", *joined(items, entries), "}", ""]
 
 
@@ -169,7 +226,8 @@ def render_volunteer(data):
     for index, role in enumerate(data["volunteer"]):
         lines += page_break(role, index)
         dates = date_range(role.get("startDate"), role.get("endDate"))
-        lines += [f"\\position{{{tex(role['organization'])}}}{{}}{{{dates}}}", f"\\role{{{tex(role['position'])}}}"]
+        organization = link(role.get("url"), tex(role["organization"]))
+        lines += [f"\\position{{{organization}}}{{}}{{{dates}}}", f"\\role{{{tex(role['position'])}}}"]
         lines += role_body(role) + [""]
     return lines
 
@@ -184,22 +242,23 @@ def render_education(data):
         degree = education.get("studyType", "")
         if education.get("area"):
             degree = f"{degree} in {education['area']}" if degree else education["area"]
-        place = ", ".join(part for part in (education["institution"], education.get("score")) if part)
+        place = ", ".join(part for part in (link(education.get("url"), tex(education["institution"])), tex(education.get("score") or "")) if part)
         start, end = education.get("startDate"), education.get("endDate")
         years = year_range(start, end) if start else (end or "")[:4]
         spacing = " \\\\[2pt]" if index == 0 else " \\\\"
         if education.get("courses"):
-            lines.append(f"  \\textbf{{{tex(degree)}}}, {tex(place)} & {{\\small\\color{{muted}}{years}}} \\\\")
+            lines.append(f"  \\textbf{{{tex(degree)}}}, {place} & {{\\small\\color{{muted}}{years}}} \\\\")
             # \textcolor, not \color: \color at the very start of a p-column cell adds a blank line above it.
             lines.append(f"  {{\\small\\textcolor{{muted}}{{Courses: {dots(education['courses'])}}}}} &{spacing}")
         else:
-            lines.append(f"  \\textbf{{{tex(degree)}}}, {tex(place)} & {{\\small\\color{{muted}}{years}}}{spacing}")
+            lines.append(f"  \\textbf{{{tex(degree)}}}, {place} & {{\\small\\color{{muted}}{years}}}{spacing}")
     return lines + ["\\end{tabularx}", ""]
 
 
 def render_certifications(data):
     certs = data["certificates"]
-    items = [tex(cert["name"] + (f", {cert['issuer']}" if cert.get("issuer") else "")) for cert in certs]
+    # The certificate's name is the link; the rest follows it.
+    items = [link(cert.get("url"), tex(cert["name"])) + tex(certificate_text(cert)[len(cert["name"]):]) for cert in certs]
     return ["\\section{Selected Certifications}", "", *joined(items, certs), ""]
 
 
@@ -207,7 +266,7 @@ def render_recognition(data):
     lines = ["\\section{Recognition \\& Speaking}", ""]
     for index, award in enumerate(data["awards"]):
         lines += page_break(award, index)
-        lines += [entry(tex(award["title"]), tex(award.get("summary", ""))), ""]
+        lines += [entry(tex(award_title(award)), tex(award.get("summary", ""))), ""]
     return lines
 
 
@@ -220,7 +279,7 @@ def render_publications(data):
         if year:
             source = f"{source} ({year})" if source else year
         text = ". ".join(part for part in (source, publication.get("summary")) if part)
-        lines += [entry(tex(publication["name"]), tex(text)), ""]
+        lines += [entry(link(publication.get("url"), tex(publication["name"])), tex(text)), ""]
     return lines
 
 
@@ -228,7 +287,10 @@ def render_projects(data):
     lines = ["\\section{Selected Independent Projects}", ""]
     for index, project in enumerate(data["projects"]):
         lines += page_break(project, index)
-        lines += [entry(tex(project["name"]), tex(project.get("description", "")))]
+        title = link(project.get("url"), tex(project["name"]))
+        if project_details(project):
+            title += f" {{\\mdseries\\small\\color{{muted}}({tex(project_details(project))})}}"
+        lines += [entry(title, tex(project.get("description", "")))]
         lines += role_body({"highlights": project.get("highlights")})
         if project.get("keywords"):
             lines += [f"\\stack{{{dots(project['keywords'])}}}"]
@@ -290,7 +352,18 @@ def render(data, section_order):
             lines += ["\\newpage", ""]
         break_next = False
         lines.extend(SECTION_RENDERERS[section](data))
-    return "\n".join(lines)
+    return "\n".join(lines + render_meta(data.get("meta") or {}))
+
+
+def render_meta(meta):
+    """The document info (meta), as a small line at the foot of the last page."""
+    parts = [tex(part) for part in meta_parts(meta)]
+    if meta.get("canonical"):
+        parts.append(f"\\href{{{meta['canonical']}}}{{{tex(link_text(meta['canonical']))}}}")
+    if not parts:
+        return []
+    # \nopagebreak: the line stays on the page it ends, at its foot.
+    return ["\\par\\nopagebreak\\vfill", f"{{\\footnotesize\\color{{muted}}\\hfill {' $\\cdot$ '.join(parts)}\\par}}", ""]
 
 
 def section_problems(data, section):

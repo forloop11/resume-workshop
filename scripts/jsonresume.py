@@ -16,6 +16,10 @@ on every object:
 - work[].earlyCareer     list the entry in the compact Early Career section
                          instead of Professional Experience
 
+Every field of the schema is printed when it is filled in (the README's table
+says where), bar `$schema` itself. An entry's `url` isn't printed as text:
+it makes the entry's name a link, with link().
+
 scripts/generate_schema.py adds them to the schema as output/resume-workshop.json.
 
 Standard library only, like the generators that use it.
@@ -54,6 +58,28 @@ def load(path=SRC):
 def tex(text):
     """Plain resume text -> LaTeX."""
     return "".join(TEX_CHARS.get(ch, ch) for ch in text)
+
+
+# Characters a URL can't keep as they are inside a LaTeX command's argument.
+URL_CHARS = {"%": r"\%", "#": r"\#", "&": r"\&", "\\": r"\%5C", "{": r"\%7B", "}": r"\%7D", "^": r"\%5E", " ": r"\%20"}
+
+
+def link(url, text):
+    """LaTeX `text` as a link to `url`, looking as it would without one
+    (the layout colors links, which is for the header's); just the text
+    when there's no URL."""
+    if not url:
+        return text
+    target = "".join(URL_CHARS.get(ch, ch) for ch in url)
+    return f"{{\\hypersetup{{urlcolor=.}}\\href{{{target}}}{{{text}}}}}"
+
+
+def mentions(text, part):
+    """Whether `text` already says `part`, so it needn't be printed again:
+    an award titled "Acme Prize (2024)" has no use for "Acme" or "2024"
+    after it. Letters and digits only, whatever their case."""
+    squeeze = lambda value: "".join(ch for ch in str(value).lower() if ch.isalnum())  # noqa: E731
+    return bool(squeeze(part)) and squeeze(part) in squeeze(text)
 
 
 def format_date(value):

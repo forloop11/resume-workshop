@@ -159,14 +159,16 @@ def missing(root):
     return None
 
 
-def run_latex(parent, root, finished, passes=2):
+def run_latex(parent, root, finished, passes=2, files=None):
     """Starts pdflatex on the folder's input/format.tex, as `make pdf` does
     once write_tex() has run, without blocking the window. Calls
     finished(succeeded, output) when it ends, however it ends, and returns
     the QProcess. Raises BuildError if there is no pdflatex.
 
     Like `make pdf` it runs pdflatex twice, the second time for the PDF's
-    bookmarks; `passes` is 1 where what the last build left will do."""
+    bookmarks; `passes` is 1 where what the last build left will do.
+    `files` is a second folder to find files in that `root` lacks: the
+    resume folder, when `root` is the live preview's partial copy of it."""
     path = _search_path()
     program = shutil.which("pdflatex", path=path)
     if program is None:
@@ -175,6 +177,9 @@ def run_latex(parent, root, finished, passes=2):
     process = QProcess(parent)
     environment = QProcessEnvironment.systemEnvironment()
     environment.insert("PATH", path)  # pdflatex runs helpers of its own
+    if files:
+        # After the folder itself, and before TeX's own (the empty last entry).
+        environment.insert("TEXINPUTS", os.pathsep.join([".", str(files), environment.value("TEXINPUTS")]))
     process.setProcessEnvironment(environment)
     process.setWorkingDirectory(str(root))
     process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)

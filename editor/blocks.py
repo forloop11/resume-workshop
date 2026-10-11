@@ -8,7 +8,7 @@ always shows the current blocks, and vice versa. Text is plain Unicode
 (&, %, ·, –); scripts/generate_resume.py escapes it for LaTeX.
 
 Every property in the schema (etc/resume-schema.json) has a field here.
-Fields the generator doesn't print sit under each card's "More fields".
+The less usual ones sit under each card's "More fields"; all are printed.
 
 Each section, employer, role, and entry card has a "New page" toggle: a
 `pagebreak` line before the section in section_order.yaml, or
@@ -17,16 +17,20 @@ Each section, employer, role, and entry card has a "New page" toggle: a
 import copy
 import re
 
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import Qt, QTimer, QUrl
+from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout, QLabel, QPushButton, QScrollArea, QTextEdit, QVBoxLayout, QWidget
 from shiboken6 import isValid
 
+import links
 import themes
 from document import EMPLOYER_KEYS, LABELS, ORDER, RESUME, SECTIONS, Document, as_list, competency_duplicates, new_role, valid_date
 from widgets import AutoTextEdit, Chip, Collapsible, DragSurface, Handle, LineEdit, SortableList, restyle
 
 UNDO_LIMIT = 50
 PREVIEW_PHRASE_MIN = 4  # shorter text matches all over the PDF
+# Fields that hold a web address, which get Test and Open buttons.
+LINKS = {"url", "canonical"}
 # Fields that hold identifiers rather than words, so aren't spell-checked.
 NOT_WORDS = {"email", "phone", "url", "image", "username", "postalCode", "countryCode", "canonical", "version", "lastModified"}
 
@@ -99,6 +103,9 @@ class BlocksEditor(QWidget):
         self.cards = []  # the section and employer cards, for Expand/Collapse all
         self.last_field = None  # most recently focused field, for the · and – buttons
         self.duplicate_notes, self.duplicate_tag = [], None  # see update_duplicates()
+        self.checker = links.Checker(self)  # tests the addresses in URL fields
+        self.checker.checked.connect(self._link_tested)
+        self.testing = {}  # address being tested -> its Test button
         self._scroll_to = None
 
         self.undo_button = button("Undo", self.undo)
@@ -204,15 +211,51 @@ class BlocksEditor(QWidget):
 
     # --- fields ------------------------------------------------------------------
 
-    def _field(self, control, text, required, hint):
+    def _field(self, control, text, required, hint, beside=()):
+        """A labeled control, with the `beside` widgets to its right."""
         self.controls.append(control)
         box = QWidget()
         layout = QVBoxLayout(box)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(3)
         layout.addWidget(label(text + (f'<span style="color:{themes.color("hover")}"> *</span>' if required else ""), hint=hint))
-        layout.addWidget(control)
+        line = QHBoxLayout()
+        line.setSpacing(4)
+        line.addWidget(control, 1)
+        for widget in beside:
+            line.addWidget(widget, 0, Qt.AlignmentFlag.AlignTop)
+        layout.addLayout(line)
         return box
+
+    def link_buttons(self, control):
+        """Test and Open buttons for a field holding a web address."""
+        def address():
+            url = links.address(control.toPlainText())
+            if url is None:
+                self.win.report("That isn't a web address to open or test." if control.toPlainText().strip() else "There's no address here yet.", "error")
+            return url
+
+        def test():
+            url = address()
+            if url:
+                test_button.setText("…")
+                self.testing[url] = test_button
+                self.win.report(f"Testing {url}…")
+                self.checker.start(url)
+
+        def open_link():
+            url = address()
+            if url and not QDesktopServices.openUrl(QUrl(url)):
+                self.win.report(f"Could not open {url}.", "error")
+
+        test_button = button("Test", test, "tool", "Check that this address works")
+        return [test_button, button("Open", open_link, "tool", "Open this address in your browser")]
+
+    def _link_tested(self, url, result, message):
+        self.win.report(message, result)
+        tested = self.testing.pop(url, None)
+        if tested is not None and isValid(tested):  # the card may have been redrawn since
+            tested.setText({links.WORKS: "✓ Test", links.BROKEN: "✗ Test"}.get(result, "? Test"))
 
     def field(self, obj, key, text, *, multiline=False, required=False, date=False, placeholder="", hint=None, on_input=None):
         """A line edit (or auto-growing text box, with multiline) bound to
@@ -240,7 +283,7 @@ class BlocksEditor(QWidget):
                 on_input()
 
         on_edit(control, changed)
-        return self._field(control, text, required, hint)
+        return self._field(control, text, required, hint, self.link_buttons(control) if key in LINKS else ())
 
     def lines_field(self, obj, key, text, *, hint=None, required=False, on_input=None):
         """A text box editing obj[key], a list of strings, one item per line.
@@ -269,7 +312,7 @@ class BlocksEditor(QWidget):
             self.field(obj, "endDate", "End", date=True, placeholder=end_placeholder or placeholder, hint=hint))
 
     def more(self, *children):
-        """Fields the generator doesn't print, folded away; open if any is filled in."""
+        """The less usual fields, folded away; open if any is filled in."""
         box = column(*children)
         filled = any(control.toPlainText() for control in box.findChildren(QTextEdit))
         card = Collapsible("more", filled)
@@ -365,20 +408,20 @@ class BlocksEditor(QWidget):
                 row(self.field(location, "address", "Street address"),
                     self.field(location, "postalCode", "Postal code")),
                 row(self.field(location, "countryCode", "Country code", placeholder="US"),
-                    self.field(basics, "image", "Photo URL", placeholder="https://"))),
+                    self.field(basics, "image", "Photo", placeholder="input/photo.png", hint="an image file in the resume folder"))),
             label("Profile links", hint="printed in this order"),
             self.entry_list(basics["profiles"], "profiles", lambda p: [
                 row(self.field(p, "network", "Network", placeholder="LinkedIn"),
                     self.field(p, "username", "Username", hint="link text ends here"),
                     self.field(p, "url", "URL", required=True, placeholder="https://"),
-                    stretch=[1, 1, 2]),
+                    stretch=[2, 2, 5]),
             ], add_label="+ Add profile link", blank=lambda: {"network": "", "url": ""}, pagebreak=False))
 
     def render_meta(self):
         """meta: details about the document itself, for JSON Resume tools."""
         meta = self.doc.top_level("meta", dict)
         return self.card(
-            "meta", "Document info", "meta · not printed", False,
+            "meta", "Document info", "meta · printed at the foot of the last page", False,
             row(self.field(meta, "canonical", "Canonical URL", placeholder="https://", hint="where this resume.json is published"),
                 self.field(meta, "version", "Version", placeholder="v1.0.0"),
                 self.field(meta, "lastModified", "Last modified", placeholder="2026-10-06T12:00:00")))
@@ -461,9 +504,9 @@ class BlocksEditor(QWidget):
                 field(e, "summary", "Summary", multiline=True, hint="printed after the dates"),
                 more(
                     row(field(e, "location", "Location"),
-                        field(e, "url", "Employer website", placeholder="https://")),
+                        field(e, "url", "Employer website", placeholder="https://", hint="makes the name a link")),
                     field(e, "description", "Employer description"),
-                    lines_field(e, "highlights", "Highlights", hint="one per line")),
+                    lines_field(e, "highlights", "Highlights", hint="one per line, printed after the summary")),
             ], add_label="+ Add early career entry", blank=lambda: {"name": "", "position": "", "earlyCareer": True})
         if key == "volunteer":
             return self.entry_list(doc.list_for(key), "volunteer", lambda v: [
@@ -472,7 +515,7 @@ class BlocksEditor(QWidget):
                 dates(v, end_placeholder="Present"),
                 field(v, "summary", "Summary", multiline=True, hint="printed above the highlights"),
                 lines_field(v, "highlights", "Highlights", hint="one per line, printed as bullets"),
-                more(field(v, "url", "Website", placeholder="https://")),
+                more(field(v, "url", "Website", placeholder="https://", hint="makes the organization a link")),
             ], add_label="+ Add volunteer role", blank=lambda: {"organization": "", "position": ""})
         if key == "competencies":
             return self.entry_list(doc.list_for(key), "skills", lambda s: [
@@ -489,23 +532,23 @@ class BlocksEditor(QWidget):
                     field(e, "score", "Score", placeholder="3.8 GPA", hint="printed after the institution")),
                 dates(e, placeholder="YYYY", hint="printed as years"),
                 lines_field(e, "courses", "Courses", hint="one per line, printed under the entry"),
-                more(field(e, "url", "Institution website", placeholder="https://")),
+                more(field(e, "url", "Institution website", placeholder="https://", hint="makes the institution a link")),
             ], add_label="+ Add education", blank=lambda: {"institution": "", "studyType": ""})
         if key == "certifications":
             return self.entry_list(doc.list_for(key), "certificates", lambda c: [
                 row(field(c, "name", "Name", required=True),
                     field(c, "issuer", "Issuer", hint="printed after the name")),
                 more(
-                    row(field(c, "date", "Date", date=True),
-                        field(c, "url", "URL", placeholder="https://"))),
+                    row(field(c, "date", "Date", date=True, hint="printed as the year"),
+                        field(c, "url", "URL", placeholder="https://", hint="makes the name a link"))),
             ], add_label="+ Add certification", blank=lambda: {"name": ""})
         if key == "recognition":
             return self.entry_list(doc.list_for(key), "awards", lambda a: [
                 field(a, "title", "Title", required=True),
                 field(a, "summary", "Summary", multiline=True),
                 more(
-                    row(field(a, "date", "Date", date=True, placeholder="YYYY"),
-                        field(a, "awarder", "Awarder"))),
+                    row(field(a, "date", "Date", date=True, placeholder="YYYY", hint="printed unless the title has the year"),
+                        field(a, "awarder", "Awarder", hint="printed unless the title names it"))),
             ], add_label="+ Add entry", blank=lambda: {"title": ""})
         if key == "publications":
             return self.entry_list(doc.list_for(key), "publications", lambda pub: [
@@ -513,7 +556,7 @@ class BlocksEditor(QWidget):
                     field(pub, "publisher", "Publisher", hint="printed after the title")),
                 field(pub, "releaseDate", "Release date", date=True, hint="printed as the year"),
                 field(pub, "summary", "Summary", multiline=True),
-                more(field(pub, "url", "URL", placeholder="https://")),
+                more(field(pub, "url", "URL", placeholder="https://", hint="makes the title a link")),
             ], add_label="+ Add publication", blank=lambda: {"name": ""})
         if key == "projects":
             return self.entry_list(doc.list_for(key), "projects", lambda p: [
@@ -523,10 +566,10 @@ class BlocksEditor(QWidget):
                 lines_field(p, "keywords", "Keywords", hint="one per line, printed as a Stack line"),
                 more(
                     dates(p, end_placeholder="Present"),
-                    row(field(p, "url", "URL", placeholder="https://"),
+                    row(field(p, "url", "URL", placeholder="https://", hint="makes the name a link"),
                         field(p, "entity", "Entity", placeholder="Company or organization"),
                         field(p, "type", "Type", placeholder="application")),
-                    lines_field(p, "roles", "Your roles", hint="one per line")),
+                    lines_field(p, "roles", "Your roles", hint="one per line, printed after the name")),
             ], add_label="+ Add project", blank=lambda: {"name": ""})
         if key == "languages":
             return self.entry_list(doc.list_for(key), "languages", lambda entry: [
@@ -614,8 +657,9 @@ class BlocksEditor(QWidget):
                 self.field(group, "location", "Location", on_input=update_title)),
             self.field(group, "companyStack", "Company stack", hint="printed once, after all roles"),
             self.more(
-                self.field(group, "url", "Employer website", placeholder="https://", on_input=lambda: copy_to_roles("url")),
-                self.field(group, "description", "Employer description", placeholder="Construction equipment manufacturer", on_input=lambda: copy_to_roles("description"))),
+                self.field(group, "url", "Employer website", placeholder="https://", hint="makes the name a link", on_input=lambda: copy_to_roles("url")),
+                self.field(group, "description", "Employer description", placeholder="Construction equipment manufacturer", hint="printed under the name",
+                           on_input=lambda: copy_to_roles("description"))),
             role_list,
         ]:
             card.content.addWidget(child)

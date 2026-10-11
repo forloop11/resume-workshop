@@ -110,33 +110,43 @@ Write the text as plain text, not LaTeX: use `&`, `%`, `·` (middle dot), and
 as `$\cdot$`, `–` as `--`). Dates are ISO 8601 (`2012-01`, or just `2005`) and
 print as `Jan 2012` / `2005`. A role with no `endDate` prints as `Present`.
 
-Every section of the JSON Resume schema has a resume section. This is how
-the fields map onto the printed resume (the section id is what
+Every field of the JSON Resume schema is printed when it is filled in, apart
+from `$schema` itself, and every section of the schema has a resume section.
+This is how the fields map onto the printed resume (the section id is what
 `section_order.yaml` uses):
 
 | Printed (section id) | JSON Resume |
 | --- | --- |
-| Header | `basics`: `name`, `label` (title), `location.city`/`region`, `phone`, `email`, then `url` and `profiles[].url` as links. A link's text is its URL without the scheme or `www.`, cut off after the profile's `username` |
+| Header | `basics`: `image` (a photo, above the name), `name`, `label` (title), `location` as `address, city, region postalCode, countryCode`, `phone`, `email`, then `url` and `profiles[]` as links. A link's text is its URL without the scheme or `www.`, cut off after the profile's `username`, with the `network` before it unless the URL names it already (`Mastodon: example.social/@me`, but `linkedin.com/in/me`). A profile with a `username` and no `url` prints as `network: username` |
 | Professional Summary (`summary`) | `basics.summary` |
-| Professional Experience (`experience`) | `work[]`, one entry per position. Consecutive entries with the same `name` and `location` print as one employer with several roles. A role prints its `summary` (if any) above its `highlights` bullets |
-| Early Career (`early_career`) | `work[]` entries with `"earlyCareer": true`, printed as `position, name (years), summary` |
+| Professional Experience (`experience`) | `work[]`, one entry per position. Consecutive entries with the same `name` and `location` print as one employer with several roles, with the employer's `description` under its name. A role prints its `summary` (if any) above its `highlights` bullets |
+| Early Career (`early_career`) | `work[]` entries with `"earlyCareer": true`, printed as `position, name, location (years), description, summary: highlights` |
 | Volunteer Experience (`volunteer`) | `volunteer[]`: `organization`, dates, `position`, `summary`, and `highlights` bullets, laid out like a job |
 | Education (`education`) | `education[]`: `studyType in area, institution, score`, the `startDate`–`endDate` years, and `courses` joined with `·` on a line below |
-| Selected Certifications (`certifications`) | `certificates[]`: `name, issuer` |
-| Recognition & Speaking (`recognition`) | `awards[]`: `title` and `summary` |
+| Selected Certifications (`certifications`) | `certificates[]`: `name, issuer (year)`, the year from `date` |
+| Recognition & Speaking (`recognition`) | `awards[]`: `title, awarder (date)` and `summary`. The `awarder` and the `date` are left out when the title has them already, as in "Acme Prize (2024)" |
 | Publications (`publications`) | `publications[]`: `name`, then `publisher (year). summary` |
-| Selected Independent Projects (`projects`) | `projects[]`: `name` and `description`, `highlights` bullets, and `keywords` as a Stack line |
+| Selected Independent Projects (`projects`) | `projects[]`: `name (roles, entity, type, dates)` and `description`, `highlights` bullets, and `keywords` as a Stack line |
 | Languages (`languages`) | `languages[]`: `language (fluency)`, joined with `·` |
 | Interests (`interests`) | `interests[]`: `name`, then `keywords` joined with `·` |
 | References (`references`) | `references[]`: `name` and `reference` |
 | Core Competencies (`competencies`) | `skills[]`: `name (level)`, then `keywords` joined with `·` |
+| A line at the foot of the last page | `meta`: `Version version · Updated lastModified · canonical` (as a link) |
 
-Fields not listed above are kept in the file and editable in the block
-editor, but aren't printed: `basics.image`, `location.address`/`postalCode`/`countryCode`,
-the `url` on entries (only `basics.url` and the profile links print),
-`work[].description`, an early-career entry's `location` and `highlights`,
-award `date`/`awarder`, certificate `date`, project `roles`/`entity`/`type`/dates,
-and `meta`.
+Two kinds of field print as something other than text:
+
+- An entry's `url` (on `work`, `volunteer`, `education`, `certificates`,
+  `publications`, and `projects`) makes the entry's name a link in the PDF,
+  looking as it does without one. The text resume has no links, and leaves
+  these out.
+- `basics.image` is a photo for the header. It has to be an image file
+  (PNG, JPEG, or PDF), given as a path from the resume folder such as
+  `input/photo.png`: pdflatex can't fetch a web address, so one of those
+  prints nothing. The layout needs `\usepackage{graphicx}`, which
+  [input/format.tex](input/format.tex) has; add that line to a resume
+  folder's own `format.tex` made before this.
+
+To keep a field out of the resume, leave it empty.
 
 [input/section_order.yaml](input/section_order.yaml) sets the order of these
 sections; omit a section to leave it out of the resume. All of them are listed
@@ -476,7 +486,7 @@ README:
 
 - The **Header** card edits `basics`: name, title, contact details, website,
   and the profile links, which print in the order shown. Its **More fields**
-  holds the street address, postal code, country code, and photo URL.
+  holds the street address, postal code, country code, and photo.
 - The **Sections** card sets the section order. Drag a section into the second
   row to leave it out of the resume; its content is kept in `resume.json`. A
   section that starts on a new page is marked "new page".
@@ -489,9 +499,16 @@ Below those, every JSON Resume section has a collapsible card, and a final
 - Sections left out of the resume are marked "not in resume" and start
   collapsed while empty. Sections in the resume with no entries yet are
   marked "empty · not printed".
-- Every field in the schema has a place in these cards. Fields that aren't
-  printed are under each entry's **More fields**, which opens by itself when
-  one of them is filled in.
+- Every field in the schema has a place in these cards. The less usual ones
+  are under each entry's **More fields**, which opens by itself when one of
+  them is filled in.
+- Each field that holds a web address has two small buttons beside it.
+  **Open** opens the address in your browser. **Test** asks the site for the
+  page and says, under the window's title and on the button, whether it
+  works (✓), is broken (✗), or couldn't be told (?): some sites, LinkedIn
+  among them, turn away anything but a browser, and those are worth opening
+  to be sure. An address typed without `https://` is tried with it. Nothing
+  is looked up until you click.
 - Opening an empty section doesn't add anything to `resume.json` until you
   add an entry.
 
@@ -591,6 +608,7 @@ it uses the same rules as `make build` and `make validate`. Its own code is in
 - [live.py](editor/live.py): the live preview.
 - [preview.py](editor/preview.py): the PDF view.
 - [proofing.py](editor/proofing.py): spelling and grammar checking.
+- [links.py](editor/links.py): testing a web address.
 - [find.py](editor/find.py): Find and Replace.
 - [page_setup.py](editor/page_setup.py): the Page Setup dialog.
 - [project.py](editor/project.py): resume folders.

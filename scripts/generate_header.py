@@ -3,7 +3,9 @@
 
 Reads the resume's contact-header details (name, label, location, phone,
 email, profiles) from the JSON Resume document and emits a LaTeX fragment
-that input/format.tex pulls in with \\input{interim/header.tex}.
+that input/format.tex pulls in with \\input{interim/header.tex}. The
+fragment also sets the PDF's title, author, and subject from the name and
+label, so the file's properties are the resume's own.
 
 No third-party dependencies (this repo intentionally avoids anything beyond
 standard TeX Live and the Python standard library for the build).
@@ -45,6 +47,16 @@ def header_fields(basics):
     return fields, links
 
 
+# Characters tex() writes in math mode or as ligatures, which a PDF's
+# properties can't hold, as the text commands hyperref can convert.
+PDF_CHARS = {"·": r"\textperiodcentered{}", "–": r"\textendash{}", "—": r"\textemdash{}"}
+
+
+def pdf_string(text):
+    """Plain resume text -> LaTeX for a PDF property (\\hypersetup)."""
+    return "".join(PDF_CHARS.get(ch) or escape(ch) for ch in text)
+
+
 def render(fields, links):
     required = {"name": "name", "title": "label", "location": "location.city", "phone": "phone", "email": "email"}
     missing = [f"basics.{source}" for key, source in required.items() if key not in fields]
@@ -68,6 +80,11 @@ def render(fields, links):
 
     return f"""%% GENERATED FILE -- do not edit directly.
 %% Edit {SRC} and run `make header` (or `make build`) to regenerate.
+\\hypersetup{{
+  pdftitle={{{pdf_string(fields["name"])} Resume}},
+  pdfauthor={{{pdf_string(fields["name"])}}},
+  pdfsubject={{{pdf_string(fields["title"])}}}
+}}
 \\begin{{center}}
   {{\\Huge\\bfseries\\color{{accent}}{name}}}\\\\[3pt]
   {{\\small\\color{{accent}}{title}}}\\\\[4pt]

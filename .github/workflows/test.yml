@@ -1,0 +1,31 @@
+# Runs the tests (`make test`) on every push and pull request, with what the
+# editor's tests need to build a resume without a display: its pip packages,
+# the libraries Qt loads, and the TeX packages input/format.tex uses.
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - name: Install the system packages
+        run: >
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends
+          make texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+          libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3 libnss3 libxcomposite1 libxdamage1 libxrandr2 libxtst6 libasound2t64
+          libenchant-2-2 hunspell-en-us
+      - name: Install the pip packages
+        run: python3 -m pip install -r requirements.txt
+      - name: Run the tests
+        run: make test

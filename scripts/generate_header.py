@@ -57,13 +57,18 @@ def pdf_string(text):
     return "".join(PDF_CHARS.get(ch) or escape(ch) for ch in text)
 
 
-def render(fields, links):
+def check(fields, links):
+    """Exits, saying what is missing, unless the header has all it needs."""
     required = {"name": "name", "title": "label", "location": "location.city", "phone": "phone", "email": "email"}
     missing = [f"basics.{source}" for key, source in required.items() if key not in fields]
     if missing:
         sys.exit(f"{SRC}: missing required field(s): {', '.join(missing)}")
     if not links:
         sys.exit(f"{SRC}: basics needs a url or at least one entry under profiles")
+
+
+def render(fields, links):
+    check(fields, links)
 
     # Uppercase before escaping, so LaTeX commands from escape() (e.g.
     # $\cdot$ for "·") aren't uppercased into undefined ones.

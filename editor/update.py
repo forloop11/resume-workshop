@@ -66,6 +66,7 @@ def latest():
             release = json.load(response)
     except urllib.error.HTTPError as error:
         if error.code == 404:
+            error.close()
             return None
         raise
     try:

@@ -11,7 +11,7 @@ Standard library only, like the other generators.
 """
 from pathlib import Path
 
-from generate_header import header_fields
+from generate_header import check, header_fields
 from generate_resume import ORDER_SRC, PAGEBREAK, early_career, parse_section_order, section_entries, validate
 from jsonresume import SRC, date_range, experience_groups, group_dates, load, year_range
 
@@ -46,9 +46,9 @@ def role_body(role):
 
 def text_header(basics):
     fields, links = header_fields(basics)
-    contact = [fields[key] for key in ("location", "phone", "email") if key in fields]
-    lines = [fields.get("name", "").upper(), fields.get("title", "").upper(), dots(contact), dots(link["text"] for link in links)]
-    return [line for line in lines if line]
+    check(fields, links)  # the PDF's header needs the same
+    contact = [fields[key] for key in ("location", "phone", "email")]
+    return [fields["name"].upper(), fields["title"].upper(), dots(contact), dots(link["text"] for link in links)]
 
 
 def text_summary(data):

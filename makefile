@@ -2,7 +2,7 @@ TEXFILE = input/format
 OUTPUT = output/resume
 DOCKER_IMAGE = resume-builder
 
-.PHONY: build pdf txt header geometry resume rxresume schema validate editor appimage install-appimage uninstall-appimage clean user docker-image docker-build
+.PHONY: build pdf txt header geometry resume rxresume schema validate test editor appimage install-appimage uninstall-appimage clean user docker-image docker-build
 
 header: input/resume.json scripts/generate_header.py scripts/jsonresume.py
 	python3 scripts/generate_header.py
@@ -28,6 +28,12 @@ schema: etc/resume-schema.json scripts/generate_schema.py scripts/generate_resum
 # schema (etc/rxresume-schema.json). Needs jsonschema (pip install -r requirements.txt).
 validate: input/resume.json etc/resume-schema.json etc/rxresume-schema.json scripts/validate_resume.py scripts/export_rxresume.py
 	python3 scripts/validate_resume.py
+
+# The tests in tests/. Those of the editor need its packages
+# (pip install -r requirements.txt), and make and pdflatex to compare builds;
+# they are skipped without them.
+test:
+	python3 -B -m unittest discover -s tests -t .
 
 # The desktop editor (editor/, a Qt app). Needs PySide6 and jsonschema
 # (pip install -r requirements.txt). It builds resumes itself, with these

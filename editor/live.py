@@ -2,26 +2,27 @@
 built into a PDF and shown in the preview, with the text of the field being
 edited highlighted there.
 
-Unsaved text can't be built in the project itself without saving it, so the
-build happens in a scratch copy: a temporary folder with the editor's current
-resume.json and section_order.yaml (and geometry.yaml, which Page Setup may
-be editing), and links to everything else `make pdf` reads. input/ and output/ are never touched; output/resume.pdf still changes
-only when a make target is run.
+Unsaved text can't be built in the resume folder itself without saving it,
+so the build (build.py) happens in a scratch copy: a temporary folder with
+the editor's current resume.json and section_order.yaml (and geometry.yaml,
+which Page Setup may be editing), and a link to the folder's format.tex.
+input/ and output/ are never touched; output/resume.pdf still changes only
+when the resume is built.
 """
 import json
 import shutil
 import tempfile
 from pathlib import Path
 
-from PySide6.QtCore import QObject, QProcess, QTimer
+from PySide6.QtCore import QObject, QTimer
 from PySide6.QtWidgets import QApplication
 
-from document import ORDER, RESUME, ROOT
+import build
+from document import ORDER, RESUME
 
 BUILD_DELAY = 900  # ms after the last change
 HIGHLIGHT_DELAY = 200  # ms after moving to another field
-LINKED = ["makefile", "scripts", "etc", "input/format.tex"]
-GEOMETRY = ROOT / "input" / "geometry.yaml"
+GEOMETRY = "geometry.yaml"
 
 
 class LivePreview(QObject):
@@ -34,15 +35,14 @@ class LivePreview(QObject):
         self.geometry = None  # geometry.yaml as Page Setup is editing it, while it is open
         self.shown = None  # the (resume.json, section_order.yaml, geometry.yaml) text the preview shows, once known
         self.failed = None  # ...and the text that last failed to build
-        self.process = None
+        self.process = None  # the pdflatex run in progress, if any
+        self.run = None  # ...and what tells it from one abandoned since
         self.again = False  # the text changed during a build
         self.scratch = tempfile.TemporaryDirectory(prefix="resume-workshop-preview-")
-        root = Path(self.scratch.name)
+        self.root = Path(self.scratch.name)
         for folder in ("input", "interim", "output"):
-            (root / folder).mkdir()
-        for name in LINKED:
-            (root / name).symlink_to(ROOT / name)
-        self.built = root / "output" / "resume.pdf"
+            (self.root / folder).mkdir()
+        self.built = self.root / build.PDF
         self.builds = 0
 
         self.build_timer = QTimer(self, singleShot=True, interval=BUILD_DELAY)
@@ -52,13 +52,22 @@ class LivePreview(QObject):
         QApplication.instance().focusChanged.connect(self._focus_changed)
         QApplication.instance().aboutToQuit.connect(self._stop)
 
+    def open(self):
+        """Starts afresh on the resume folder the window has just opened."""
+        self.build_timer.stop()
+        self._abandon()
+        self.geometry = self.shown = self.failed = None
+        link = self.root / build.TEX
+        link.unlink(missing_ok=True)
+        link.symlink_to(self.win.root / build.TEX)
+        self.show_output()
+
     def _content(self):
         return self.win.files[RESUME], self.win.files[ORDER], self._geometry() if self.geometry is None else self.geometry
 
-    @staticmethod
-    def _geometry():
+    def _geometry(self):
         try:
-            return GEOMETRY.read_text(encoding="utf-8")
+            return (self.win.root / "input" / GEOMETRY).read_text(encoding="utf-8")
         except OSError:
             return ""
 
@@ -78,7 +87,7 @@ class LivePreview(QObject):
         the saved files."""
         self.shown = self._saved() if built else None
         self._note("")
-        self.view.show_pdf(self.win.output_pdf)
+        self.view.show_pdf(self.win.pdf)
         if self.enabled:
             self.changed()
 
@@ -103,23 +112,20 @@ class LivePreview(QObject):
         except ValueError:
             self._failed(content, "resume.json isn't valid JSON")
             return
-        root = Path(self.scratch.name)
-        (root / "input" / RESUME).write_text(content[0], encoding="utf-8")
-        (root / "input" / ORDER).write_text(content[1], encoding="utf-8")
-        (root / "input" / GEOMETRY.name).write_text(content[2], encoding="utf-8")
-        process = self.process = QProcess(self)
-        process.setWorkingDirectory(str(root))
-        process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
-        process.finished.connect(lambda code, status: self._finished(content, status == QProcess.ExitStatus.NormalExit and code == 0))
-        process.errorOccurred.connect(lambda error: error == QProcess.ProcessError.FailedToStart and self._finished(content, False))
-        process.start("make", ["pdf"])
+        (self.root / "input" / RESUME).write_text(content[0], encoding="utf-8")
+        (self.root / "input" / ORDER).write_text(content[1], encoding="utf-8")
+        (self.root / "input" / GEOMETRY).write_text(content[2], encoding="utf-8")
+        run = self.run = object()
+        try:
+            build.write_tex(self.root)
+            self.process = build.run_latex(self, self.root, lambda succeeded, output: self._finished(run, content, succeeded, output))
+        except build.BuildError as error:
+            self._failed(content, self._reason(str(error)))
 
-    def _finished(self, content, succeeded):
-        process, self.process = self.process, None
-        if process is None:
-            return  # already handled (a failed start also reports "finished")
-        output = bytes(process.readAll()).decode("utf-8", "replace")
-        process.deleteLater()
+    def _finished(self, run, content, succeeded, output):
+        if run is not self.run:
+            return  # abandoned
+        self.process = None
         if succeeded:
             # The viewer gets a copy of its own, as it may still be reading
             # this build's PDF when the next build rewrites it.
@@ -130,7 +136,7 @@ class LivePreview(QObject):
             self.shown, self.failed = content, None
             self.view.show_pdf(snapshot, self.win.blocks.preview_phrases())
         else:
-            self._failed(content, self._reason(output))
+            self._failed(content, build.latex_error(output))
         self.again = False
         self.changed()
 
@@ -152,20 +158,23 @@ class LivePreview(QObject):
         else:
             self._note("")
 
-    @staticmethod
-    def _reason(output):
-        lines = [line.strip() for line in output.splitlines() if line.strip()]
-        latex = [line.lstrip("! ") for line in lines if line.startswith("!")]
-        ours = [line for line in lines if not line.startswith(("make", "python3 ", "pdflatex ", "mkdir "))]
-        reason = (latex or ours or ["make pdf failed"])[0 if latex else -1]
-        return reason if len(reason) <= 160 else reason[:157] + "…"
+    def _reason(self, message):
+        """A generator's complaint, without the scratch folder's path."""
+        message = " ".join(message.replace(f"{self.root}/", "").split())
+        return message if len(message) <= 160 else message[:157] + "…"
 
     def _focus_changed(self, _old, new):
         if self.enabled and new in self.win.blocks.controls:
             self.highlight_timer.start()
 
+    def _abandon(self):
+        """Stops the build in progress, if any, and forgets it."""
+        process, self.process, self.run = self.process, None, None
+        if process is not None:
+            process.kill()
+            process.waitForFinished(1000)
+        self.again = False
+
     def _stop(self):
         self.enabled = False
-        if self.process is not None:
-            self.process.kill()
-            self.process.waitForFinished(1000)
+        self._abandon()

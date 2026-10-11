@@ -1,25 +1,35 @@
 """Spelling and grammar checking for the editor's text fields.
 
 Spelling is Enchant (pyenchant, with the system's en_US dictionary) plus the
-project's own words in etc/dictionary.txt, the same list cspell uses; "Add to
-dictionary" appends to that file. Grammar is LanguageTool, run as a local
-server by language_tool_python (which needs Java, and downloads LanguageTool
-on first use), so no resume text leaves the machine. Either one is simply
-off if its package isn't installed.
+resume folder's own words in etc/dictionary.txt, the same list cspell uses;
+"Add to dictionary" appends to that file. Grammar is LanguageTool, run as a
+local server by language_tool_python (which needs Java, and downloads
+LanguageTool on first use), so no resume text leaves the machine. Either one
+is simply off if its package isn't installed.
+
+language_tool_python is an optional extra (requirements-grammar.txt): it is
+GPL-licensed, so the packaged editor doesn't include it, and looks for it
+in the user's own PACKAGES folder as well. An app store's build has no
+grammar checking, since it may not fetch LanguageTool.
 
 A Proofer underlines the problems in one text box -- spelling in red, grammar
 in orange -- and adds the fixes to its right-click menu.
 """
 import queue
 import re
+import sys
 import threading
 
 from PySide6.QtCore import QObject, Qt, QTimer, Signal
 from PySide6.QtGui import QAction, QColor, QSyntaxHighlighter, QTextCharFormat, QTextCursor
 
-from document import ROOT
+import project
+from distribution import STORE
 
-WORDS = ROOT / "etc" / "dictionary.txt"
+WORDS = "etc/dictionary.txt"  # in a resume folder
+# Where `pip install --target` puts the grammar checker for a packaged
+# editor (the AppImage's --install-grammar does).
+PACKAGES = project.data_folder() / "packages"
 LANGUAGE = "en_US"
 # Letters, with apostrophes inside ("don't", "Caterpillar's").
 WORD = re.compile(r"[^\W\d_]+(?:['’][^\W\d_]+)*")
@@ -44,18 +54,27 @@ class Speller(QObject):
         super().__init__()
         self.error = None  # why spelling is off, if it is
         self.dictionary = None
+        self.words = None  # the open resume folder's word list
+
+    def open(self, root):
+        """Starts afresh with the resume folder `root`'s word list."""
+        self.words = root / WORDS
+        self.error = self.dictionary = None
         try:
             import enchant
 
-            self.dictionary = enchant.Dict(LANGUAGE)
+            # A broker of its own, so the last folder's words are forgotten.
+            self._broker = enchant.Broker()
+            self.dictionary = self._broker.request_dict(LANGUAGE)
         except ImportError:
             self.error = "pyenchant isn't installed (pip install -r requirements.txt)"
         except Exception as error:  # no Enchant library, or no en_US dictionary for it
             self.error = str(error)
-        if self.dictionary and WORDS.exists():
-            for line in WORDS.read_text(encoding="utf-8").splitlines():
+        if self.dictionary and self.words.exists():
+            for line in self.words.read_text(encoding="utf-8").splitlines():
                 if line.strip() and not line.startswith("#"):
                     self.dictionary.add_to_session(line.strip())
+        self.changed.emit()
 
     def misspelled(self, text):
         """(start, end) of each misspelled word in `text`. Acronyms, words
@@ -85,8 +104,8 @@ class Speller(QObject):
 
     def add(self, word):
         """Adds `word` to etc/dictionary.txt."""
-        text = WORDS.read_text(encoding="utf-8") if WORDS.exists() else ""
-        WORDS.write_text(text + ("" if not text or text.endswith("\n") else "\n") + word + "\n", encoding="utf-8")
+        text = self.words.read_text(encoding="utf-8") if self.words.exists() else ""
+        self.words.write_text(text + ("" if not text or text.endswith("\n") else "\n") + word + "\n", encoding="utf-8")
         self.ignore(word)
 
 
@@ -101,7 +120,8 @@ class Grammar(QObject):
         super().__init__()
         self.results = {}  # text -> [(start, end, message, replacements, rule id)]
         self.ignored = set()  # (rule id, flagged text) the user dismissed
-        self.off = False
+        self.off = STORE
+        self.missing = False  # off because language_tool_python isn't installed
         self._requests = queue.Queue()
         self._thread = None
 
@@ -126,12 +146,15 @@ class Grammar(QObject):
 
     def _run(self):
         try:
+            if str(PACKAGES) not in sys.path:
+                sys.path.append(str(PACKAGES))
             import language_tool_python
 
             tool = language_tool_python.LanguageTool("en-US")
             tool.disabled_rules.add("MORFOLOGIK_RULE_EN_US")  # spelling is the Speller's job
         except ImportError:
-            self._fail("language_tool_python isn't installed (pip install -r requirements.txt)")
+            self.missing = True
+            self._fail("language_tool_python, an optional extra, isn't installed (see Spelling and grammar in the README)")
             return
         except Exception as error:  # no Java, or LanguageTool couldn't be downloaded or started
             self._fail(str(error))

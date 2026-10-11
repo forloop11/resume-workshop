@@ -6,14 +6,16 @@ works there without the editor. File > New Resume makes one by copying those
 files from the editor's own folder -- a checkout of the project, or the copy
 the AppImage carries -- and writing a starter resume.
 
-Standard library only: this runs before the editor knows which folder it
-has, and packaging/build-appimage.sh runs it to fill the AppImage's copy.
+No Qt at import: this runs before the editor knows which folder it has, and
+packaging/build-appimage.sh runs it to fill the AppImage's copy.
 """
 import json
 import os
 import shutil
 import sys
 from pathlib import Path
+
+import distribution
 
 # The folder New Resume copies from.
 SOURCE = Path(__file__).resolve().parent.parent
@@ -25,7 +27,6 @@ REQUIRED = ["makefile", "scripts/generate_resume.py", "input/resume.json", "inpu
 TEMPLATE = ["makefile", "requirements.txt", "LICENSE", ".gitignore", ".dockerignore", "docker", "scripts",
             "etc/cspell.json", "etc/resume-schema.json", "etc/resume-schema.LICENSE.md", "etc/rxresume-schema.json",
             "etc/rxresume-schema.LICENSE.md", "input/format.tex", "input/geometry.yaml"]
-RECENT = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "resume-workshop" / "recent-folders"
 RECENT_LIMIT = 8
 
 # A new resume's section_order.yaml: every section, in a usual order.
@@ -103,10 +104,39 @@ def create(folder):
         (folder / name).mkdir(exist_ok=True)
 
 
+def _standard(location):
+    # Qt knows where each system keeps these, including an app store
+    # build's own container.
+    from PySide6.QtCore import QStandardPaths
+
+    return Path(QStandardPaths.writableLocation(location)) / "resume-workshop"
+
+
+def config_folder():
+    """Where the editor keeps its own settings: ~/.config/resume-workshop
+    on Linux, ~/Library/Preferences/resume-workshop on a Mac."""
+    from PySide6.QtCore import QStandardPaths
+
+    return _standard(QStandardPaths.StandardLocation.GenericConfigLocation)
+
+
+def data_folder():
+    """Where the editor looks for what the user adds to it:
+    ~/.local/share/resume-workshop on Linux,
+    ~/Library/Application Support/resume-workshop on a Mac."""
+    from PySide6.QtCore import QStandardPaths
+
+    return _standard(QStandardPaths.StandardLocation.GenericDataLocation)
+
+
+def _recent_file():
+    return config_folder() / "recent-folders"
+
+
 def recent():
     """The folders opened from the File menu, latest first, that still exist."""
     try:
-        lines = RECENT.read_text(encoding="utf-8").splitlines()
+        lines = _recent_file().read_text(encoding="utf-8").splitlines()
     except OSError:
         return []
     return [Path(line) for line in lines if line and not missing(line)]
@@ -116,8 +146,8 @@ def remember(folder):
     """Puts `folder` at the head of recent()."""
     folders = [Path(folder)] + [other for other in recent() if other != Path(folder)]
     try:
-        RECENT.parent.mkdir(parents=True, exist_ok=True)
-        RECENT.write_text("".join(f"{path}\n" for path in folders[:RECENT_LIMIT]), encoding="utf-8")
+        _recent_file().parent.mkdir(parents=True, exist_ok=True)
+        _recent_file().write_text("".join(f"{path}\n" for path in folders[:RECENT_LIMIT]), encoding="utf-8")
     except OSError:
         pass  # not worth failing over
 
@@ -132,7 +162,7 @@ def startup_folder():
     if asked:
         return Path(asked).expanduser().resolve()
     candidates = recent()[:1]
-    if "APPDIR" not in os.environ:  # in the AppImage, SOURCE is its read-only template
+    if not distribution.PACKAGED:  # packaged, SOURCE is the editor's read-only template
         candidates.insert(0, SOURCE)
     if os.environ.get("RESUME_WORKSHOP_DEFAULT"):
         candidates.append(Path(os.environ["RESUME_WORKSHOP_DEFAULT"]).expanduser())

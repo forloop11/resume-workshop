@@ -1,5 +1,6 @@
 # Reproducible build environment for `make docker-build`.
-# Base image ships pdflatex + pandoc on TeX Live's "basic" scheme; the extra
+# Base image ships pdflatex on TeX Live's "basic" scheme (and pandoc, which
+# the build no longer uses); the extra
 # tlmgr installs below add the packages this resume's .tex file needs
 # (titlesec/enumitem/ragged2e for layout, helvetic for the Type1 Helvetica
 # fonts) that aren't in that base scheme. python3-jsonschema is only for

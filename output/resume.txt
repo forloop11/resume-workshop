@@ -1,13 +1,13 @@
 FIRST LAST
-SENIOR DATA SCIENTIST ⋅ RELIABILITY & MANUFACTURING ML
-Greater Phoenix Area, AZ  ⋅  +1 (xxx) xxx-xxxx   ⋅   xxxx@gmail.com
-linkedin.com/in/toddtakala  ⋅   portfolio.derkooh.com
+SENIOR DATA SCIENTIST · RELIABILITY & MANUFACTURING ML
+Greater Phoenix Area, AZ · +1 (xxx) xxx-xxxx  · xxxx@gmail.com
+linkedin.com/in/toddtakala · portfolio.derkooh.com
 
-Professional Summary
+PROFESSIONAL SUMMARY
 
-Built the labor time model that earned Caterpillar’s CEO Award, cutting $4M annually and raising warranty coverage from 16% to 95% of labor events against an 85% target. 25+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and NLP on failure data, IoT telemetry, and ERP systems, with full MLOps life cycle ownership on AWS and Snowflake. Sets standards adopted beyond the immediate team, including Amazon’s fleet design life standard and dealership-wide data governance at Empire Cat.
+Built the labor time model that earned Caterpillar's CEO Award, cutting $4M annually and raising warranty coverage from 16% to 95% of labor events against an 85% target. 25+ years in capital equipment engineering, from the shop floor as a mechanic and welder to enterprise machine learning. Ships production ML for predictive maintenance, forecasting, anomaly detection, and NLP on failure data, IoT telemetry, and ERP systems, with full MLOps life cycle ownership on AWS and Snowflake. Sets standards adopted beyond the immediate team, including Amazon's fleet design life standard and dealership-wide data governance at Empire Cat.
 
-Recognition & Speaking
+RECOGNITION & SPEAKING
 
 Caterpillar CEO Award (2024): AI-driven labor time model.
 
@@ -15,135 +15,86 @@ Caterpillar CEO Award (2024): AI-driven labor time model.
 
 Invited Speaker: Caterpillar (2015, 2019, 2021): Engine digital twin and evidence-based life targets, Product Problem Management, and a truck rebuild program delivering 2–4% higher availability at 60% of new-machine cost.
 
-Professional Experience
+PROFESSIONAL EXPERIENCE
 
-  -------------------------------- --------------------
-  Ford Motor CompanySurprise, AZ     Sep 2026 – Present
-  -------------------------------- --------------------
-
+Ford Motor Company, Surprise, AZ (Sep 2026 – Present)
 Senior Data Scientist, Manufacturing Intelligence, Machine Learning & AI
-
-Architect graph network ontology of automotive manufacturing plant equipment within Neo4j and Google Cloud Platform.
-
+- Architect graph network ontology of automotive manufacturing plant equipment within Neo4j and Google Cloud Platform.
 Stack: Python, GCP, Neo4j, Docker, Make
 
-  ---------------------------- ---------------------
-  Caterpillar Inc.Peoria, IL     Sep 2022 – Jun 2026
-  ---------------------------- ---------------------
-
+Caterpillar Inc., Peoria, IL (Sep 2022 – Jun 2026)
 Lead Data Scientist
+- Raised warranty coverage from 16% to 95% of labor events (target: 85%) and eliminated $4M in physical time study labor with a TensorFlow ordinal deep-learning model predicting equipment repair times, reaching 98% exact-class accuracy on the holdout set.
+- Replaced a regression model (R² 0.54) using sentence transformer embeddings of labor descriptions across 2M+ combinations of labor code, sales model, and build variant.
+- Found warranty labor times were censored at the published standard and excluded them, building ground truth from time studies, engineering estimates, and outlier-trimmed non-warranty medians instead of inheriting flawed labels.
+- Governed the model with an explicit abstention rule (no prediction on unseen build variants or job codes) and per-segment validation gates at a 90% floor.
+- Delivered in one month a parts revenue forecast across 156 global dealers that two prior attempts over two years had not produced: a time series decomposition neural network forecasting parts dollars per technician at 3% MAPE, separating trend, seasonality, and residual.
+- Embedded a clustering model in Power BI to track dealer trends over time, giving Caterpillar a basis to engage dealers on service operations, marketing, and training programs.
+Stack: Python, R, SQL · PyTorch, TensorFlow/Keras, XGBoost, scikit-learn · Snowflake · AWS (SageMaker, Glue, Athena, Lambda, Step Functions, ECS/EKS, CloudWatch) · Docker · Azure DevOps, GitHub Actions
 
-Raised warranty coverage from 16% to 95% of labor events (target: 85%) and eliminated $4M in physical time study labor with a TensorFlow ordinal deep-learning model predicting equipment repair times, reaching 98% exact-class accuracy on the holdout set.
-
-Replaced a regression model (R² 0.54) using sentence transformer embeddings of labor descriptions across 2M+ combinations of labor code, sales model, and build variant.
-
-Found warranty labor times were censored at the published standard and excluded them, building ground truth from time studies, engineering estimates, and outlier-trimmed non-warranty medians instead of inheriting flawed labels.
-
-Governed the model with an explicit abstention rule (no prediction on unseen build variants or job codes) and per-segment validation gates at a 90% floor.
-
-Delivered in one month a parts revenue forecast across 156 global dealers that two prior attempts over two years had not produced: a time series decomposition neural network forecasting parts dollars per technician at 3% MAPE, separating trend, seasonality, and residual.
-
-Embedded a clustering model in Power BI to track dealer trends over time, giving Caterpillar a basis to engage dealers on service operations, marketing, and training programs.
-
-Stack: Python, R, SQL ⋅ PyTorch, TensorFlow/Keras, XGBoost, scikit-learn ⋅ Snowflake ⋅ AWS (SageMaker, Glue, Athena, Lambda, Step Functions, ECS/EKS, CloudWatch) ⋅ Docker ⋅ Azure DevOps, GitHub Actions
-
-  ----------------- ---------------------
-  AmazonTempe, AZ     Feb 2022 – Sep 2022
-  ----------------- ---------------------
-
+Amazon, Tempe, AZ (Feb 2022 – Sep 2022)
 Reliability Analytics Manager
+- Replaced compliance-dependent failure reporting with a machine-generated signal: built a pipeline consuming hourly serialized component logs from S3 and reconstructed true component life from serial-number changes, then moved the fleet design standard from average life to B10.
+- Applied Weibull and survival analysis across a global fleet of 400,000 autonomous robots, informing maintenance strategy and design metrics network-wide.
+- Led a team of 5 BI engineers building a global robot monitoring pipeline (R/Shiny, AWS) adopted across sites for incident response and proactive maintenance.
+Stack: R, Python · scikit-learn, AutoGluon · Shiny · PostgreSQL · Docker · AWS (Redshift, Athena, SageMaker, S3)
 
-Replaced compliance-dependent failure reporting with a machine-generated signal: built a pipeline consuming hourly serialized component logs from S3 and reconstructed true component life from serial-number changes, then moved the fleet design standard from average life to B10.
+Empire Cat, Mesa, AZ (Jan 2012 – Feb 2022)
 
-Applied Weibull and survival analysis across a global fleet of 400,000 autonomous robots, informing maintenance strategy and design metrics network-wide.
+Reliability Engineering Manager & Data Engineering Manager (Dec 2016 – Feb 2022)
+- Led modeling on a 25-person cross-functional program that replaced Caterpillar's estimated engine life target with an evidence-based one: reduced thousands of candidate factors via PCA to 9 controllable variables, then built a diesel engine digital twin on live telemetry to monitor them, extending haul truck engine life 23%.
+- Connected reliability Weibull models to parts demand, which reduced part stock outs by 25%.
+- Architected a component exchange program with data warehousing, ETL/ELT pipelines, and time series models to target at-risk components, with client-facing ownership of the reliability and product problem management programs.
+- Established data engineering governance, quality standards, and a metadata framework adopted across the dealership.
 
-Led a team of 5 BI engineers building a global robot monitoring pipeline (R/Shiny, AWS) adopted across sites for incident response and proactive maintenance.
+Lead Reliability Engineer (Jun 2016 – Dec 2016)
+- Raised availability of an aging mining truck line from 80% to 90% through root cause failure analysis; built an RMarkdown research framework Caterpillar incorporated into its CRM.
 
-Stack: R, Python ⋅ scikit-learn, AutoGluon ⋅ Shiny ⋅ PostgreSQL ⋅ Docker ⋅ AWS (Redshift, Athena, SageMaker, S3)
+Technical Communications Manager (Engineering Manager) (Dec 2012 – Jun 2016)
+- Managed a 5-person team delivering reliability analytics and data engineering for a 250-truck mining fleet; built a fluids and wear analysis application that eliminated $100K/year in license costs.
 
-  -------------------- ---------------------
-  Empire CatMesa, AZ     Jan 2012 – Feb 2022
-  -------------------- ---------------------
+Reliability Engineer (Jan 2012 – Dec 2012)
+- Led the Product Problem Management program, applying 8D and RCFA to resolve recurring failures.
 
-  ------------------------------------------------------------ ---------------------
-  Reliability Engineering Manager & Data Engineering Manager     Dec 2016 – Feb 2022
-  ------------------------------------------------------------ ---------------------
+Stack: SQL Server, T-SQL · R (ggplot2, tidyverse, RMarkdown) · Python (Pandas, scikit-learn, XGBoost) · Jupyter · Docker · Linux
 
-Led modeling on a 25-person cross-functional program that replaced Caterpillar’s estimated engine life target with an evidence-based one: reduced thousands of candidate factors via PCA to 9 controllable variables, then built a diesel engine digital twin on live telemetry to monitor them, extending haul truck engine life 23%.
-
-Connected reliability Weibull models to parts demand, which reduced part stock outs by 25%.
-
-Architected a component exchange program with data warehousing, ETL/ELT pipelines, and time series models to target at-risk components, with client-facing ownership of the reliability and product problem management programs.
-
-Established data engineering governance, quality standards, and a metadata framework adopted across the dealership.
-
-  --------------------------- ---------------------
-  Lead Reliability Engineer     Jun 2016 – Dec 2016
-  --------------------------- ---------------------
-
-Raised availability of an aging mining truck line from 80% to 90% through root cause failure analysis; built an RMarkdown research framework Caterpillar incorporated into its CRM.
-
-  -------------------------------------------------------- ---------------------
-  Technical Communications Manager (Engineering Manager)     Dec 2012 – Jun 2016
-  -------------------------------------------------------- ---------------------
-
-Managed a 5-person team delivering reliability analytics and data engineering for a 250-truck mining fleet; built a fluids and wear analysis application that eliminated $100K/year in license costs.
-
-  ---------------------- ---------------------
-  Reliability Engineer     Jan 2012 – Dec 2012
-  ---------------------- ---------------------
-
-Led the Product Problem Management program, applying 8D and RCFA to resolve recurring failures.
-
-Stack: SQL Server, T-SQL ⋅ R (ggplot2, tidyverse, RMarkdown) ⋅ Python (Pandas, scikit-learn, XGBoost) ⋅ Jupyter ⋅ Docker ⋅ Linux
-
-  ---------------------------------------------- ---------------------
-  Road Machinery, LLC (now Komatsu)Phoenix, AZ     Jan 2008 – Jan 2012
-  ---------------------------------------------- ---------------------
-
+Road Machinery, LLC (now Komatsu), Phoenix, AZ (Jan 2008 – Jan 2012)
 Technical Communicator (Engineer)
+- Built the Total Cost of Ownership analysis underpinning a $72M sale of electric mining haul trucks; provided root cause failure analysis and life cycle cost support to mining clients.
+Stack: SQL Server, T-SQL · MATLAB/Octave · SolidWorks, finite element analysis · LaTeX
 
-Built the Total Cost of Ownership analysis underpinning a $72M sale of electric mining haul trucks; provided root cause failure analysis and life cycle cost support to mining clients.
-
-Stack: SQL Server, T-SQL ⋅ MATLAB/Octave ⋅ SolidWorks, finite element analysis ⋅ LaTeX
-
-  -------------------------------------- ---------------------
-  Komatsu North AmericaChattanooga, TN     Jun 2006 – Dec 2007
-  -------------------------------------- ---------------------
-
+Komatsu North America, Chattanooga, TN (Jun 2006 – Dec 2007)
 Design Engineer
+- Led development of a 25-ton hydraulic rescue winch from concept through release; ran FMEA and FRACAS on prototype and production machines.
 
-Led development of a 25-ton hydraulic rescue winch from concept through release; ran FMEA and FRACAS on prototype and production machines.
+EARLY CAREER
 
-Early Career
+Engineering Intern, Xtek Mining Services (now L&H Industrial) · Heavy Equipment Operator and Mechanic, Ryan Incorporated Central, Roland Machinery Co., and Harry W. Kuhn, Inc., Diagnose and repaired mechanical, hydraulic, electrical, and control system failures on heavy earth moving equipment.
 
-Engineering Intern, Xtek Mining Services (now L&H Industrial) ⋅ Heavy Equipment Operator and Mechanic, Ryan Incorporated Central, Roland Machinery Co., and Harry W. Kuhn, Inc., Diagnose and repaired mechanical, hydraulic, electrical, and control system failures on heavy earth moving equipment.
-
-Selected Independent Projects
+SELECTED INDEPENDENT PROJECTS
 
 Resume Workshop: Open source application that builds resumes in JSON Resume Schema and renders using Python and LaTeX to a PDF and TXT file
 
 Markdown Cornell Notes: Open source note taking application that allows users to capture notes in friendly Markdown language and generate LaTeX pdf files.
 
-10-Node RPi 5 HPC Cluster for Distributed Computing & ML: Designed and built a 10-node high-performance computing (HPC) cluster using Raspberry Pi 5 SBCs to gain hands-on expertise in open source distributed computing frameworks.
+10-Node RPi 5 HPC Cluster for Distributed Computing & ML: Designed and built a 10-node high-performance computing (HPC) cluster using Raspberry Pi 5 SBCs to gain hands-on expertise in open source distributed computing frameworks. 
 
-Education
+EDUCATION
 
-  --------------------------------------------------------------------------------------------------- --
-  Bachelor of Science in Mechanical Engineering, Arizona State University                             
-  Operating Engineer Apprenticeship Certificate, U.S. Department of Labor & I.U.O.E. Local 150 AISP   
-  --------------------------------------------------------------------------------------------------- --
+Bachelor of Science in Mechanical Engineering, Arizona State University
 
-Selected Certifications
+Operating Engineer Apprenticeship Certificate, U.S. Department of Labor & I.U.O.E. Local 150 AISP
 
-Certified Machine Learning – Specialty (MLS-C01), AWS ⋅ Lean Six Sigma Black Belt, Kennesaw State University ⋅ Applied Failure Analysis, Caterpillar ⋅ SAFe 6 Agilist (SA), Scaled Agile Framework
+SELECTED CERTIFICATIONS
 
-Core Competencies
+Certified Machine Learning – Specialty (MLS-C01), AWS · Lean Six Sigma Black Belt, Kennesaw State University · Applied Failure Analysis, Caterpillar · SAFe 6 Agilist (SA), Scaled Agile Framework
 
-Machine Learning & AI: Deep learning (PyTorch, TensorFlow/Keras) ⋅ time series forecasting ⋅ anomaly detection ⋅ survival analysis and censored data ⋅ ordinal regression ⋅ NLP and embeddings ⋅ design of experiments
+CORE COMPETENCIES
 
-MLOps, Data & Cloud: AWS SageMaker ⋅ Google Cloud Platform ⋅ Snowflake ⋅ CI/CD and Infrastructure as Code ⋅ Docker ⋅ model governance, validation gates, and drift detection ⋅ automated retraining ⋅ ETL/ELT pipelines ⋅ knowledge graphs and ontologies (Neo4j) ⋅ data architecture and governance ⋅ Linux
+Machine Learning & AI: Deep learning (PyTorch, TensorFlow/Keras) · time series forecasting · anomaly detection · survival analysis and censored data · ordinal regression · NLP and embeddings · design of experiments
 
-Reliability Engineering: root cause failure analysis ⋅ 8D and 5 Whys ⋅ FMEA / DFMEA / PFMEA ⋅ FRACAS ⋅ Weibull analysis ⋅ prognostics and remaining useful life ⋅ condition monitoring ⋅ oil tribology and spectroscopy ⋅ life cycle cost analysis
+MLOps, Data & Cloud: AWS SageMaker · Google Cloud Platform · Snowflake · CI/CD and Infrastructure as Code · Docker · model governance, validation gates, and drift detection · automated retraining · ETL/ELT pipelines · knowledge graphs and ontologies (Neo4j) · data architecture and governance · Linux
 
-Domain Expertise: heavy equipment, mining, automotive and manufacturing ⋅ fleet and maintenance management ⋅ warranty and service operations ⋅ supply chain and demand planning
+Reliability Engineering: root cause failure analysis · 8D and 5 Whys · FMEA / DFMEA / PFMEA · FRACAS · Weibull analysis · prognostics and remaining useful life · condition monitoring · oil tribology and spectroscopy · life cycle cost analysis
+
+Domain Expertise: heavy equipment, mining, automotive and manufacturing · fleet and maintenance management · warranty and service operations · supply chain and demand planning

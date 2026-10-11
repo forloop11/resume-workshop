@@ -249,15 +249,15 @@ def points(length):
     return float(match.group(1)) * POINTS[match.group(2)]
 
 
-def color(name, fallback):
+def color(name, fallback, root=Path()):
     """An HTML color defined in format.tex as rgba(r, g, b, 1)."""
-    match = re.search(r"\\definecolor\{%s\}\{HTML\}\{([0-9A-Fa-f]{6})\}" % name, FORMAT_SRC.read_text(encoding="utf-8"))
+    match = re.search(r"\\definecolor\{%s\}\{HTML\}\{([0-9A-Fa-f]{6})\}" % name, (root / FORMAT_SRC).read_text(encoding="utf-8"))
     value = match.group(1) if match else fallback
     return "rgba({}, {}, {}, 1)".format(*(int(value[i:i + 2], 16) for i in (0, 2, 4)))
 
 
-def metadata(data, section_order):
-    geometry = parse_geometry(GEOMETRY_SRC)
+def metadata(data, section_order, root=Path()):
+    geometry = parse_geometry(root / GEOMETRY_SRC)
     font = {"fontFamily": "IBM Plex Sans", "fontWeights": ["400", "700"], "fontSize": 10, "lineHeight": 1.4}
     return {
         "template": "onyx",
@@ -270,7 +270,7 @@ def metadata(data, section_order):
             "hideSectionIcons": True,
         },
         "design": {"level": {"icon": "", "type": "hidden"},
-                   "colors": {"primary": color("accent", "1F3A5F"), "text": color("body", "222222"),
+                   "colors": {"primary": color("accent", "1F3A5F", root), "text": color("body", "222222", root),
                               "background": "rgba(255, 255, 255, 1)"}},
         "typography": {"body": font, "heading": {**font, "fontSize": 12}},
         "notes": f"Exported from {SRC} by scripts/export_rxresume.py; edit it there and rebuild.",
@@ -278,8 +278,10 @@ def metadata(data, section_order):
     }
 
 
-def export(data, section_order):
-    """The resume as a Reactive Resume document."""
+def export(data, section_order, root=Path()):
+    """The resume as a Reactive Resume document. `root` is the resume folder
+    whose geometry.yaml and format.tex set the margins and colors, if not
+    the current one."""
     basics = data["basics"]
     location = basics.get("location") or {}
     return {
@@ -301,7 +303,7 @@ def export(data, section_order):
                 experience_item([entry], "early_career", index) for index, entry in enumerate(early_career(data))]),
             "id": uid("early_career"), "type": "experience",
         }],
-        "metadata": metadata(data, section_order),
+        "metadata": metadata(data, section_order, root),
     }
 
 

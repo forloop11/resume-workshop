@@ -29,17 +29,17 @@ the resume, and a Docker-based build path for a reproducible toolchain.
 
 ## Requirements
 
-For a native build, install Python 3.13 or newer, GNU Make, a TeX Live
-installation with the packages used by [input/format.tex](input/format.tex),
-and Pandoc. The resume generators use only the Python standard library, so
+For a native build, install Python 3.13 or newer, GNU Make, and a TeX Live
+installation with the packages used by [input/format.tex](input/format.tex).
+The resume generators use only the Python standard library, so
 `make build` needs no pip packages. `make validate` and the optional desktop
 editor do: run `pip install -r requirements.txt` first, which installs
 jsonschema and, for the editor, [PySide6](https://doc.qt.io/qtforpython-6/)
-(Qt for Python) and its spelling and grammar checkers (see
-[Spelling and grammar](#spelling-and-grammar) for what those need).
+(Qt for Python) and its spelling checker. Its grammar checker is a separate,
+optional install (see [Spelling and grammar](#spelling-and-grammar) for what
+both need).
 
-If the LaTeX or Pandoc toolchain is not installed locally, use the Docker
-workflow instead.
+If LaTeX is not installed locally, use the Docker workflow instead.
 
 ## Quick start
 
@@ -70,7 +70,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 
 - `make build` regenerates all interim files, then creates `output/resume.pdf`, `output/resume.txt`, `output/rxresume.json`, and `output/resume-workshop.json`.
 - `make pdf` creates just `output/resume.pdf`, without the text and Reactive Resume versions.
-- `make txt` creates just `output/resume.txt`.
+- `make txt` creates just `output/resume.txt`, written from the same inputs as the PDF by [scripts/generate_text.py](scripts/generate_text.py).
 - `make header` regenerates `interim/header.tex` from the `basics` in [input/resume.json](input/resume.json) without a full build.
 - `make geometry` regenerates `interim/geometry.tex` from [input/geometry.yaml](input/geometry.yaml) without a full build.
 - `make resume` regenerates `interim/resume_content.tex` from [input/resume.json](input/resume.json) and [input/section_order.yaml](input/section_order.yaml) without a full build.
@@ -88,9 +88,9 @@ Example output: [resume.pdf](output/resume.pdf) and
   installs it; see [Installing the editor](#installing-the-editor).
 - `make clean` removes auxiliary pdflatex files and generated interim files.
 - `make docker-image` builds the local `resume-builder` Docker image.
-- `make docker-build` builds a Docker image with pdflatex/pandoc/python3 and
+- `make docker-build` builds a Docker image with pdflatex and python3 and
   runs `make build` inside a container against this directory — use this if
-  you don't have the LaTeX/pandoc toolchain installed locally. Output files
+  you don't have LaTeX installed locally. Output files
   land in the `output/` directory, owned by your user, same as a native build.
 
 ## Editing the resume
@@ -211,8 +211,8 @@ resize them.
 - Messages about saves and builds appear under the window's title.
 - A dot on a tab marks unsaved changes. Closing the window, reloading the
   files, or switching to another resume with any asks first.
-- After a make target runs, its output is in a **Last make output** box above
-  the preview, which opens by itself if the target failed.
+- After a build, pdflatex's output is in a **Last build output** box above
+  the preview, which opens by itself if the build failed.
 
 ### Menus
 
@@ -225,7 +225,8 @@ Every command is in the menu bar:
     [Resume folders](#resume-folders).
   - Save (Ctrl+S) and Save & Build (Ctrl+B) act on the tab that is showing.
     Reload from Disk (Ctrl+R) rereads the files in `input/`.
-  - Run make build and Run make user run those [Make targets](#make-targets).
+  - Build Resume and Build and Name PDF do what `make build` and
+    `make user` do: see [Building](#building).
   - Page Setup (Ctrl+Shift+P): see [Page Setup](#page-setup).
   - Print PDF (Ctrl+P), Open PDF (Ctrl+Shift+O), Import JSON Resume (Ctrl+I),
     Export PDF (Ctrl+E), Export TXT, Export JSON, and Download rxresume.json:
@@ -249,6 +250,21 @@ Every command is in the menu bar:
   - Check for Updates and About Resume Workshop: see
     [Updating](#updating).
 
+### Building
+
+The editor builds a resume itself, with its own copy of the generators in
+[scripts/](scripts/), so it needs neither Make nor a Python on the machine:
+only pdflatex, for the PDF. The results are the same files, in the same
+places, as the folder's Make targets write.
+
+- **File > Build Resume** (and **Save & Build**) does what `make build`
+  does: the PDF, the text resume, the Reactive Resume export, and the schema,
+  in `output/`.
+- **File > Build and Name PDF** also makes the copy `make user` does,
+  `output/<name>_resume.pdf`.
+- Building uses the saved files; the [live preview](#live-preview) is where
+  unsaved edits show.
+
 ### Live preview
 
 The preview is [PDF.js](https://mozilla.github.io/pdf.js/), Mozilla's PDF
@@ -261,14 +277,21 @@ viewer, with its own page thumbnails, search, and zoom. It is vendored in
   scrolls to it, as in the screenshot above. Moving to another field moves
   the highlight. Text the PDF prints differently from how it's typed, such as
   dates, isn't highlighted.
-- The build runs `make pdf` in a temporary copy of the project, so `input/`
-  and `output/` are untouched. `output/resume.pdf` still changes only when a
-  make target runs.
+- The build happens in a temporary copy of the resume folder, so `input/`
+  and `output/` are untouched. `output/resume.pdf` still changes only when
+  you build.
 - A line above the preview says when it includes unsaved changes, or why it
   couldn't be updated (for example while a required field is empty). The last
   good preview stays on show meanwhile.
 - **View > Live Preview** turns it off, leaving the preview on
   `output/resume.pdf`.
+
+PDF.js runs in Qt WebEngine, which app stores don't accept, so the editor
+also has a plainer preview drawn by Qt's own PDF module
+([editor/preview.py](editor/preview.py)): it scrolls, fits the pages to the
+panel, and highlights the field you're in, without a toolbar, text selection,
+or search. It is used where Qt WebEngine isn't available; to try it, start
+the editor with `RESUME_WORKSHOP_PREVIEW=qtpdf` set.
 
 ### Find and Replace
 
@@ -308,12 +331,12 @@ your latest edits:
 - **Print PDF** prints `output/resume.pdf` after asking for the printer and
   pages. The preview's own print button does the same.
 - **Open PDF** opens `output/resume.pdf` in your system's PDF viewer.
-- **Export PDF** runs `make pdf`, and **Export TXT** runs `make txt`, then
-  asks where to save a copy.
+- **Export PDF** rebuilds `output/resume.pdf`, and **Export TXT**
+  `output/resume.txt`, then asks where to save a copy.
 - **Export JSON** asks where to save a copy of `input/resume.json`, the JSON
   Resume document.
-- **Download rxresume.json** runs `make rxresume`, then asks where to save
-  the [Reactive Resume export](#reactive-resume-export).
+- **Download rxresume.json** rewrites `output/rxresume.json`, then asks
+  where to save the [Reactive Resume export](#reactive-resume-export).
 
 The exports offer your Downloads folder, and the PDF, text, and JSON a name
 taken from the resume, such as `todd_takala_resume.pdf`.
@@ -343,9 +366,11 @@ plus its own copy of the makefile, `scripts/`, and the schemas in `etc/`, so
 - **File > Open Resume Folder** opens another resume folder, and **Open
   Recent** lists the ones opened this way before.
 
-Switching folders closes the window (asking about unsaved changes first) and
-opens the editor again on the other folder. A new folder's scripts are a copy
-as of when it was made; they don't follow later changes to this project.
+Switching folders asks about unsaved changes first, then shows the other
+folder in the same window. A new folder's scripts are a copy as of when it
+was made; they don't follow later changes to this project. They are there
+for `make`: the editor always builds with its own copy (see
+[Building](#building)), whichever folder is open.
 
 `make editor` always opens this checkout. The installed AppImage opens the
 folder it had open last. To open a particular folder from a terminal, pass it
@@ -366,9 +391,9 @@ bundles the editor, a Python of its own, and the packages in
 The first time, it asks whether to create a new resume or open one you have;
 after that it opens whichever folder was open last. The AppImage holds the
 editor and the template files that New Resume copies; resumes stay in their
-own [resume folders](#resume-folders). The make commands still need Make,
-Python, pdflatex, and Pandoc on the machine, spell checking needs Enchant,
-and grammar checking needs Java.
+own [resume folders](#resume-folders). Building the PDF needs pdflatex on
+the machine, and spell checking needs Enchant. Grammar checking isn't
+included; see [Spelling and grammar](#spelling-and-grammar) for adding it.
 
 #### Updating
 
@@ -483,7 +508,7 @@ Professional Experience shows one card per employer:
 - **Save** checks the same rules as the generators (header fields, employer
   names, positions, a highlight or summary for each role, no blank highlights,
   required fields in each section, valid dates) and highlights anything
-  missing. **Save & build** saves, then runs `make build`.
+  missing. **Save & build** saves, then builds as `make build` does.
 
 ### Spelling and grammar
 
@@ -502,6 +527,14 @@ appends the word to [etc/dictionary.txt](etc/dictionary.txt). The raw
   anywhere. It needs Java, downloads LanguageTool (about 260 MB) the first
   time, and takes a few seconds to start each time the editor opens. It checks
   the summaries, descriptions, and highlights, a moment after you stop typing.
+- language-tool-python is an optional extra, kept out of `requirements.txt`
+  and out of the AppImage because it is licensed under the GPL (version 3),
+  unlike the rest of the editor. To add it:
+  - from a checkout, `pip install -r requirements-grammar.txt`;
+  - for the AppImage, run `Resume_Workshop-x86_64.AppImage --install-grammar`
+    once, which installs it from PyPI for your user, in
+    `~/.local/share/resume-workshop/packages`. Delete that folder to remove
+    it.
 - If either package (or Java) is missing, that check is off and the rest of
   the editor works as usual.
 
@@ -531,17 +564,21 @@ schema check from [scripts/validate_resume.py](scripts/validate_resume.py), so
 it uses the same rules as `make build` and `make validate`. Its own code is in
 [editor/](editor/):
 
-- [main.py](editor/main.py): the window, menus, and make runner.
+- [main.py](editor/main.py): the window and menus.
+- [build.py](editor/build.py): building a resume folder's outputs.
 - [blocks.py](editor/blocks.py) and [document.py](editor/document.py): the
   block editor and the resume model behind it.
 - [widgets.py](editor/widgets.py): the cards and drag-and-drop lists.
-- [live.py](editor/live.py), [preview.py](editor/preview.py), and
-  [preview.js](editor/preview.js): the live preview and the PDF.js view.
+- [live.py](editor/live.py): the live preview.
+- [preview.py](editor/preview.py), [preview_web.py](editor/preview_web.py),
+  and [preview.js](editor/preview.js): the PDF view, plain and PDF.js.
 - [proofing.py](editor/proofing.py): spelling and grammar checking.
 - [find.py](editor/find.py): Find and Replace.
 - [page_setup.py](editor/page_setup.py): the Page Setup dialog.
 - [project.py](editor/project.py): resume folders.
 - [update.py](editor/update.py): Check for Updates.
+- [distribution.py](editor/distribution.py): how the editor was packaged
+  (a checkout, the AppImage, or an app store's build), and what that allows.
 - [style.qss](editor/style.qss): the colors.
 
 ## Reactive Resume export
@@ -585,7 +622,7 @@ with `make clean`.
 
 ## Docker workflow
 
-The Docker image installs Python 3 (with jsonschema, for `make validate`), GNU Make, Pandoc, and the TeX Live packages needed by the
+The Docker image installs Python 3 (with jsonschema, for `make validate`), GNU Make, and the TeX Live packages needed by the
 resume. Run `make docker-build` from the repository root to build without
 installing those tools locally. The desktop editor runs on the host, not in
 the container, so its make commands need the native toolchain.
@@ -623,4 +660,6 @@ see [Spelling and grammar](#spelling-and-grammar).
   Foundation, used under the Apache License 2.0
   ([editor/pdfjs/LICENSE](editor/pdfjs/LICENSE)). Its spelling and
   grammar checks use [Enchant](https://rrthomas.github.io/enchant/) (LGPL)
-  and [LanguageTool](https://languagetool.org/) (LGPL).
+  and [LanguageTool](https://languagetool.org/) (LGPL); the optional
+  [language-tool-python](https://github.com/jxmorris12/language_tool_python)
+  that runs LanguageTool is GPLv3, and isn't distributed with the editor.

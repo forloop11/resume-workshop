@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Desktop editor for the input files and Makefile targets (`make editor`).
+"""Desktop editor for a resume folder's input files (`make editor`).
 
 A Qt (PySide6) window: tabs that edit the files in input/ -- the
 drag-and-drop block editor (blocks.py) for resume.json and
-section_order.yaml, and a raw text editor for resume.json -- beside
-buttons that run the Makefile targets and a preview of the generated PDF
-(preview.py).
+section_order.yaml, and a raw text editor for resume.json -- beside a
+preview of the generated PDF (preview.py), with commands that build the
+resume as the folder's Makefile targets do (build.py).
 The section list and the JSON Resume schema check are the generators' and
 `make validate`'s own (see document.py and scripts/validate_resume.py).
 
@@ -25,15 +25,14 @@ try:
     from PySide6.QtWidgets import QApplication, QDialog, QFileDialog, QFrame, QHBoxLayout, QLabel, QMainWindow, QMessageBox, QPlainTextEdit, QSplitter, QTabWidget, QTextEdit, QVBoxLayout, QWidget
     from PySide6.QtPdf import QPdfDocument
     from PySide6.QtPrintSupport import QPrintDialog, QPrinter
-    from PySide6.QtWebEngineCore import QWebEnginePage
 except ImportError:
     sys.exit("The editor needs PySide6: pip install -r requirements.txt")
 
 
+import preview
 import project
-from preview import PdfPreview, register_scheme
 
-register_scheme()  # for the PDF preview; must come before the QApplication
+preview.prepare()  # must come before the QApplication
 
 
 def dark_palette():
@@ -118,32 +117,30 @@ def choose_resume(reason):
             return folder
 
 
-# Settle which resume folder to open before loading the rest of the editor,
-# which reads it (document.py) as it is imported.
-folder = project.startup_folder()
-if folder is None:
-    folder = choose_resume("There is no resume open.")
-elif project.missing(folder):
-    folder = choose_resume(f"{folder} isn't a resume folder (it has no {', '.join(project.missing(folder))}).")
-os.environ["RESUME_WORKSHOP_ROOT"] = str(folder)
+def startup_resume():
+    """The resume folder to open first, asking for one if need be."""
+    folder = project.startup_folder()
+    if folder is None:
+        return choose_resume("There is no resume open.")
+    if project.missing(folder):
+        return choose_resume(f"{folder} isn't a resume folder (it has no {', '.join(project.missing(folder))}).")
+    return folder
 
+
+import build  # noqa: E402
+import distribution  # noqa: E402
 from blocks import BlocksEditor, button, label, on_edit  # noqa: E402
-from document import ORDER, RESUME, ROOT  # noqa: E402
+from document import ORDER, RESUME  # noqa: E402
 from find import FindBar  # noqa: E402
 from live import GEOMETRY, LivePreview  # noqa: E402
 from page_setup import PageSetup  # noqa: E402
 from proofing import Grammar, Proofer, Speller, utf16  # noqa: E402
-from update import RELEASES, Updater, version  # noqa: E402
+from update import RELEASES, Updater  # noqa: E402
 from widgets import Collapsible, restyle  # noqa: E402
 
-INPUT_DIR = ROOT / "input"
-PDF = ROOT / "output" / "resume.pdf"
-TXT = ROOT / "output" / "resume.txt"
-RXRESUME = ROOT / "output" / "rxresume.json"
 EDITABLE_FILES = [ORDER, RESUME]
 # Files the blocks tab fully covers: still loaded and saved, but with no raw tab of their own.
 NO_TAB = {ORDER}
-MAKE_TARGETS = ["build", "user"]
 PRINT_DPI = 600
 
 JSON_KEY = re.compile(r'"(?:[^"\\]|\\.)*"(?=\s*:)')
@@ -277,18 +274,21 @@ class RawTab(QWidget):
 
 
 class Workshop(QMainWindow):
-    def __init__(self):
+    def __init__(self, root):
+        """Opens the resume folder `root`; OSError if its files can't be read."""
         super().__init__()
-        self.setWindowTitle(f"Resume Workshop — {self._short(ROOT)}")
-        self.reopen = None  # the resume folder to open in place of this one, once the window closes
+        self.root = root  # the resume folder that is open; open_folder() changes it
+        self.reopen = None  # the resume folder to restart the editor on, once the window closes
         self.resize(1500, 1000)
         self.files = {}  # each input file's text as edited
         self.saved = {}  # ...and as it is on disk
-        self.process = None  # the make run in progress, if any
+        self.process = None  # the pdflatex run in progress, if any
         self.updater = Updater(self)
         self.speller = Speller()
+        self.speller.open(root)
         self.grammar = Grammar()
-        self.grammar.failed.connect(lambda reason: self.report(f"Grammar checking is off: {reason}", "error"))
+        # Missing the optional grammar checker isn't an error; anything else is.
+        self.grammar.failed.connect(lambda reason: self.report(f"Grammar checking is off: {reason}", "" if self.grammar.missing else "error"))
         QApplication.instance().aboutToQuit.connect(self.grammar.close)
 
         title = QLabel("Resume Workshop")
@@ -322,12 +322,12 @@ class Workshop(QMainWindow):
         self.make_log.setFont(QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont))
         self.make_log.setFixedHeight(260)
         self.make_output = Collapsible("more")
-        self.make_output.head.addWidget(label("Last make output"))
+        self.make_output.head.addWidget(label("Last build output"))
         self.make_output.head.addStretch(1)
         self.make_output.content.addWidget(self.make_log)
         self.make_output.hide()
-        self.pdf_view = PdfPreview(PDF)
-        self.pdf_view.page().printRequested.connect(self.print_pdf)  # the viewer's own Print button
+        self.pdf_view = preview.PdfPreview(self.pdf)
+        self.pdf_view.print_requested.connect(self.print_pdf)  # the viewer's own Print button
         side = QFrame()
         side.setProperty("kind", "panel")
         side_layout = QVBoxLayout(side)
@@ -339,7 +339,6 @@ class Workshop(QMainWindow):
         self.preview_note.hide()
         side_layout.addWidget(self.preview_note)
         side_layout.addWidget(self.pdf_view, 1)
-        self.output_pdf = PDF
         self.live = LivePreview(self, self.pdf_view, self.preview_note)
 
         panel = QFrame()
@@ -368,10 +367,32 @@ class Workshop(QMainWindow):
         self.setCentralWidget(root)
         self._build_menus()
 
-        self.load_files()
-        self.show_pdf()
+        self._open(self.root)
         if self.speller.error:
             self.report(f"Spell checking is off: {self.speller.error}", "error")
+
+    @property
+    def input_dir(self):
+        return self.root / "input"
+
+    @property
+    def pdf(self):
+        return self.root / build.PDF
+
+    def _open(self, root):
+        """Shows the resume folder `root` in place of the one that is open.
+        Raises OSError, changing nothing, if its files can't be read."""
+        files = {name: (root / "input" / name).read_text(encoding="utf-8") for name in EDITABLE_FILES}
+        self.root = root
+        self.setWindowTitle(f"Resume Workshop — {self._short(root)}")
+        if self.speller.words != root / "etc" / "dictionary.txt":
+            self.speller.open(root)
+        self.files, self.saved = files, dict(files)
+        self.blocks.reset()
+        self._tab_changed(self.tabs.currentIndex())
+        self.refresh_tabs()
+        self.show_build_output("")
+        self.live.open()
 
     # --- menus -------------------------------------------------------------------
 
@@ -396,8 +417,8 @@ class Workshop(QMainWindow):
         add(file_menu, "Save && &Build", self.save_and_build, "Ctrl+B")
         add(file_menu, "&Reload from Disk", self.reload, "Ctrl+R")
         file_menu.addSeparator()
-        for target in MAKE_TARGETS:
-            add(file_menu, f"Run make {target}", lambda target=target: self.run_make(target))
+        add(file_menu, "Build Resu&me", self.run_build)
+        add(file_menu, "Build and &Name PDF", lambda: self.run_build(named=True))
         file_menu.addSeparator()
         add(file_menu, "Page Set&up…", self.page_setup, "Ctrl+Shift+P")
         add(file_menu, "&Print PDF…", self.print_pdf, Key.Print)
@@ -448,7 +469,8 @@ class Workshop(QMainWindow):
         add(view_menu, "&Full Screen", lambda on: self.showFullScreen() if on else self.showNormal(), "F11", checkable=True)
 
         help_menu = self.menuBar().addMenu("&Help")
-        add(help_menu, "Check for &Updates…", self.updater.check)
+        if not distribution.STORE:  # the store updates its own
+            add(help_menu, "Check for &Updates…", self.updater.check)
         add(help_menu, "&About Resume Workshop", self.about)
 
         for menu in (edit_menu, view_menu):
@@ -464,40 +486,47 @@ class Workshop(QMainWindow):
 
     def _fill_recent(self):
         self.recent_menu.clear()
-        folders = [folder for folder in project.recent() if folder != ROOT]
+        folders = [folder for folder in project.recent() if folder != self.root]
         for folder in folders:
             self.recent_menu.addAction(self._short(folder)).triggered.connect(lambda _=False, folder=folder: self.open_folder(folder))
         if not folders:
             self.recent_menu.addAction("No other resumes opened yet").setEnabled(False)
 
     def open_folder(self, folder):
-        """Switches to the resume in `folder` (None: the choice was canceled):
-        closes this window, asking about unsaved changes, and has main()
-        start the editor again on that folder."""
+        """Switches to the resume in `folder` (None: the choice was
+        canceled), asking about unsaved changes first."""
         if folder is None:
             return
         folder = Path(folder).resolve()
-        if folder == ROOT:
+        if folder == self.root:
             self.report(f"{self._short(folder)} is already open.")
             return
-        self.reopen = folder
-        if self.close():
-            project.remember(ROOT)
-            project.remember(folder)
-        else:
-            self.reopen = None
+        if self.process is not None:
+            self.report("Wait for the build to finish before opening another resume.")
+            return
+        if self.any_dirty() and not self.confirm("Some edits haven't been saved to input/. Discard them?", "Discard changes"):
+            return
+        previous = self.root
+        try:
+            self._open(folder)
+        except OSError as error:
+            self.report(f"Could not open {self._short(folder)}: {error}", "error")
+            return
+        project.remember(previous)
+        project.remember(folder)
+        self.report(f"Opened {self._short(folder)}.", "ok")
 
     def restart(self):
         """Starts the editor again on this folder, as after an update (see
         update.py): closes this window, asking about unsaved changes, and
         has main() start it. False if the window stayed open."""
-        self.reopen = ROOT
+        self.reopen = self.root
         if not self.close():
             self.reopen = None
         return self.reopen is not None
 
     def about(self):
-        running = f"Version {version()}" if version() else "Running from a checkout"
+        running = f"Version {distribution.VERSION}" if distribution.VERSION else "Running from a checkout"
         QMessageBox.about(self, "About Resume Workshop", f"<b>Resume Workshop</b><br>{running}<br><br><a href=\"{RELEASES}\">{RELEASES}</a>")
 
     def _update_menus(self, *_):
@@ -515,9 +544,7 @@ class Workshop(QMainWindow):
         if isinstance(focus, (QTextEdit, QPlainTextEdit)):
             getattr(focus, command)()
         elif focus is not None and (focus is self.pdf_view or self.pdf_view.isAncestorOf(focus)):
-            actions = {"copy": QWebEnginePage.WebAction.Copy, "selectAll": QWebEnginePage.WebAction.SelectAll}
-            if command in actions:
-                self.pdf_view.page().triggerAction(actions[command])
+            self.pdf_view.edit(command)
 
     # --- files -------------------------------------------------------------------
 
@@ -563,7 +590,7 @@ class Workshop(QMainWindow):
         self.tabs.setCurrentWidget(self.raw_tabs[name])
 
     def load_files(self):
-        self.files = {name: (INPUT_DIR / name).read_text(encoding="utf-8") for name in EDITABLE_FILES}
+        self.files = {name: (self.input_dir / name).read_text(encoding="utf-8") for name in EDITABLE_FILES}
         self.saved = dict(self.files)
         self.blocks.reset()
         self._tab_changed(self.tabs.currentIndex())
@@ -586,7 +613,7 @@ class Workshop(QMainWindow):
             errors = schema_errors(content)
             if errors:
                 raise ValueError("resume.json does not match the JSON Resume schema: " + "; ".join(errors))
-        (INPUT_DIR / name).write_text(content, encoding="utf-8")
+        (self.input_dir / name).write_text(content, encoding="utf-8")
         self.saved[name] = content
         self.refresh_tabs()
 
@@ -596,7 +623,7 @@ class Workshop(QMainWindow):
 
     def save_and_build(self):
         if self.save_current():
-            self.run_make("build")
+            self.run_build()
 
     def confirm(self, question, action):
         box = QMessageBox(QMessageBox.Icon.Question, "Resume Workshop", question, parent=self)
@@ -611,59 +638,60 @@ class Workshop(QMainWindow):
         else:
             event.accept()
 
-    # --- make and the PDF ----------------------------------------------------------
+    # --- building and the PDF ------------------------------------------------------
 
-    def show_pdf(self):
-        """Shows output/resume.pdf as it is (the live preview then takes over)."""
-        self.live.show_output()
-
-    def show_make_output(self, text, expand=False):
+    def show_build_output(self, text, expand=False):
         self.make_log.setPlainText(text)
         self.make_output.setVisible(bool(text))
         if expand:
             self.make_output.set_open(True)
 
-    def _make(self, target, finished):
-        """Runs `make target` without blocking the window, then calls
-        finished(succeeded, output)."""
+    def _build_pdf(self, finished):
+        """Builds output/resume.pdf from the saved input files, as `make pdf`
+        does, without blocking the window; then calls finished(succeeded,
+        output), where output is pdflatex's or says what went wrong."""
         if self.process is not None:
-            self.report("make is already running.")
+            self.report("A build is already running.")
             return
-        process = self.process = QProcess(self)
-        process.setWorkingDirectory(str(ROOT))
-        process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
 
         def done(succeeded, output):
-            if self.process is not process:
-                return  # already reported (a failed start also reports "finished")
             self.process = None
-            process.deleteLater()
+            if succeeded:
+                build.clean(self.root)
             finished(succeeded, output)
 
-        def on_finished(code, status):
-            output = bytes(process.readAll()).decode("utf-8", "replace")
-            succeeded = status == QProcess.ExitStatus.NormalExit and code == 0
-            done(succeeded, output or f"make {target} {'completed' if succeeded else 'failed'}.")
+        try:
+            build.write_tex(self.root)
+            self.process = build.run_latex(self, self.root, done)
+        except build.BuildError as error:
+            finished(False, str(error))
 
-        def on_error(error):
-            if error == QProcess.ProcessError.FailedToStart:
-                done(False, f"Could not run make: {process.errorString()}")
+    def _build_failed(self, output):
+        self.show_build_output(output, expand=True)
+        self.report('The build failed — see "Last build output".', "error")
 
-        process.finished.connect(on_finished)
-        process.errorOccurred.connect(on_error)
-        process.start("make", [target])
-
-    def run_make(self, target):
+    def run_build(self, named=False):
+        """Builds everything in output/ from the saved input files, as
+        `make build` does -- and, if `named`, the copy of the PDF named
+        after the resume that `make user` adds."""
         def finished(succeeded, output):
-            self.show_make_output(output, expand=not succeeded)
-            if succeeded:
-                self.report(f"make {target} completed.", "ok")
-                self.live.show_output(built=True)
-            else:
-                self.report(f'make {target} failed — see "Last make output".', "error")
+            if not succeeded:
+                self._build_failed(output)
+                return
+            self.live.show_output(built=True)
+            try:
+                build.write_text(self.root)
+                build.write_rxresume(self.root)
+                build.write_schema(self.root)
+                copy = build.named_copy(self.root) if named else None
+            except build.BuildError as error:
+                self._build_failed(str(error))
+                return
+            self.show_build_output(output)
+            self.report(f"Built the resume in output/{f', and {copy.name}' if copy else ''}.", "ok")
 
-        self.report(f"Running make {target}...")
-        self._make(target, finished)
+        self.report("Building the resume...")
+        self._build_pdf(finished)
 
     def import_json(self):
         """Replaces the resume in the editor with a JSON Resume file's. It
@@ -713,54 +741,59 @@ class Workshop(QMainWindow):
         """A file name from the saved resume's basics.name, as `make user`
         derives one: "Todd Takala" -> todd_takala_resume.pdf."""
         try:
-            name = json.loads(self.saved[RESUME])["basics"]["name"]
-            slug = re.sub(r"[^a-z0-9_]", "", name.lower().replace(" ", "_"))
+            slug = build.slug(json.loads(self.saved[RESUME])["basics"]["name"])
         except (ValueError, LookupError, AttributeError, TypeError):
             slug = ""
         return f"{slug}_resume.{extension}" if slug else f"resume.{extension}"
 
-    def _export_built(self, target, source, name, kind, what):
-        """Builds `source` from the saved input files with `make target`,
-        then asks where to save a copy."""
-        def finished(succeeded, output):
-            if succeeded:
-                self._save_copy(source, name, kind, what)
-            else:
-                self.show_make_output(output, expand=True)
-                self.report(f'make {target} failed — see "Last make output".', "error")
-
-        self.report(f"Exporting {what}...")
-        self._make(target, finished)
+    def _export_written(self, write, source, name, kind, what):
+        """Writes `source` from the saved input files with build.py's
+        `write`, then asks where to save a copy."""
+        try:
+            write(self.root)
+        except build.BuildError as error:
+            self._build_failed(str(error))
+            return
+        self._save_copy(self.root / source, name, kind, what)
 
     def export_pdf(self):
-        self._export_built("pdf", PDF, self._export_name("pdf"), "PDF (*.pdf)", "the PDF")
+        """Rebuilds output/resume.pdf and asks where to save a copy."""
+        def finished(succeeded, output):
+            if succeeded:
+                self._save_copy(self.pdf, self._export_name("pdf"), "PDF (*.pdf)", "the PDF")
+            else:
+                self._build_failed(output)
+
+        self.report("Exporting the PDF...")
+        self._build_pdf(finished)
 
     def export_txt(self):
-        self._export_built("txt", TXT, self._export_name("txt"), "Text (*.txt)", "the text resume")
+        self._export_written(build.write_text, "output/resume.txt", self._export_name("txt"), "Text (*.txt)", "the text resume")
 
     def export_json(self):
         """Saves a copy of input/resume.json, the JSON Resume document."""
-        self._save_copy(INPUT_DIR / RESUME, self._export_name("json"), "JSON (*.json)", "the JSON Resume")
+        self._save_copy(self.input_dir / RESUME, self._export_name("json"), "JSON (*.json)", "the JSON Resume")
 
     def download_rxresume(self):
         """Regenerates output/rxresume.json from the saved input files and
         asks where to save a copy."""
-        self._export_built("rxresume", RXRESUME, "rxresume.json", "JSON (*.json)", "the Reactive Resume file")
+        self._export_written(build.write_rxresume, "output/rxresume.json", "rxresume.json", "JSON (*.json)", "the Reactive Resume file")
 
     def page_setup(self):
         """Edits the page margins (input/geometry.yaml) in a dialog. The live
         preview follows the dialog; OK writes the file, Cancel leaves it."""
         try:
-            text = GEOMETRY.read_text(encoding="utf-8")
+            geometry = self.input_dir / GEOMETRY
+            text = geometry.read_text(encoding="utf-8")
             dialog = PageSetup(self, text, self._preview_geometry)
         except (OSError, ValueError) as error:
-            self.report(f"Page Setup can't edit input/{GEOMETRY.name} ({error}); edit the file in a text editor.", "error")
+            self.report(f"Page Setup can't edit input/{GEOMETRY} ({error}); edit the file in a text editor.", "error")
             return
         accepted = dialog.exec() == QDialog.DialogCode.Accepted
         try:
             if accepted and dialog.text() != text:
-                GEOMETRY.write_text(dialog.text(), encoding="utf-8")
-                self.report(f"Saved input/{GEOMETRY.name}. Run make build to update output/resume.pdf.", "ok")
+                geometry.write_text(dialog.text(), encoding="utf-8")
+                self.report(f"Saved input/{GEOMETRY}. Build the resume to update output/resume.pdf.", "ok")
         except OSError as error:
             self.report(str(error), "error")
         finally:
@@ -773,11 +806,11 @@ class Workshop(QMainWindow):
     def print_pdf(self, *_):
         """Prints output/resume.pdf, after asking which printer and pages."""
         document = QPdfDocument(self)
-        if not PDF.exists() or document.load(str(PDF)) != QPdfDocument.Error.None_:
+        if not self.pdf.exists() or document.load(str(self.pdf)) != QPdfDocument.Error.None_:
             self.report("Build the resume before printing the PDF.", "error")
             return
         printer = QPrinter(QPrinter.PrinterMode.HighResolution)
-        printer.setDocName(PDF.name)
+        printer.setDocName(self.pdf.name)
         # Start from the resume's own paper size (US Letter) rather than the system default.
         printer.setPageSize(QPageSize(document.pagePointSize(0), QPageSize.Unit.Point))
         dialog = QPrintDialog(printer, self)
@@ -790,15 +823,15 @@ class Workshop(QMainWindow):
         if printer.printRange() == QPrinter.PrintRange.PageRange and printer.fromPage():
             pages = range(printer.fromPage() - 1, min(printer.toPage(), document.pageCount()))
         if print_pages(document, pages, printer):
-            self.report(f"Sent {PDF.name} to {printer.printerName() or printer.outputFileName()}.", "ok")
+            self.report(f"Sent {self.pdf.name} to {printer.printerName() or printer.outputFileName()}.", "ok")
         else:
-            self.report(f"Could not print {PDF.name}.", "error")
+            self.report(f"Could not print {self.pdf.name}.", "error")
 
     def open_pdf(self):
-        if not PDF.exists():
+        if not self.pdf.exists():
             self.report("Build the resume before viewing the PDF.", "error")
-        elif not QDesktopServices.openUrl(QUrl.fromLocalFile(str(PDF))):
-            self.report(f"Could not open {PDF}.", "error")
+        elif not QDesktopServices.openUrl(QUrl.fromLocalFile(str(self.pdf))):
+            self.report(f"Could not open {self.pdf}.", "error")
 
 
 
@@ -814,10 +847,11 @@ def main():
     heartbeat = QTimer()
     heartbeat.timeout.connect(lambda: None)
     heartbeat.start(250)
+    folder = startup_resume()
     try:
-        window = Workshop()
+        window = Workshop(folder)
     except OSError as error:
-        fatal(f"The editor could not read the input files in {INPUT_DIR}: {error}")
+        fatal(f"The editor could not read the input files in {folder / 'input'}: {error}")
     window.show()
     code = app.exec()
     if window.reopen:
@@ -826,8 +860,8 @@ def main():
 
 
 def start_editor(folder):
-    """Starts another editor on `folder`, as this one closes: a folder's
-    files and generator scripts are loaded once, at startup."""
+    """Starts the editor again on `folder`, as this one closes: after an
+    update, this is the new version."""
     environment = QProcessEnvironment.systemEnvironment()
     environment.insert("RESUME_WORKSHOP_ROOT", str(folder))
     process = QProcess()

@@ -30,7 +30,8 @@ validate: input/resume.json etc/resume-schema.json etc/rxresume-schema.json scri
 	python3 scripts/validate_resume.py
 
 # The desktop editor (editor/, a Qt app). Needs PySide6 and jsonschema
-# (pip install -r requirements.txt).
+# (pip install -r requirements.txt). It builds resumes itself, with these
+# same scripts (editor/build.py), rather than by running make.
 editor:
 	python3 editor/main.py
 
@@ -39,7 +40,7 @@ editor:
 # (see packaging/build-appimage.sh).
 APPIMAGE = dist/Resume_Workshop-x86_64.AppImage
 
-$(APPIMAGE): requirements.txt $(shell find editor packaging -type f -not -path '*/__pycache__/*' 2>/dev/null)
+$(APPIMAGE): requirements.txt requirements-grammar.txt $(shell find editor scripts packaging -type f -not -path '*/__pycache__/*' 2>/dev/null)
 	packaging/build-appimage.sh
 
 appimage: $(APPIMAGE)
@@ -52,16 +53,14 @@ install-appimage: $(APPIMAGE)
 uninstall-appimage:
 	packaging/install-appimage.sh --uninstall
 
-# The PDF alone, without the text and Reactive Resume versions. The editor's
-# live preview runs this in a scratch copy of the project.
+# The PDF alone, without the text and Reactive Resume versions.
 pdf: header geometry resume $(TEXFILE).tex
 	mkdir -p output
 	pdflatex -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
 
-# The plain-text resume alone.
-txt: header geometry resume $(TEXFILE).tex
-	mkdir -p output
-	pandoc --wrap=none -f latex -t plain $(TEXFILE).tex -o $(OUTPUT).txt
+# The plain-text resume alone, written from the same inputs as the PDF.
+txt: input/resume.json input/section_order.yaml scripts/generate_text.py scripts/generate_resume.py scripts/generate_header.py scripts/jsonresume.py
+	python3 scripts/generate_text.py
 
 build: pdf txt rxresume schema
 	rm -f $(OUTPUT).aux $(OUTPUT).fdb_latexmk $(OUTPUT).fls $(OUTPUT).log $(OUTPUT).out $(OUTPUT).synctex.gz

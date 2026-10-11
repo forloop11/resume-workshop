@@ -2,11 +2,12 @@
 Updates).
 
 A release is a `v1.2.3` tag with the AppImage attached
-(.github/workflows/release.yml). The AppImage knows its own version from the
-VERSION file packaging/build-appimage.sh writes beside this one; a checkout
-has none, and is updated with git instead. Updating downloads the newer
-AppImage next to the running one and puts it in its place, which is safe
-while it runs: the old file stays open until the editor exits.
+(.github/workflows/release.yml), and the editor knows its own version and
+how it was packaged from distribution.py. Only the AppImage updates itself:
+it downloads the newer AppImage next to the running one and puts it in its
+place, which is safe while it runs, as the old file stays open until the
+editor exits. A checkout is updated with git, and an app store's build by
+the store, which doesn't get this command at all.
 
 The same releases carry a .zsync file, and the AppImage the update
 information that points to it, so AppImageUpdate, Gear Lever and the like
@@ -26,6 +27,8 @@ from PySide6.QtCore import QObject, Qt, QUrl, Signal
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QMessageBox, QProgressDialog
 
+from distribution import CHANNEL, SELF_UPDATING, VERSION
+
 REPOSITORY = "forloop11/resume-workshop"
 ASSET = "Resume_Workshop-x86_64.AppImage"
 LATEST = f"https://api.github.com/repos/{REPOSITORY}/releases/latest"
@@ -39,14 +42,6 @@ Release = namedtuple("Release", "version page notes url size sha256")
 
 class Canceled(Exception):
     pass
-
-
-def version():
-    """This AppImage's version, or None in a checkout."""
-    try:
-        return Path(__file__).with_name("VERSION").read_text(encoding="utf-8").strip() or None
-    except OSError:
-        return None
 
 
 def numbers(version):
@@ -158,7 +153,7 @@ class Updater(QObject):
 
     def _on_checked(self, release):
         self.busy = False
-        current = version()
+        current = VERSION
         if isinstance(release, Exception):
             self.window.report(f"Could not check for updates: {release}", "error")
         elif release is None:
@@ -173,9 +168,9 @@ class Updater(QObject):
         appimage = os.environ.get("APPIMAGE")
         box = QMessageBox(QMessageBox.Icon.Information, "Resume Workshop", f"Resume Workshop {release.version} is available.", parent=self.window)
         update = None
-        if not current:
+        if CHANNEL == "source":
             box.setInformativeText("This editor is running from a checkout of the project; update it with git pull.")
-        elif not appimage or not release.url:
+        elif not SELF_UPDATING or not appimage or not release.url:
             box.setInformativeText(f"You have {current}. Download the new version from its release page.")
         elif not os.access(Path(appimage).parent, os.W_OK):
             box.setInformativeText(f"You have {current}. {appimage} is in a folder you can't write to, so download the new version from its release page.")

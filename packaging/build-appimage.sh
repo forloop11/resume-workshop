@@ -4,10 +4,14 @@
 # so it runs without a pip install.
 #
 # The AppImage holds the editor, and a template of the makefile and scripts
-# that it copies into each new resume folder (File > New Resume). A resume
-# lives in its own folder, outside the AppImage; building its PDF still uses
-# that machine's make, python3, pdflatex and pandoc, and the grammar checker
-# its Java.
+# that it copies into each new resume folder (File > New Resume) and builds
+# resumes with itself. A resume lives in its own folder, outside the
+# AppImage; building its PDF still uses that machine's pdflatex.
+#
+# The grammar checker (requirements-grammar.txt) is GPL-licensed, so it is
+# left out, and the AppImage's --install-grammar adds it for one user (see
+# packaging/AppRun). GRAMMAR=1 builds it in instead, which makes that
+# AppImage as a whole a GPL work: not one to publish as this project's.
 #
 # Needs curl and an internet connection: it downloads a relocatable Python
 # (github.com/niess/python-appimage), appimagetool, and the pip packages.
@@ -62,7 +66,11 @@ PYTHON=$APPDIR/opt/python/bin/python$PYTHON_VERSION
 ln -sf "python$PYTHON_VERSION" "$APPDIR/opt/python/bin/python3"
 
 echo "Installing the packages in requirements.txt..."
-"$PYTHON" -s -E -m pip install --quiet --no-cache-dir --no-warn-script-location --disable-pip-version-check -r "$ROOT/requirements.txt"
+REQUIREMENTS=(-r "$ROOT/requirements.txt")
+if [ "${GRAMMAR:-}" = 1 ]; then
+    REQUIREMENTS+=(-r "$ROOT/requirements-grammar.txt")
+fi
+"$PYTHON" -s -E -m pip install --quiet --no-cache-dir --no-warn-script-location --disable-pip-version-check "${REQUIREMENTS[@]}"
 
 # PySide6 ships all of Qt; leave out the parts a widgets app with a web view
 # never loads (developer tools, QML modules, 3D, multimedia, and so on).
@@ -72,9 +80,12 @@ SITE=$("$PYTHON" -s -E -c 'import sysconfig; print(sysconfig.get_paths()["pureli
 echo "Adding the editor..."
 mkdir -p "$APPDIR/opt/resume-workshop"
 cp -r "$ROOT/editor" "$APPDIR/opt/resume-workshop/editor"
+cp "$ROOT/requirements-grammar.txt" "$APPDIR/opt/resume-workshop/"  # for --install-grammar
+# What the editor knows about its packaging (editor/distribution.py).
 echo "$VERSION" >"$APPDIR/opt/resume-workshop/editor/VERSION"
+echo appimage >"$APPDIR/opt/resume-workshop/editor/CHANNEL"
 # ...and the files File > New Resume copies into a new resume folder.
-"$PYTHON" -s -E "$ROOT/editor/project.py" --template "$APPDIR/opt/resume-workshop"
+"$PYTHON" -s -E -B "$ROOT/editor/project.py" --template "$APPDIR/opt/resume-workshop"
 find "$APPDIR/opt/resume-workshop" -depth -name __pycache__ -exec rm -r {} +
 # The image is read-only, so compile the editor now rather than at each start.
 "$PYTHON" -s -E -m compileall -q "$APPDIR/opt/resume-workshop"

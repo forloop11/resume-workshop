@@ -17,12 +17,10 @@ import sys
 
 import project  # noqa: E402
 
-ROOT = project.startup_folder()
-if ROOT is None or project.missing(ROOT):
-    sys.exit(f"{ROOT or 'This'} is not a Resume Workshop folder.")
-# The section list and date format are the folder's own generators', so the
-# editor offers exactly what `make build` can render there.
-sys.path.insert(0, str(ROOT / "scripts"))
+# The section list and date format are the generators' own -- the editor's
+# copy of scripts/, which it also builds with (build.py) -- so the editor
+# offers exactly what it can render.
+sys.path.insert(0, str(project.SOURCE / "scripts"))
 
 from generate_resume import PAGEBREAK, SECTION_LISTS, SECTIONS  # noqa: E402
 from jsonresume import ISO8601  # noqa: E402

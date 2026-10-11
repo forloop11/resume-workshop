@@ -53,9 +53,12 @@ install-appimage: $(APPIMAGE)
 uninstall-appimage:
 	packaging/install-appimage.sh --uninstall
 
-# The PDF alone, without the text and Reactive Resume versions.
+# The PDF alone, without the text and Reactive Resume versions. pdflatex
+# runs twice: the second run gives the PDF its bookmarks, from the section
+# list the first one wrote.
 pdf: header geometry resume $(TEXFILE).tex
 	mkdir -p output
+	pdflatex -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
 	pdflatex -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
 
 # The plain-text resume alone, written from the same inputs as the PDF.

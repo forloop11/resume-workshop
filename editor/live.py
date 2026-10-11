@@ -118,7 +118,7 @@ class LivePreview(QObject):
         run = self.run = object()
         try:
             build.write_tex(self.root)
-            self.process = build.run_latex(self, self.root, lambda succeeded, output: self._finished(run, content, succeeded, output))
+            self.process = build.run_latex(self, self.root, lambda succeeded, output: self._finished(run, content, succeeded, output), passes=1)
         except build.BuildError as error:
             self._failed(content, self._reason(str(error)))
 

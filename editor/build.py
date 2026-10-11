@@ -134,11 +134,14 @@ def named_copy(root):
     return _generated(step)
 
 
-def run_latex(parent, root, finished):
+def run_latex(parent, root, finished, passes=2):
     """Starts pdflatex on the folder's input/format.tex, as `make pdf` does
     once write_tex() has run, without blocking the window. Calls
     finished(succeeded, output) when it ends, however it ends, and returns
-    the QProcess. Raises BuildError if there is no pdflatex."""
+    the QProcess. Raises BuildError if there is no pdflatex.
+
+    Like `make pdf` it runs pdflatex twice, the second time for the PDF's
+    bookmarks; `passes` is 1 where what the last build left will do."""
     path = os.pathsep.join([os.environ.get("PATH", os.defpath), *TEX_FOLDERS])
     program = shutil.which("pdflatex", path=path)
     if program is None:
@@ -158,9 +161,17 @@ def run_latex(parent, root, finished):
             process.deleteLater()
             finished(succeeded, output)
 
+    arguments = [f"-jobname={PDF.with_suffix('').as_posix()}", "-interaction=nonstopmode", TEX.as_posix()]
+    remaining = [passes - 1]
+
     def on_finished(code, status):
         output = bytes(process.readAll()).decode("utf-8", "replace")
-        done(status == QProcess.ExitStatus.NormalExit and code == 0, output)
+        succeeded = status == QProcess.ExitStatus.NormalExit and code == 0
+        if succeeded and remaining[0] and not reported:
+            remaining[0] -= 1
+            process.start(program, arguments)
+        else:
+            done(succeeded, output)
 
     def on_error(error):
         if error == QProcess.ProcessError.FailedToStart:
@@ -168,7 +179,7 @@ def run_latex(parent, root, finished):
 
     process.finished.connect(on_finished)
     process.errorOccurred.connect(on_error)
-    process.start(program, [f"-jobname={PDF.with_suffix('').as_posix()}", "-interaction=nonstopmode", TEX.as_posix()])
+    process.start(program, arguments)
     return process
 
 

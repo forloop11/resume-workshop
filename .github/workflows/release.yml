@@ -1,0 +1,40 @@
+# Publishes a release when a version tag is pushed:
+#
+#   git tag v1.2.3 && git push origin v1.2.3
+#
+# builds the editor's AppImage as that version and attaches it, with its
+# .zsync file, to a new GitHub release. The asset names stay the same from
+# release to release: the editor's Help > Check for Updates
+# (editor/update.py) and the update information in the AppImage
+# (packaging/build-appimage.sh) both look for them on the latest release.
+name: Release
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+
+permissions:
+  contents: write
+
+jobs:
+  appimage:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the AppImage
+        run: make appimage
+        env:
+          VERSION: ${{ github.ref_name }}
+      - name: Check the AppImage
+        run: |
+          test -s dist/Resume_Workshop-x86_64.AppImage.zsync
+          dist/Resume_Workshop-x86_64.AppImage --appimage-extract opt/resume-workshop/editor/VERSION >/dev/null
+          test "v$(cat squashfs-root/opt/resume-workshop/editor/VERSION)" = "$GITHUB_REF_NAME"
+      - name: Publish the release
+        run: >
+          gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes
+          --title "Resume Workshop ${GITHUB_REF_NAME#v}"
+          dist/Resume_Workshop-x86_64.AppImage
+          dist/Resume_Workshop-x86_64.AppImage.zsync
+        env:
+          GH_TOKEN: ${{ github.token }}

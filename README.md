@@ -61,7 +61,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - [editor/](editor/) contains the Qt desktop editor.
 - [interim/](interim/) contains generated LaTeX fragments used during a build.
 - [output/](output/) contains the generated PDF and plain-text resumes, the Reactive Resume export (`rxresume.json`), and the resume schema (`resume-workshop.json`).
-- [packaging/](packaging/) builds and installs the editor as an AppImage.
+- [packaging/](packaging/) builds and installs the editor as an AppImage, and [.github/workflows/](.github/workflows/) publishes it as a release.
 - [docker/](docker/) contains the reproducible build image definition.
 - [docs/screenshots/](docs/screenshots/) contains the editor screenshots used in this README.
 - [etc/](etc/) contains the vendored JSON Resume and Reactive Resume schemas, cspell configuration, and project-specific words.
@@ -198,8 +198,8 @@ the LaTeX layout, commands, and document configuration.
 
 Run `make editor` to open the editor window. It's a [Qt](https://www.qt.io/)
 app in [editor/](editor/), written in Python with PySide6, so it needs the
-packages in `requirements.txt` (`pip install -r requirements.txt`). To start
-it from the applications menu instead, see
+packages in `requirements.txt` (`pip install -r requirements.txt`). To run
+it without a checkout or those packages, download the AppImage: see
 [Installing the editor](#installing-the-editor).
 
 ![Editor window: menu bar, block editor, and the live PDF preview](docs/screenshots/editor-window.png)
@@ -245,6 +245,9 @@ Every command is in the menu bar:
   - Expand All (Ctrl+Shift+E) and Collapse All (Ctrl+Shift+C) open and close
     the block editor's cards.
   - Wrap Lines, for the raw tab; Live Preview; and Full Screen (F11).
+- **Help**
+  - Check for Updates and About Resume Workshop: see
+    [Updating](#updating).
 
 ### Live preview
 
@@ -350,28 +353,75 @@ to the AppImage or set `RESUME_WORKSHOP_ROOT`.
 
 ### Installing the editor
 
-`make install-appimage` builds the editor into an
-[AppImage](https://appimage.org/) and installs it for your user, so it starts
-from the applications menu instead of a terminal:
+The editor is published as an [AppImage](https://appimage.org/), a single
+file that runs on most x86-64 Linux systems without installing anything. It
+bundles the editor, a Python of its own, and the packages in
+`requirements.txt`, so it needs no `pip install`.
 
-- `make appimage` builds `dist/Resume_Workshop-x86_64.AppImage` with
-  [packaging/build-appimage.sh](packaging/build-appimage.sh). It bundles the
-  editor, a Python of its own, and the packages in `requirements.txt`, so the
-  AppImage needs no `pip install`. The build needs curl and an internet
-  connection, and downloads a relocatable Python from
+1. Download `Resume_Workshop-x86_64.AppImage` from the
+   [latest release](https://github.com/forloop11/resume-workshop/releases/latest).
+2. Make it executable (`chmod +x Resume_Workshop-x86_64.AppImage`) and run
+   it.
+
+The first time, it asks whether to create a new resume or open one you have;
+after that it opens whichever folder was open last. The AppImage holds the
+editor and the template files that New Resume copies; resumes stay in their
+own [resume folders](#resume-folders). The make commands still need Make,
+Python, pdflatex, and Pandoc on the machine, spell checking needs Enchant,
+and grammar checking needs Java.
+
+#### Updating
+
+**Help > Check for Updates** asks GitHub for the latest release. If it is
+newer than the version you have (**Help > About Resume Workshop** says which
+that is), **Update and Restart** downloads the new AppImage, checks it
+against the size and SHA-256 sum the release lists, puts it in place of the
+one that is running, and starts it on the same resume folder. The editor
+only contacts GitHub when you choose that command.
+
+The AppImage also carries
+[update information](https://github.com/AppImage/AppImageSpec/blob/master/draft.md#update-information)
+pointing to the `.zsync` file on the latest release, so
+[AppImageUpdate](https://github.com/AppImageCommunity/AppImageUpdate),
+[Gear Lever](https://github.com/mijorus/gearlever), and other AppImage
+managers can update it too, downloading only the parts that changed.
+
+#### Building it yourself
+
+From a checkout, `make install-appimage` builds the AppImage and installs it
+for your user, so it starts from the applications menu instead of a terminal:
+
+- `make appimage` builds `dist/Resume_Workshop-x86_64.AppImage` and its
+  `.zsync` file with
+  [packaging/build-appimage.sh](packaging/build-appimage.sh). The build needs
+  curl and an internet connection, and downloads a relocatable Python from
   [python-appimage](https://github.com/niess/python-appimage) and
   [appimagetool](https://github.com/AppImage/appimagetool), both checked
-  against pinned SHA-256 sums.
+  against pinned SHA-256 sums. Its version is what `git describe` calls the
+  commit, or `$VERSION` if that is set.
 - `make install-appimage` copies it to `~/Applications` (set `APPIMAGE_DIR`
   for somewhere else) and adds a **Resume Workshop** launcher and icon under
   `~/.local/share`. `make uninstall-appimage` removes all three. Run
   `make install-appimage` again after changing the editor to update it.
 
-The AppImage holds the editor and the template files that New Resume copies;
-resumes stay in their own [resume folders](#resume-folders). The installed
-launcher opens this checkout the first time, and after that whichever folder
-was open last. The make commands still need Make, Python, pdflatex, and Pandoc
-on the machine, spell checking needs Enchant, and grammar checking needs Java.
+The installed launcher opens this checkout the first time, and after that
+whichever folder was open last.
+
+#### Releasing
+
+Pushing a version tag publishes a release:
+
+```sh
+git tag v1.2.3
+git push origin v1.2.3
+```
+
+[.github/workflows/release.yml](.github/workflows/release.yml) then builds the
+AppImage as version 1.2.3 and attaches it and its `.zsync` file to a new
+GitHub release, with notes generated from the commits since the last one.
+Tags are `v` and three numbers; the editor compares those numbers to decide
+whether a release is newer. The two files keep the same names in every
+release, which is what both ways of updating look for.
 
 ### Block editor
 
@@ -491,6 +541,7 @@ it uses the same rules as `make build` and `make validate`. Its own code is in
 - [find.py](editor/find.py): Find and Replace.
 - [page_setup.py](editor/page_setup.py): the Page Setup dialog.
 - [project.py](editor/project.py): resume folders.
+- [update.py](editor/update.py): Check for Updates.
 - [style.qss](editor/style.qss): the colors.
 
 ## Reactive Resume export

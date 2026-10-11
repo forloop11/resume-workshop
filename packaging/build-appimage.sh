@@ -22,7 +22,17 @@ APPIMAGETOOL_SHA256=ed4ce84f0d9caff66f50bcca6ff6f35aae54ce8135408b3fa33abfc3cb38
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 BUILD=$ROOT/build/appimage
 APPDIR=$BUILD/AppDir
-OUTPUT=$ROOT/dist/Resume_Workshop-x86_64.AppImage
+NAME=Resume_Workshop-x86_64.AppImage
+OUTPUT=$ROOT/dist/$NAME
+# The version the editor says it is and compares with the latest release
+# (editor/update.py): $VERSION if set, as the release workflow does from the
+# tag, or else what git calls this commit (the last tag, plus how far past
+# it). A leading v is dropped: the tag v1.2.3 is version 1.2.3.
+VERSION=${VERSION:-$(git -C "$ROOT" describe --tags --always --dirty 2>/dev/null || echo unknown)}
+export VERSION=${VERSION#v}  # appimagetool notes it in the launcher too
+# Where AppImage updaters look for a newer one: the .zsync file attached to
+# this repository's latest GitHub release (.github/workflows/release.yml).
+UPDATE_INFORMATION="gh-releases-zsync|forloop11|resume-workshop|latest|$NAME.zsync"
 # Run the downloaded AppImages by unpacking them, so the build needs no FUSE.
 export APPIMAGE_EXTRACT_AND_RUN=1
 
@@ -62,6 +72,7 @@ SITE=$("$PYTHON" -s -E -c 'import sysconfig; print(sysconfig.get_paths()["pureli
 echo "Adding the editor..."
 mkdir -p "$APPDIR/opt/resume-workshop"
 cp -r "$ROOT/editor" "$APPDIR/opt/resume-workshop/editor"
+echo "$VERSION" >"$APPDIR/opt/resume-workshop/editor/VERSION"
 # ...and the files File > New Resume copies into a new resume folder.
 "$PYTHON" -s -E "$ROOT/editor/project.py" --template "$APPDIR/opt/resume-workshop"
 find "$APPDIR/opt/resume-workshop" -depth -name __pycache__ -exec rm -r {} +
@@ -72,10 +83,17 @@ install -m 644 "$ROOT/packaging/resume-workshop.desktop" "$APPDIR/resume-worksho
 install -m 644 "$ROOT/editor/icon.svg" "$APPDIR/resume-workshop.svg"
 ln -s resume-workshop.svg "$APPDIR/.DirIcon"
 
-echo "Packing..."
-if ! ARCH=x86_64 "$BUILD/appimagetool" --no-appstream "$APPDIR" "$OUTPUT.new" >"$BUILD/appimagetool.log" 2>&1; then
+echo "Packing version $VERSION..."
+# Packed in a folder of its own, under its final name: appimagetool (with
+# the zsyncmake it carries) writes the .zsync file a release has for those
+# updaters to the current folder, with the AppImage's name inside it.
+PACK=$BUILD/pack
+rm -rf "${PACK:?}"
+mkdir -p "$PACK"
+if ! (cd "$PACK" && ARCH=x86_64 "$BUILD/appimagetool" --no-appstream --updateinformation "$UPDATE_INFORMATION" "$APPDIR" "$NAME") >"$BUILD/appimagetool.log" 2>&1; then
     cat "$BUILD/appimagetool.log" >&2
     exit 1
 fi
-mv "$OUTPUT.new" "$OUTPUT"
-echo "Built $OUTPUT ($(du -h "$OUTPUT" | cut -f1))."
+mv "$PACK/$NAME" "$OUTPUT"
+mv "$PACK/$NAME.zsync" "$OUTPUT.zsync"
+echo "Built $OUTPUT ($(du -h "$OUTPUT" | cut -f1)) and $NAME.zsync."

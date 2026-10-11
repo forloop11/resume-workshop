@@ -133,6 +133,7 @@ from find import FindBar  # noqa: E402
 from live import GEOMETRY, LivePreview  # noqa: E402
 from page_setup import PageSetup  # noqa: E402
 from proofing import Grammar, Proofer, Speller, utf16  # noqa: E402
+from update import RELEASES, Updater, version  # noqa: E402
 from widgets import Collapsible, restyle  # noqa: E402
 
 INPUT_DIR = ROOT / "input"
@@ -284,6 +285,7 @@ class Workshop(QMainWindow):
         self.files = {}  # each input file's text as edited
         self.saved = {}  # ...and as it is on disk
         self.process = None  # the make run in progress, if any
+        self.updater = Updater(self)
         self.speller = Speller()
         self.grammar = Grammar()
         self.grammar.failed.connect(lambda reason: self.report(f"Grammar checking is off: {reason}", "error"))
@@ -445,6 +447,10 @@ class Workshop(QMainWindow):
         add(view_menu, "&Live Preview", self.live.set_enabled, checkable=True).setChecked(True)
         add(view_menu, "&Full Screen", lambda on: self.showFullScreen() if on else self.showNormal(), "F11", checkable=True)
 
+        help_menu = self.menuBar().addMenu("&Help")
+        add(help_menu, "Check for &Updates…", self.updater.check)
+        add(help_menu, "&About Resume Workshop", self.about)
+
         for menu in (edit_menu, view_menu):
             menu.aboutToShow.connect(self._update_menus)
         self.tabs.currentChanged.connect(self._update_menus)
@@ -480,6 +486,19 @@ class Workshop(QMainWindow):
             project.remember(folder)
         else:
             self.reopen = None
+
+    def restart(self):
+        """Starts the editor again on this folder, as after an update (see
+        update.py): closes this window, asking about unsaved changes, and
+        has main() start it. False if the window stayed open."""
+        self.reopen = ROOT
+        if not self.close():
+            self.reopen = None
+        return self.reopen is not None
+
+    def about(self):
+        running = f"Version {version()}" if version() else "Running from a checkout"
+        QMessageBox.about(self, "About Resume Workshop", f"<b>Resume Workshop</b><br>{running}<br><br><a href=\"{RELEASES}\">{RELEASES}</a>")
 
     def _update_menus(self, *_):
         """Enables the items that apply to the tab that is showing."""

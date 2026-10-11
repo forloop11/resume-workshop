@@ -61,6 +61,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - [editor/](editor/) contains the Qt desktop editor.
 - [interim/](interim/) contains generated LaTeX fragments used during a build.
 - [output/](output/) contains the generated PDF and plain-text resumes, the Reactive Resume export (`rxresume.json`), and the resume schema (`resume-workshop.json`).
+- [tests/](tests/) contains the tests (`make test`).
 - [packaging/](packaging/) builds and installs the editor as an AppImage, and [.github/workflows/](.github/workflows/) publishes it as a release.
 - [docker/](docker/) contains the reproducible build image definition.
 - [docs/screenshots/](docs/screenshots/) contains the editor screenshots used in this README.
@@ -69,7 +70,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 ## Make targets
 
 - `make build` regenerates all interim files, then creates `output/resume.pdf`, `output/resume.txt`, `output/rxresume.json`, and `output/resume-workshop.json`.
-- `make pdf` creates just `output/resume.pdf`, without the text and Reactive Resume versions.
+- `make pdf` creates just `output/resume.pdf`, without the text and Reactive Resume versions. Its title, author, and subject (the file's properties) are the resume's name and label.
 - `make txt` creates just `output/resume.txt`, written from the same inputs as the PDF by [scripts/generate_text.py](scripts/generate_text.py).
 - `make header` regenerates `interim/header.tex` from the `basics` in [input/resume.json](input/resume.json) without a full build.
 - `make geometry` regenerates `interim/geometry.tex` from [input/geometry.yaml](input/geometry.yaml) without a full build.
@@ -77,6 +78,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - `make rxresume` writes `output/rxresume.json`, the resume as a [Reactive Resume](https://rxresu.me) document (see [Reactive Resume export](#reactive-resume-export)), without a full build.
 - `make schema` writes `output/resume-workshop.json`, the JSON Resume schema with this project's extension fields added (see [Editing the resume](#editing-the-resume)), without a full build.
 - `make validate` checks [input/resume.json](input/resume.json) against the JSON Resume schema and the generator's rules, and the Reactive Resume export against its schema.
+- `make test` runs the tests in [tests/](tests/): the generators, the updater, and the editor driven without a display. The editor's tests need its pip packages, and Make and pdflatex to compare its builds with `make build`; they are skipped without them. [.github/workflows/test.yml](.github/workflows/test.yml) runs them on every push.
 - `make user` creates `output/<name>_resume.pdf`, where `<name>` is the `basics.name`
   field from [input/resume.json](input/resume.json), lowercased, with spaces
   replaced by underscores and everything else reduced to alphanumerics/underscores
@@ -227,6 +229,7 @@ Every command is in the menu bar:
     Reload from Disk (Ctrl+R) rereads the files in `input/`.
   - Build Resume and Build and Name PDF do what `make build` and
     `make user` do: see [Building](#building).
+  - Update Folder's Build Files: see [Resume folders](#resume-folders).
   - Page Setup (Ctrl+Shift+P): see [Page Setup](#page-setup).
   - Print PDF (Ctrl+P), Open PDF (Ctrl+Shift+O), Import JSON Resume (Ctrl+I),
     Export PDF (Ctrl+E), Export TXT, Export JSON, and Download rxresume.json:
@@ -252,6 +255,16 @@ Every command is in the menu bar:
 - **Help**
   - Check for Updates and About Resume Workshop: see
     [Updating](#updating).
+  - In the AppImage, Add to Applications Menu (see
+    [Installing the editor](#installing-the-editor)) and Third-Party
+    Licenses, the licenses of everything it bundles.
+
+The color themes:
+
+![The editor in each color theme](docs/screenshots/editor-themes.png)
+
+[docs/screenshots/retake.py](docs/screenshots/retake.py) retakes this
+picture and the File menu's, without a display.
 
 ### Building
 
@@ -267,6 +280,9 @@ places, as the folder's Make targets write.
   `output/<name>_resume.pdf`.
 - Building uses the saved files; the [live preview](#live-preview) is where
   unsaved edits show.
+- When a folder opens, the editor checks that pdflatex and the TeX packages
+  its `format.tex` loads are installed, and says under the window's title
+  which are missing.
 
 ### Live preview
 
@@ -373,7 +389,11 @@ Switching folders asks about unsaved changes first, then shows the other
 folder in the same window. A new folder's scripts are a copy as of when it
 was made; they don't follow later changes to this project. They are there
 for `make`: the editor always builds with its own copy (see
-[Building](#building)), whichever folder is open.
+[Building](#building)), whichever folder is open. When a folder's copy
+differs from the editor's, a message says so as it opens, and **File >
+Update Folder's Build Files** replaces the folder's makefile, scripts, and
+schemas with the editor's, after asking. The resume and its layout in
+`input/` are left alone.
 
 `make editor` always opens this checkout. The installed AppImage opens the
 folder it had open last. To open a particular folder from a terminal, pass it
@@ -392,7 +412,10 @@ bundles the editor, a Python of its own, and the packages in
    it.
 
 The first time, it asks whether to create a new resume or open one you have;
-after that it opens whichever folder was open last. The AppImage holds the
+after that it opens whichever folder was open last. **Help > Add to
+Applications Menu** adds a launcher and icon for the AppImage where it is, so
+it starts from the applications menu from then on; the same command removes
+them again. The AppImage holds the
 editor and the template files that New Resume copies; resumes stay in their
 own [resume folders](#resume-folders). Building the PDF needs pdflatex on
 the machine, and spell checking needs Enchant. Grammar checking isn't
@@ -580,6 +603,7 @@ it uses the same rules as `make build` and `make validate`. Its own code is in
 - [page_setup.py](editor/page_setup.py): the Page Setup dialog.
 - [project.py](editor/project.py): resume folders.
 - [update.py](editor/update.py): Check for Updates.
+- [launcher.py](editor/launcher.py): Add to Applications Menu.
 - [distribution.py](editor/distribution.py): how the editor was packaged
   (a checkout, the AppImage, or an app store's build), and what that allows.
 - [style.qss](editor/style.qss) and [themes.py](editor/themes.py): the

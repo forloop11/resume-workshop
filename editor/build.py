@@ -20,6 +20,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -134,6 +135,30 @@ def named_copy(root):
     return _generated(step)
 
 
+def _search_path():
+    return os.pathsep.join([os.environ.get("PATH", os.defpath), *TEX_FOLDERS])
+
+
+def missing(root):
+    """What building the folder's PDF needs that this machine doesn't
+    have, as a sentence to show; None if nothing is known to be missing."""
+    path = _search_path()
+    if shutil.which("pdflatex", path=path) is None:
+        return "Building the PDF needs pdflatex, which isn't installed: install a TeX distribution such as TeX Live."
+    kpsewhich = shutil.which("kpsewhich", path=path)
+    try:
+        # The packages the layout loads outright (not inside \IfFileExists).
+        packages = re.findall(r"^\\usepackage(?:\[[^\]]*\])?\{([\w-]+)\}", (root / TEX).read_text(encoding="utf-8"), re.MULTILINE)
+        found = subprocess.run([kpsewhich, *(f"{name}.sty" for name in packages)], capture_output=True, text=True, timeout=10,
+                               env={**os.environ, "PATH": path}).stdout
+    except (OSError, TypeError, subprocess.SubprocessError):
+        return None  # no kpsewhich to ask, or no layout to read
+    absent = [name for name in packages if f"/{name}.sty" not in found]
+    if absent:
+        return f"Building the PDF needs the TeX package{'s' if len(absent) > 1 else ''} {', '.join(absent)}: install with tlmgr, or from your system's packages."
+    return None
+
+
 def run_latex(parent, root, finished, passes=2):
     """Starts pdflatex on the folder's input/format.tex, as `make pdf` does
     once write_tex() has run, without blocking the window. Calls
@@ -142,7 +167,7 @@ def run_latex(parent, root, finished, passes=2):
 
     Like `make pdf` it runs pdflatex twice, the second time for the PDF's
     bookmarks; `passes` is 1 where what the last build left will do."""
-    path = os.pathsep.join([os.environ.get("PATH", os.defpath), *TEX_FOLDERS])
+    path = _search_path()
     program = shutil.which("pdflatex", path=path)
     if program is None:
         raise BuildError("pdflatex isn't installed, or isn't on the PATH. Building the PDF needs a TeX distribution such as TeX Live.")

@@ -9,6 +9,7 @@ the AppImage carries -- and writing a starter resume.
 No Qt at import: this runs before the editor knows which folder it has, and
 packaging/build-appimage.sh runs it to fill the AppImage's copy.
 """
+import filecmp
 import json
 import os
 import shutil
@@ -27,6 +28,10 @@ REQUIRED = ["makefile", "scripts/generate_resume.py", "input/resume.json", "inpu
 TEMPLATE = ["makefile", "requirements.txt", "LICENSE", ".gitignore", ".dockerignore", "docker", "scripts",
             "etc/cspell.json", "etc/resume-schema.json", "etc/resume-schema.LICENSE.md", "etc/rxresume-schema.json",
             "etc/rxresume-schema.LICENSE.md", "input/format.tex", "input/geometry.yaml"]
+# The part of TEMPLATE a folder needs for building without the editor,
+# which later versions of the editor may improve on. The rest, in input/,
+# is the resume's own layout.
+BUILD_FILES = [name for name in TEMPLATE if not name.startswith("input/")]
 RECENT_LIMIT = 8
 
 # A new resume's section_order.yaml: every section, in a usual order.
@@ -78,15 +83,46 @@ def missing(folder):
     return [name for name in REQUIRED if not (Path(folder) / name).is_file()]
 
 
-def copy_template(destination):
+def copy_template(destination, names=TEMPLATE):
     """Copies the TEMPLATE files from the editor's folder into `destination`."""
-    for name in TEMPLATE:
+    for name in names:
         source, target = SOURCE / name, Path(destination) / name
         target.parent.mkdir(parents=True, exist_ok=True)
         if source.is_dir():
             shutil.copytree(source, target, ignore=shutil.ignore_patterns("__pycache__"), dirs_exist_ok=True)
         else:
             shutil.copyfile(source, target)
+
+
+def _files(name):
+    """The files of one TEMPLATE entry in the editor's folder, as paths
+    relative to it."""
+    source = SOURCE / name
+    if not source.is_dir():
+        return [Path(name)]
+    return [path.relative_to(SOURCE) for path in sorted(source.rglob("*")) if path.is_file() and "__pycache__" not in path.parts]
+
+
+def outdated(folder):
+    """The BUILD_FILES entries `folder` has differently from the editor's
+    own copy, or not at all: its `make build` and the editor's Build may
+    then differ. None for the folder the editor itself is in."""
+    folder = Path(folder)
+    if folder.resolve() == SOURCE:
+        return []
+    def same(path):
+        try:
+            return filecmp.cmp(SOURCE / path, folder / path, shallow=False)
+        except OSError:
+            return False
+
+    return [name for name in BUILD_FILES if not all(same(path) for path in _files(name))]
+
+
+def update_build_files(folder):
+    """Brings `folder`'s BUILD_FILES up to date with the editor's copy;
+    OSError if they can't be written."""
+    copy_template(folder, BUILD_FILES)
 
 
 def create(folder):

@@ -114,6 +114,7 @@ def startup_resume():
 
 import build  # noqa: E402
 import distribution  # noqa: E402
+import launcher  # noqa: E402
 from blocks import BlocksEditor, button, label, on_edit  # noqa: E402
 from document import ORDER, RESUME  # noqa: E402
 from find import FindBar  # noqa: E402
@@ -127,6 +128,8 @@ EDITABLE_FILES = [ORDER, RESUME]
 # Files the blocks tab fully covers: still loaded and saved, but with no raw tab of their own.
 NO_TAB = {ORDER}
 PRINT_DPI = 600
+# Written into the packaged editor (packaging/collect_licenses.py).
+LICENSES = project.SOURCE / "THIRD-PARTY-LICENSES.txt"
 
 JSON_KEY = re.compile(r'"(?:[^"\\]|\\.)*"(?=\s*:)')
 JSON_STRING = re.compile(r'"(?:[^"\\]|\\.)*"')
@@ -353,8 +356,6 @@ class Workshop(QMainWindow):
         self._build_menus()
 
         self._open(self.root)
-        if self.speller.error:
-            self.report(f"Spell checking is off: {self.speller.error}", "error")
 
     @property
     def input_dir(self):
@@ -378,6 +379,69 @@ class Workshop(QMainWindow):
         self.refresh_tabs()
         self.show_build_output("")
         self.live.open()
+        self._report_folder()
+
+    def _report_folder(self):
+        """Says what stands in the way of working on the open folder, most
+        pressing first, or clears the message."""
+        missing, stale = build.missing(self.root), project.outdated(self.root)
+        if missing:
+            self.report(missing, "error")
+        elif self.speller.error:
+            self.report(f"Spell checking is off: {self.speller.error}", "error")
+        elif stale:
+            self.report(f"This folder's own build files ({', '.join(stale)}) differ from the editor's, so `make build` here may not match the "
+                        "editor's Build. File > Update Folder's Build Files brings them up to date.")
+        else:
+            self.report("")
+
+    def update_build_files(self):
+        """Replaces the open folder's makefile, scripts, and the rest of its
+        build files with the editor's own, after asking."""
+        stale = project.outdated(self.root)
+        if not stale:
+            self.report("This folder's build files already match the editor's.", "ok")
+            return
+        box = QMessageBox(QMessageBox.Icon.Question, "Resume Workshop", "Update this folder's build files?", parent=self)
+        box.setInformativeText(f"This replaces {', '.join(stale)} in {self._short(self.root)} with the editor's copies. Changes you made to "
+                               "them there are lost; the resume and its layout in input/ aren't touched.")
+        update = box.addButton("Update", QMessageBox.ButtonRole.AcceptRole)
+        box.setDefaultButton(box.addButton("Cancel", QMessageBox.ButtonRole.RejectRole))
+        box.exec()
+        if box.clickedButton() is not update:
+            return
+        try:
+            project.update_build_files(self.root)
+        except OSError as error:
+            self.report(f"Could not update the build files: {error}", "error")
+            return
+        self.report(f"Updated {', '.join(stale)} in {self._short(self.root)}.", "ok")
+
+    def toggle_launcher(self):
+        """Adds the AppImage to the applications menu, or takes it out."""
+        try:
+            if launcher.installed():
+                launcher.remove()
+                self.report("Removed Resume Workshop from the applications menu.", "ok")
+            else:
+                launcher.install()
+                self.report(f"Added Resume Workshop to the applications menu. It starts {launcher.appimage()}, so add it again if you move that file.", "ok")
+        except OSError as error:
+            self.report(f"Could not change the applications menu: {error}", "error")
+
+    def show_licenses(self):
+        """Shows the licenses of what the packaged editor includes."""
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Third-Party Licenses")
+        dialog.resize(760, 640)
+        text = QPlainTextEdit(LICENSES.read_text(encoding="utf-8", errors="replace"))
+        text.setReadOnly(True)
+        text.setProperty("kind", "log")
+        text.setFont(QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont))
+        layout = QVBoxLayout(dialog)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(text)
+        dialog.exec()
 
     # --- menus -------------------------------------------------------------------
 
@@ -404,6 +468,7 @@ class Workshop(QMainWindow):
         file_menu.addSeparator()
         add(file_menu, "Build Resu&me", self.run_build)
         add(file_menu, "Build and &Name PDF", lambda: self.run_build(named=True))
+        add(file_menu, "Update &Folder's Build Files…", self.update_build_files)
         file_menu.addSeparator()
         add(file_menu, "Page Set&up…", self.page_setup, "Ctrl+Shift+P")
         add(file_menu, "&Print PDF…", self.print_pdf, Key.Print)
@@ -463,6 +528,13 @@ class Workshop(QMainWindow):
         help_menu = self.menuBar().addMenu("&Help")
         if not distribution.STORE:  # the store updates its own
             add(help_menu, "Check for &Updates…", self.updater.check)
+        if launcher.appimage():
+            in_menu = add(help_menu, "", self.toggle_launcher)
+            relabel = lambda: in_menu.setText("Remove from Applications &Menu" if launcher.installed() else "Add to Applications &Menu")  # noqa: E731
+            help_menu.aboutToShow.connect(relabel)
+            relabel()
+        if LICENSES.exists():
+            add(help_menu, "Third-Party &Licenses", self.show_licenses)
         add(help_menu, "&About Resume Workshop", self.about)
 
         for menu in (edit_menu, view_menu):
@@ -506,7 +578,8 @@ class Workshop(QMainWindow):
             return
         project.remember(previous)
         project.remember(folder)
-        self.report(f"Opened {self._short(folder)}.", "ok")
+        if not self.status.text():  # nothing to say about the folder itself
+            self.report(f"Opened {self._short(folder)}.", "ok")
 
     def set_theme(self, name):
         """Switches to the color theme `name`, and remembers it."""

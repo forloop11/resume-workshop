@@ -87,6 +87,8 @@ echo appimage >"$APPDIR/opt/resume-workshop/editor/CHANNEL"
 # ...and the files File > New Resume copies into a new resume folder.
 "$PYTHON" -s -E -B "$ROOT/editor/project.py" --template "$APPDIR/opt/resume-workshop"
 find "$APPDIR/opt/resume-workshop" -depth -name __pycache__ -exec rm -r {} +
+# The licenses of everything bundled, for Help > Third-Party Licenses.
+"$PYTHON" -s -E -B "$ROOT/packaging/collect_licenses.py" "$ROOT/editor" "$APPDIR/opt/resume-workshop/THIRD-PARTY-LICENSES.txt"
 # The image is read-only, so compile the editor now rather than at each start.
 "$PYTHON" -s -E -m compileall -q "$APPDIR/opt/resume-workshop"
 install -m 755 "$ROOT/packaging/AppRun" "$APPDIR/AppRun"

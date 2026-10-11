@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Resume Workshop
+Comment=Edit a JSON Resume and build it into a LaTeX PDF
+Exec=resume-workshop
+Icon=resume-workshop
+Categories=Office;
+Terminal=false
+StartupWMClass=resume-workshop

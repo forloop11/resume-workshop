@@ -33,9 +33,10 @@ For a native build, install Python 3.13 or newer, GNU Make, a TeX Live
 installation with the packages used by [input/format.tex](input/format.tex),
 and Pandoc. The resume generators use only the Python standard library, so
 `make build` needs no pip packages. `make validate` and the optional desktop
-editor need jsonschema: run `pip install -r requirements.txt` first. The
-editor is an [Electron](https://www.electronjs.org/) app, so it also needs
-Node.js and npm; `make editor` installs Electron on its first run.
+editor do: run `pip install -r requirements.txt` first, which installs
+jsonschema and, for the editor, [PySide6](https://doc.qt.io/qtforpython-6/)
+(Qt for Python) and its spelling and grammar checkers (see
+[Spelling and grammar](#spelling-and-grammar) for what those need).
 
 If the LaTeX or Pandoc toolchain is not installed locally, use the Docker
 workflow instead.
@@ -56,10 +57,11 @@ Example output: [resume.pdf](output/resume.pdf) and
 ## Project layout
 
 - [input/](input/) contains the resume content (`resume.json`), section order, page geometry, and LaTeX layout.
-- [scripts/](scripts/) contains the standard-library Python generators, the schema validator, and the editor's Python helper.
-- [editor/](editor/) contains the Electron desktop editor.
+- [scripts/](scripts/) contains the standard-library Python generators, and the schema validator.
+- [editor/](editor/) contains the Qt desktop editor.
 - [interim/](interim/) contains generated LaTeX fragments used during a build.
 - [output/](output/) contains the generated PDF and plain-text resumes, the Reactive Resume export (`rxresume.json`), and the resume schema (`resume-workshop.json`).
+- [packaging/](packaging/) builds and installs the editor as an AppImage.
 - [docker/](docker/) contains the reproducible build image definition.
 - [docs/screenshots/](docs/screenshots/) contains the editor screenshots used in this README.
 - [etc/](etc/) contains the vendored JSON Resume and Reactive Resume schemas, cspell configuration, and project-specific words.
@@ -67,6 +69,8 @@ Example output: [resume.pdf](output/resume.pdf) and
 ## Make targets
 
 - `make build` regenerates all interim files, then creates `output/resume.pdf`, `output/resume.txt`, `output/rxresume.json`, and `output/resume-workshop.json`.
+- `make pdf` creates just `output/resume.pdf`, without the text and Reactive Resume versions.
+- `make txt` creates just `output/resume.txt`.
 - `make header` regenerates `interim/header.tex` from the `basics` in [input/resume.json](input/resume.json) without a full build.
 - `make geometry` regenerates `interim/geometry.tex` from [input/geometry.yaml](input/geometry.yaml) without a full build.
 - `make resume` regenerates `interim/resume_content.tex` from [input/resume.json](input/resume.json) and [input/section_order.yaml](input/section_order.yaml) without a full build.
@@ -78,8 +82,10 @@ Example output: [resume.pdf](output/resume.pdf) and
   replaced by underscores and everything else reduced to alphanumerics/underscores
   (for example, "Todd Takala" gives `output/todd_takala_resume.pdf`).
 - `make editor` opens the desktop editor: a drag-and-drop block view of
-  the resume, raw tabs for the input files, the `build`/`user` Makefile
+  the resume, a raw `resume.json` tab, the `build`/`user` Makefile
   targets, and the generated PDF.
+- `make appimage` packages the editor as an AppImage, and `make install-appimage`
+  installs it; see [Installing the editor](#installing-the-editor).
 - `make clean` removes auxiliary pdflatex files and generated interim files.
 - `make docker-image` builds the local `resume-builder` Docker image.
 - `make docker-build` builds a Docker image with pdflatex/pandoc/python3 and
@@ -191,28 +197,145 @@ the LaTeX layout, commands, and document configuration.
 ## Local editor
 
 Run `make editor` to open the editor window. It's a small
-[Electron](https://www.electronjs.org/) app in [editor/](editor/): the first
-run installs Electron into `editor/node_modules` with `npm ci`, and saving
-`resume.json` needs jsonschema (`pip install -r requirements.txt`). The main
-process ([editor/main.js](editor/main.js)) reads and writes the files in
-`input/` and runs the Makefile targets; the page is
-[editor/index.html](editor/index.html), with the block editor in
-[editor/blocks.js](editor/blocks.js). The editor gets the section list and the
-JSON Resume schema check from
-[scripts/editor_backend.py](scripts/editor_backend.py), so it uses the same
-rules as the generators and `make validate`.
+[Qt](https://www.qt.io/) app in [editor/](editor/), written in Python with
+PySide6, so it needs the packages in `requirements.txt`
+(`pip install -r requirements.txt`). The window
+([editor/main.py](editor/main.py)) reads and writes the files in `input/` and
+runs the Makefile targets; the block editor is
+[editor/blocks.py](editor/blocks.py), on top of the document model in
+[editor/document.py](editor/document.py) and the drag-and-drop widgets in
+[editor/widgets.py](editor/widgets.py), with spelling and grammar checking in
+[editor/proofing.py](editor/proofing.py), the PDF preview in
+[editor/preview.py](editor/preview.py), Find and Replace in
+[editor/find.py](editor/find.py), the live preview in
+[editor/live.py](editor/live.py), resume folders in
+[editor/project.py](editor/project.py), and the colors in
+[editor/style.qss](editor/style.qss). The editor imports the section list from
+the generators and the JSON Resume schema check from
+[scripts/validate_resume.py](scripts/validate_resume.py), so it uses the same
+rules as `make build` and `make validate`.
 
-The editor has four tabs — **Resume (blocks)**, `format.tex`, `geometry.yaml`,
-and `resume.json` — plus a side panel with the `make build` / `make user`
-buttons, the output of the last make run, and a preview of the generated PDF.
-Messages about saves and builds appear under the page title, and a dot on a
-tab marks unsaved changes; closing or reloading the window with any asks
-first. **Open PDF** opens the generated PDF in your system's PDF viewer.
-**Download rxresume.json** runs `make rxresume` on the saved files and asks
-where to save a copy of the [Reactive Resume export](#reactive-resume-export)
-(unsaved edits aren't included).
+The editor has two tabs — **Resume (blocks)** and `resume.json` — plus a side
+panel with a preview of the generated PDF and, above it, the output of the
+last make run. `make build` and `make user` are run from the File menu.
+The preview is [PDF.js](https://mozilla.github.io/pdf.js/), Mozilla's PDF
+viewer, with its page thumbnails, search, and zoom; it is vendored in
+[editor/pdfjs/](editor/pdfjs/), so it works offline.
 
-![Editor window: header buttons, Make targets, and the PDF preview](docs/screenshots/editor-window.png)
+The preview is live: about a second after you stop typing, the editor builds
+the PDF from what is on screen, saved or not, and shows it without losing your
+place. It also highlights the text of the field you're in and scrolls the
+preview to it; moving to another field moves the highlight. (Text the PDF
+prints differently from how it's typed, such as dates, isn't highlighted.)
+The build runs `make pdf` in a temporary copy of the project, so `input/` and
+`output/` are untouched: `output/resume.pdf`, which **Print PDF** and **Open
+PDF** use, still changes only when you run a make target. A line above the
+preview says when it includes unsaved changes, or why it couldn't be updated
+(for example while a required field is empty). **View > Live Preview** turns
+it off, leaving the preview on `output/resume.pdf`.
+Drag the gap between the tabs and the side panel to resize them. Messages
+about saves and builds appear under the window's title, and a dot on a tab
+marks unsaved changes; closing the window or reloading the files with any asks
+first. In the File menu, **Print PDF** (Ctrl+P, or the preview's own print
+button) prints the generated PDF after asking for the printer and pages,
+and **Open PDF** opens it in your system's PDF viewer. Four commands save a
+copy wherever you choose, offering your Downloads folder: **Export PDF**
+runs `make pdf` and saves the PDF, **Export TXT** runs `make txt` and saves
+the plain-text resume, **Export JSON** saves `input/resume.json`
+(the JSON Resume document), and **Download rxresume.json** runs
+`make rxresume` and saves the
+[Reactive Resume export](#reactive-resume-export). The PDF, text, and JSON are
+offered under a name taken from the resume, such as `todd_takala_resume.pdf`.
+All four use the saved files, so unsaved edits aren't included.
+
+**Import JSON Resume** goes the other way: it replaces the resume in the
+editor with one from a [JSON Resume](https://jsonresume.org/schema) file,
+such as an export from another tool. Nothing is written to
+`input/resume.json` until you save, so **Reload from Disk** undoes it. A file
+that doesn't match the schema is still imported, with a message saying what
+to fix before it can be saved; the section order and layout are kept.
+
+![Editor window: menu bar, block editor, and the PDF preview](docs/screenshots/editor-window.png)
+
+The menu bar has the commands, with keyboard shortcuts:
+
+- **File**: New Resume (Ctrl+N), Open Resume Folder (Ctrl+O), and Open Recent
+  (see [Resume folders](#resume-folders)); Save (Ctrl+S) and Save & Build (Ctrl+B) for the current tab,
+  Reload from Disk (Ctrl+R), the make targets, Page Setup (Ctrl+Shift+P),
+  Print PDF (Ctrl+P), Open PDF
+  (Ctrl+Shift+O), Import JSON Resume (Ctrl+I), Export PDF (Ctrl+E), Export TXT, Export JSON, Download
+  rxresume.json, and
+  Quit (Ctrl+Q).
+- **Edit**: Undo, Redo, Cut, Copy, Paste, and Select All for the text box
+  you're in; Undo Block Change (Ctrl+Alt+Z), which is the block editor's own
+  **Undo**; Find (Ctrl+F), Find Next (F3), Find Previous (Shift+F3), and
+  Replace (Ctrl+H); Insert Middle Dot (Ctrl+.) and En Dash (Ctrl+-); and
+  Pretty-print JSON.
+- **View**: the two tabs (Ctrl+1, Ctrl+2), Expand All and Collapse All for the
+  block editor's cards, Wrap Lines for the raw tab, Live Preview, and Full
+  Screen (F11).
+
+**Page Setup** edits the page margins and footer distance in
+[input/geometry.yaml](input/geometry.yaml), each as a number and a unit (in,
+cm, mm, or pt; changing the unit converts the number). The preview follows
+the dialog as you change values. OK writes the file, keeping its comments;
+Cancel leaves it as it was.
+
+**Find** opens a bar under the tabs that searches the tab that is showing:
+every field of the block editor, in order (opening any collapsed card a match
+is in), or the raw `resume.json`. It shows which match you're on ("3 of 9"),
+with **Match case** and **Whole words** options, and **Replace** / **Replace
+all** type the replacement into the fields, so each field's own undo reverses
+it. Esc closes the bar. The PDF preview has its own search, in its toolbar.
+
+### Resume folders
+
+The editor works on one resume folder at a time, named in the window's title.
+A resume folder is self-contained: `input/` with the resume and its layout,
+plus its own copy of the makefile, `scripts/`, and the schemas in `etc/`, so
+`make build` works there with or without the editor. This checkout is one.
+
+- **File > New Resume** asks for a new or empty folder and sets it up: it
+  copies in the makefile, scripts, schemas, layout (`format.tex`), and page
+  geometry from the editor's own folder, starts an empty spelling dictionary,
+  and writes a starter `resume.json`, with placeholder text that already
+  builds, and a `section_order.yaml` listing every section.
+- **File > Open Resume Folder** opens another resume folder, and **Open
+  Recent** lists the ones opened this way before.
+
+Switching folders closes the window (asking about unsaved changes first) and
+opens the editor again on the other folder. A new folder's scripts are a copy
+as of when it was made; they don't follow later changes to this project.
+
+`make editor` always opens this checkout. The installed AppImage opens the
+folder it had open last. To open a particular folder from a terminal, pass it
+to the AppImage or set `RESUME_WORKSHOP_ROOT`.
+
+### Installing the editor
+
+`make install-appimage` builds the editor into an
+[AppImage](https://appimage.org/) and installs it for your user, so it starts
+from the applications menu instead of a terminal:
+
+- `make appimage` builds `dist/Resume_Workshop-x86_64.AppImage` with
+  [packaging/build-appimage.sh](packaging/build-appimage.sh). It bundles the
+  editor, a Python of its own, and the packages in `requirements.txt`, so the
+  AppImage needs no `pip install`. The build needs curl and an internet
+  connection, and downloads a relocatable Python from
+  [python-appimage](https://github.com/niess/python-appimage) and
+  [appimagetool](https://github.com/AppImage/appimagetool), both checked
+  against pinned SHA-256 sums.
+- `make install-appimage` copies it to `~/Applications` (set `APPIMAGE_DIR`
+  for somewhere else) and adds a **Resume Workshop** launcher and icon under
+  `~/.local/share`. `make uninstall-appimage` removes all three. Run
+  `make install-appimage` again after changing the editor to update it.
+
+The AppImage holds the editor and the template files that New Resume copies;
+resumes stay in their own [resume folders](#resume-folders). The installed
+launcher opens this checkout the first time, and after that whichever folder
+was open last. The make commands still
+need Make, Python, pdflatex, and Pandoc on the machine, as do spell checking
+(Enchant) and grammar checking (Java).
 
 ### Block editor
 
@@ -259,6 +382,11 @@ Professional Experience shows one card per employer:
   role's blank End means Present. List fields (keywords, courses, and the
   highlights and roles of projects and volunteer work) take one item per line.
 - Emptied optional fields are removed from `resume.json`.
+- Core Competencies flags duplicates as you type: a keyword that appears in
+  more than one competency (or twice in one), or two competencies with the
+  same name, ignoring case and spacing. Each card involved says what it
+  repeats and where, and the section's title shows the count. It's a warning
+  only; saving still works, and its message mentions the duplicates.
 - Every section, employer, role, and entry card has a **New page** toggle that
   starts it on a new page in the PDF (highlighted when on). A section's toggle
   adds a `pagebreak` line to `section_order.yaml`, and the Sections card marks
@@ -270,10 +398,27 @@ Professional Experience shows one card per employer:
   highlights, required fields in each section, valid dates) and highlights
   anything missing. **Save & build** saves, then runs `make build`.
 
-Drag-and-drop uses [SortableJS](https://github.com/SortableJS/Sortable),
-vendored in [editor/](editor/) so the editor works offline.
+### Spelling and grammar
 
-### Raw file tabs
+The block editor underlines misspelled words in red and grammar problems in
+orange. Right-click an underlined word for its corrections, plus **Ignore**
+(until the editor is closed) and, for spelling, **Add to dictionary**, which
+appends the word to [etc/dictionary.txt](etc/dictionary.txt). The raw
+`resume.json` tab spell-checks the resume's text too.
+
+- Spelling uses [Enchant](https://rrthomas.github.io/enchant/) through
+  pyenchant, with the system's `en_US` dictionary. Acronyms in capitals,
+  links, and fields that don't hold words (email, phone, URLs, dates) are
+  skipped.
+- Grammar uses [LanguageTool](https://languagetool.org/), run on your own
+  machine by language-tool-python, so the resume's text is never sent
+  anywhere. It needs Java, downloads LanguageTool (about 260 MB) the first
+  time, and takes a few seconds to start each time the editor opens. It checks
+  the summaries, descriptions, and highlights, a moment after you stop typing.
+- If either package (or Java) is missing, that check is off and the rest of
+  the editor works as usual.
+
+### Raw resume.json tab
 
 The `resume.json` tab shows the same document as raw JSON, and stays in sync
 with the blocks tab. It's the fallback for fixing invalid JSON and for any
@@ -282,17 +427,15 @@ tab of its own, since the Sections card and **New page** toggles cover it.
 
 ![Raw resume.json in JSON Resume format](docs/screenshots/editor-resume-json.png)
 
-The raw tabs highlight LaTeX commands (`\command`) in every file, plus JSON
-object keys in `resume.json`. A "Pretty-print JSON" button reformats
-`resume.json` with indentation, and a word-wrap toggle switches between
+The tab highlights the JSON object keys. A "Pretty-print JSON" button
+reformats `resume.json` with indentation, and a word-wrap toggle switches between
 wrapped and horizontally scrolling lines. Saving `resume.json`, from either
 tab, is rejected with an error if it isn't valid JSON or doesn't match the
 JSON Resume schema, instead of being written.
 
-The `format.tex` and `geometry.yaml` tabs edit the LaTeX layout and the page
-geometry:
-
-![LaTeX layout editor](docs/screenshots/editor-format.png)
+The LaTeX layout ([input/format.tex](input/format.tex)) has no tab; edit it in
+a text editor. The page geometry ([input/geometry.yaml](input/geometry.yaml))
+is edited with File > Page Setup.
 
 ## Reactive Resume export
 
@@ -338,13 +481,14 @@ with `make clean`.
 The Docker image installs Python 3 (with jsonschema, for `make validate`), GNU Make, Pandoc, and the TeX Live packages needed by the
 resume. Run `make docker-build` from the repository root to build without
 installing those tools locally. The desktop editor runs on the host, not in
-the container, so its **make** buttons need the native toolchain.
+the container, so its make commands need the native toolchain.
 
 ## Spell checking
 
 [etc/dictionary.txt](etc/dictionary.txt) contains project-specific spell-check
-terms, configured via [etc/cspell.json](etc/cspell.json). The desktop editor also
-enables Chromium's built-in spellcheck while editing.
+terms, configured via [etc/cspell.json](etc/cspell.json). The desktop editor's
+spell checker reads the same list, and its **Add to dictionary** adds to it;
+see [Spelling and grammar](#spelling-and-grammar).
 
 ## Credits
 
@@ -364,5 +508,12 @@ enables Chromium's built-in spellcheck while editing.
   indentation but otherwise unmodified, © 2026 Amruth Pillai, used under the
   MIT License ([etc/rxresume-schema.LICENSE.md](etc/rxresume-schema.LICENSE.md)).
   Resume Workshop isn't affiliated with Reactive Resume.
-- The block editor's drag-and-drop uses [SortableJS](https://github.com/SortableJS/Sortable)
-  (MIT License), vendored in [editor/Sortable.min.js](editor/Sortable.min.js).
+- The desktop editor is built with [Qt](https://www.qt.io/) through
+  [PySide6](https://doc.qt.io/qtforpython-6/) (Qt for Python, LGPLv3),
+  installed from `requirements.txt` rather than vendored. Its PDF preview is
+  [PDF.js](https://mozilla.github.io/pdf.js/) v6.4.299 (the prebuilt
+  "legacy" viewer, minus its source maps and sample PDF), © Mozilla
+  Foundation, used under the Apache License 2.0
+  ([editor/pdfjs/LICENSE](editor/pdfjs/LICENSE)). Its spelling and
+  grammar checks use [Enchant](https://rrthomas.github.io/enchant/) (LGPL)
+  and [LanguageTool](https://languagetool.org/) (LGPL).

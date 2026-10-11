@@ -2,7 +2,7 @@ TEXFILE = input/format
 OUTPUT = output/resume
 DOCKER_IMAGE = resume-builder
 
-.PHONY: build header geometry resume rxresume schema validate editor clean user docker-image docker-build
+.PHONY: build pdf txt header geometry resume rxresume schema validate editor appimage install-appimage uninstall-appimage clean user docker-image docker-build
 
 header: input/resume.json scripts/generate_header.py scripts/jsonresume.py
 	python3 scripts/generate_header.py
@@ -29,21 +29,41 @@ schema: etc/resume-schema.json scripts/generate_schema.py scripts/generate_resum
 validate: input/resume.json etc/resume-schema.json etc/rxresume-schema.json scripts/validate_resume.py scripts/export_rxresume.py
 	python3 scripts/validate_resume.py
 
-# The desktop editor (editor/, an Electron app). Needs Node.js/npm; the first
-# run installs Electron into editor/node_modules. ELECTRON_RUN_AS_NODE is
-# unset because some hosts (e.g. VS Code's extension host) set it, which
-# would make Electron run as plain Node instead of opening a window.
-editor/node_modules: editor/package.json editor/package-lock.json
-	cd editor && npm ci
-	touch editor/node_modules
+# The desktop editor (editor/, a Qt app). Needs PySide6 and jsonschema
+# (pip install -r requirements.txt).
+editor:
+	python3 editor/main.py
 
-editor: editor/node_modules
-	cd editor && env -u ELECTRON_RUN_AS_NODE npm start
+# The editor as an AppImage, with its own Python and pip packages:
+# dist/Resume_Workshop-x86_64.AppImage. Needs curl and an internet connection
+# (see packaging/build-appimage.sh).
+APPIMAGE = dist/Resume_Workshop-x86_64.AppImage
 
-build: header geometry resume rxresume schema $(TEXFILE).tex
+$(APPIMAGE): requirements.txt $(shell find editor packaging -type f -not -path '*/__pycache__/*' 2>/dev/null)
+	packaging/build-appimage.sh
+
+appimage: $(APPIMAGE)
+
+# Copies the AppImage to ~/Applications (or $$APPIMAGE_DIR) and adds it to the
+# applications menu, opening the resume in this checkout.
+install-appimage: $(APPIMAGE)
+	packaging/install-appimage.sh
+
+uninstall-appimage:
+	packaging/install-appimage.sh --uninstall
+
+# The PDF alone, without the text and Reactive Resume versions. The editor's
+# live preview runs this in a scratch copy of the project.
+pdf: header geometry resume $(TEXFILE).tex
 	mkdir -p output
 	pdflatex -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
+
+# The plain-text resume alone.
+txt: header geometry resume $(TEXFILE).tex
+	mkdir -p output
 	pandoc --wrap=none -f latex -t plain $(TEXFILE).tex -o $(OUTPUT).txt
+
+build: pdf txt rxresume schema
 	rm -f $(OUTPUT).aux $(OUTPUT).fdb_latexmk $(OUTPUT).fls $(OUTPUT).log $(OUTPUT).out $(OUTPUT).synctex.gz
 
 # Copies the build output to a filename derived from input/resume.json's

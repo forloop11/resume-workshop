@@ -2,7 +2,16 @@
 # generate_resume.py) use only the Python standard library, by design --
 # see the note in scripts/generate_header.py -- so `make build` needs no
 # pip packages. `make validate` (scripts/validate_resume.py) and the desktop
-# editor's save check (scripts/editor_backend.py, `make editor`) validate
-# input/resume.json against the JSON Resume schema with jsonschema.
+# editor's save check (editor/main.py, `make editor`) validate
+# input/resume.json against the JSON Resume schema with jsonschema. The
+# editor itself is a Qt app and needs PySide6. Its spell checker is
+# pyenchant (which needs the Enchant library and an en_US dictionary, e.g.
+# Fedora's enchant2 and hunspell-en-US), and its grammar checker is
+# language-tool-python (which needs Java, and downloads LanguageTool, about
+# 260 MB, the first time it runs). The editor works without either; that
+# check is just off.
 # Requires Python 3.13+.
 jsonschema>=4.0
+PySide6>=6.7
+pyenchant>=3.2
+language-tool-python>=3.0

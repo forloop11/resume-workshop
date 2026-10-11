@@ -1,0 +1,14 @@
+#!/bin/sh
+# Entry point of the Resume Workshop AppImage: runs the editor with the
+# bundled Python. An argument is the resume folder to open; without one the
+# editor opens the one it had last, or asks (see editor/project.py).
+APPDIR="${APPDIR:-$(dirname "$(readlink -f "$0")")}"
+if [ -n "${1:-}" ]; then
+    export RESUME_WORKSHOP_ROOT="$1"
+fi
+# For the bundled Python's HTTPS (the grammar checker's one-time download).
+export SSL_CERT_FILE="$APPDIR/opt/_internal/certs.pem"
+# -s -E: only the bundled packages, whatever the user's site-packages or
+# PYTHONPATH hold. Flags rather than variables, so the `make` runs the editor
+# starts still get the system's own Python as it normally is.
+exec "$APPDIR/opt/python/bin/python3" -s -E "$APPDIR/opt/resume-workshop/editor/main.py"

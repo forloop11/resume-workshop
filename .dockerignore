@@ -1,4 +1,5 @@
 .git
 *.pdf
 *.txt
-editor/node_modules
+build
+dist

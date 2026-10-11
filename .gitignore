@@ -9,3 +9,4 @@ interim/geometry.tex
 interim/resume_content.tex
 /build/
 /dist/
+__pycache__/

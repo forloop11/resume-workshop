@@ -246,6 +246,9 @@ Every command is in the menu bar:
   - Expand All (Ctrl+Shift+E) and Collapse All (Ctrl+Shift+C) open and close
     the block editor's cards.
   - Wrap Lines, for the raw tab; Live Preview; and Full Screen (F11).
+  - Color Theme switches the editor's colors: Dracula (the default), Nord,
+    Gruvbox Dark, Solarized Dark, Solarized Light, or Light. The PDF viewer's
+    toolbar goes dark or light to match, and the choice is remembered.
 - **Help**
   - Check for Updates and About Resume Workshop: see
     [Updating](#updating).
@@ -579,7 +582,8 @@ it uses the same rules as `make build` and `make validate`. Its own code is in
 - [update.py](editor/update.py): Check for Updates.
 - [distribution.py](editor/distribution.py): how the editor was packaged
   (a checkout, the AppImage, or an app store's build), and what that allows.
-- [style.qss](editor/style.qss): the colors.
+- [style.qss](editor/style.qss) and [themes.py](editor/themes.py): the
+  look, and the color themes that fill it in.
 
 ## Reactive Resume export
 

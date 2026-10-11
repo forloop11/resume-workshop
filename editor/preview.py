@@ -87,3 +87,6 @@ class QtPdfPreview(QPdfView):
 
     def edit(self, command):
         """An Edit menu command; this view has no text to select or copy."""
+
+    def retheme(self):
+        """Follows a change of the editor's color theme, which it does anyway."""

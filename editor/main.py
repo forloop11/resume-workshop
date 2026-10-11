@@ -21,7 +21,7 @@ from pathlib import Path
 
 try:
     from PySide6.QtCore import QPoint, QProcess, QProcessEnvironment, QRect, QSize, QStandardPaths, Qt, QTimer, QUrl
-    from PySide6.QtGui import QColor, QDesktopServices, QFont, QFontDatabase, QIcon, QKeySequence, QPageSize, QPainter, QPalette, QTextCharFormat, QTextOption
+    from PySide6.QtGui import QActionGroup, QColor, QDesktopServices, QFont, QFontDatabase, QIcon, QKeySequence, QPageSize, QPainter, QTextCharFormat, QTextOption
     from PySide6.QtWidgets import QApplication, QDialog, QFileDialog, QFrame, QHBoxLayout, QLabel, QMainWindow, QMessageBox, QPlainTextEdit, QSplitter, QTabWidget, QTextEdit, QVBoxLayout, QWidget
     from PySide6.QtPdf import QPdfDocument
     from PySide6.QtPrintSupport import QPrintDialog, QPrinter
@@ -31,23 +31,9 @@ except ImportError:
 
 import preview
 import project
+import themes
 
 preview.prepare()  # must come before the QApplication
-
-
-def dark_palette():
-    palette = QPalette()
-    for role, color in {
-        QPalette.ColorRole.Window: "#282a36", QPalette.ColorRole.WindowText: "#f8f8f2",
-        QPalette.ColorRole.Base: "#191a21", QPalette.ColorRole.AlternateBase: "#21222c",
-        QPalette.ColorRole.Text: "#f8f8f2", QPalette.ColorRole.PlaceholderText: "#6f7493",
-        QPalette.ColorRole.Button: "#44475a", QPalette.ColorRole.ButtonText: "#f8f8f2",
-        QPalette.ColorRole.Highlight: "#6272a4", QPalette.ColorRole.HighlightedText: "#f8f8f2",
-        QPalette.ColorRole.ToolTipBase: "#191a21", QPalette.ColorRole.ToolTipText: "#f8f8f2",
-        QPalette.ColorRole.Link: "#8be9fd", QPalette.ColorRole.Dark: "#6272a4",
-    }.items():
-        palette.setColor(role, QColor(color))
-    return palette
 
 
 def application():
@@ -59,8 +45,7 @@ def application():
         app.setDesktopFileName("resume-workshop")  # ties the window to the installed launcher and its icon
         app.setWindowIcon(QIcon(str(Path(__file__).with_name("icon.svg"))))
         app.setStyle("Fusion")
-        app.setPalette(dark_palette())
-        app.setStyleSheet((Path(__file__).with_name("style.qss")).read_text(encoding="utf-8"))
+        themes.apply(app, themes.saved())
     return app
 
 
@@ -186,9 +171,6 @@ class Highlighter(Proofer):
 
     def __init__(self, edit, speller):
         super().__init__(edit, speller)
-        self.key_format = QTextCharFormat()
-        self.key_format.setForeground(QColor("#8be9fd"))
-        self.key_format.setFontWeight(QFont.Weight.DemiBold)
 
     def prose(self, text):
         # JSON string values, with escapes like \n blanked out.
@@ -197,8 +179,11 @@ class Highlighter(Proofer):
 
     def highlightBlock(self, text):
         super().highlightBlock(text)
+        key_format = QTextCharFormat()
+        key_format.setForeground(QColor(themes.color("link")))
+        key_format.setFontWeight(QFont.Weight.DemiBold)
         for match in JSON_KEY.finditer(text):
-            self.setFormat(utf16(text, match.start()), utf16(text, match.end()) - utf16(text, match.start()), self.key_format)
+            self.setFormat(utf16(text, match.start()), utf16(text, match.end()) - utf16(text, match.start()), key_format)
 
 
 class RawTab(QWidget):
@@ -467,6 +452,13 @@ class Workshop(QMainWindow):
         view_menu.addSeparator()
         add(view_menu, "&Live Preview", self.live.set_enabled, checkable=True).setChecked(True)
         add(view_menu, "&Full Screen", lambda on: self.showFullScreen() if on else self.showNormal(), "F11", checkable=True)
+        view_menu.addSeparator()
+        theme_menu = view_menu.addMenu("Color &Theme")
+        theme_group = QActionGroup(self)  # one at a time
+        for name in themes.THEMES:
+            action = add(theme_menu, name, lambda _=False, name=name: self.set_theme(name), checkable=True)
+            action.setChecked(name == themes.current)
+            theme_group.addAction(action)
 
         help_menu = self.menuBar().addMenu("&Help")
         if not distribution.STORE:  # the store updates its own
@@ -515,6 +507,19 @@ class Workshop(QMainWindow):
         project.remember(previous)
         project.remember(folder)
         self.report(f"Opened {self._short(folder)}.", "ok")
+
+    def set_theme(self, name):
+        """Switches to the color theme `name`, and remembers it."""
+        themes.apply(QApplication.instance(), name)
+        themes.save(name)
+        # What took its colors from the theme when it was drawn: the field
+        # labels, the underlines and JSON keys, and the PDF viewer.
+        if self.blocks.doc:
+            self.blocks.render()
+        self.speller.changed.emit()
+        for tab in self.raw_tabs.values():
+            tab.highlighter.rehighlight()
+        self.pdf_view.retheme()
 
     def restart(self):
         """Starts the editor again on this folder, as after an update (see

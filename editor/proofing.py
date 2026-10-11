@@ -24,6 +24,7 @@ from PySide6.QtCore import QObject, Qt, QTimer, Signal
 from PySide6.QtGui import QAction, QColor, QSyntaxHighlighter, QTextCharFormat, QTextCursor
 
 import project
+import themes
 from distribution import STORE
 
 WORDS = "etc/dictionary.txt"  # in a resume folder
@@ -201,8 +202,9 @@ class Proofer(QSyntaxHighlighter):
     """Underlines the spelling (and, given `grammar`, grammar) problems in a
     QTextEdit or QPlainTextEdit, and offers their fixes on right-click."""
 
-    SPELLING = _underline("#ff5555")
-    GRAMMAR = _underline("#ffb86c")
+    # In the current theme's colors, each time they are used.
+    SPELLING = property(lambda self: _underline(themes.color("error")))
+    GRAMMAR = property(lambda self: _underline(themes.color("warning")))
 
     def __init__(self, edit, speller=None, grammar=None):
         super().__init__(edit.document())

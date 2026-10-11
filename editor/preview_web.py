@@ -18,12 +18,15 @@ from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineScript, QWebEngine
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QFileDialog
 
+import themes
+
 SCHEME = b"resume-workshop"
 ORIGIN = "resume-workshop://editor"
 PDFJS = Path(__file__).resolve().parent / "pdfjs"
 VIEWER = "/pdfjs/web/viewer.html"
 DOCUMENT = "/resume.pdf"
-PREFERENCES = {"viewerCssTheme": 2, "defaultZoomValue": "page-width", "sidebarViewOnLoad": 0}
+PREFERENCES = {"defaultZoomValue": "page-width", "sidebarViewOnLoad": 0}
+LIGHT, DARK = 1, 2  # the viewer's viewerCssTheme preference
 MIME_TYPES = {".mjs": "text/javascript", ".wasm": "application/wasm", ".ftl": "text/plain", ".pdf": "application/pdf"}
 
 
@@ -77,16 +80,7 @@ class PdfPreview(QWebEngineView):
         page.printRequested.connect(self.print_requested)
         page.profile().installUrlSchemeHandler(SCHEME, _Files(self))
         page.profile().downloadRequested.connect(self._download)
-        page.setBackgroundColor(QColor("#282a36"))
-        # The viewer keeps its settings in localStorage. Ask for its dark
-        # theme, pages fitted to the panel's width, and the "Manage pages"
-        # sidebar closed whenever a PDF opens -- otherwise it pops open after
-        # each build, because the resume's PDF asks for its outline to show.
-        settings = QWebEngineScript()
-        settings.setInjectionPoint(QWebEngineScript.InjectionPoint.DocumentCreation)
-        settings.setWorldId(QWebEngineScript.ScriptWorldId.MainWorld)
-        settings.setSourceCode(f"localStorage.setItem('pdfjs.preferences', JSON.stringify({json.dumps(PREFERENCES)}));")
-        page.scripts().insert(settings)
+        self._settings(page)
         # resumeWorkshopOpen() and resumeWorkshopHighlight(), used below.
         helpers = QWebEngineScript()
         helpers.setInjectionPoint(QWebEngineScript.InjectionPoint.DocumentReady)
@@ -101,6 +95,32 @@ class PdfPreview(QWebEngineView):
         self.loadStarted.connect(lambda: setattr(self, "_ready", False))
         self.loadFinished.connect(self._loaded)
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
+
+    def _settings(self, page):
+        """Gives the viewer the editor theme's background, and its settings."""
+        page.setBackgroundColor(QColor(themes.color("window")))
+        # The viewer keeps its settings in localStorage. Ask for its dark or
+        # light theme, pages fitted to the panel's width, and the "Manage
+        # pages" sidebar closed whenever a PDF opens -- otherwise it pops
+        # open after each build, because the resume's PDF asks for its
+        # outline to show.
+        preferences = {**PREFERENCES, "viewerCssTheme": DARK if themes.is_dark() else LIGHT}
+        for old in page.scripts().find("settings"):
+            page.scripts().remove(old)
+        settings = QWebEngineScript()
+        settings.setName("settings")
+        settings.setInjectionPoint(QWebEngineScript.InjectionPoint.DocumentCreation)
+        settings.setWorldId(QWebEngineScript.ScriptWorldId.MainWorld)
+        settings.setSourceCode(f"localStorage.setItem('pdfjs.preferences', JSON.stringify({json.dumps(preferences)}));")
+        page.scripts().insert(settings)
+
+    def retheme(self):
+        """Follows a change of the editor's color theme."""
+        self._settings(self.page())
+        if self._ready:
+            # The viewer reads its settings as it loads.
+            self._ready, self._loading = False, True
+            self.reload()
 
     def show_pdf(self, pdf=None, phrases=()):
         """(Re)loads the PDF -- or shows `pdf` from now on -- if it has been

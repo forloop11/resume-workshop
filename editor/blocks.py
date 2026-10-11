@@ -21,6 +21,7 @@ from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout, QLabel, QPushButton, QScrollArea, QTextEdit, QVBoxLayout, QWidget
 from shiboken6 import isValid
 
+import themes
 from document import EMPLOYER_KEYS, LABELS, ORDER, RESUME, SECTIONS, Document, as_list, competency_duplicates, new_role, valid_date
 from widgets import AutoTextEdit, Chip, Collapsible, DragSurface, Handle, LineEdit, SortableList, restyle
 
@@ -56,7 +57,7 @@ def button(label, on_click, kind=None, tip=None):
 
 
 def label(text, kind="label", hint=None):
-    widget = QLabel(text + (f'<span style="color:#a6acc5"> — {hint}</span>' if hint else ""))
+    widget = QLabel(text + (f'<span style="color:{themes.color("muted")}"> — {hint}</span>' if hint else ""))
     widget.setProperty("kind", kind)
     return widget
 
@@ -209,7 +210,7 @@ class BlocksEditor(QWidget):
         layout = QVBoxLayout(box)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(3)
-        layout.addWidget(label(text + ('<span style="color:#ff79c6"> *</span>' if required else ""), hint=hint))
+        layout.addWidget(label(text + (f'<span style="color:{themes.color("hover")}"> *</span>' if required else ""), hint=hint))
         layout.addWidget(control)
         return box
 

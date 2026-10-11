@@ -46,10 +46,6 @@ def color(role):
     return THEMES[current][role]
 
 
-def is_dark():
-    return QColor(color("window")).lightness() < 128
-
-
 def stylesheet():
     text = Path(__file__).with_name("style.qss").read_text(encoding="utf-8")
     return re.sub(r"@([a-z]+(?:-[a-z]+)*)", lambda match: color(match.group(1)), text)

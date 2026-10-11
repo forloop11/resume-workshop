@@ -2,11 +2,11 @@
 """Writes the licenses of everything the AppImage carries besides the editor
 itself into one text file (packaging/build-appimage.sh), which Help >
 Third-Party Licenses shows: the bundled Python, each pip package installed
-in it, Qt, and PDF.js.
+in it, and Qt.
 
 Run with the bundled Python, so that importlib.metadata sees its packages:
 
-    collect_licenses.py <editor folder> <output file>
+    collect_licenses.py <output file>
 """
 import sys
 import sysconfig
@@ -25,8 +25,8 @@ replace with builds of your own. Their source code:
   https://download.qt.io/official_releases/QtForPython/
   https://download.qt.io/official_releases/qt/
 
-Qt WebEngine includes Chromium and other third-party code under licenses of
-their own, listed at https://doc.qt.io/qt-6/qtwebengine-licensing.html
+Qt PDF draws with PDFium, under the BSD-style license described at
+https://doc.qt.io/qt-6/qtpdf-licensing.html
 """
 
 
@@ -56,7 +56,7 @@ def package(distribution):
 
 
 def main():
-    editor, output = Path(sys.argv[1]), Path(sys.argv[2])
+    output = Path(sys.argv[1])
     parts = [
         "Resume Workshop includes the software below, each under its own license.\n",
         section(f"Python {sysconfig.get_python_version()}", read(Path(sysconfig.get_path("stdlib")) / "LICENSE.txt")),
@@ -64,8 +64,6 @@ def main():
     distributions = sorted(metadata.distributions(), key=lambda distribution: distribution.metadata["Name"].lower())
     parts += [package(distribution) for distribution in distributions]
     parts.append(section("Qt", QT, read(HERE / "licenses" / "LGPL-3.0.txt"), read(HERE / "licenses" / "GPL-3.0.txt")))
-    pdfjs = sorted(path for path in (editor / "pdfjs").rglob("LICENSE*") if path.is_file())
-    parts += [section(f"PDF.js: {path.relative_to(editor / 'pdfjs')}", read(path)) for path in pdfjs]
     output.write_text("\n".join(parts), encoding="utf-8")
 
 

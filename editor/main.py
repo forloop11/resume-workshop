@@ -29,11 +29,9 @@ except ImportError:
     sys.exit("The editor needs PySide6: pip install -r requirements.txt")
 
 
-import preview
 import project
 import themes
-
-preview.prepare()  # must come before the QApplication
+from preview import PdfPreview
 
 
 def application():
@@ -314,8 +312,7 @@ class Workshop(QMainWindow):
         self.make_output.head.addStretch(1)
         self.make_output.content.addWidget(self.make_log)
         self.make_output.hide()
-        self.pdf_view = preview.PdfPreview(self.pdf)
-        self.pdf_view.print_requested.connect(self.print_pdf)  # the viewer's own Print button
+        self.pdf_view = PdfPreview(self.pdf)
         side = QFrame()
         side.setProperty("kind", "panel")
         side_layout = QVBoxLayout(side)
@@ -482,7 +479,7 @@ class Workshop(QMainWindow):
         file_menu.addSeparator()
         add(file_menu, "&Quit", self.close, "Ctrl+Q")
 
-        # Undo to Select All act on whichever text box (or the PDF) has the focus.
+        # Undo to Select All act on whichever text box has the focus.
         edit_menu = self.menuBar().addMenu("&Edit")
         add(edit_menu, "&Undo", lambda: self._edit("undo"), Key.Undo)
         add(edit_menu, "&Redo", lambda: self._edit("redo"), Key.Redo)
@@ -586,13 +583,12 @@ class Workshop(QMainWindow):
         themes.apply(QApplication.instance(), name)
         themes.save(name)
         # What took its colors from the theme when it was drawn: the field
-        # labels, the underlines and JSON keys, and the PDF viewer.
+        # labels, the underlines, and the JSON keys.
         if self.blocks.doc:
             self.blocks.render()
         self.speller.changed.emit()
         for tab in self.raw_tabs.values():
             tab.highlighter.rehighlight()
-        self.pdf_view.retheme()
 
     def restart(self):
         """Starts the editor again on this folder, as after an update (see
@@ -617,12 +613,10 @@ class Workshop(QMainWindow):
             action.setEnabled(not on_blocks)
 
     def _edit(self, command):
-        """Runs an Edit menu command on the focused text box, or copies from the PDF."""
+        """Runs an Edit menu command on the focused text box."""
         focus = QApplication.focusWidget()
         if isinstance(focus, (QTextEdit, QPlainTextEdit)):
             getattr(focus, command)()
-        elif focus is not None and (focus is self.pdf_view or self.pdf_view.isAncestorOf(focus)):
-            self.pdf_view.edit(command)
 
     # --- files -------------------------------------------------------------------
 

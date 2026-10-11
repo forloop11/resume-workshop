@@ -1,55 +1,24 @@
-"""The PDF preview, in one of two forms with the same methods.
+"""The PDF preview: the resume's pages, drawn by Qt's own PDF module.
 
-PdfPreview() gives the PDF.js viewer (preview_web.py), which has a toolbar
-of its own, text that can be selected and copied, and its own search. It
-runs in Qt WebEngine -- a Chromium -- which app stores don't accept. So
-there is also QtPdfPreview, a plain view drawn by Qt's own PDF module: it
-scrolls, fits the pages to the panel's width, and highlights the field being
-edited, and that is all. It is used in an app store's build, when Qt
-WebEngine isn't there to import, and when $RESUME_WORKSHOP_PREVIEW is
-"qtpdf" (to try it).
+A plain view: it scrolls, fits the pages to the panel's width, and
+highlights the text of the field being edited. (It was once Mozilla's
+PDF.js viewer in Qt WebEngine, which had a toolbar, selectable text, and a
+search of its own, but was most of the editor's download, and isn't accepted
+by app stores.)
 """
-import os
-
-from PySide6.QtCore import QTimer, Signal
+from PySide6.QtCore import QTimer
 from PySide6.QtPdf import QPdfDocument, QPdfSearchModel
 from PySide6.QtPdfWidgets import QPdfView
 
-from distribution import STORE
 
-
-def _web():
-    if STORE or os.environ.get("RESUME_WORKSHOP_PREVIEW") == "qtpdf":
-        return None
-    try:
-        import preview_web
-    except ImportError:
-        return None
-    return preview_web
-
-
-WEB = _web()
-
-
-def prepare():
-    """What the preview needs done before the QApplication is created."""
-    if WEB:
-        WEB.register_scheme()
-
-
-def PdfPreview(pdf):
-    """A preview showing the file `pdf`, once it exists."""
-    return WEB.PdfPreview(pdf) if WEB else QtPdfPreview(pdf)
-
-
-class QtPdfPreview(QPdfView):
-    print_requested = Signal()  # never emitted: this view has no Print button of its own
-
+class PdfPreview(QPdfView):
     def __init__(self, pdf):
         super().__init__(None)
         self.pdf = pdf  # the PDF on show
-        self._document = QPdfDocument(self)
-        self._search = QPdfSearchModel(self)
+        # Not children of the view: Qt crashes on the way out if the view
+        # deletes its own search model.
+        self._document = QPdfDocument()
+        self._search = QPdfSearchModel()
         self._search.setDocument(self._document)
         self.setDocument(self._document)
         self.setSearchModel(self._search)  # the view highlights what it finds
@@ -75,18 +44,22 @@ class QtPdfPreview(QPdfView):
         """Highlights, and scrolls to, the first of `phrases` that the PDF
         contains; none of them clears the highlight. Returns whether one
         was found."""
+        # The view doesn't redraw by itself when its "current" match is the
+        # same number of a different search, as it nearly always is here.
+        self.viewport().update()
         for phrase in phrases:
             self._search.setSearchString(phrase)
             for page in range(self._document.pageCount()):
                 found = self._search.resultsOnPage(page)
                 if found:
-                    self.pageNavigator().jump(page, found[0].location(), 0)  # zoom 0: as it is
+                    # The view draws its "current" match boldly; the others
+                    # it only tints, too faintly to see. This page's first
+                    # match is the first of all: no earlier page had one.
+                    self.setCurrentSearchResultIndex(0)
+                    # ...which scrolls there only when the number changes;
+                    # so go there, once a PDF just loaded has been laid out.
+                    place = found[0].location()
+                    QTimer.singleShot(0, lambda: self.pageNavigator().jump(page, place, 0))  # zoom 0: as it is
                     return True
         self._search.setSearchString("")
         return False
-
-    def edit(self, command):
-        """An Edit menu command; this view has no text to select or copy."""
-
-    def retheme(self):
-        """Follows a change of the editor's color theme, which it does anyway."""

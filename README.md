@@ -250,8 +250,8 @@ Every command is in the menu bar:
     the block editor's cards.
   - Wrap Lines, for the raw tab; Live Preview; and Full Screen (F11).
   - Color Theme switches the editor's colors: Dracula (the default), Nord,
-    Gruvbox Dark, Solarized Dark, Solarized Light, or Light. The PDF viewer's
-    toolbar goes dark or light to match, and the choice is remembered.
+    Gruvbox Dark, Solarized Dark, Solarized Light, or Light. The choice is
+    remembered.
 - **Help**
   - Check for Updates and About Resume Workshop: see
     [Updating](#updating).
@@ -264,7 +264,7 @@ The color themes:
 ![The editor in each color theme](docs/screenshots/editor-themes.png)
 
 [docs/screenshots/retake.py](docs/screenshots/retake.py) retakes this
-picture and the File menu's, without a display.
+picture, the File menu's, and the whole window's, without a display.
 
 ### Building
 
@@ -286,9 +286,10 @@ places, as the folder's Make targets write.
 
 ### Live preview
 
-The preview is [PDF.js](https://mozilla.github.io/pdf.js/), Mozilla's PDF
-viewer, with its own page thumbnails, search, and zoom. It is vendored in
-[editor/pdfjs/](editor/pdfjs/), so it works offline.
+The preview shows the PDF's pages, fitted to the panel's width, drawn by
+Qt's own PDF module. It is for looking, not working in: to select text,
+search, or zoom, open the PDF in your system's viewer with **File > Open
+PDF**.
 
 - About a second after you stop typing, the editor builds the PDF from what
   is on screen, saved or not, and shows it without losing your place.
@@ -305,13 +306,6 @@ viewer, with its own page thumbnails, search, and zoom. It is vendored in
 - **View > Live Preview** turns it off, leaving the preview on
   `output/resume.pdf`.
 
-PDF.js runs in Qt WebEngine, which app stores don't accept, so the editor
-also has a plainer preview drawn by Qt's own PDF module
-([editor/preview.py](editor/preview.py)): it scrolls, fits the pages to the
-panel, and highlights the field you're in, without a toolbar, text selection,
-or search. It is used where Qt WebEngine isn't available; to try it, start
-the editor with `RESUME_WORKSHOP_PREVIEW=qtpdf` set.
-
 ### Find and Replace
 
 **Edit > Find** opens a bar under the tabs:
@@ -324,8 +318,7 @@ the editor with `RESUME_WORKSHOP_PREVIEW=qtpdf` set.
   **Whole words** options.
 - **Replace** and **Replace all** type the replacement into the fields, so
   each field's own undo reverses it.
-- Esc closes the bar. The PDF preview isn't searched; it has a search of its
-  own in its toolbar.
+- Esc closes the bar. The PDF preview isn't searched.
 
 ### Page Setup
 
@@ -348,7 +341,7 @@ These File menu commands work on the saved files, so save first to include
 your latest edits:
 
 - **Print PDF** prints `output/resume.pdf` after asking for the printer and
-  pages. The preview's own print button does the same.
+  pages.
 - **Open PDF** opens `output/resume.pdf` in your system's PDF viewer.
 - **Export PDF** rebuilds `output/resume.pdf`, and **Export TXT**
   `output/resume.txt`, then asks where to save a copy.
@@ -596,8 +589,7 @@ it uses the same rules as `make build` and `make validate`. Its own code is in
   block editor and the resume model behind it.
 - [widgets.py](editor/widgets.py): the cards and drag-and-drop lists.
 - [live.py](editor/live.py): the live preview.
-- [preview.py](editor/preview.py), [preview_web.py](editor/preview_web.py),
-  and [preview.js](editor/preview.js): the PDF view, plain and PDF.js.
+- [preview.py](editor/preview.py): the PDF view.
 - [proofing.py](editor/proofing.py): spelling and grammar checking.
 - [find.py](editor/find.py): Find and Replace.
 - [page_setup.py](editor/page_setup.py): the Page Setup dialog.
@@ -682,11 +674,7 @@ see [Spelling and grammar](#spelling-and-grammar).
   Resume Workshop isn't affiliated with Reactive Resume.
 - The desktop editor is built with [Qt](https://www.qt.io/) through
   [PySide6](https://doc.qt.io/qtforpython-6/) (Qt for Python, LGPLv3),
-  installed from `requirements.txt` rather than vendored. Its PDF preview is
-  [PDF.js](https://mozilla.github.io/pdf.js/) v6.4.299 (the prebuilt
-  "legacy" viewer, minus its source maps and sample PDF), © Mozilla
-  Foundation, used under the Apache License 2.0
-  ([editor/pdfjs/LICENSE](editor/pdfjs/LICENSE)). Its spelling and
+  installed from `requirements.txt` rather than vendored. Its spelling and
   grammar checks use [Enchant](https://rrthomas.github.io/enchant/) (LGPL)
   and [LanguageTool](https://languagetool.org/) (LGPL); the optional
   [language-tool-python](https://github.com/jxmorris12/language_tool_python)

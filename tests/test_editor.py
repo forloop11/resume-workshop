@@ -4,17 +4,20 @@ import filecmp
 import json
 import os
 import shutil
+import signal
 import subprocess
+import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
 from tests import RESUME, ROOT
 
-# Before Qt loads: no display, the plain PDF preview (no Chromium to start),
-# and settings and launchers in a folder of the tests' own.
+# Before Qt loads: no display, and settings and launchers in a folder of the
+# tests' own.
 HOME = tempfile.TemporaryDirectory(prefix="resume-workshop-tests-")
-os.environ.update(QT_QPA_PLATFORM="offscreen", RESUME_WORKSHOP_PREVIEW="qtpdf", XDG_CONFIG_HOME=f"{HOME.name}/config",
+os.environ.update(QT_QPA_PLATFORM="offscreen", XDG_CONFIG_HOME=f"{HOME.name}/config",
                   XDG_DATA_HOME=f"{HOME.name}/data")
 
 try:
@@ -59,6 +62,22 @@ def pdf_text(path):
     return [document.getAllText(page).text() for page in range(document.pageCount())]
 
 
+def PaintWatch(widget):
+    """Counts the times `widget` is redrawn from now on, as .paints."""
+    from PySide6.QtCore import QEvent, QObject
+
+    class Watch(QObject):
+        paints = 0
+
+        def eventFilter(self, _watched, event):
+            self.paints += event.type() == QEvent.Type.Paint
+            return False
+
+    watch = Watch(widget)
+    widget.installEventFilter(watch)
+    return watch
+
+
 class Editor(unittest.TestCase):
     def folder(self, name, resume=None):
         folder = Path(HOME.name) / f"{self.id().rsplit('.', 1)[-1]}-{name}"
@@ -95,6 +114,41 @@ class Editor(unittest.TestCase):
             self.assertTrue(filecmp.cmp(ours / name, makes / name, shallow=False), name)
         self.assertEqual(pdf_text(ours / "output/resume.pdf"), pdf_text(makes / "output/resume.pdf"))
         self.assertIn("ADA EXAMPLE", pdf_text(ours / "output/resume.pdf")[0])
+
+    def test_starts_and_quits_cleanly(self):
+        """The editor as it is really started, told to quit as a closing
+        terminal tells it: a crash on the way out fails this."""
+        folder = self.folder("run", RESUME)
+        shutil.copy(ROOT / "output/resume.pdf", folder / "output/resume.pdf")  # something for the preview to show
+        editor = subprocess.Popen([sys.executable, "-B", str(ROOT / "editor/main.py")], stderr=subprocess.PIPE, text=True,
+                                  env={**os.environ, "RESUME_WORKSHOP_ROOT": str(folder)})
+        time.sleep(5)
+        self.assertIsNone(editor.poll(), "the editor exited by itself")
+        editor.send_signal(signal.SIGTERM)
+        errors = editor.communicate(timeout=30)[1]
+        self.assertEqual(editor.returncode, 0, errors[-2000:])
+        self.assertNotIn("Traceback", errors)
+
+    def test_preview_highlights_the_field_being_edited(self):
+        folder = self.folder("highlight", RESUME)
+        shutil.copy(ROOT / "output/resume.pdf", folder / "output/resume.pdf")
+        window = self.open(folder)
+        window.live.set_enabled(False)  # keep that PDF on show
+        view, pages = window.pdf_view, pdf_text(folder / "output/resume.pdf")
+        phrase = pages[-1].split("\n")[0].strip()  # a line of the last page
+        self.assertTrue(view.highlight(["not in the resume at all", phrase]))
+        # As the view's current match: the only kind it draws visibly.
+        self.assertEqual((view._search.searchString(), view.currentSearchResultIndex()), (phrase, 0))
+        wait(lambda: view.verticalScrollBar().value() > 0)  # scrolled to it
+        # Another match, in view already: the preview is redrawn all the same.
+        other = next(line.strip() for line in pages[-1].split("\n")[1:] if len(line.strip()) > 8)
+        settled = time.monotonic() + 0.3  # past the redraw that scrolling causes
+        wait(lambda: time.monotonic() > settled)
+        watch = PaintWatch(view.viewport())
+        self.assertTrue(view.highlight([other]))
+        wait(lambda: watch.paints)
+        self.assertFalse(view.highlight(["not in the resume at all"]))
+        self.assertEqual(view._search.searchString(), "")
 
     def test_exports_and_failures(self):
         window = self.open(self.folder("one", RESUME))

@@ -9,6 +9,8 @@ and Make targets build the final PDF and plain-text resume, plus a
 includes an optional desktop editor with a drag-and-drop block view of
 the resume, and a Docker-based build path for a reproducible toolchain.
 
+![A tour of the editor: the live preview following an edit, bold, a link test, the ATS check, the section cards, the color themes, and a build](docs/screenshots/demo.gif)
+
 ![Block editor: header and section order](docs/screenshots/editor-blocks.png)
 
 ## Contents
@@ -64,7 +66,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - [tests/](tests/) contains the tests (`make test`).
 - [packaging/](packaging/) builds and installs the editor as an AppImage, and [.github/workflows/](.github/workflows/) publishes it as a release.
 - [docker/](docker/) contains the reproducible build image definition.
-- [docs/screenshots/](docs/screenshots/) contains the editor screenshots used in this README.
+- [docs/screenshots/](docs/screenshots/) contains the editor screenshots and animated tour (`demo.gif`) used in this README, and the scripts that take them.
 - [etc/](etc/) contains the vendored JSON Resume and Reactive Resume schemas, cspell configuration, and project-specific words.
 
 ## Make targets
@@ -288,7 +290,9 @@ The color themes:
 ![The editor in each color theme](docs/screenshots/editor-themes.png)
 
 [docs/screenshots/retake.py](docs/screenshots/retake.py) retakes this
-picture, the File menu's, and the whole window's, without a display.
+picture, the File menu's, and the whole window's, without a display, and
+[docs/screenshots/demo.py](docs/screenshots/demo.py) records the animated
+tour at the top of this README the same way (it needs Pillow besides).
 
 ### Building
 

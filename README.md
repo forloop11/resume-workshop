@@ -270,6 +270,8 @@ Every command is in the menu bar:
   - Insert Middle Dot (Ctrl+.) and Insert En Dash (Ctrl+-) type those
     characters into the block editor field you're in.
   - Pretty-print JSON reformats the raw tab.
+  - Install Grammar Checker downloads the optional grammar checker: see
+    [Spelling and grammar](#spelling-and-grammar).
 - **View**
   - Resume (blocks) (Ctrl+1) and resume.json (Ctrl+2) switch tabs.
   - Expand All (Ctrl+Shift+E) and Collapse All (Ctrl+Shift+C) open and close
@@ -632,12 +634,14 @@ appends the word to [etc/dictionary.txt](etc/dictionary.txt). The raw
   the summaries, descriptions, and highlights, a moment after you stop typing.
 - language-tool-python is an optional extra, kept out of `requirements.txt`
   and out of the AppImage because it is licensed under the GPL (version 3),
-  unlike the rest of the editor. To add it:
-  - from a checkout, `pip install -r requirements-grammar.txt`;
-  - for the AppImage, run `Resume_Workshop-x86_64.AppImage --install-grammar`
-    once, which installs it from PyPI for your user, in
-    `~/.local/share/resume-workshop/packages`. Delete that folder to remove
-    it.
+  unlike the rest of the editor. **Edit > Install Grammar Checker** adds it:
+  after asking, it downloads the package from the Python Package Index for
+  your user, into `~/.local/share/resume-workshop/packages`, and starts
+  checking grammar without a restart. Once it is there the command reads
+  **Update Grammar Checker**; delete that folder to remove it. From a
+  terminal, `Resume_Workshop-x86_64.AppImage --install-grammar` does the
+  same for the AppImage, and `pip install -r requirements-grammar.txt` for a
+  checkout.
 - If either package (or Java) is missing, that check is off and the rest of
   the editor works as usual.
 

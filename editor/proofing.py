@@ -9,12 +9,15 @@ is simply off if its package isn't installed.
 
 language_tool_python is an optional extra (requirements-grammar.txt): it is
 GPL-licensed, so the packaged editor doesn't include it, and looks for it
-in the user's own PACKAGES folder as well. An app store's build has no
+in the user's own PACKAGES folder as well, where Edit > Install Grammar
+Checker puts it (install_command()). An app store's build has no
 grammar checking, since it may not fetch LanguageTool.
 
 A Proofer underlines the problems in one text box -- spelling in red, grammar
 in orange -- and adds the fixes to its right-click menu.
 """
+import importlib
+import importlib.util
 import queue
 import re
 import sys
@@ -111,6 +114,30 @@ class Speller(QObject):
         self.ignore(word)
 
 
+# The grammar checker's packages, as pip is told them.
+REQUIREMENTS = project.SOURCE / "requirements-grammar.txt"
+
+
+def grammar_installed():
+    """Whether language_tool_python is there to import, bundled or in PACKAGES."""
+    if str(PACKAGES) not in sys.path:
+        sys.path.append(str(PACKAGES))
+    importlib.invalidate_caches()
+    try:
+        return importlib.util.find_spec("language_tool_python") is not None
+    except (ImportError, ValueError):
+        return False
+
+
+def install_command():
+    """The program and arguments that install the grammar checker in
+    PACKAGES (Edit > Install Grammar Checker): this Python's own pip, as the
+    AppImage's --install-grammar runs it. -s -E keep the user's other
+    packages and settings out of it."""
+    return sys.executable, ["-s", "-E", "-m", "pip", "install", "--upgrade", "--disable-pip-version-check", "--no-input",
+                            "--target", str(PACKAGES), "-r", str(REQUIREMENTS)]
+
+
 class Grammar(QObject):
     """Checks text with LanguageTool on a background thread, since starting
     its server takes several seconds and a check takes a moment."""
@@ -156,7 +183,7 @@ class Grammar(QObject):
             tool.disabled_rules.add("MORFOLOGIK_RULE_EN_US")  # spelling is the Speller's job
         except ImportError:
             self.missing = True
-            self._fail("language_tool_python, an optional extra, isn't installed (see Spelling and grammar in the README)")
+            self._fail("its package, an optional extra, isn't installed" + ("." if STORE else ". Edit > Install Grammar Checker adds it."))
             return
         except Exception as error:  # no Java, or LanguageTool couldn't be downloaded or started
             self._fail(str(error))
@@ -185,6 +212,21 @@ class Grammar(QObject):
     def _fail(self, reason):
         self.off = True
         self.failed.emit(reason)
+
+    def running(self):
+        """Whether the checker's thread is at work (or starting up)."""
+        return self._thread is not None and self._thread.is_alive()
+
+    def retry(self):
+        """Starts afresh, once what kept it off has been put right (the
+        package has been installed): the next request tries again."""
+        if STORE or self.running():
+            return
+        importlib.invalidate_caches()  # the package may be minutes old
+        self.off, self.missing = False, False
+        self.results = {}
+        self._requests = queue.Queue()
+        self._thread = None
 
     def close(self):
         """Stops the LanguageTool server (once it has finished starting)."""

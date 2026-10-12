@@ -383,6 +383,55 @@ class Editor(unittest.TestCase):
         for drawn, expected in zip(painted, worked_out):
             self.assertAlmostEqual(drawn, expected, delta=4)
 
+    def test_installing_the_grammar_checker(self):
+        import proofing
+
+        window = self.open(self.folder("grammar", RESUME))
+        packages = Path(HOME.name) / "data/resume-workshop/packages"
+        self.assertEqual(proofing.PACKAGES, packages)
+        program, arguments = proofing.install_command()
+        self.assertEqual((program, arguments[2:5], arguments[-4:-2]), (sys.executable, ["-m", "pip", "install"], ["--target", str(packages)]))
+        self.assertTrue(Path(arguments[-1]).is_file())  # requirements-grammar.txt
+        if proofing.grammar_installed():
+            self.skipTest("language_tool_python is installed on this machine already")
+        edit_menu = next(action.menu() for action in window.menuBar().actions() if action.text() == "&Edit")
+        edit_menu.aboutToShow.emit()
+        self.assertEqual(window.grammar_action.text(), "Install &Grammar Checker…")
+        # Without it, grammar checking turns itself off, saying why.
+        window.grammar.request("She go to school.")
+        wait(lambda: window.grammar.off)
+        self.assertTrue(window.grammar.missing)
+        # Install: a stand-in for pip, that writes a stand-in for the package.
+        package = "\n".join([
+            "class Match:",
+            "    offset, error_length, message, replacements, rule_id = 4, 2, 'Use goes.', ['goes'], 'RULE'",
+            "class LanguageTool:",
+            "    def __init__(self, language): self.disabled_rules = set()",
+            "    def check(self, text): return [Match()]",
+            "    def close(self): pass",
+        ])
+        stand_in = ("import pathlib, sys\n"
+                    "folder = pathlib.Path(sys.argv[1]) / 'language_tool_python'\n"
+                    "folder.mkdir(parents=True)\n"
+                    "(folder / '__init__.py').write_text(sys.argv[2])\n")
+        main.install_command = lambda: (sys.executable, ["-c", stand_in, str(packages), package])
+        self.addCleanup(setattr, main, "install_command", proofing.install_command)
+        self.addCleanup(sys.modules.pop, "language_tool_python", None)
+        self.addCleanup(shutil.rmtree, packages, True)
+        QTimer.singleShot(200, lambda: next(button for button in main.QApplication.activeModalWidget().buttons() if button.text() == "Install").click())
+        window.install_grammar()
+        wait(lambda: window.installing is None and "grammar checker" in window.status.text())
+        self.assertIn("Installed the grammar checker", window.status.text())
+        self.assertTrue(proofing.grammar_installed())
+        edit_menu.aboutToShow.emit()
+        self.assertEqual(window.grammar_action.text(), "Update &Grammar Checker…")
+        # ...and it is at work, without restarting the editor.
+        self.assertFalse(window.grammar.off)
+        window.grammar.request("She go to school.")
+        wait(lambda: window.grammar.problems("She go to school."))
+        self.assertEqual(window.grammar.problems("She go to school.")[0][:3], (4, 6, "Use goes."))
+        window.grammar.close()
+
     def test_exports_and_failures(self):
         window = self.open(self.folder("one", RESUME))
         saved = []

@@ -119,7 +119,7 @@ from document import ORDER, RESUME  # noqa: E402
 from find import FindBar  # noqa: E402
 from live import GEOMETRY, LivePreview  # noqa: E402
 from page_setup import PageSetup  # noqa: E402
-from proofing import Grammar, Proofer, Speller, utf16  # noqa: E402
+from proofing import PACKAGES, Grammar, Proofer, Speller, grammar_installed, install_command, utf16  # noqa: E402
 from update import RELEASES, Updater  # noqa: E402
 from widgets import Collapsible, restyle  # noqa: E402
 
@@ -271,6 +271,7 @@ class Workshop(QMainWindow):
         self.files = {}  # each input file's text as edited
         self.saved = {}  # ...and as it is on disk
         self.process = None  # the pdflatex run in progress, if any
+        self.installing = None  # the pip run installing the grammar checker, if any
         self.updater = Updater(self)
         self.speller = Speller()
         self.speller.open(root)
@@ -446,6 +447,52 @@ class Workshop(QMainWindow):
         super().resizeEvent(event)
         self._make_room()
 
+    def install_grammar(self):
+        """Downloads the grammar checker (requirements-grammar.txt) from PyPI
+        into the user's own packages folder, after asking, and starts it."""
+        if self.installing is not None:
+            self.report("The grammar checker is being installed already.")
+            return
+        updating = grammar_installed()
+        box = QMessageBox(QMessageBox.Icon.Question, "Resume Workshop", f"{'Update' if updating else 'Install'} the grammar checker?", parent=self)
+        box.setInformativeText(
+            "This downloads language-tool-python and what it needs, a few megabytes, from the Python Package Index into "
+            f"{self._short(PACKAGES)}. It is separate from Resume Workshop, and under a license of its own (the GPL, version 3).\n\n"
+            "Grammar checking also needs Java, and downloads LanguageTool itself, about 260 MB, the first time it runs. "
+            "The resume's text is checked on this machine, and isn't sent anywhere.")
+        go = box.addButton("Update" if updating else "Install", QMessageBox.ButtonRole.AcceptRole)
+        box.setDefaultButton(box.addButton("Cancel", QMessageBox.ButtonRole.RejectRole))
+        box.exec()
+        if box.clickedButton() is not go:
+            return
+        process = self.installing = QProcess(self)
+        process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
+        reported = []  # a process that can't start reports that, and then that it finished
+
+        def done(succeeded, output):
+            if reported:
+                return
+            reported.append(True)
+            self.installing = None
+            process.deleteLater()
+            if not succeeded:
+                self.show_build_output(output, expand=True)
+                self.report('The grammar checker could not be installed — see "Last build output".', "error")
+            elif self.grammar.running():
+                self.report("Updated the grammar checker; the new version starts the next time the editor does.", "ok")
+            else:
+                self.grammar.retry()
+                if self.blocks.doc:
+                    self.blocks.render()  # the fields ask for their text to be checked
+                self.report("Installed the grammar checker. It starts now, and marks grammar in a moment.", "ok")
+
+        process.finished.connect(lambda code, status: done(status == QProcess.ExitStatus.NormalExit and code == 0,
+                                                           bytes(process.readAll()).decode("utf-8", "replace")))
+        process.errorOccurred.connect(lambda error: error == QProcess.ProcessError.FailedToStart
+                                      and done(False, f"Could not run pip: {process.errorString()}"))
+        self.report("Installing the grammar checker…")
+        process.start(*install_command())
+
     def toggle_launcher(self):
         """Adds the AppImage to the applications menu, or takes it out."""
         try:
@@ -534,6 +581,12 @@ class Workshop(QMainWindow):
             add(edit_menu, "Insert &En Dash (–)", lambda: blocks.insert_char("–"), "Ctrl+-"),
         ]
         self.format_action = add(edit_menu, "Pretty-print &JSON", raw.format_json)
+        if not distribution.STORE:  # which may not fetch code
+            edit_menu.addSeparator()
+            self.grammar_action = add(edit_menu, "", self.install_grammar)
+            relabel = lambda: self.grammar_action.setText("Update &Grammar Checker…" if grammar_installed() else "Install &Grammar Checker…")  # noqa: E731
+            edit_menu.aboutToShow.connect(relabel)
+            relabel()
 
         view_menu = self.menuBar().addMenu("&View")
         add(view_menu, "Resume (&blocks)", lambda: self.tabs.setCurrentWidget(blocks), "Ctrl+1")

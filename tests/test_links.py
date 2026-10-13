@@ -6,7 +6,7 @@ import tests  # noqa: F401  (sets up the import path)
 
 try:
     import links
-except ImportError:  # no PySide6
+except ImportError:
     links = None
 
 
@@ -33,7 +33,7 @@ def site():
     return f"http://127.0.0.1:{server.server_port}", lambda: (server.shutdown(), server.server_close())
 
 
-@unittest.skipUnless(links, "needs PySide6")
+@unittest.skipUnless(links, "needs the editor's modules")
 class Links(unittest.TestCase):
     def test_what_is_an_address(self):
         self.assertEqual(links.address(" example.com/me "), "https://example.com/me")

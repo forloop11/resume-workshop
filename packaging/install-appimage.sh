@@ -51,7 +51,7 @@ esac
 
 mkdir -p "$(dirname "$TARGET")" "$(dirname "$LAUNCHER")" "$(dirname "$ICON")"
 install -m 755 "$SOURCE" "$TARGET"
-install -m 644 "$ROOT/editor/icon.svg" "$ICON"
+install -m 644 "$ROOT/app/backend/icon.svg" "$ICON"
 # The packaged launcher, with Exec pointing at the installed AppImage, and
 # this checkout as the resume to open until another has been (quoted, as
 # either path may contain spaces; a literal % in a launcher is written %%).

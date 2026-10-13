@@ -1,15 +1,16 @@
 """The project's tests: `make test`.
 
-They use only the standard library's unittest. test_editor needs the
-editor's packages (requirements.txt) and skips without them; the parts of it
-that build a PDF also need make and pdflatex.
+They use only the standard library's unittest. test_backend, the editor's
+backend, needs jsonschema (requirements.txt) and skips without it; the parts
+of it that build a PDF also need a TeX engine, and make to compare with.
+The editor's window has a test of its own: `make app-test`.
 """
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.dont_write_bytecode = True
-for folder in ("scripts", "editor"):
+for folder in ("scripts", "app/backend"):
     sys.path.insert(0, str(ROOT / folder))
 
 # A resume with every section, and the characters LaTeX treats specially.

@@ -2,14 +2,9 @@
 # generate_resume.py, generate_text.py) use only the Python standard library,
 # by design -- see the note in scripts/generate_header.py -- so `make build`
 # needs no pip packages. `make validate` (scripts/validate_resume.py) and the
-# desktop editor's save check (editor/main.py, `make editor`) validate
-# input/resume.json against the JSON Resume schema with jsonschema. The
-# editor itself is a Qt app and needs PySide6. Its spell checker is
-# pyenchant (which needs the Enchant library and an en_US dictionary, e.g.
-# Fedora's enchant2 and hunspell-en-US). The editor works without it; that
-# check is just off. Its grammar checker is an optional extra, in
-# requirements-grammar.txt.
+# desktop editor's backend (app/backend/server.py) validate input/resume.json
+# against the JSON Resume schema with jsonschema. The editor's window is
+# built with Node and Rust (app/README.md). Its grammar checker is an
+# optional extra, in requirements-grammar.txt.
 # Requires Python 3.13+.
 jsonschema>=4.0
-PySide6>=6.7
-pyenchant>=3.2

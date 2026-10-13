@@ -10,7 +10,7 @@ import tests  # noqa: F401  (sets up the import path)
 
 try:
     import update
-except ImportError:  # no PySide6
+except ImportError:
     update = None
 
 PAYLOAD = b"a new AppImage " * 100_000
@@ -46,7 +46,7 @@ def release(**asset):
     ]}
 
 
-@unittest.skipUnless(update, "needs PySide6")
+@unittest.skipUnless(update, "needs the editor's modules")
 class Update(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

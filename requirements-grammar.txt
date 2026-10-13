@@ -6,5 +6,6 @@
 # the first time it runs. It is kept apart from requirements.txt because it
 # is licensed under the GPL (version 3), unlike the rest: the packaged
 # editor leaves it out, so that it stays under this project's own license,
-# and picks it up if you add it (see Spelling and grammar in the README).
+# and picks it up if you add it (Edit > Install Grammar Checker; see
+# Spelling and grammar in the README).
 language-tool-python>=3.0

@@ -89,7 +89,7 @@ def crates(manifest):
     their licenses: each distinct license text once, under the crates that
     come with it. Asks Cargo, which has their sources."""
     listed = json.loads(subprocess.run(["cargo", "metadata", "--format-version", "1", "--manifest-path", str(manifest)],
-                                       capture_output=True, text=True, check=True).stdout)
+                                       capture_output=True, text=True, encoding="utf-8", check=True).stdout)
     packages = {package["id"]: package for package in listed["packages"]}
     nodes = {node["id"]: node for node in listed["resolve"]["nodes"]}
     # What the program is made of: not what only builds or tests it.

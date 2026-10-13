@@ -73,7 +73,7 @@ def main():
         for offline in ([], ["--only-cached"]):
             for name in (build.TEX.name, "before.tex"):
                 run = subprocess.run([tectonic, *offline, "-Z", "search-path=.", "--outdir", "output", f"input/{name}"], cwd=folder,
-                                     env={**os.environ, "TECTONIC_CACHE_DIR": str(cache)}, capture_output=True, text=True)
+                                     env={**os.environ, "TECTONIC_CACHE_DIR": str(cache)}, capture_output=True, text=True, encoding="utf-8", errors="replace")
                 if run.returncode:
                     sys.exit(f"Tectonic could not build input/{name}{' offline' if offline else ''}:\n{(run.stdout + run.stderr)[-3000:]}")
 

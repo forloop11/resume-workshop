@@ -108,7 +108,7 @@ def unpack(archive, folder):
 
 def run(command, **options):
     """Runs a command, showing what it printed only if it fails."""
-    done = subprocess.run([str(part) for part in command], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, errors="replace", **options)
+    done = subprocess.run([str(part) for part in command], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace", **options)
     if done.returncode:
         sys.exit(f"{' '.join(str(part) for part in command[:4])}... failed:\n{done.stdout[-6000:]}")
     return done.stdout

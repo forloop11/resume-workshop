@@ -12,6 +12,7 @@ Run with the bundled Python, so that importlib.metadata sees its packages:
 import argparse
 import json
 import subprocess
+import sys
 import sysconfig
 from importlib import metadata
 from pathlib import Path
@@ -73,6 +74,16 @@ def package(distribution):
     return section(f"{meta['Name']} {distribution.version}", "\n".join(line for line in lines if line), *texts)
 
 
+def python_license():
+    """Python's own license, from where this Python keeps it: with its
+    library, or on Windows at its top."""
+    for folder in (sysconfig.get_path("stdlib"), sys.base_prefix):
+        for name in ("LICENSE.txt", "LICENSE"):
+            if (Path(folder) / name).is_file():
+                return read(Path(folder) / name)
+    return "Python is used under the Python Software Foundation License: https://docs.python.org/3/license.html"
+
+
 def crates(manifest):
     """The Rust crates the Tauri shell is built from (app/src-tauri), with
     their licenses: each distinct license text once, under the crates that
@@ -115,7 +126,7 @@ def main():
     options = arguments.parse_args()
     parts = [
         "Resume Workshop includes the software below, each under its own license.\n",
-        section(f"Python {sysconfig.get_python_version()}", read(Path(sysconfig.get_path("stdlib")) / "LICENSE.txt")),
+        section(f"Python {sysconfig.get_python_version()}", python_license()),
     ]
     distributions = sorted(metadata.distributions(), key=lambda distribution: distribution.metadata["Name"].lower())
     parts += [package(distribution) for distribution in distributions]

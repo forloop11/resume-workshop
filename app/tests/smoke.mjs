@@ -173,13 +173,14 @@ try {
     field.select()
   })
   await page.keyboard.type("She go to the office every day.")
-  const grammar = await page.waitForFunction(
-    () => (document.querySelector(".grow-mirror mark") ? "marked" : document.querySelector("[data-status]").textContent.startsWith("Grammar checking is off") ? "off" : false),
-    { timeout: 120000 }).then((handle) => handle.jsonValue())
-  if (grammar === "off") {
-    console.log(`--  grammar isn't checked here (${await status()})`)
+  // Asked of the backend itself: the window says so only once, as it opens.
+  const off = await page.evaluate(() => fetch("/rpc", { method: "POST", body: JSON.stringify({ id: 0, method: "grammar", params: { texts: ["She go."] } }) })
+    .then((response) => response.json()).then((answer) => answer.result.off))
+  if (off) {
+    console.log(`--  grammar isn't checked here (${off})`)
   } else {
-    check((await page.$eval(".grow-mirror mark", (mark) => mark.textContent)) === "go", "a grammar problem is underlined")
+    await page.waitForSelector('.grow-mirror mark[data-kind="grammar"]', { timeout: 120000 })
+    check((await page.$eval('.grow-mirror mark[data-kind="grammar"]', (mark) => mark.textContent)) === "go", "a grammar problem is underlined")
     await page.waitForSelector("[data-grammar] button")
     await page.evaluate(() => [...document.querySelectorAll("[data-grammar] button")].find((button) => button.textContent === "goes").click())
     check((await summary.evaluate((field) => field.value)) === "She goes to the office every day.", "...and its fix is a click away")

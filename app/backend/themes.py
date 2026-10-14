@@ -1,4 +1,4 @@
-"""The editor's color themes (View > Color Theme).
+"""The editor's color themes (Theme > Color Theme).
 
 A theme gives a color to each role below. The window applies them as the
 variables its styles are written with (app/src/lib/themes.ts). The choice

@@ -23,10 +23,13 @@ SOURCE = Path(__file__).resolve().parent.parent.parent
 REQUIRED = ["makefile", "scripts/generate_resume.py", "input/resume.json", "input/section_order.yaml",
             "input/geometry.yaml", "input/format.tex"]
 # What New Resume copies, on top of writing the starter resume: the build
-# files, the schemas `make validate` and `make schema` read, and the layout.
-TEMPLATE = ["makefile", "requirements.txt", "LICENSE", ".gitignore", ".dockerignore", "docker", "scripts",
-            "etc/cspell.json", "etc/resume-schema.json", "etc/resume-schema.LICENSE.md", "etc/rxresume-schema.json",
-            "etc/rxresume-schema.LICENSE.md", "input/format.tex", "input/geometry.yaml"]
+# files, the schemas `make validate` and `make schema` read, the resume
+# themes `make theme` chooses from (layouts.py), and the page's margins.
+TEMPLATE = ["makefile", "requirements.txt", "LICENSE", ".gitignore", ".dockerignore", "docker", "scripts", "themes",
+            "etc/spelling.json", "etc/resume-schema.json", "etc/resume-schema.LICENSE.md", "etc/rxresume-schema.json",
+            "etc/rxresume-schema.LICENSE.md", "input/geometry.yaml"]
+# A new resume's layout (input/format.tex): the first of the themes.
+LAYOUT = "themes/classic.tex"
 # The part of TEMPLATE a folder needs for building without the editor,
 # which later versions of the editor may improve on. The rest, in input/,
 # is the resume's own layout.
@@ -133,6 +136,7 @@ def create(folder):
     if folder.exists() and any(folder.iterdir()):
         raise ValueError(f"{folder} isn't empty. Choose a new or empty folder.")
     copy_template(folder)
+    shutil.copyfile(SOURCE / LAYOUT, folder / "input" / "format.tex")
     (folder / "input" / "resume.json").write_text(json.dumps(STARTER, indent=2, ensure_ascii=False), encoding="utf-8")
     (folder / "input" / "section_order.yaml").write_text(SECTION_ORDER, encoding="utf-8")
     (folder / "etc" / "dictionary.txt").write_text("", encoding="utf-8")  # this resume's own spelling list

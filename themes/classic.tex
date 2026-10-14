@@ -1,0 +1,138 @@
+%==============================================================================
+%  Compile with:  pdflatex -jobname=resume input/format.tex   (run twice for hyperrefs)
+%            or:  tectonic -Z search-path=. input/format.tex
+%  Portable: uses only standard TeX Live / Overleaf packages, no custom class.
+%==============================================================================
+
+\documentclass[letterpaper,10pt]{article}
+
+% --- Font ------------------------------------------------------------------
+% Helvetica scaled to Calibri-like metrics. Chosen because it ships with
+% every TeX distribution, so the two-page layout is reproducible anywhere,
+% and Helvetica/Arial is the safest face for resume parsers.
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \IfFileExists{helvet.sty}{\usepackage[scaled=0.92]{helvet}}{}
+  % So that text copied out of the PDF, or read by a parser, has "fi" and
+  % "fl" as letters, not as single ligature characters.
+  \IfFileExists{glyphtounicode.tex}{\input{glyphtounicode}\pdfgentounicode=1}{}
+\else
+  % Tectonic (XeTeX): the same face as an OpenType font, TeX Gyre Heros,
+  % without the "fi", "fl", and "ff" ligatures, so that text copied out of
+  % the PDF, or read by a parser, has them as letters.
+  \usepackage{fontspec}
+  \setsansfont{texgyreheros}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold,
+    ItalicFont=*-italic, BoldItalicFont=*-bolditalic, Scale=0.92, Ligatures=NoCommon]
+\fi
+\renewcommand{\familydefault}{\sfdefault}
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+%------------------------------------------------------------------------------
+%  LAYOUT DENSITY KNOBS
+%------------------------------------------------------------------------------
+\newcommand{\resumeLeading}{0.93}
+\newlength{\sectionGapAbove}\setlength{\sectionGapAbove}{3pt}
+\newlength{\sectionGapBelow}\setlength{\sectionGapBelow}{3pt}
+\newlength{\jobGap}\setlength{\jobGap}{2pt}
+
+\input{interim/geometry.tex}
+\usepackage{xcolor}
+\usepackage{graphicx} % for the header's photo (basics.image)
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage[hidelinks]{hyperref}
+
+%------------------------------------------------------------------------------
+%  Colors
+%------------------------------------------------------------------------------
+\definecolor{accent}{HTML}{1F3A5F}
+\definecolor{rule}{HTML}{8FA3BC}
+\definecolor{body}{HTML}{222222}
+\definecolor{muted}{HTML}{555555}
+\color{body}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=accent,
+  linkcolor=accent
+}
+% The PDF's title, author, and subject are set in interim/header.tex, from
+% the resume's name and label.
+
+%------------------------------------------------------------------------------
+%  Page setup
+%------------------------------------------------------------------------------
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{0pt}
+\linespread{\resumeLeading}
+
+\titleformat{\section}
+  {\normalsize\bfseries\color{accent}}
+  {}{0pt}
+  {\MakeUppercase}
+  [\vspace{-7pt}{\color{rule}\rule{\textwidth}{0.6pt}}]
+\titlespacing*{\section}{0pt}{\sectionGapAbove}{\sectionGapBelow}
+
+%------------------------------------------------------------------------------
+%  Custom commands
+%------------------------------------------------------------------------------
+\newcommand{\role}[1]{%
+  \textit{\textbf{\color{accent}#1}}\par\vspace{1pt}%
+}
+
+\newcommand{\position}[3]{%
+  \vspace{\jobGap}%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textbf{\large #1}\hspace{4pt}\textit{\small\color{muted}#2} &
+    \textbf{\small\color{muted}#3} \\
+  \end{tabularx}%
+  \vspace{1pt}%
+}
+
+\newcommand{\subrole}[2]{%
+  \vspace{3pt}%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textit{\textbf{\color{accent}#1}} &
+    \textit{\small\color{muted}#2} \\
+  \end{tabularx}%
+  \vspace{1pt}%
+}
+
+\newcommand{\entry}[2]{%
+  {\color{accent}\textbf{#1:}} #2\par\vspace{2pt}%
+}
+
+\newcommand{\blurb}[1]{%
+  #1\par\vspace{1pt}%
+}
+
+\newcommand{\stack}[1]{%
+  \vspace{1pt}%
+  {\small\color{muted}\leftskip=12pt\textbf{Stack:} #1\par}\vspace{2pt}%
+}
+
+\newlist{duties}{itemize}{1}
+\setlist[duties]{
+  label={\color{accent}\textendash},
+  leftmargin=13pt,
+  labelsep=5pt,
+  topsep=0.5pt,
+  parsep=0pt,
+  itemsep=1pt,
+  after=\vspace{1pt}
+}
+
+%==============================================================================
+\begin{document}
+%==============================================================================
+
+\input{interim/header.tex}
+\input{interim/resume_content.tex}
+
+%==============================================================================
+\end{document}
+%==============================================================================

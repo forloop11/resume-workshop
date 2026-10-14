@@ -24,6 +24,8 @@ import { cn } from "@/lib/utils"
 
 // The PDF preview, with PDF.js, is loaded apart from the rest of the window, which shows first.
 const PdfView = React.lazy(() => import("@/components/pdf-view").then((module) => ({ default: module.PdfView })))
+// The JSON Resume themes, and what they are built on, are loaded when their dialog is first opened.
+const JsonThemes = React.lazy(() => import("@/components/json-themes").then((module) => ({ default: module.JsonThemes })))
 const SLOW = 6000 // ms after which a build says why it may be taking a while
 
 const RESUME = "resume.json"
@@ -35,15 +37,18 @@ const PREVIEW_DELAY = 900 // ms after the last change
 const ALWAYS = new Set(["New Resume…", "Open Resume Folder…", "Quit"])
 const UNSAVED = "Some edits haven't been saved to input/. Discard them?"
 
+type Layout = { id: string; name: string; about: string }
 type Boot = {
-  version: string | null; channel: string; store: boolean; themes: Record<string, Theme>; theme: string; sections: Section[]
+  version: string | null; channel: string; store: boolean; themes: Record<string, Theme>; theme: string; layouts: Layout[]; sections: Section[]
   folder: string | null; reason: string; recent: { folder: string; short: string }[]; home: string
   launcher: { available: boolean; installed: boolean }
 }
 type Files = Record<string, string>
 type Folder = { root: string; short: string }
-type Opened = Folder & { files: Files; notice: { text: string; kind: string }; pdf: string | null; words: string[] }
+type Opened = Folder & { files: Files; notice: { text: string; kind: string }; pdf: string | null; words: string[]; layout: string | null }
 type Command = { label: string; keys?: string; run: () => void; disabled?: boolean; checked?: boolean }
+/** A submenu to choose one of several from. */
+type Choice = { label: string; value: string; options: { value: string; label: string; title?: string }[]; choose: (value: string) => void; always?: boolean }
 
 const message = (error: unknown) => String((error as Error)?.message ?? error)
 
@@ -73,9 +78,11 @@ export function App() {
   const [live, setLive] = React.useState(true)
   const [wrap, setWrap] = React.useState(true)
   const [theme, setTheme] = React.useState("")
+  const [layout, setLayout] = React.useState<string | null>(null) // the resume theme input/format.tex is, if it is one of them
   const [geometryDraft, setGeometryDraft] = React.useState<string | null>(null) // geometry.yaml as Page Setup is editing it
   const [pageSetup, setPageSetup] = React.useState(false)
   const [about, setAbout] = React.useState(false)
+  const [jsonThemes, setJsonThemes] = React.useState(false)
   const [focusText, setFocusText] = React.useState("")
   const [words, setWords] = React.useState<string[]>([]) // the folder's own spelling list
   const [sideWidth, setSideWidth] = React.useState(470)
@@ -104,6 +111,7 @@ export function App() {
     setSaved(opened.files)
     setPdf(opened.pdf)
     setWords(opened.words)
+    setLayout(opened.layout)
     setShown(null)
     setFailed(null)
     setOutput("")
@@ -437,6 +445,26 @@ export function App() {
     }
   }
 
+  /** Makes one of the resume themes the folder's layout (input/format.tex), asking before a layout that isn't one of them is replaced. */
+  async function chooseLayout(id: string) {
+    const chosen = boot?.layouts.find((option) => option.id === id)
+    if (!folder || !chosen || id === layout) return
+    if (building) return report("Wait for the build to finish before changing the resume's theme.")
+    const question = `Replace this resume's layout with the ${chosen.name} theme?\n\ninput/format.tex in ${folder.short} isn't one of the editor's themes as they are now, `
+      + "so it may have changes of your own, which would be lost."
+    if (layout === null && !(await confirm(question, "Replace"))) return
+    try {
+      const changed = await rpc("set_layout", { root: folder.root, name: id })
+      setLayout(changed.layout)
+      // The preview is of the layout before.
+      setShown(null)
+      setFailed(null)
+      report(changed.notice.text || `The resume's theme is now ${chosen.name}. Build the resume to update output/resume.pdf.`, changed.notice.text ? changed.notice.kind : "ok")
+    } catch (error) {
+      report(message(error), "error")
+    }
+  }
+
   function chooseTheme(name: string) {
     if (!boot) return
     setTheme(name)
@@ -490,7 +518,7 @@ export function App() {
 
   const onBlocks = tab === "blocks"
   const edit = (command: string) => () => document.execCommand(command)
-  const menus: [string, (Command | null | { label: string; items: Command[] })[]][] = [
+  const menus: [string, (Command | null | Choice | { label: string; items: Command[] })[]][] = [
     ["File", [
       { label: "New Resume…", keys: "Ctrl+N", run: newResume },
       { label: "Open Resume Folder…", keys: "Ctrl+O", run: openResume },
@@ -550,6 +578,16 @@ export function App() {
       { label: "Live Preview", run: () => void setLivePreview(!live), checked: live },
       { label: "Full Screen", keys: "F11", run: toggleFullScreen },
     ]],
+    ["Theme", [
+      {
+        label: "Resume Theme", value: layout ?? "", choose: (id: string) => void chooseLayout(id),
+        options: (boot?.layouts ?? []).map((option) => ({ value: option.id, label: option.name, title: option.about })),
+      },
+      { label: "JSON Resume Themes…", run: () => setJsonThemes(true) },
+      null,
+      // The editor's own colors, whatever resume is open.
+      { label: "Color Theme", value: theme, choose: chooseTheme, options: Object.keys(boot?.themes ?? {}).map((option) => ({ value: option, label: option })), always: true },
+    ]],
     ["Help", [
       // The store updates its own.
       ...(boot?.store ? [] : [{ label: "Check for Updates…", run: checkForUpdates }]),
@@ -603,18 +641,20 @@ export function App() {
         <DropdownMenu key={name}>
           <DropdownMenuTrigger render={<Button variant="ghost" size="sm" />}>{name}</DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="min-w-64">
-            {name === "View" ? (
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>Color Theme</DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
-                  <DropdownMenuRadioGroup value={theme} onValueChange={chooseTheme}>
-                    {Object.keys(boot.themes).map((option) => <DropdownMenuRadioItem key={option} value={option}>{option}</DropdownMenuRadioItem>)}
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
-            ) : null}
             {items.map((item, index) => {
               if (!item) return <DropdownMenuSeparator key={index} />
+              if ("options" in item) {
+                return (
+                  <DropdownMenuSub key={index}>
+                    <DropdownMenuSubTrigger disabled={!folder && !item.always}>{item.label}</DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuRadioGroup value={item.value} onValueChange={item.choose}>
+                        {item.options.map((option) => <DropdownMenuRadioItem key={option.value} value={option.value} title={option.title}>{option.label}</DropdownMenuRadioItem>)}
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                )
+              }
               if ("items" in item) {
                 return (
                   <DropdownMenuSub key={index}>
@@ -757,6 +797,11 @@ export function App() {
         </div>
       </div>
 
+      {jsonThemes ? (
+        <React.Suspense fallback={null}>
+          <JsonThemes resume={files[RESUME]} root={folder.root} home={boot.home} report={report} onClose={() => setJsonThemes(false)} />
+        </React.Suspense>
+      ) : null}
       {pageSetup ? <PageSetup text={files[GEOMETRY]} onChange={setGeometryDraft} onClose={closePageSetup} /> : null}
       <Dialog open={newer !== null} onOpenChange={(open) => !open && !busy && (setNewer(null), setUpdated(false))}>
         <DialogContent className="sm:max-w-lg">

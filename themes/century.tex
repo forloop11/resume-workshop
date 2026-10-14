@@ -1,0 +1,147 @@
+
+%==============================================================================
+%  Resume theme: Century
+%  Century Schoolbook, with forest-green headings over a rule: open and easy to read.
+%
+%  Written to be read by applicant tracking systems as well as by people:
+%  one column, in reading order; a standard face, with every character in
+%  the PDF as text; plain bullets; and no icons, text boxes, or graphics
+%  beyond a rule. Defines the same commands as every other theme, so the
+%  generated interim/*.tex files build with it unchanged.
+%
+%  Compile with:  pdflatex -jobname=resume input/format.tex   (run twice for hyperrefs)
+%            or:  tectonic -Z search-path=. input/format.tex
+%  Portable: uses only standard TeX Live / Overleaf packages, no custom class.
+%==============================================================================
+
+\documentclass[letterpaper,10pt]{article}
+
+% --- Font ------------------------------------------------------------------
+% TeX Gyre Schola, a Century Schoolbook: round, open, and easy to read.
+% It ships with TeX Live (tex-gyre); without it the text is set in Computer
+% Modern, which parsers read as well.
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \IfFileExists{tgschola.sty}{\usepackage[scale=0.9]{tgschola}}{}
+  % So that text copied out of the PDF, or read by a parser, has "fi" and
+  % "fl" as letters, not as single ligature characters.
+  \IfFileExists{glyphtounicode.tex}{\input{glyphtounicode}\pdfgentounicode=1}{}
+\else
+  % Tectonic (XeTeX): the same face as an OpenType font, without the "fi",
+  % "fl", and "ff" ligatures, which a parser may not read as letters.
+  \usepackage{fontspec}
+  \setmainfont{texgyreschola}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold,
+    ItalicFont=*-italic, BoldItalicFont=*-bolditalic, Ligatures=NoCommon, Scale=0.9]
+\fi
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+%------------------------------------------------------------------------------
+%  LAYOUT DENSITY KNOBS
+%------------------------------------------------------------------------------
+\newcommand{\resumeLeading}{0.93}
+\newlength{\sectionGapAbove}\setlength{\sectionGapAbove}{3pt}
+\newlength{\sectionGapBelow}\setlength{\sectionGapBelow}{3pt}
+\newlength{\jobGap}\setlength{\jobGap}{2pt}
+
+\input{interim/geometry.tex}
+\usepackage{xcolor}
+\usepackage{graphicx} % for the header's photo (basics.image)
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage[hidelinks]{hyperref}
+
+%------------------------------------------------------------------------------
+%  Colors
+%------------------------------------------------------------------------------
+\definecolor{accent}{HTML}{1E5631}
+\definecolor{rule}{HTML}{8FB39A}
+\definecolor{body}{HTML}{1F1F1F}
+\definecolor{muted}{HTML}{505050}
+\color{body}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=accent,
+  linkcolor=accent
+}
+% The PDF's title, author, and subject are set in interim/header.tex, from
+% the resume's name and label.
+
+%------------------------------------------------------------------------------
+%  Page setup
+%------------------------------------------------------------------------------
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{0pt}
+\linespread{\resumeLeading}
+
+\titleformat{\section}
+  {\normalsize\bfseries\color{accent}}
+  {}{0pt}
+  {\MakeUppercase}
+  [\vspace{-7pt}{\color{rule}\rule{\textwidth}{0.6pt}}]
+\titlespacing*{\section}{0pt}{\sectionGapAbove}{\sectionGapBelow}
+
+%------------------------------------------------------------------------------
+%  Custom commands
+%------------------------------------------------------------------------------
+\newcommand{\role}[1]{%
+  \textit{\textbf{\color{accent}#1}}\par\vspace{1pt}%
+}
+
+\newcommand{\position}[3]{%
+  \vspace{\jobGap}%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textbf{\large #1}\hspace{4pt}\textit{\small #2} &
+    {\small #3} \\
+  \end{tabularx}%
+  \vspace{1pt}%
+}
+
+\newcommand{\subrole}[2]{%
+  \vspace{3pt}%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textit{\textbf{#1}} &
+    \textit{\small #2} \\
+  \end{tabularx}%
+  \vspace{1pt}%
+}
+
+\newcommand{\entry}[2]{%
+  {\color{accent}\textbf{#1:}} #2\par\vspace{2pt}%
+}
+
+\newcommand{\blurb}[1]{%
+  #1\par\vspace{1pt}%
+}
+
+\newcommand{\stack}[1]{%
+  \vspace{1pt}%
+  {\small\leftskip=12pt\textbf{Stack:} #1\par}\vspace{2pt}%
+}
+
+% Plain round bullets: the mark every resume parser knows as a list item.
+\newlist{duties}{itemize}{1}
+\setlist[duties]{
+  label={\textbullet},
+  leftmargin=13pt,
+  labelsep=5pt,
+  topsep=0.5pt,
+  parsep=0pt,
+  itemsep=1pt,
+  after=\vspace{1pt}
+}
+
+%==============================================================================
+\begin{document}
+%==============================================================================
+
+\input{interim/header.tex}
+\input{interim/resume_content.tex}
+
+%==============================================================================
+\end{document}
+%==============================================================================

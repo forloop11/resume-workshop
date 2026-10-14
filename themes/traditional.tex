@@ -35,7 +35,9 @@
   \setmainfont{texgyretermes}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold,
     ItalicFont=*-italic, BoldItalicFont=*-bolditalic, Ligatures=NoCommon]
 \fi
-\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+% Under pdfTeX too, "fi", "fl", "ff" and the rest are set as separate letters:
+% the PDF's text is then those letters, whatever the font's own tables say.
+\IfFileExists{microtype.sty}{\usepackage{microtype}\ifPDFTeX\DisableLigatures[f]{encoding = *, family = *}\fi}{}
 %------------------------------------------------------------------------------
 %  LAYOUT DENSITY KNOBS
 %------------------------------------------------------------------------------

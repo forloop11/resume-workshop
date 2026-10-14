@@ -36,7 +36,9 @@
     ItalicFont=*-italic, BoldItalicFont=*-bolditalic, Ligatures=NoCommon, Scale=0.92]
 \fi
 \renewcommand{\familydefault}{\sfdefault}
-\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+% Under pdfTeX too, "fi", "fl", "ff" and the rest are set as separate letters:
+% the PDF's text is then those letters, whatever the font's own tables say.
+\IfFileExists{microtype.sty}{\usepackage{microtype}\ifPDFTeX\DisableLigatures[f]{encoding = *, family = *}\fi}{}
 %------------------------------------------------------------------------------
 %  LAYOUT DENSITY KNOBS
 %------------------------------------------------------------------------------

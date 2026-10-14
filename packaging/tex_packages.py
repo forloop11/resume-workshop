@@ -73,7 +73,8 @@ def main():
         if "\\ifPDFTeX" not in layout:
             sys.exit(f"{build.TEX} no longer chooses its fonts with \\ifPDFTeX; see {Path(__file__).name}")
         # ...which had pdfTeX's fonts whatever the engine, and nothing that only pdfTeX knows.
-        before = [line for line in layout.replace("\\ifPDFTeX", "\\iftrue").splitlines() if "glyphtounicode" not in line]
+        # (The first \ifPDFTeX chooses the fonts; any later one is for pdfTeX alone, and stays.)
+        before = [line for line in layout.replace("\\ifPDFTeX", "\\iftrue", 1).splitlines() if "glyphtounicode" not in line]
         (folder / "input/before.tex").write_text("\n".join(before) + "\n", encoding="utf-8")
         names = ["before.tex"]
         for theme in layouts.available():

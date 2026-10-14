@@ -9,6 +9,8 @@ and Make targets build the final PDF and plain-text resume, plus a
 includes an optional desktop editor with a drag-and-drop block view of
 the resume, and a Docker-based build path for a reproducible toolchain.
 
+![A tour of the editor: the live preview following an edit, bold, a link test, the ATS check, the section cards, the color themes, and a build](docs/screenshots/demo.gif)
+
 ![Block editor: header and section order](docs/screenshots/editor-blocks.png)
 
 ## Contents
@@ -64,7 +66,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - [tests/](tests/) contains the tests (`make test`).
 - [packaging/](packaging/) builds and installs the editor as an AppImage, and [.github/workflows/](.github/workflows/) publishes it as a release.
 - [docker/](docker/) contains the reproducible build image definition.
-- [docs/screenshots/](docs/screenshots/) contains the editor screenshots used in this README.
+- [docs/screenshots/](docs/screenshots/) contains the editor screenshots and animated tour (`demo.gif`) used in this README.
 - [etc/](etc/) contains the vendored JSON Resume and Reactive Resume schemas, cspell configuration, and project-specific words.
 
 ## Make targets
@@ -296,7 +298,9 @@ The color themes:
 
 [app/tests/screenshots.mjs](app/tests/screenshots.mjs) retakes the
 pictures in this README, in a headless Chrome (`npm run screenshots`, in
-[app/](app/)).
+[app/](app/)), and [app/tests/demo.mjs](app/tests/demo.mjs) records the
+animated tour at the top of it the same way (`npm run demo`; it needs
+ffmpeg besides).
 
 ### Building
 
@@ -620,12 +624,10 @@ Professional Experience shows one card per employer:
 ### ATS check
 
 The **☰** button beside the window's title (or **File > ATS Check**,
-Ctrl+Shift+A) slides a card out at the left that shows how an applicant
-tracking system is likely to read the resume; the same button slides it
-away. The editor stays in use beside it, and the findings follow your edits,
-a moment after you stop typing. In a window too narrow for the card, the
-editor, and the PDF preview together, the preview steps aside while the card
-is open.
+Ctrl+Shift+A) opens a card at the left that shows how an applicant
+tracking system is likely to read the resume; the same button closes it.
+The editor stays in use beside it, and the findings follow your edits, a
+moment after you stop typing.
 
 Such a system takes a resume as plain text and files what it finds, so the
 check reads the resume as `output/resume.txt` has it, using what is in the

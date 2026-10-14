@@ -48,7 +48,9 @@ the backend it starts. It needs `cargo install tauri-driver --locked` and
 the system's WebKitWebDriver, and shows the window while it runs.
 
 `npm run screenshots` retakes the pictures in the main README
-([tests/screenshots.mjs](tests/screenshots.mjs)).
+([tests/screenshots.mjs](tests/screenshots.mjs)), and `npm run demo`
+records the animated tour at its top
+([tests/demo.mjs](tests/demo.mjs)), which needs ffmpeg as well.
 
 ### As something to install
 

@@ -13,6 +13,7 @@
     "tauri": "tauri",
     "smoke": "node tests/smoke.mjs",
     "screenshots": "node tests/screenshots.mjs",
+    "demo": "node tests/demo.mjs",
     "window": "node tests/window.mjs"
   },
   "dependencies": {

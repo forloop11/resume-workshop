@@ -56,11 +56,13 @@ try {
   }
   const choose = async (label) => (await page.waitForFunction((text) => [...document.querySelectorAll('[role="menuitem"], [role="menuitemradio"]')].find((entry) => entry.textContent.startsWith(text)), {}, label)).click()
 
+  // The block editor's first cards: the header and the section order.
+  await shot("editor-blocks")
+
   // The window, with the summary's text highlighted in the preview.
-  await page.evaluate(() => document.querySelector("textarea[data-field]").focus())
+  await page.evaluate(() => [...document.querySelectorAll("textarea[data-field]")].find((field) => field.value.startsWith("Built the labor time model")).focus())
   await page.waitForSelector("[data-highlight]", { timeout: 20000 })
   await shot("editor-window")
-  await shot("editor-blocks")
 
   // The section cards, with Education open.
   await button("Collapse all")

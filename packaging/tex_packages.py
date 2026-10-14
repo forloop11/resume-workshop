@@ -5,15 +5,17 @@ Tectonic builds PDFs without downloading anything (PACKAGES in
 app/backend/build.py).
 
 The folder is a Tectonic cache: this builds a sample resume with it as the
-cache, twice -- with input/format.tex as it is, and with the fonts a layout
-from before Tectonic uses -- so Tectonic downloads into it what those load,
-and then builds both again offline to be sure it is all there. Needs an
+cache -- in each of the resume themes (themes/), and with the fonts a
+layout from before Tectonic uses -- so Tectonic downloads into it what
+those load, and then builds them all again offline to be sure it is all
+there. Needs an
 internet connection the first time; a folder filled before is reused.
 
     tex_packages.py <tectonic> <cache folder>
 """
 import json
 import os
+import shutil
 import struct
 import subprocess
 import sys
@@ -59,6 +61,7 @@ def main():
     tectonic, cache = sys.argv[1], Path(sys.argv[2]).resolve()
     cache.mkdir(parents=True, exist_ok=True)
     import build  # the editor's own, which needs its pip packages
+    import layouts
 
     with tempfile.TemporaryDirectory() as scratch:
         folder = Path(scratch) / "resume"
@@ -69,9 +72,16 @@ def main():
         layout = (folder / build.TEX).read_text(encoding="utf-8")
         if "\\ifPDFTeX" not in layout:
             sys.exit(f"{build.TEX} no longer chooses its fonts with \\ifPDFTeX; see {Path(__file__).name}")
-        (folder / "input/before.tex").write_text(layout.replace("\\ifPDFTeX", "\\iftrue"), encoding="utf-8")
+        # ...which had pdfTeX's fonts whatever the engine, and nothing that only pdfTeX knows.
+        # (The first \ifPDFTeX chooses the fonts; any later one is for pdfTeX alone, and stays.)
+        before = [line for line in layout.replace("\\ifPDFTeX", "\\iftrue", 1).splitlines() if "glyphtounicode" not in line]
+        (folder / "input/before.tex").write_text("\n".join(before) + "\n", encoding="utf-8")
+        names = ["before.tex"]
+        for theme in layouts.available():
+            names.append(f"{theme['id']}.tex")
+            shutil.copyfile(layouts.FOLDER / names[-1], folder / "input" / names[-1])
         for offline in ([], ["--only-cached"]):
-            for name in (build.TEX.name, "before.tex"):
+            for name in names:
                 run = subprocess.run([tectonic, *offline, "-Z", "search-path=.", "--outdir", "output", f"input/{name}"], cwd=folder,
                                      env={**os.environ, "TECTONIC_CACHE_DIR": str(cache)}, capture_output=True, text=True, encoding="utf-8", errors="replace")
                 if run.returncode:

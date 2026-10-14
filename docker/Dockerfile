@@ -3,12 +3,13 @@
 # the build no longer uses); the extra
 # tlmgr installs below add the packages this resume's .tex file needs
 # (titlesec/enumitem/ragged2e for layout, helvetic for the Type1 Helvetica
-# fonts) that aren't in that base scheme. python3-jsonschema is only for
+# fonts, and tex-gyre for the other faces of the themes in themes/)
+# that aren't in that base scheme. python3-jsonschema is only for
 # `make validate` (e.g. `docker run --rm -v "$PWD":/resume resume-builder validate`).
 FROM pandoc/latex:3.10-debian
 
 RUN tlmgr update --self \
-    && tlmgr install titlesec enumitem ragged2e helvetic \
+    && tlmgr install titlesec enumitem ragged2e helvetic tex-gyre \
     && apt-get update \
     && apt-get install -y --no-install-recommends python3 python3-jsonschema make \
     && rm -rf /var/lib/apt/lists/*

@@ -2,7 +2,7 @@ TEXFILE = input/format
 OUTPUT = output/resume
 DOCKER_IMAGE = resume-builder
 
-.PHONY: build pdf txt header geometry resume rxresume schema validate ats test editor app app-web app-test app-window-test appimage install-appimage uninstall-appimage clean user docker-image docker-build
+.PHONY: build pdf txt header geometry resume rxresume schema validate ats theme test editor app app-web app-test app-window-test appimage install-appimage uninstall-appimage clean user docker-image docker-build
 
 header: input/resume.json scripts/generate_header.py scripts/jsonresume.py
 	python3 scripts/generate_header.py
@@ -99,6 +99,16 @@ ifeq ($(findstring tectonic,$(notdir $(LATEX))),tectonic)
 else
 	$(LATEX) -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
 	$(LATEX) -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
+endif
+
+# Makes one of the resume themes in themes/ the layout, input/format.tex,
+# in place of the one there: `make theme THEME=traditional`. Without THEME,
+# lists them.
+theme:
+ifdef THEME
+	cp themes/$(THEME).tex $(TEXFILE).tex
+else
+	@echo "Resume themes (make theme THEME=<name>):"; for theme in themes/*.tex; do echo "  $$(basename $$theme .tex)"; done
 endif
 
 # The plain-text resume alone, written from the same inputs as the PDF.

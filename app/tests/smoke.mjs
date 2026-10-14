@@ -211,6 +211,45 @@ try {
   await page.waitForFunction(() => window.printed !== undefined, { timeout: 60000 })
   check((await page.evaluate(() => window.printed)) === 1, "Ctrl+P sends the PDF's page to the print dialog")
 
+  // Theme > Resume Theme makes another of the themes the folder's layout.
+  const choose = async (label) => (await page.waitForFunction((text) => [...document.querySelectorAll('[role="menuitem"], [role="menuitemradio"]')].find((entry) => entry.textContent.startsWith(text)), {}, label)).click()
+  check((await page.$$eval("nav button", (buttons) => buttons.map((button) => button.textContent))).join(" ") === "File Edit View Theme Help", "the menu bar has a Theme menu between View and Help")
+  await page.evaluate(() => [...document.querySelectorAll("nav button")].find((button) => button.textContent === "Theme").click())
+  await page.waitForSelector('[role="menu"]')
+  // The submenu opens for the pointer resting on it, or the right arrow key.
+  const themes = await page.waitForFunction(() => [...document.querySelectorAll('[role="menuitem"]')].find((entry) => entry.textContent === "Resume Theme"))
+  await themes.hover()
+  await themes.focus()
+  await page.keyboard.press("ArrowRight")
+  await choose("Traditional")
+  await page.waitForFunction(() => document.querySelector("[data-status]").textContent.includes("theme is now Traditional"), { timeout: 20000 })
+  check(readFileSync(join(folder, "input", "format.tex"), "utf8") === readFileSync(join(app, "..", "themes", "traditional.tex"), "utf8"), "Resume Theme replaces the folder's layout with the theme")
+  await page.keyboard.press("Escape")
+  await page.keyboard.press("Escape")
+
+  // Theme > JSON Resume Themes shows the resume as a web page in each theme, and writes it out.
+  await page.evaluate(() => [...document.querySelectorAll("nav button")].find((button) => button.textContent === "Theme").click())
+  await choose("JSON Resume Themes…")
+  await page.waitForSelector("[data-json-theme]", { timeout: 20000 })
+  const themePage = async (id) => {
+    await page.click(`[data-json-theme="${id}"]`)
+    await page.waitForSelector(`[data-json-theme-page="${id}"]`, { timeout: 20000 })
+    return page.$eval("[data-json-theme-page]", (frame) => frame.srcdoc)
+  }
+  const pages = {}
+  for (const id of await page.$$eval("[data-json-theme]", (buttons) => buttons.map((button) => button.dataset.jsonTheme))) {
+    pages[id] = await themePage(id)
+    // (Even prints **bold** as bold itself, and leaves a mark that has no partner.)
+    check(/ada example/i.test(pages[id]) && pages[id].includes("Content-Security-Policy") && (id === "even" || !pages[id].includes("**")), `the ${id} theme shows the resume`)
+    await shot(`json-theme-${id}`)
+  }
+  check(Object.keys(pages).length === 5, "there are five JSON Resume themes")
+  check((await themePage("straightforward")) === pages.straightforward && (await themePage("engineering")) === pages.engineering, "a theme shows the same page after another has been shown")
+  await page.evaluate(() => [...document.querySelectorAll("button")].find((button) => button.textContent === "Open in Browser").click())
+  await page.waitForFunction(() => document.querySelector("[data-status]").textContent.includes("resume.html"), { timeout: 20000 })
+  check(/ada example/i.test(readFileSync(join(folder, "output", "resume.html"), "utf8")), "Open in Browser writes the page to output/resume.html")
+  await page.keyboard.press("Escape")
+
   // Help > Third-Party Licenses.
   await page.evaluate(() => [...document.querySelectorAll("nav button")].find((button) => button.textContent === "Help").click())
   const item = await page.waitForFunction(() => [...document.querySelectorAll('[role="menuitem"]')].find((entry) => entry.textContent === "Third-Party Licenses"))

@@ -104,7 +104,7 @@ try {
   // Each color theme, side by side.
   const themes = []
   for (const theme of ["Dracula", "Nord", "Gruvbox Dark", "Solarized Dark", "Solarized Light", "Light"]) {
-    await menu("View")
+    await menu("Theme")
     await choose("Color Theme")
     await choose(theme)
     await press("Escape")

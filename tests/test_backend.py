@@ -149,6 +149,15 @@ class Backend(unittest.TestCase):
             self.assertIn("9.0.0 is installed", self.result("install_update")["message"])
         self.assertEqual(appimage.read_bytes(), b"new")
 
+    def test_writes_the_page_a_json_resume_theme_made(self):
+        root = self.opened()["root"]
+        written = self.result("write_html", root=root, html="<p>Ada</p>")
+        self.assertEqual(written["path"], str(self.folder.resolve() / "output/resume.html"))
+        self.assertEqual((self.folder / "output/resume.html").read_text(encoding="utf-8"), "<p>Ada</p>")
+        target = Path(self.home.name) / "elsewhere" / "ada.html"
+        self.assertEqual(self.result("write_html", root=root, html="<p>Ada</p>", target=str(target))["path"], str(target))
+        self.assertEqual(self.result("export_name", root=root, kind="html"), "your_name_resume.html")
+
     def test_shows_the_licenses_a_packaged_editor_carries(self):
         self.assertEqual(self.result("licenses"), "")  # a checkout carries nothing
         licenses = Path(self.home.name) / "licenses.txt"
@@ -378,6 +387,55 @@ class Building(unittest.TestCase):
         self.assertEqual(self.backend.startup()["theme"], "Nord")
         for theme in server.themes.THEMES.values():
             self.assertEqual(list(theme), server.themes.ROLES)
+
+    def test_changes_the_resume_theme(self):
+        listed = self.backend.startup()["layouts"]
+        self.assertEqual(listed[0], {"id": "classic", "name": "Classic", "about": "Helvetica, with navy headings over a rule"})
+        self.assertEqual(sorted(theme["id"] for theme in listed), sorted(path.stem for path in (ROOT / "themes").glob("*.tex")))
+        folder = self.folder("themed")
+        self.assertEqual(self.backend.open(str(folder))["layout"], "classic")  # what a new resume starts with
+        self.assertEqual(self.backend.set_layout(str(folder), "traditional")["layout"], "traditional")
+        self.assertTrue(filecmp.cmp(folder / "input/format.tex", ROOT / "themes/traditional.tex", shallow=False))
+        with self.assertRaisesRegex(server.Failure, "no resume theme called nosuch"):
+            self.backend.set_layout(str(folder), "nosuch")
+        # A layout edited by hand is none of them.
+        with open(folder / "input/format.tex", "a", encoding="utf-8") as layout:
+            layout.write("% mine\n")
+        self.assertIsNone(self.backend.open(str(folder))["layout"])
+
+    def test_every_theme_has_what_the_generated_files_use(self):
+        for theme in server.layouts.available():
+            layout = (ROOT / "themes" / f"{theme['id']}.tex").read_text(encoding="utf-8")
+            for needed in ("\\newcommand{\\role}", "\\newcommand{\\position}", "\\newcommand{\\subrole}", "\\newcommand{\\entry}", "\\newcommand{\\blurb}",
+                           "\\newcommand{\\stack}", "\\newlist{duties}", "\\definecolor{accent}", "\\definecolor{muted}", "\\definecolor{body}",
+                           "\\usepackage{graphicx}", "{hyperref}", "\\input{interim/geometry.tex}", "\\input{interim/header.tex}",
+                           "\\input{interim/resume_content.tex}", "\\ifPDFTeX"):
+                self.assertIn(needed, layout, theme["id"])
+            # What an applicant tracking system may not read: more than one column, drawings, and ligatures.
+            for avoided in ("multicol", "minipage", "tikz", "fontawesome", "\\parbox"):
+                self.assertNotIn(avoided, layout, theme["id"])
+            self.assertIn("Ligatures=NoCommon", layout, theme["id"])
+            self.assertIn("\\pdfgentounicode=1", layout, theme["id"])
+
+    @unittest.skipUnless(shutil.which("pdflatex"), "needs pdflatex")
+    def test_every_theme_builds_a_resume_that_reads_in_order(self):
+        resume = json.loads(json.dumps(RESUME))
+        resume["work"][0]["highlights"].append("An efficient workflow for the office.")
+        folder = self.folder("themes", resume)
+        root = str(folder)
+        with mock.patch.dict(os.environ, {"RESUME_WORKSHOP_TEX": "pdflatex"}):
+            for theme in server.layouts.available():
+                self.backend.set_layout(root, theme["id"])
+                built = self.backend.build(root)
+                self.assertTrue(built["ok"], f"{theme['id']}: {built['output'][-2000:]}")
+                text = pdf_text(folder / "output/resume.pdf")
+                if text is None:
+                    continue
+                read = " ".join(text.split())
+                self.assertIn("An efficient workflow for the office.", read, theme["id"])  # with "ffi" and "fl" as letters
+                places = [read.upper().find(heading) for heading in ("ADA EXAMPLE", "PROFESSIONAL SUMMARY", "PROFESSIONAL EXPERIENCE", "EDUCATION", "REFERENCES")]
+                self.assertNotIn(-1, places, theme["id"])
+                self.assertEqual(places, sorted(places), theme["id"])
 
     def test_puts_the_appimage_in_the_applications_menu(self):
         appimage = Path(self.home.name) / 'odd "name" 100%.AppImage'

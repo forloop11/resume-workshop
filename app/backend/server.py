@@ -32,6 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build  # noqa: E402
 import distribution  # noqa: E402
 import launcher  # noqa: E402
+import layouts  # noqa: E402
 import links  # noqa: E402
 import project  # noqa: E402
 import themes  # noqa: E402
@@ -43,6 +44,7 @@ import generate_text  # noqa: E402
 
 GEOMETRY = "geometry.yaml"
 WORDS = "etc/dictionary.txt"  # in a resume folder
+HTML = "output/resume.html"  # the resume in a JSON Resume theme
 EXPORTS = {
     "pdf": ("output/resume.pdf", None),
     "txt": ("output/resume.txt", build.write_text),
@@ -245,7 +247,7 @@ class Backend:
             folder, reason = None, f"{short(folder)} isn't a resume folder (it has no {', '.join(project.missing(folder))})."
         return {
             "version": distribution.VERSION, "channel": distribution.CHANNEL, "store": distribution.STORE,
-            "themes": themes.THEMES, "theme": themes.saved(),
+            "themes": themes.THEMES, "theme": themes.saved(), "layouts": layouts.available(),
             "sections": [{"id": section, "label": LABELS.get(section, section), "list": SECTION_LISTS.get(section)} for section in SECTIONS],
             "folder": str(folder) if folder else None, "reason": reason, "recent": self.recent(), "home": str(Path.home()),
             "launcher": self.launcher(),
@@ -265,11 +267,11 @@ class Backend:
             raise Failure(f"Could not open {short(folder)}: {error}") from None
         project.remember(folder)
         return {"root": str(folder), "short": short(folder), "files": files, "notice": self.notice(folder), "pdf": encoded(folder / build.PDF),
-                "words": self.words(folder)}
+                "words": self.words(folder), "layout": layouts.current(folder)}
 
     def words(self, root):
         """The resume folder's own spelling list (etc/dictionary.txt), which
-        the window's spelling check takes as right, and cspell too."""
+        the window's spelling check takes as right."""
         try:
             lines = (Path(root) / WORDS).read_text(encoding="utf-8").splitlines()
         except OSError:
@@ -319,6 +321,15 @@ class Backend:
     def set_theme(self, name):
         themes.save(name)
         return True
+
+    def set_layout(self, root, name):
+        """Makes one of the resume themes (layouts.py) the folder's
+        input/format.tex, in place of the layout it has."""
+        try:
+            layouts.apply(root, name)
+        except (OSError, ValueError) as error:
+            raise Failure(f"Could not change the resume's theme: {error}") from None
+        return {"layout": layouts.current(root), "notice": self.notice(root)}
 
     # --- the resume ----------------------------------------------------------------
 
@@ -413,6 +424,17 @@ class Backend:
         except (OSError, ValueError, LookupError, AttributeError, TypeError):
             slug = ""
         return f"{slug}_resume.{kind}" if slug else f"resume.{kind}"
+
+    def write_html(self, root, html, target=None):
+        """Writes the resume as a web page, which the window made with a
+        JSON Resume theme, to `target`, or to output/resume.html."""
+        path = Path(target) if target else Path(root) / HTML
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(html, encoding="utf-8")
+        except OSError as error:
+            raise Failure(f"Could not write {path}: {error}") from None
+        return {"path": str(path)}
 
     def export(self, root, kind, target):
         """Writes one of the EXPORTS from the saved input files, and copies

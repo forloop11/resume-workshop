@@ -30,7 +30,9 @@ the resume, and a Docker-based build path for a reproducible toolchain.
 ## Requirements
 
 For a native build, install Python 3.13 or newer, GNU Make, and a TeX Live
-installation with the packages used by [input/format.tex](input/format.tex).
+installation with the packages used by [input/format.tex](input/format.tex)
+(and, for the [resume themes](#resume-themes) in other faces than
+Helvetica, the TeX Gyre and Latin Modern fonts).
 The resume generators use only the Python standard library, so
 `make build` needs no pip packages. `make validate` and the optional desktop
 editor do: run `pip install -r requirements.txt` first, which installs
@@ -57,6 +59,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 ## Project layout
 
 - [input/](input/) contains the resume content (`resume.json`), section order, page geometry, and LaTeX layout.
+- [themes/](themes/) contains the resume themes: layouts to use as `input/format.tex` (see [Resume themes](#resume-themes)).
 - [scripts/](scripts/) contains the standard-library Python generators, and the schema validator.
 - [app/](app/) contains the desktop editor: its window (a web front end in a [Tauri](https://tauri.app/) shell) and, in [app/backend/](app/backend/), the Python the window talks to: resume folders, building, and the checks a save is put through.
 - [interim/](interim/) contains generated LaTeX fragments used during a build.
@@ -65,7 +68,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - [packaging/](packaging/) builds and installs the editor as an AppImage, and [.github/workflows/](.github/workflows/) publishes it as a release.
 - [docker/](docker/) contains the reproducible build image definition.
 - [docs/screenshots/](docs/screenshots/) contains the editor screenshots used in this README.
-- [etc/](etc/) contains the vendored JSON Resume and Reactive Resume schemas, cspell configuration, and project-specific words.
+- [etc/](etc/) contains the vendored JSON Resume and Reactive Resume schemas, the spell-check configuration, and project-specific words.
 
 ## Make targets
 
@@ -73,6 +76,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - `make pdf` creates just `output/resume.pdf`, without the text and Reactive Resume versions. Its title, author, and subject (the file's properties) are the resume's name and label.
 - `make txt` creates just `output/resume.txt`, written from the same inputs as the PDF by [scripts/generate_text.py](scripts/generate_text.py).
 - `make pdf LATEX=tectonic` (or `make build LATEX=tectonic`) builds the PDF with Tectonic in place of pdflatex; see [Building with Tectonic](#building-with-tectonic).
+- `make theme THEME=traditional` makes one of the [resume themes](#resume-themes) the layout, replacing `input/format.tex`; `make theme` lists them.
 - `make header` regenerates `interim/header.tex` from the `basics` in [input/resume.json](input/resume.json) without a full build.
 - `make geometry` regenerates `interim/geometry.tex` from [input/geometry.yaml](input/geometry.yaml) without a full build.
 - `make resume` regenerates `interim/resume_content.tex` from [input/resume.json](input/resume.json) and [input/section_order.yaml](input/section_order.yaml) without a full build.
@@ -218,6 +222,47 @@ file, or use the editor's [Page Setup](#page-setup), and run `make build` (or
 `make geometry`) to regenerate `interim/geometry.tex`. The [input/format.tex](input/format.tex) file contains
 the LaTeX layout, commands, and document configuration.
 
+### Resume themes
+
+A resume theme is a whole layout: the fonts, the colors, the section
+headings, and how an employer, a role, and a bullet are set. The themes are
+the files in [themes/](themes/), and the one in use is
+[input/format.tex](input/format.tex), a copy of one of them:
+
+| Theme | Face | Look |
+| --- | --- | --- |
+| Classic (`classic`) | Helvetica | Navy headings in capitals over a rule; what a new resume starts with |
+| Modern (`modern`) | Helvetica | Teal headings in mixed case, each followed by a rule to the margin |
+| Minimal (`minimal`) | Helvetica | Black throughout, with no rules or color |
+| Traditional (`traditional`) | Times | Black throughout, with ruled headings |
+| Executive (`executive`) | Palatino | Burgundy headings over a heavier rule |
+| Slate (`slate`) | Helvetica | Slate-blue headings, each on a pale band the width of the page |
+| Compact (`compact`) | Helvetica | A size smaller and set tight, in black, with the header at the left: for a long resume |
+| Geometric (`geometric`) | Avant Garde | Indigo headings in mixed case over a rule, with the header at the left |
+| Century (`century`) | Century Schoolbook | Forest-green headings over a rule |
+| Academic (`academic`) | Latin Modern | Black throughout, with centered headings between rules |
+
+- In the editor, **Theme > Resume Theme** chooses one, and the preview
+  follows. From a terminal, `make theme THEME=modern` does the same, and
+  `make theme` lists them.
+- Choosing a theme replaces `input/format.tex`. If that file isn't one of
+  the themes as they are now (you edited it, or it is from an older
+  version), the editor asks first; `make theme` doesn't.
+- The resume itself, the section order, and the page's margins are the
+  same in every theme, and each theme is set about as tightly as Classic,
+  so a resume that fills its pages in one should fit them in another
+  (Compact has room to spare). Check the page breaks after changing.
+- Every theme is written for applicant tracking systems to read as well as
+  for people: one column, in reading order, in a standard face, with plain
+  bullets and no icons, text boxes, or graphics beyond a rule; and the PDF
+  has every character as text, with "fi", "fl", and "ff" as separate letters.
+  The [ATS check](#ats-check) reads the resume's text, which is the same in
+  every theme.
+- To make a theme of your own, edit `input/format.tex`, keeping the
+  commands the generated files call (`\role`, `\position`, `\subrole`,
+  `\entry`, `\blurb`, `\stack`, and the `duties` list) and the colors
+  `accent`, `body`, and `muted`.
+
 ## Local editor
 
 Run `make editor` to open the editor window. It's a [Tauri](https://tauri.app/)
@@ -280,9 +325,14 @@ Every command is in the menu bar:
   - Expand All (Ctrl+Shift+E) and Collapse All (Ctrl+Shift+C) open and close
     the block editor's cards.
   - Wrap Lines, for the raw tab; Live Preview; and Full Screen (F11).
-  - Color Theme switches the editor's colors: Dracula (the default), Nord,
-    Gruvbox Dark, Solarized Dark, Solarized Light, or Light. The choice is
-    remembered.
+- **Theme**
+  - Resume Theme chooses the resume's layout: see
+    [Resume themes](#resume-themes).
+  - JSON Resume Themes shows the resume as a web page in a theme from npm:
+    see [JSON Resume themes](#json-resume-themes).
+  - Color Theme switches the editor's own colors: Dracula (the default),
+    Nord, Gruvbox Dark, Solarized Dark, Solarized Light, or Light. The
+    choice is remembered.
 - **Help**
   - Check for Updates and About Resume Workshop: see
     [Updating](#updating).
@@ -326,7 +376,7 @@ connection and takes a while.
 
 - The AppImage carries a Tectonic of its own and builds with it, so it
   needs no TeX installed. It also carries the TeX packages and fonts that
-  [input/format.tex](input/format.tex) loads (and that a `format.tex` from
+  the [resume themes](#resume-themes) load (and that a `format.tex` from
   before Tectonic does), so it builds without an internet connection.
 - If you add a package to a folder's `format.tex` that the AppImage doesn't
   carry, Tectonic downloads it, with the rest of what the layout loads, the
@@ -339,12 +389,14 @@ connection and takes a while.
   either) chooses one, in the AppImage too.
 - From a terminal, `make build LATEX=tectonic`.
 - The PDF has the same pages, in TeX Gyre Heros, an OpenType version of the
-  same Helvetica face. A line may break at a different word.
-- [input/format.tex](input/format.tex) chooses its fonts by engine. A resume
-  folder made before this has a `format.tex` without that: it still builds
-  with Tectonic, but text copied out of the PDF has "fi" and "fl" as single
-  ligature characters, which resume parsers may not read. Copy the font
-  lines from this project's `format.tex` to fix that.
+  same Helvetica face (or the OpenType version of a theme's other face).
+  A line may break at a different word.
+- The themes choose their fonts by engine, and set "fi", "fl", and "ff" as
+  separate letters. A resume folder with a `format.tex` from before that
+  still builds with Tectonic, but text copied out of the PDF has those as
+  single ligature characters, which resume parsers may not read. Choose a
+  [resume theme](#resume-themes) again, or copy the font lines from one, to
+  fix that.
 
 ### Live preview
 
@@ -428,6 +480,42 @@ such as an export from another tool.
   saying what to fix before it can be saved.
 - The section order, layout, and page setup are kept.
 
+### JSON Resume themes
+
+`resume.json` is a [JSON Resume](https://jsonresume.org/) document, and
+JSON Resume has themes of its own: packages on npm that turn the document
+into a web page. **Theme > JSON Resume Themes** shows the resume in five of
+them, which the editor carries:
+
+| Theme | Look | Package |
+| --- | --- | --- |
+| Even | Flat and modern, with the headings in a column of their own | [jsonresume-theme-even](https://www.npmjs.com/package/jsonresume-theme-even) |
+| Stack Overflow | After Stack Overflow's developer story | [jsonresume-theme-stackoverflow](https://www.npmjs.com/package/jsonresume-theme-stackoverflow) |
+| Engineering | Plain and dense, in one column | [jsonresume-theme-engineering](https://www.npmjs.com/package/jsonresume-theme-engineering) |
+| Straightforward | One column, with little decoration | [jsonresume-theme-straightforward](https://www.npmjs.com/package/jsonresume-theme-straightforward) |
+| Paper | Like a printed page, with the headings in the margin | [jsonresume-theme-paper](https://www.npmjs.com/package/jsonresume-theme-paper) |
+
+- The page is of the resume as it is in the window, saved or not.
+- **Export HTML** saves the page as a file. **Open in Browser** writes it
+  to `output/resume.html` and opens it in your web browser, which can print
+  it or save it as a PDF.
+- These are apart from the PDF the editor builds and its
+  [resume themes](#resume-themes): `output/resume.pdf` isn't changed, and
+  the [ATS check](#ats-check) is of that resume, not of these pages. Engineering
+  and Straightforward are the plainest of them, in one column.
+- A theme reads the standard JSON Resume fields and lays them out in its
+  own order, so `section_order.yaml`, the page's margins, and this
+  project's own fields (`stack`, `companyStack`, `earlyCareer`, and the
+  like) don't apply. Text marked `**bold**` is bold in Even, and plain in
+  the others.
+- In the editor a page is shown without anything from the network. The
+  exported file is the theme's own page: Even, Stack Overflow, and Paper
+  ask the web for fonts or icons when it is opened, and Even and Stack
+  Overflow are dark where the browser is.
+- The themes run in the editor's window, so there is no make target for
+  them. From a terminal, `npx resumed render input/resume.json --theme
+  jsonresume-theme-even` does the same with Node.
+
 ### Resume folders
 
 The editor works on one resume folder at a time, named in the window's title.
@@ -436,8 +524,9 @@ plus its own copy of the makefile, `scripts/`, and the schemas in `etc/`, so
 `make build` works there with or without the editor. This checkout is one.
 
 - **File > New Resume** asks for a new or empty folder and sets it up: it
-  copies in the makefile, scripts, schemas, layout (`format.tex`), and page
-  geometry from the editor's own folder, starts an empty spelling dictionary,
+  copies in the makefile, scripts, schemas, resume themes, and page
+  geometry from the editor's own folder, makes the Classic theme the layout
+  (`format.tex`), starts an empty spelling dictionary,
   and writes a starter `resume.json`, with placeholder text that already
   builds, and a `section_order.yaml` listing every section.
 - **File > Open Resume Folder** opens another resume folder, and **Open
@@ -449,8 +538,8 @@ was made; they don't follow later changes to this project. They are there
 for `make`: the editor always builds with its own copy (see
 [Building](#building)), whichever folder is open. When a folder's copy
 differs from the editor's, a message says so as it opens, and **File >
-Update Folder's Build Files** replaces the folder's makefile, scripts, and
-schemas with the editor's, after asking. The resume and its layout in
+Update Folder's Build Files** replaces the folder's makefile, scripts,
+themes, and schemas with the editor's, after asking. The resume and its layout in
 `input/` are left alone.
 
 `make editor` always opens this checkout. The installed AppImage opens the
@@ -700,8 +789,8 @@ wrapped and horizontally scrolling lines. Saving `resume.json`, from either
 tab, is rejected with an error if it isn't valid JSON or doesn't match the
 JSON Resume schema, instead of being written.
 
-The LaTeX layout ([input/format.tex](input/format.tex)) has no tab; edit it in
-a text editor. The page geometry ([input/geometry.yaml](input/geometry.yaml))
+The LaTeX layout ([input/format.tex](input/format.tex)) has no tab: choose
+a [resume theme](#resume-themes) for it, or edit it in a text editor. The page geometry ([input/geometry.yaml](input/geometry.yaml))
 is edited with [Page Setup](#page-setup).
 
 ### Source files
@@ -726,6 +815,7 @@ The editor is in three parts ([app/README.md](app/README.md) has more):
   - [update.py](app/backend/update.py): Check for Updates.
   - [launcher.py](app/backend/launcher.py): Add to Applications Menu.
   - [themes.py](app/backend/themes.py): the color themes.
+  - [layouts.py](app/backend/layouts.py): the resume themes.
   - [distribution.py](app/backend/distribution.py): how the editor was packaged
     (a checkout, the AppImage, or an app store's build), and what that
     allows.
@@ -783,10 +873,10 @@ the container.
 ## Spell checking
 
 [etc/dictionary.txt](etc/dictionary.txt) contains project-specific spell-check
-terms, configured via [etc/cspell.json](etc/cspell.json), for checking the
-project with [cspell](https://cspell.org/). The desktop editor's spelling
-check reads the same list, and its **Add to dictionary** adds to it; see
-[Spelling and grammar](#spelling-and-grammar).
+terms. The desktop editor's spelling check reads that list, and its **Add to
+dictionary** adds to it; see [Spelling and grammar](#spelling-and-grammar).
+[etc/spelling.json](etc/spelling.json) names the same list, and the files
+to check with it, for a spelling checker run over the project by hand.
 
 ## Credits
 
@@ -814,7 +904,11 @@ check reads the same list, and its **Add to dictionary** adds to it; see
   [PDF.js](https://mozilla.github.io/pdf.js/) (Apache 2.0), from the
   [tauri-ui](https://github.com/agmmnn/tauri-ui) template; **Help >
   Third-Party Licenses** lists every package in it, and every Rust crate
-  the shell is built from. Its spelling check is
+  the shell is built from. The [JSON Resume themes](#json-resume-themes)
+  are Even by Rafael Bardini, Stack Overflow by Francesco Esposito,
+  Engineering by Sören König, Straightforward by Aaron Gershman, and Paper
+  by Tim Daubenschütz (each MIT), run with
+  [Handlebars](https://handlebarsjs.com/) (MIT). Its spelling check is
   [nspell](https://github.com/wooorm/nspell) (MIT) with the en_US dictionary
   from [SCOWL](http://wordlist.aspell.net/) (MIT and BSD). On Linux the window is
   drawn by the system's [WebKitGTK](https://webkitgtk.org/) (LGPL), which

@@ -133,11 +133,12 @@ def stage(target, named):
     unpack(fetch(PYTHON_RELEASE + target["python"][0], target["python"][1]), RESOURCES)  # as python/
     python = RESOURCES / "python" / ("python.exe" if WINDOWS else "bin/python3")
     # Without the parts of it a program with no window of Python's own never loads: Tk, IDLE, and Python's tests of itself.
-    for unused in ("test", "idlelib", "tkinter", "turtledemo", "tcl", "tcl8", "tcl8.6", "tcl9.0", "tk8.6", "tk9.0", "itcl4.3.5", "thread3.0.4"):
+    for unused in ("test", "idlelib", "tkinter", "turtledemo", "tcl", "tcl[0-9]*", "tk[0-9]*", "itcl[0-9]*", "thread[0-9]*"):
         for folder in list((RESOURCES / "python").rglob(unused)):
             if folder.is_dir():
                 shutil.rmtree(folder)
-    for unused in ("libtcl*", "libtk*", "tcl*.dll", "tk*.dll", "_tkinter*"):
+    # ...and without _dbm, which is built with Berkeley DB: that is under the GNU Affero GPL, and nothing here opens such a file.
+    for unused in ("libtcl*", "libtk*", "tcl*.dll", "tk*.dll", "_tkinter*", "_dbm.*"):
         for file in list((RESOURCES / "python").rglob(unused)):
             if file.is_file() or file.is_symlink():
                 file.unlink()

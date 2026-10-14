@@ -740,7 +740,7 @@
         "type": "hidden"
       },
       "colors": {
-        "primary": "rgba(31, 58, 95, 1)",
+        "primary": "rgba(11, 107, 107, 1)",
         "text": "rgba(34, 34, 34, 1)",
         "background": "rgba(255, 255, 255, 1)"
       }

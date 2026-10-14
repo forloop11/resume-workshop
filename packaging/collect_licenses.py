@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Writes the licenses of everything the AppImage carries besides the editor
-itself into one text file (packaging/build_app.py), which Help >
+"""Writes the licenses of everything a packaged editor carries besides the
+editor itself into one text file (packaging/build_app.py), which Help >
 Third-Party Licenses shows: the bundled Python, each pip package installed
-in it, the web view, and Tectonic. (The window's own libraries are listed
-as it is built: app/vite.config.ts.)
+in it, the schemas, the color themes, the web view, Tectonic with its TeX
+files, and the Rust crates of the shell, for the system this runs on. (The
+window's own libraries are listed as it is built: app/vite.config.ts.)
 
 Run with the bundled Python, so that importlib.metadata sees its packages:
 
@@ -11,6 +12,7 @@ Run with the bundled Python, so that importlib.metadata sees its packages:
 """
 import argparse
 import json
+import re
 import subprocess
 import sys
 import sysconfig
@@ -19,18 +21,69 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 RULE = "=" * 78
-WEBKIT = """The window is drawn by WebKitGTK, with GTK 3 and the libraries they use.
-They are the build machine's own, copied into this AppImage's usr/lib
+ROOT = HERE.parent
+# What the Python carried is built with (python-build-standalone), whose
+# download has Python's license alone.
+PYTHON = """This Python is one built by python-build-standalone, with the libraries
+its modules use compiled into it, each under its own license: among them
+OpenSSL (Apache License 2.0), SQLite (public domain), zlib, bzip2, XZ Utils,
+Zstandard, libffi, Expat, and mpdecimal, and, except on Windows, ncurses,
+libedit, and libuuid. The project lists each one's license and source:
+
+  https://github.com/astral-sh/python-build-standalone
+  https://gregoryszorc.com/docs/python-build-standalone/main/running.html#licensing
+
+Python's own license follows.
+"""
+# The schemas a resume is checked against (etc/), as (title, what it is, its license).
+SCHEMAS = [
+    ("JSON Resume schema", "etc/resume-schema.json, which a resume is checked against, is resume-schema 1.2.1:\n\n"
+     "  https://github.com/jsonresume/resume-schema", "resume-schema.LICENSE.md"),
+    ("Reactive Resume schema", "etc/rxresume-schema.json, which the Reactive Resume export is checked against, is the schema at\n\n"
+     "  https://rxresu.me/schema.json\n\nResume Workshop isn't affiliated with Reactive Resume.", "rxresume-schema.LICENSE.md"),
+]
+# The palettes app/backend/themes.py takes its colors from.
+THEMES = """Five of the editor's color themes (Theme > Color Theme) are built on the
+colors of published palettes, each used under the MIT license:
+
+  Dracula, by Zeno Rocha and the Dracula Theme contributors
+    https://draculatheme.com/
+  Nord, by Sven Greb
+    https://www.nordtheme.com/
+  Gruvbox (Gruvbox Dark), by Pavel Pertsev
+    https://github.com/morhetz/gruvbox
+  Solarized (Solarized Dark and Solarized Light), by Ethan Schoonover
+    https://ethanschoonover.com/solarized/
+"""
+# The web view, for each system (sys.platform): its section's title and
+# text, and the licenses printed below it.
+WEB_VIEWS = {
+    "linux": ("WebKitGTK, GTK, and the system libraries", """The window is drawn by WebKitGTK, with GTK 3 and the libraries they use.
+In the AppImage they are the build machine's own, copied into its usr/lib
 folder as separate libraries, which you may replace with builds of your
-own. Most are under the GNU Lesser General Public License, version 2.1 or
-later (the text of version 3 is printed below, with the GNU General Public
-License it builds on); each library's own license is in its source:
+own; a .deb or .rpm package uses the system's instead. Most are under the
+GNU Lesser General Public License, version 2.1 or later (the text of
+version 3 is printed below, with the GNU General Public License it builds
+on); each library's own license is in its source:
 
   https://webkitgtk.org/
   https://www.gtk.org/
 
 The Rust crates the Tauri shell is built from are listed further on.
-"""
+""", ("LGPL-3.0.txt", "GPL-3.0.txt")),
+    "darwin": ("The web view", """The window is drawn by WKWebView, the web view that is part of macOS.
+Resume Workshop carries no copy of it.
+
+The Rust crates the Tauri shell is built from are listed further on.
+""", ()),
+    "win32": ("The web view", """The window is drawn by Microsoft Edge WebView2, which is part of Windows
+11, and which the installer downloads from Microsoft where it is missing.
+It is Microsoft's, under Microsoft's own terms, and Resume Workshop
+carries no copy of it.
+
+The Rust crates the Tauri shell is built from are listed further on.
+""", ()),
+}
 # Tectonic's download is the program alone.
 TECTONIC = """Tectonic, the TeX engine in the bin folder beside the backend,
 that builds the PDFs, is used under the MIT license printed below. It is
@@ -84,11 +137,18 @@ def python_license():
     return "Python is used under the Python Software Foundation License: https://docs.python.org/3/license.html"
 
 
+def schema(title, what, license_file):
+    return section(title, what, read(ROOT / "etc" / license_file).replace("&copy;", "(c)"))
+
+
 def crates(manifest):
     """The Rust crates the Tauri shell is built from (app/src-tauri), with
     their licenses: each distinct license text once, under the crates that
-    come with it. Asks Cargo, which has their sources."""
-    listed = json.loads(subprocess.run(["cargo", "metadata", "--format-version", "1", "--manifest-path", str(manifest)],
+    come with it. Asks Cargo, which has their sources, for the crates built
+    into the shell on this system: not another system's."""
+    compiler = subprocess.run(["rustc", "-vV"], capture_output=True, text=True, encoding="utf-8", check=True).stdout
+    host = re.search(r"^host: (\S+)$", compiler, re.MULTILINE).group(1)
+    listed = json.loads(subprocess.run(["cargo", "metadata", "--format-version", "1", "--filter-platform", host, "--manifest-path", str(manifest)],
                                        capture_output=True, text=True, encoding="utf-8", check=True).stdout)
     packages = {package["id"]: package for package in listed["packages"]}
     nodes = {node["id"]: node for node in listed["resolve"]["nodes"]}
@@ -107,7 +167,8 @@ def crates(manifest):
         for file in sorted(Path(package["manifest_path"]).parent.iterdir()):
             if file.is_file() and file.name.upper().startswith(("LICENSE", "LICENCE", "COPYING", "NOTICE", "UNLICENSE")):
                 texts.setdefault(read(file).strip(), []).append(name)
-    parts = [section("The Tauri shell's Rust crates", f"{len(names)} crates, from https://crates.io/, each under the license named:\n\n" + "\n".join(names))]
+    parts = [section("The Tauri shell's Rust crates", f"{len(names)} crates, from https://crates.io/, each under the license named, and Rust's standard library "
+                     "(https://www.rust-lang.org/), under the MIT license or the Apache License 2.0:\n\n" + "\n".join(names))]
     parts += [section("License of " + ", ".join(sorted(set(users))), text) for text, users in sorted(texts.items(), key=lambda item: item[1])]
     return parts
 
@@ -126,11 +187,14 @@ def main():
     options = arguments.parse_args()
     parts = [
         "Resume Workshop includes the software below, each under its own license.\n",
-        section(f"Python {sysconfig.get_python_version()}", python_license()),
+        section(f"Python {sysconfig.get_python_version()}", PYTHON, python_license()),
     ]
     distributions = sorted(metadata.distributions(), key=lambda distribution: distribution.metadata["Name"].lower())
     parts += [package(distribution) for distribution in distributions]
-    parts.append(section("WebKitGTK, GTK, and the system libraries", WEBKIT, read(HERE / "licenses" / "LGPL-3.0.txt"), read(HERE / "licenses" / "GPL-3.0.txt")))
+    parts += [schema(*described) for described in SCHEMAS]
+    parts.append(section("Color themes", THEMES))
+    title, text, licenses = WEB_VIEWS[sys.platform]
+    parts.append(section(title, text, *(read(HERE / "licenses" / name) for name in licenses)))
     parts.append(section("Tectonic", TECTONIC, read(HERE / "licenses" / "Tectonic-MIT.txt")))
     if options.tex:
         parts.append(tex(options.tex))

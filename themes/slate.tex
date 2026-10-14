@@ -1,0 +1,153 @@
+
+%==============================================================================
+%  Resume theme: Slate
+%  Helvetica, with slate-blue headings, each on a pale band the width of the page.
+%
+%  Written to be read by applicant tracking systems as well as by people:
+%  one column, in reading order; a standard face, with every character in
+%  the PDF as text; plain bullets; and no icons, text boxes, or graphics
+%  beyond a rule. Defines the same commands as every other theme, so the
+%  generated interim/*.tex files build with it unchanged.
+%
+%  Compile with:  pdflatex -jobname=resume input/format.tex   (run twice for hyperrefs)
+%            or:  tectonic -Z search-path=. input/format.tex
+%  Portable: uses only standard TeX Live / Overleaf packages, no custom class.
+%==============================================================================
+
+\documentclass[letterpaper,10pt]{article}
+
+% --- Font ------------------------------------------------------------------
+% Helvetica, the face (with Arial, its twin) that resume parsers read most
+% reliably. It ships with every TeX distribution.
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \IfFileExists{helvet.sty}{\usepackage[scaled=0.92]{helvet}}{}
+  % So that text copied out of the PDF, or read by a parser, has "fi" and
+  % "fl" as letters, not as single ligature characters.
+  \IfFileExists{glyphtounicode.tex}{\input{glyphtounicode}\pdfgentounicode=1}{}
+\else
+  % Tectonic (XeTeX): the same face as an OpenType font, TeX Gyre Heros,
+  % without the "fi", "fl", and "ff" ligatures, which a parser may not read
+  % as letters.
+  \usepackage{fontspec}
+  \setsansfont{texgyreheros}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold,
+    ItalicFont=*-italic, BoldItalicFont=*-bolditalic, Ligatures=NoCommon, Scale=0.92]
+\fi
+\renewcommand{\familydefault}{\sfdefault}
+% Under pdfTeX too, "fi", "fl", "ff" and the rest are set as separate letters:
+% the PDF's text is then those letters, whatever the font's own tables say.
+\IfFileExists{microtype.sty}{\usepackage{microtype}\ifPDFTeX\DisableLigatures[f]{encoding = *, family = *}\fi}{}
+%------------------------------------------------------------------------------
+%  LAYOUT DENSITY KNOBS
+%------------------------------------------------------------------------------
+\newcommand{\resumeLeading}{0.93}
+\newlength{\sectionGapAbove}\setlength{\sectionGapAbove}{4pt}
+\newlength{\sectionGapBelow}\setlength{\sectionGapBelow}{2pt}
+\newlength{\jobGap}\setlength{\jobGap}{2pt}
+
+\input{interim/geometry.tex}
+\usepackage{xcolor}
+\usepackage{graphicx} % for the header's photo (basics.image)
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage[hidelinks]{hyperref}
+
+%------------------------------------------------------------------------------
+%  Colors
+%------------------------------------------------------------------------------
+\definecolor{accent}{HTML}{2F4858}
+\definecolor{rule}{HTML}{E6ECF0}
+\definecolor{body}{HTML}{222222}
+\definecolor{muted}{HTML}{55606A}
+\color{body}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=accent,
+  linkcolor=accent
+}
+% The PDF's title, author, and subject are set in interim/header.tex, from
+% the resume's name and label.
+
+%------------------------------------------------------------------------------
+%  Page setup
+%------------------------------------------------------------------------------
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{0pt}
+\linespread{\resumeLeading}
+
+% The heading on a band of the rule color, margin to margin. The band is
+% drawn behind the words, which stay text.
+\newcommand{\sectionband}[1]{\setlength{\fboxsep}{2.5pt}%
+  \colorbox{rule}{\makebox[\dimexpr\textwidth-2\fboxsep\relax][l]{\MakeUppercase{#1}}}}
+\titleformat{\section}
+  {\normalsize\bfseries\color{accent}}
+  {}{0pt}
+  {\sectionband}
+\titlespacing*{\section}{0pt}{\sectionGapAbove}{\sectionGapBelow}
+
+%------------------------------------------------------------------------------
+%  Custom commands
+%------------------------------------------------------------------------------
+\newcommand{\role}[1]{%
+  \textbf{\color{accent}#1}\par\vspace{1pt}%
+}
+
+\newcommand{\position}[3]{%
+  \vspace{\jobGap}%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textbf{\large #1}\hspace{4pt}{\small\color{muted}#2} &
+    \textbf{\small\color{muted}#3} \\
+  \end{tabularx}%
+  \vspace{1pt}%
+}
+
+\newcommand{\subrole}[2]{%
+  \vspace{3pt}%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textbf{\color{accent}#1} &
+    {\small\color{muted}#2} \\
+  \end{tabularx}%
+  \vspace{1pt}%
+}
+
+\newcommand{\entry}[2]{%
+  {\color{accent}\textbf{#1:}} #2\par\vspace{2pt}%
+}
+
+\newcommand{\blurb}[1]{%
+  #1\par\vspace{1pt}%
+}
+
+\newcommand{\stack}[1]{%
+  \vspace{1pt}%
+  {\small\color{muted}\leftskip=12pt\textbf{Stack:} #1\par}\vspace{2pt}%
+}
+
+% Plain round bullets: the mark every resume parser knows as a list item.
+\newlist{duties}{itemize}{1}
+\setlist[duties]{
+  label={\color{accent}\textbullet},
+  leftmargin=13pt,
+  labelsep=5pt,
+  topsep=0.5pt,
+  parsep=0pt,
+  itemsep=1pt,
+  after=\vspace{1pt}
+}
+
+%==============================================================================
+\begin{document}
+%==============================================================================
+
+\input{interim/header.tex}
+\input{interim/resume_content.tex}
+
+%==============================================================================
+\end{document}
+%==============================================================================

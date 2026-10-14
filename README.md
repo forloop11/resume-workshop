@@ -9,8 +9,6 @@ and Make targets build the final PDF and plain-text resume, plus a
 includes an optional desktop editor with a drag-and-drop block view of
 the resume, and a Docker-based build path for a reproducible toolchain.
 
-![A tour of the editor: the live preview following an edit, bold, a link test, the ATS check, the section cards, the color themes, and a build](docs/screenshots/demo.gif)
-
 ![Block editor: header and section order](docs/screenshots/editor-blocks.png)
 
 ## Contents
@@ -36,12 +34,12 @@ installation with the packages used by [input/format.tex](input/format.tex).
 The resume generators use only the Python standard library, so
 `make build` needs no pip packages. `make validate` and the optional desktop
 editor do: run `pip install -r requirements.txt` first, which installs
-jsonschema and, for the editor, [PySide6](https://doc.qt.io/qtforpython-6/)
-(Qt for Python) and its spelling checker. Its grammar checker is a separate,
-optional install (see [Spelling and grammar](#spelling-and-grammar) for what
-both need).
+jsonschema. Running the editor from this checkout also needs Node and Rust
+(see [Local editor](#local-editor)); its AppImage needs nothing installed.
 
-If LaTeX is not installed locally, use the Docker workflow instead.
+If LaTeX is not installed locally, use the Docker workflow instead, or
+[Tectonic](https://tectonic-typesetting.github.io/), a single program that
+fetches the TeX packages it needs: see [Building with Tectonic](#building-with-tectonic).
 
 ## Quick start
 
@@ -60,13 +58,13 @@ Example output: [resume.pdf](output/resume.pdf) and
 
 - [input/](input/) contains the resume content (`resume.json`), section order, page geometry, and LaTeX layout.
 - [scripts/](scripts/) contains the standard-library Python generators, and the schema validator.
-- [editor/](editor/) contains the Qt desktop editor.
+- [app/](app/) contains the desktop editor: its window (a web front end in a [Tauri](https://tauri.app/) shell) and, in [app/backend/](app/backend/), the Python the window talks to: resume folders, building, and the checks a save is put through.
 - [interim/](interim/) contains generated LaTeX fragments used during a build.
 - [output/](output/) contains the generated PDF and plain-text resumes, the Reactive Resume export (`rxresume.json`), and the resume schema (`resume-workshop.json`).
 - [tests/](tests/) contains the tests (`make test`).
 - [packaging/](packaging/) builds and installs the editor as an AppImage, and [.github/workflows/](.github/workflows/) publishes it as a release.
 - [docker/](docker/) contains the reproducible build image definition.
-- [docs/screenshots/](docs/screenshots/) contains the editor screenshots and animated tour (`demo.gif`) used in this README, and the scripts that take them.
+- [docs/screenshots/](docs/screenshots/) contains the editor screenshots used in this README.
 - [etc/](etc/) contains the vendored JSON Resume and Reactive Resume schemas, cspell configuration, and project-specific words.
 
 ## Make targets
@@ -74,6 +72,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - `make build` regenerates all interim files, then creates `output/resume.pdf`, `output/resume.txt`, `output/rxresume.json`, and `output/resume-workshop.json`.
 - `make pdf` creates just `output/resume.pdf`, without the text and Reactive Resume versions. Its title, author, and subject (the file's properties) are the resume's name and label.
 - `make txt` creates just `output/resume.txt`, written from the same inputs as the PDF by [scripts/generate_text.py](scripts/generate_text.py).
+- `make pdf LATEX=tectonic` (or `make build LATEX=tectonic`) builds the PDF with Tectonic in place of pdflatex; see [Building with Tectonic](#building-with-tectonic).
 - `make header` regenerates `interim/header.tex` from the `basics` in [input/resume.json](input/resume.json) without a full build.
 - `make geometry` regenerates `interim/geometry.tex` from [input/geometry.yaml](input/geometry.yaml) without a full build.
 - `make resume` regenerates `interim/resume_content.tex` from [input/resume.json](input/resume.json) and [input/section_order.yaml](input/section_order.yaml) without a full build.
@@ -81,7 +80,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - `make schema` writes `output/resume-workshop.json`, the JSON Resume schema with this project's extension fields added (see [Editing the resume](#editing-the-resume)), without a full build.
 - `make validate` checks [input/resume.json](input/resume.json) against the JSON Resume schema and the generator's rules, and the Reactive Resume export against its schema.
 - `make ats` checks the text resume for what applicant tracking systems trip on, and `make ats JOB=job.txt` also lists which of a job description's terms the resume has; see [ATS check](#ats-check).
-- `make test` runs the tests in [tests/](tests/): the generators, the updater, and the editor driven without a display. The editor's tests need its pip packages, and Make and pdflatex to compare its builds with `make build`; they are skipped without them. [.github/workflows/test.yml](.github/workflows/test.yml) runs them on every push.
+- `make test` runs the tests in [tests/](tests/): the generators, the updater, and the editor's backend. The backend's tests need jsonschema, and Make and pdflatex to compare its builds with `make build`; they are skipped without them. `make app-test` tests the editor's window, in a headless Chrome. [.github/workflows/test.yml](.github/workflows/test.yml) runs both on every push.
 - `make user` creates `output/<name>_resume.pdf`, where `<name>` is the `basics.name`
   field from [input/resume.json](input/resume.json), lowercased, with spaces
   replaced by underscores and everything else reduced to alphanumerics/underscores
@@ -89,6 +88,7 @@ Example output: [resume.pdf](output/resume.pdf) and
 - `make editor` opens the desktop editor: a drag-and-drop block view of
   the resume, a raw `resume.json` tab, and a live preview of the PDF; see
   [Local editor](#local-editor).
+- `make app-web` serves the editor's window to a web browser, without Rust; `make app-test` tests it there, and `make app-window-test` tests the app itself; see [app/README.md](app/README.md).
 - `make appimage` packages the editor as an AppImage, and `make install-appimage`
   installs it; see [Installing the editor](#installing-the-editor).
 - `make clean` removes auxiliary pdflatex files and generated interim files.
@@ -220,10 +220,12 @@ the LaTeX layout, commands, and document configuration.
 
 ## Local editor
 
-Run `make editor` to open the editor window. It's a [Qt](https://www.qt.io/)
-app in [editor/](editor/), written in Python with PySide6, so it needs the
-packages in `requirements.txt` (`pip install -r requirements.txt`). To run
-it without a checkout or those packages, download the AppImage: see
+Run `make editor` to open the editor window. It's a [Tauri](https://tauri.app/)
+app in [app/](app/): a window written in TypeScript and React, with the
+Python in [app/backend/](app/backend/) and [scripts/](scripts/) behind it. From a
+checkout it needs Node, Rust with Cargo, the system packages Tauri lists,
+and jsonschema (see [app/README.md](app/README.md)). To run it without a
+checkout or any of those, download the AppImage: see
 [Installing the editor](#installing-the-editor).
 
 ![Editor window: menu bar, block editor, and the live PDF preview](docs/screenshots/editor-window.png)
@@ -235,8 +237,9 @@ resize them.
 - Messages about saves and builds appear under the window's title.
 - A dot on a tab marks unsaved changes. Closing the window, reloading the
   files, or switching to another resume with any asks first.
-- After a build, pdflatex's output is in a **Last build output** box above
-  the preview, which opens by itself if the build failed.
+- After a build, the TeX engine's output is in a **Last build output** box
+  above the preview, which opens by itself if the build failed.
+- The buttons for the tab that is showing are in a bar under the tabs.
 
 ### Menus
 
@@ -260,8 +263,8 @@ Every command is in the menu bar:
     see [Printing, exporting, and importing](#printing-exporting-and-importing).
   - Quit (Ctrl+Q).
 - **Edit**
-  - Undo, Redo, Cut, Copy, Paste, and Select All act on the text box you're
-    in.
+  - Undo, Redo, and Select All act on the text box you're in, as do the
+    usual keys for cut, copy, and paste.
   - Undo Block Change (Ctrl+Alt+Z) is the block editor's own **Undo**.
   - Find (Ctrl+F), Find Next (F3), Find Previous (Shift+F3), and Replace
     (Ctrl+H): see [Find and Replace](#find-and-replace).
@@ -270,8 +273,8 @@ Every command is in the menu bar:
   - Insert Middle Dot (Ctrl+.) and Insert En Dash (Ctrl+-) type those
     characters into the block editor field you're in.
   - Pretty-print JSON reformats the raw tab.
-  - Install Grammar Checker downloads the optional grammar checker: see
-    [Spelling and grammar](#spelling-and-grammar).
+  - Install or Update Grammar Checker downloads the optional grammar
+    checker: see [Spelling and grammar](#spelling-and-grammar).
 - **View**
   - Resume (blocks) (Ctrl+1) and resume.json (Ctrl+2) switch tabs.
   - Expand All (Ctrl+Shift+E) and Collapse All (Ctrl+Shift+C) open and close
@@ -283,24 +286,23 @@ Every command is in the menu bar:
 - **Help**
   - Check for Updates and About Resume Workshop: see
     [Updating](#updating).
-  - In the AppImage, Add to Applications Menu (see
-    [Installing the editor](#installing-the-editor)) and Third-Party
-    Licenses, the licenses of everything it bundles.
+  - Third-Party Licenses, the licenses of everything the editor includes,
+    and, in the AppImage, Add to Applications Menu (see
+    [Installing the editor](#installing-the-editor)).
 
 The color themes:
 
 ![The editor in each color theme](docs/screenshots/editor-themes.png)
 
-[docs/screenshots/retake.py](docs/screenshots/retake.py) retakes this
-picture, the File menu's, and the whole window's, without a display, and
-[docs/screenshots/demo.py](docs/screenshots/demo.py) records the animated
-tour at the top of this README the same way (it needs Pillow besides).
+[app/tests/screenshots.mjs](app/tests/screenshots.mjs) retakes the
+pictures in this README, in a headless Chrome (`npm run screenshots`, in
+[app/](app/)).
 
 ### Building
 
 The editor builds a resume itself, with its own copy of the generators in
-[scripts/](scripts/), so it needs neither Make nor a Python on the machine:
-only pdflatex, for the PDF. The results are the same files, in the same
+[scripts/](scripts/), so it doesn't need Make: only pdflatex or Tectonic,
+for the PDF, and the AppImage carries Tectonic. The results are the same files, in the same
 places, as the folder's Make targets write.
 
 - **File > Build Resume** (and **Save & Build**) does what `make build`
@@ -314,12 +316,42 @@ places, as the folder's Make targets write.
   its `format.tex` loads are installed, and says under the window's title
   which are missing.
 
+#### Building with Tectonic
+
+[Tectonic](https://tectonic-typesetting.github.io/) is a TeX engine in one
+program, with no TeX distribution to install. By itself it downloads the
+packages a layout loads the first time it builds one, and keeps them (in
+`~/.cache/Tectonic` on Linux), so that first build needs an internet
+connection and takes a while.
+
+- The AppImage carries a Tectonic of its own and builds with it, so it
+  needs no TeX installed. It also carries the TeX packages and fonts that
+  [input/format.tex](input/format.tex) loads (and that a `format.tex` from
+  before Tectonic does), so it builds without an internet connection.
+- If you add a package to a folder's `format.tex` that the AppImage doesn't
+  carry, Tectonic downloads it, with the rest of what the layout loads, the
+  next time the resume is built. An app store's build doesn't download:
+  there, such a layout fails to build, naming the package.
+- From a checkout (`make editor`), the editor builds with pdflatex when that
+  is installed, as `make build` does, and with a `tectonic` on the PATH when
+  it isn't.
+- Setting `RESUME_WORKSHOP_TEX` to `tectonic` or `pdflatex` (or the path of
+  either) chooses one, in the AppImage too.
+- From a terminal, `make build LATEX=tectonic`.
+- The PDF has the same pages, in TeX Gyre Heros, an OpenType version of the
+  same Helvetica face. A line may break at a different word.
+- [input/format.tex](input/format.tex) chooses its fonts by engine. A resume
+  folder made before this has a `format.tex` without that: it still builds
+  with Tectonic, but text copied out of the PDF has "fi" and "fl" as single
+  ligature characters, which resume parsers may not read. Copy the font
+  lines from this project's `format.tex` to fix that.
+
 ### Live preview
 
-The preview shows the PDF's pages, fitted to the panel's width, drawn by
-Qt's own PDF module. Its links work: the pointer becomes a hand over one,
-with the address as a tooltip, and a click opens a web address in your
-browser or an email address in your mail program. Otherwise it is for
+The preview shows the PDF's pages, fitted to the panel's width, drawn with
+[PDF.js](https://mozilla.github.io/pdf.js/). Its links work: the pointer
+becomes a hand over one, with the address as a tooltip, and a click opens a
+web address in your browser or an email address in your mail program. Otherwise it is for
 looking, not working in: to select text, search, or zoom, open the PDF in
 your system's viewer with **File > Open PDF**.
 
@@ -328,7 +360,7 @@ your system's viewer with **File > Open PDF**.
 - The text of the field you're in is highlighted in the preview, which
   scrolls to it, as in the screenshot above. Moving to another field moves
   the highlight. Text the PDF prints differently from how it's typed, such as
-  dates, isn't highlighted.
+  dates and the name in capitals, isn't highlighted.
 - The build happens in a temporary copy of the resume folder, so `input/`
   and `output/` are untouched. `output/resume.pdf` still changes only when
   you build.
@@ -340,17 +372,18 @@ your system's viewer with **File > Open PDF**.
 
 ### Find and Replace
 
-**Edit > Find** opens a bar under the tabs:
+**Edit > Find** opens a bar at the foot of the tabs:
 
 ![The Find bar, with a match selected in the block editor](docs/screenshots/editor-find.png)
 
 - It searches the tab that is showing: every field of the block editor, in
   order, or the raw `resume.json`. A match in a collapsed card opens the card.
 - The bar shows which match you're on ("3 of 9"), and has **Match case** and
-  **Whole words** options.
+  **Whole words** options. The field with that match is outlined.
 - **Replace** and **Replace all** type the replacement into the fields, so
   each field's own undo reverses it.
-- Esc closes the bar. The PDF preview isn't searched.
+- Esc closes the bar, leaving the match selected in its field. The PDF
+  preview isn't searched.
 
 ### Page Setup
 
@@ -372,8 +405,8 @@ your system's viewer with **File > Open PDF**.
 These File menu commands work on the saved files, so save first to include
 your latest edits:
 
-- **Print PDF** prints `output/resume.pdf` after asking for the printer and
-  pages.
+- **Print PDF** prints `output/resume.pdf`, through the system's print
+  dialog, which asks for the printer and pages.
 - **Open PDF** opens `output/resume.pdf` in your system's PDF viewer.
 - **Export PDF** rebuilds `output/resume.pdf`, and **Export TXT**
   `output/resume.txt`, then asks where to save a copy.
@@ -427,9 +460,19 @@ to the AppImage or set `RESUME_WORKSHOP_ROOT`.
 ### Installing the editor
 
 The editor is published as an [AppImage](https://appimage.org/), a single
-file that runs on most x86-64 Linux systems without installing anything. It
-bundles the editor, a Python of its own, and the packages in
-`requirements.txt`, so it needs no `pip install`.
+file that runs on x86-64 Linux systems without installing anything. It
+bundles the editor, a Python of its own with jsonschema, and
+[Tectonic](#building-with-tectonic) with the TeX packages the layout loads,
+so it needs no `pip install`, no TeX distribution, and no network to build a
+resume. It also carries the web view its window is drawn with (WebKitGTK),
+from the system it was built on, so it runs on systems at least as new as
+that one.
+
+A release also has the same editor as a `.deb` and an `.rpm` package, which
+use the system's own web view; a `.dmg` for macOS on Apple silicon; and an
+installer for Windows. Those for macOS and Windows aren't signed, so the
+system asks before running them, and they have been built but not yet used:
+treat them as previews.
 
 1. Download `Resume_Workshop-x86_64.AppImage` from the
    [latest release](https://github.com/forloop11/resume-workshop/releases/latest).
@@ -442,39 +485,36 @@ Applications Menu** adds a launcher and icon for the AppImage where it is, so
 it starts from the applications menu from then on; the same command removes
 them again. The AppImage holds the
 editor and the template files that New Resume copies; resumes stay in their
-own [resume folders](#resume-folders). Building the PDF needs pdflatex on
-the machine, and spell checking needs Enchant. Grammar checking isn't
-included; see [Spelling and grammar](#spelling-and-grammar) for adding it.
+own [resume folders](#resume-folders). Grammar checking isn't included; see
+[Spelling and grammar](#spelling-and-grammar) for adding it.
 
 #### Updating
 
 **Help > Check for Updates** asks GitHub for the latest release. If it is
 newer than the version you have (**Help > About Resume Workshop** says which
-that is), **Update and Restart** downloads the new AppImage, checks it
-against the size and SHA-256 sum the release lists, puts it in place of the
-one that is running, and starts it on the same resume folder. The editor
-only contacts GitHub when you choose that command.
-
-The AppImage also carries
-[update information](https://github.com/AppImage/AppImageSpec/blob/master/draft.md#update-information)
-pointing to the `.zsync` file on the latest release, so
-[AppImageUpdate](https://github.com/AppImageCommunity/AppImageUpdate),
-[Gear Lever](https://github.com/mijorus/gearlever), and other AppImage
-managers can update it too, downloading only the parts that changed.
+that is), **Update** downloads the new AppImage, checks it against the size
+and SHA-256 sum the release lists, and puts it in place of the one that is
+running; **Restart Now** then starts the new version on the same resume
+folder. The editor only contacts GitHub when you choose that command, and
+only the AppImage updates itself.
 
 #### Building it yourself
 
 From a checkout, `make install-appimage` builds the AppImage and installs it
 for your user, so it starts from the applications menu instead of a terminal:
 
-- `make appimage` builds `dist/Resume_Workshop-x86_64.AppImage` and its
-  `.zsync` file with
-  [packaging/build-appimage.sh](packaging/build-appimage.sh). The build needs
-  curl and an internet connection, and downloads a relocatable Python from
-  [python-appimage](https://github.com/niess/python-appimage) and
-  [appimagetool](https://github.com/AppImage/appimagetool), both checked
-  against pinned SHA-256 sums. Its version is what `git describe` calls the
-  commit, or `$VERSION` if that is set.
+- `make appimage` builds `dist/Resume_Workshop-x86_64.AppImage` with
+  [packaging/build_app.py](packaging/build_app.py). The build needs
+  what `make editor` does, and an internet connection. It downloads a
+  relocatable Python from
+  [python-build-standalone](https://github.com/astral-sh/python-build-standalone) and
+  [Tectonic](https://github.com/tectonic-typesetting/tectonic), both checked
+  against pinned SHA-256 sums. (Run on macOS or Windows, the same script
+  builds the `.dmg` or the installer.) Tectonic then downloads the TeX packages the
+  AppImage carries ([packaging/tex_packages.py](packaging/tex_packages.py)),
+  which are kept in `build/` for the next build, and Tauri's bundler packs
+  the AppImage. Its version is what `git describe` calls the commit, or
+  `$VERSION` if that is set.
 - `make install-appimage` copies it to `~/Applications` (set `APPIMAGE_DIR`
   for somewhere else) and adds a **Resume Workshop** launcher and icon under
   `~/.local/share`. `make uninstall-appimage` removes all three. Run
@@ -493,11 +533,13 @@ git push origin v1.2.3
 ```
 
 [.github/workflows/release.yml](.github/workflows/release.yml) then builds the
-AppImage as version 1.2.3 and attaches it and its `.zsync` file to a new
-GitHub release, with notes generated from the commits since the last one.
-Tags are `v` and three numbers; the editor compares those numbers to decide
-whether a release is newer. The two files keep the same names in every
-release, which is what both ways of updating look for.
+editor as version 1.2.3 for Linux, macOS, and Windows, and attaches the
+files to a new GitHub release, with notes generated from the commits since
+the last one. (Pushing a branch named `package-test/...` builds them the
+same way without publishing anything.) Tags are `v` and three
+numbers; the editor compares those numbers to decide whether a release is
+newer. The files keep the same names in every release, which is what
+Check for Updates looks for.
 
 ### Block editor
 
@@ -530,7 +572,7 @@ Below those, every JSON Resume section has a collapsible card, and a final
 - The **B** button above the cards (or Ctrl+Shift+B) makes the selected
   words bold in the PDF, or the word the cursor is in if nothing is selected;
   used on bold words, it makes them plain again. It puts `**` around the
-  words, which the field shows faintly, with the words in bold.
+  words.
 - Each field that holds a web address has two small buttons beside it.
   **Open** opens the address in your browser. **Test** asks the site for the
   page and says, under the window's title and on the button, whether it
@@ -604,8 +646,7 @@ fixing (✗):
 
 Paste a job description into the box below the findings, and the card lists
 which of its main terms the resume has and lacks, also kept up to date as
-you edit. Drag the gaps between the card's three boxes (the findings, the
-job description, and its terms) to make one taller. Its terms are the names it mentions (tools, fields: words with a
+you edit. Its terms are the names it mentions (tools, fields: words with a
 capital or a symbol in them), the other words it repeats, and the pairs of
 words it repeats, such as "machine learning"; a word matches in any of its
 forms ("model", "models"). The job description is kept until the editor is
@@ -617,33 +658,32 @@ findings in a terminal ([scripts/check_ats.py](scripts/check_ats.py)).
 
 ### Spelling and grammar
 
-The block editor underlines misspelled words in red and grammar problems in
-orange. Right-click an underlined word for its corrections, plus **Ignore**
-(until the editor is closed) and, for spelling, **Add to dictionary**, which
-appends the word to [etc/dictionary.txt](etc/dictionary.txt). The raw
-`resume.json` tab spell-checks the resume's text too.
+Misspelled words are underlined in red as you type, and grammar problems in
+orange, a moment after you stop typing. The field the cursor is in lists
+them below it, each with its corrections, to click, and **Ignore** (until
+the editor is closed). A misspelled word also has **Add to dictionary**,
+which appends it to [etc/dictionary.txt](etc/dictionary.txt), the resume
+folder's own word list.
 
-- Spelling uses [Enchant](https://rrthomas.github.io/enchant/) through
-  pyenchant, with the system's `en_US` dictionary. Acronyms in capitals,
-  links, and fields that don't hold words (email, phone, URLs, dates) are
-  skipped.
+- Spelling is checked in the editor itself, by
+  [nspell](https://github.com/wooorm/nspell) with the en_US dictionary from
+  [SCOWL](http://wordlist.aspell.net/). Acronyms in capitals, links, and
+  fields that don't hold words (email, phone, URLs, dates) are skipped.
+- Grammar is checked in the summaries, descriptions, and highlights.
 - Grammar uses [LanguageTool](https://languagetool.org/), run on your own
   machine by language-tool-python, so the resume's text is never sent
   anywhere. It needs Java, downloads LanguageTool (about 260 MB) the first
-  time, and takes a few seconds to start each time the editor opens. It checks
-  the summaries, descriptions, and highlights, a moment after you stop typing.
+  time, and takes a few seconds to start each time the editor opens.
 - language-tool-python is an optional extra, kept out of `requirements.txt`
   and out of the AppImage because it is licensed under the GPL (version 3),
-  unlike the rest of the editor. **Edit > Install Grammar Checker** adds it:
-  after asking, it downloads the package from the Python Package Index for
-  your user, into `~/.local/share/resume-workshop/packages`, and starts
-  checking grammar without a restart. Once it is there the command reads
-  **Update Grammar Checker**; delete that folder to remove it. From a
-  terminal, `Resume_Workshop-x86_64.AppImage --install-grammar` does the
-  same for the AppImage, and `pip install -r requirements-grammar.txt` for a
-  checkout.
-- If either package (or Java) is missing, that check is off and the rest of
-  the editor works as usual.
+  unlike the rest of the editor. **Edit > Install or Update Grammar
+  Checker** adds it: after asking, it downloads the package from the Python
+  Package Index for your user, into
+  `~/.local/share/resume-workshop/packages`, and starts checking grammar
+  without a restart. Delete that folder to remove it. From a checkout,
+  `pip install -r requirements-grammar.txt` does the same.
+- If the package (or Java) is missing, grammar checking is off and the rest
+  of the editor works as usual.
 
 ### Raw resume.json tab
 
@@ -654,8 +694,8 @@ tab of its own, since the Sections card and **New page** toggles cover it.
 
 ![Raw resume.json in JSON Resume format](docs/screenshots/editor-resume-json.png)
 
-The tab highlights the JSON object keys. A "Pretty-print JSON" button
-reformats `resume.json` with indentation, and a word-wrap toggle switches between
+The tab colors the JSON object keys. A "Pretty-print JSON" button reformats
+`resume.json` with indentation, and a word-wrap toggle switches between
 wrapped and horizontally scrolling lines. Saving `resume.json`, from either
 tab, is rejected with an error if it isn't valid JSON or doesn't match the
 JSON Resume schema, instead of being written.
@@ -666,30 +706,33 @@ is edited with [Page Setup](#page-setup).
 
 ### Source files
 
-The editor imports the section list from the generators and the JSON Resume
-schema check from [scripts/validate_resume.py](scripts/validate_resume.py), so
-it uses the same rules as `make build` and `make validate`. Its own code is in
-[editor/](editor/):
+The editor is in three parts ([app/README.md](app/README.md) has more):
 
-- [main.py](editor/main.py): the window and menus.
-- [build.py](editor/build.py): building a resume folder's outputs.
-- [blocks.py](editor/blocks.py) and [document.py](editor/document.py): the
-  block editor and the resume model behind it.
-- [widgets.py](editor/widgets.py): the cards and drag-and-drop lists.
-- [live.py](editor/live.py): the live preview.
-- [preview.py](editor/preview.py): the PDF view.
-- [proofing.py](editor/proofing.py): spelling and grammar checking.
-- [links.py](editor/links.py): testing a web address.
-- [ats.py](editor/ats.py): the ATS check.
-- [find.py](editor/find.py): Find and Replace.
-- [page_setup.py](editor/page_setup.py): the Page Setup dialog.
-- [project.py](editor/project.py): resume folders.
-- [update.py](editor/update.py): Check for Updates.
-- [launcher.py](editor/launcher.py): Add to Applications Menu.
-- [distribution.py](editor/distribution.py): how the editor was packaged
-  (a checkout, the AppImage, or an app store's build), and what that allows.
-- [style.qss](editor/style.qss) and [themes.py](editor/themes.py): the
-  look, and the color themes that fill it in.
+- [app/src/](app/src/) is the window, in TypeScript and React:
+  [App.tsx](app/src/App.tsx) (the window and menus), and in
+  [components/](app/src/components/) the block editor
+  ([blocks.tsx](app/src/components/blocks.tsx)), the PDF preview, the ATS
+  check, Find and Replace, and Page Setup.
+- [app/src-tauri/](app/src-tauri/) is the Tauri shell, in Rust, which opens
+  the window and runs the backend.
+- [app/backend/](app/backend/) is the backend, in Python:
+  [server.py](app/backend/server.py) answers the window's requests, with
+  the modules beside it:
+  - [build.py](app/backend/build.py): building a resume folder's outputs.
+  - [document.py](app/backend/document.py): the resume model, and the checks a
+    save is put through.
+  - [project.py](app/backend/project.py): resume folders.
+  - [links.py](app/backend/links.py): testing a web address.
+  - [update.py](app/backend/update.py): Check for Updates.
+  - [launcher.py](app/backend/launcher.py): Add to Applications Menu.
+  - [themes.py](app/backend/themes.py): the color themes.
+  - [distribution.py](app/backend/distribution.py): how the editor was packaged
+    (a checkout, the AppImage, or an app store's build), and what that
+    allows.
+
+They import the section list from the generators and the JSON Resume schema
+check from [scripts/validate_resume.py](scripts/validate_resume.py), so the
+editor uses the same rules as `make build` and `make validate`.
 
 ## Reactive Resume export
 
@@ -735,14 +778,15 @@ with `make clean`.
 The Docker image installs Python 3 (with jsonschema, for `make validate`), GNU Make, and the TeX Live packages needed by the
 resume. Run `make docker-build` from the repository root to build without
 installing those tools locally. The desktop editor runs on the host, not in
-the container, so its make commands need the native toolchain.
+the container.
 
 ## Spell checking
 
 [etc/dictionary.txt](etc/dictionary.txt) contains project-specific spell-check
-terms, configured via [etc/cspell.json](etc/cspell.json). The desktop editor's
-spell checker reads the same list, and its **Add to dictionary** adds to it;
-see [Spelling and grammar](#spelling-and-grammar).
+terms, configured via [etc/cspell.json](etc/cspell.json), for checking the
+project with [cspell](https://cspell.org/). The desktop editor's spelling
+check reads the same list, and its **Add to dictionary** adds to it; see
+[Spelling and grammar](#spelling-and-grammar).
 
 ## Credits
 
@@ -762,10 +806,25 @@ see [Spelling and grammar](#spelling-and-grammar).
   indentation but otherwise unmodified, © 2026 Amruth Pillai, used under the
   MIT License ([etc/rxresume-schema.LICENSE.md](etc/rxresume-schema.LICENSE.md)).
   Resume Workshop isn't affiliated with Reactive Resume.
-- The desktop editor is built with [Qt](https://www.qt.io/) through
-  [PySide6](https://doc.qt.io/qtforpython-6/) (Qt for Python, LGPLv3),
-  installed from `requirements.txt` rather than vendored. Its spelling and
-  grammar checks use [Enchant](https://rrthomas.github.io/enchant/) (LGPL)
-  and [LanguageTool](https://languagetool.org/) (LGPL); the optional
+- The desktop editor's window is built with [Tauri](https://tauri.app/)
+  (MIT or Apache 2.0), [React](https://react.dev/) (MIT),
+  [shadcn/ui](https://ui.shadcn.com/) and [Base UI](https://base-ui.com/)
+  (MIT), [Tailwind CSS](https://tailwindcss.com/) (MIT),
+  [Lucide](https://lucide.dev/) icons (ISC), and
+  [PDF.js](https://mozilla.github.io/pdf.js/) (Apache 2.0), from the
+  [tauri-ui](https://github.com/agmmnn/tauri-ui) template; **Help >
+  Third-Party Licenses** lists every package in it, and every Rust crate
+  the shell is built from. Its spelling check is
+  [nspell](https://github.com/wooorm/nspell) (MIT) with the en_US dictionary
+  from [SCOWL](http://wordlist.aspell.net/) (MIT and BSD). On Linux the window is
+  drawn by the system's [WebKitGTK](https://webkitgtk.org/) (LGPL), which
+  the AppImage carries a copy of. Its grammar check uses
+  [LanguageTool](https://languagetool.org/) (LGPL); the optional
   [language-tool-python](https://github.com/jxmorris12/language_tool_python)
   that runs LanguageTool is GPLv3, and isn't distributed with the editor.
+- The packaged editor runs its backend with a Python from
+  [python-build-standalone](https://github.com/astral-sh/python-build-standalone),
+  builds PDFs with [Tectonic](https://tectonic-typesetting.github.io/)
+  (MIT), and carries the TeX Live packages and fonts the layout loads, each
+  under its own license; both are downloaded when the AppImage is built
+  rather than vendored.

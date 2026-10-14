@@ -1,18 +1,27 @@
 %==============================================================================
 %  Compile with:  pdflatex -jobname=resume input/format.tex   (run twice for hyperrefs)
+%            or:  tectonic -Z search-path=. input/format.tex
 %  Portable: uses only standard TeX Live / Overleaf packages, no custom class.
 %==============================================================================
 
 \documentclass[letterpaper,10pt]{article}
 
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-
 % --- Font ------------------------------------------------------------------
-% Helvetica (psnfss) scaled to Calibri-like metrics. Chosen because it ships
-% with every TeX distribution, so the two-page layout is reproducible anywhere,
+% Helvetica scaled to Calibri-like metrics. Chosen because it ships with
+% every TeX distribution, so the two-page layout is reproducible anywhere,
 % and Helvetica/Arial is the safest face for resume parsers.
-\IfFileExists{helvet.sty}{\usepackage[scaled=0.92]{helvet}}{}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \IfFileExists{helvet.sty}{\usepackage[scaled=0.92]{helvet}}{}
+\else
+  % Tectonic (XeTeX): the same face as an OpenType font, TeX Gyre Heros, so
+  % that text copied out of the PDF keeps its "fi" and "fl" as letters.
+  \usepackage{fontspec}
+  \setsansfont{texgyreheros}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold,
+    ItalicFont=*-italic, BoldItalicFont=*-bolditalic, Scale=0.92]
+\fi
 \renewcommand{\familydefault}{\sfdefault}
 \IfFileExists{microtype.sty}{\usepackage{microtype}}{}
 %------------------------------------------------------------------------------

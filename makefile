@@ -2,7 +2,7 @@ TEXFILE = input/format
 OUTPUT = output/resume
 DOCKER_IMAGE = resume-builder
 
-.PHONY: build pdf txt header geometry resume rxresume schema validate ats test editor appimage install-appimage uninstall-appimage clean user docker-image docker-build
+.PHONY: build pdf txt header geometry resume rxresume schema validate ats test editor app app-web app-test app-window-test appimage install-appimage uninstall-appimage clean user docker-image docker-build
 
 header: input/resume.json scripts/generate_header.py scripts/jsonresume.py
 	python3 scripts/generate_header.py
@@ -35,25 +35,45 @@ validate: input/resume.json etc/resume-schema.json etc/rxresume-schema.json scri
 ats: input/resume.json input/section_order.yaml scripts/check_ats.py scripts/generate_text.py
 	python3 scripts/check_ats.py $(JOB)
 
-# The tests in tests/. Those of the editor need its packages
+# The tests in tests/. Those of the editor's backend need jsonschema
 # (pip install -r requirements.txt), and make and pdflatex to compare builds;
-# they are skipped without them.
+# they are skipped without them. `make app-test` tests the editor's window.
 test:
 	python3 -B -m unittest discover -s tests -t .
 
-# The desktop editor (editor/, a Qt app). Needs PySide6 and jsonschema
-# (pip install -r requirements.txt). It builds resumes itself, with these
-# same scripts (editor/build.py), rather than by running make.
-editor:
-	python3 editor/main.py
+# The desktop editor (app/, a Tauri app with a web front end, and these same
+# scripts behind it): see app/README.md. `make editor` runs it, which needs
+# Node, Rust with Cargo, the system packages Tauri lists, and jsonschema
+# (pip install -r requirements.txt). `make app-web` runs the same window in
+# a web browser without Rust, and `make app-test` drives it in a headless
+# Chrome.
+editor app: app/node_modules
+	cd app && npm run tauri dev
 
-# The editor as an AppImage, with its own Python and pip packages:
-# dist/Resume_Workshop-x86_64.AppImage. Needs curl and an internet connection
-# (see packaging/build-appimage.sh).
+app-web: app/node_modules
+	cd app && npm run build && python3 backend/devserver.py
+
+app-test: app/node_modules
+	cd app && npm run build && npm run smoke
+
+# The app itself, built and driven through WebDriver: its window shows while
+# this runs. Needs tauri-driver (cargo install tauri-driver --locked) and the
+# system's WebKitWebDriver.
+app-window-test: app/node_modules
+	cd app && npm run tauri build -- --no-bundle && npm run window
+
+app/node_modules: app/package.json
+	cd app && npm install
+
+# The editor as an AppImage, with its own Python, Tectonic, and the TeX
+# packages the layout loads: dist/Resume_Workshop-x86_64.AppImage. Needs
+# what `make editor` does, curl, and an internet connection (see
+# packaging/build_app.py).
 APPIMAGE = dist/Resume_Workshop-x86_64.AppImage
 
-$(APPIMAGE): requirements.txt requirements-grammar.txt $(shell find editor scripts packaging -type f -not -path '*/__pycache__/*' 2>/dev/null)
-	packaging/build-appimage.sh
+# Everything in app/ but what is installed or built there.
+$(APPIMAGE): requirements.txt requirements-grammar.txt $(shell find scripts packaging app -type f -not -path '*/__pycache__/*' -not -path 'app/node_modules/*' -not -path 'app/dist/*' -not -path 'app/src-tauri/target/*' -not -path 'app/src-tauri/gen/*' 2>/dev/null | sed 's/ /\\ /g')
+	python3 packaging/build_app.py
 
 appimage: $(APPIMAGE)
 
@@ -67,11 +87,19 @@ uninstall-appimage:
 
 # The PDF alone, without the text and Reactive Resume versions. pdflatex
 # runs twice: the second run gives the PDF its bookmarks, from the section
-# list the first one wrote.
+# list the first one wrote. `make pdf LATEX=tectonic` (or `make build
+# LATEX=tectonic`) builds it with Tectonic instead, which reruns itself.
+LATEX = pdflatex
+
 pdf: header geometry resume $(TEXFILE).tex
 	mkdir -p output
-	pdflatex -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
-	pdflatex -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
+ifeq ($(findstring tectonic,$(notdir $(LATEX))),tectonic)
+	$(LATEX) -Z search-path=. --outdir $(dir $(OUTPUT)) $(TEXFILE).tex
+	mv $(dir $(OUTPUT))$(notdir $(TEXFILE)).pdf $(OUTPUT).pdf
+else
+	$(LATEX) -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
+	$(LATEX) -jobname=$(OUTPUT) -interaction=nonstopmode $(TEXFILE).tex
+endif
 
 # The plain-text resume alone, written from the same inputs as the PDF.
 txt: input/resume.json input/section_order.yaml scripts/generate_text.py scripts/generate_resume.py scripts/generate_header.py scripts/jsonresume.py

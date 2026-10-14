@@ -133,7 +133,7 @@ def year_range(start, end):
 def experience_groups(work):
     """Group work[] entries (excluding earlyCareer ones) by employer: consecutive
     entries with the same name and location are roles at one employer. The
-    block editor (editor/document.py) groups them the same way."""
+    block editor (app/backend/document.py) groups them the same way."""
     groups = []
     for entry in work:
         if entry.get("earlyCareer"):
